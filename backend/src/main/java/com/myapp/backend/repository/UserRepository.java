@@ -1,4 +1,10 @@
 package com.myapp.backend.repository;
 
-public class UserRepository {
+import com.myapp.backend.domain.user.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface UserRepository extends JpaRepository<User, String> {
+    User findByUserId(String userId);
 }

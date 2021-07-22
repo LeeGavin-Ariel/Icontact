@@ -5,20 +5,21 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-@Entity(name = "USER")
+@Entity(name = "KINDER_CLASS")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserEntity {
-    @Id
-    String userId;//id
+public class KinderClassEntity {
 
-    String password;//pw
-    String userName;//이름
-    String userTel;//전화번호
-    int type;//회원타입
+    @Id
+    String classCode;
+
+    String className;
+    String kinderCode;
+
 }

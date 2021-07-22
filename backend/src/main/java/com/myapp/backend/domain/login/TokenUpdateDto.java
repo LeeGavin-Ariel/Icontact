@@ -5,9 +5,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
-public class LoginDto {
+public class TokenUpdateDto {
 
+    private String refreshToken;
     private String userId;
-    private String password;
 }

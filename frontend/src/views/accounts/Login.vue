@@ -32,7 +32,7 @@
         >로그인</button>
 
         <!-- 비밀번호 찾기 라우터 설정 해주기. -->
-        <div class="btn" style="display:block;">비밀번호 찾기</div>
+        <div class="btn" style="display:block;" @click="$router.push({ name: 'ChangePasswordAuth' })">비밀번호 찾기</div>
         <!-- 회원가입 화면으로 -->
         <div class="btn" style="display:block;" @click="$router.push({ name: 'Signup' })">회원가입</div>
       </div>

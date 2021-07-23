@@ -1826,6 +1826,11 @@ autoprefixer@^9.8.6:
     postcss "^7.0.32"
     postcss-value-parser "^4.1.0"
 
+await@^0.2.6:
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/await/-/await-0.2.6.tgz#c88e6ee693d6ed372ff0f52ec15d5655908855ce"
+  integrity sha1-yI5u5pPW7Tcv8PUuwV1WVZCIVc4=
+
 aws-sign2@~0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/aws-sign2/-/aws-sign2-0.7.0.tgz#b46e890934a9591f2d2f6f86d7e6a9f1b3fe76a8"

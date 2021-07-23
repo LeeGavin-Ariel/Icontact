@@ -23,7 +23,7 @@
   
   <!-- 필요 : 회원가입 요청 날리기 -->
   <button 
-    @click="signup(relationship, kindergardenCode, kidName, kindergardenClass)" 
+    @click="signup"
     :disabled="kindergardenClass === 'noValue'"
     >회원가입</button>
   </div>
@@ -31,6 +31,7 @@
 
 <script>
 import { mapActions,mapState } from 'vuex'
+import userApi from '@/api/auth.js';
 
 export default {
   name: "SignupTeacher",
@@ -38,21 +39,40 @@ export default {
     return {
       // 부모 1 선생 2
       relationship: 2,
-      kindergardenCode:'',
-      kindergardenClass:'noValue',
-      kidName:'',
+      kindergardenCode: '',
+      kindergardenClass: 'noValue',
+      kidName: '',
     }
   },
   methods: {
     ...mapActions ([
       'searchClass',
-      'signup'
+      // 'signup'
     ]),
     ...mapState ([
       'searchKindergardenClass',
-    ])
+    ]),
+    async signup(){
+      try {
+        await userApi.registerUser({
+          userId: this.$store.state.sendUserId,
+          password: this.$store.state.sendPassword,
+          userName: this.$store.state.sendUserName,
+          userTel: this.$store.state.sendPhoneNumber,
+          type: this.relationship,
+          // kindergardenCode 필요한가?? 물어보기
+          kindergardenCode: this.kindergardenCode,
+          kidName : this.kidName,
+          classClass: this.kindergardenClass,
+        })
+        alert("회원가입에 성공하여 로그인 페이지로 이동합니다 !!");
+        this.$router.push({ name: 'Login' });
+      }
+      catch (e) {
+        alert('회원가입에 실패하였습니다.')
+      }
+    },
   }
-
 }
 </script>
 

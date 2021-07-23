@@ -9,8 +9,8 @@
         <div class="form-group">
             <input type="text"
             class="form-control item"
-            id="userid" 
-            v-model="credentials.userId"
+            id="userId" 
+            v-model="userId"
             placeholder="ID">
             <div v-if="error.userid" style="color:red;">{{error.userid}}</div>
         </div>
@@ -18,15 +18,15 @@
             <input type="password"
             class="form-control item"
             id="password" 
-            v-model="credentials.password" 
+            v-model="password" 
             placeholder="비밀번호를 입력하세요"
-            @keypress.enter="login(credentials)">
+            @keypress.enter="login">
             <div v-if="error.password" style="color:red;">{{error.password}}</div>
         </div>
 
         <button 
-        @click="login(credentials)" 
-        :disabled="!credentials.userId || !credentials.password || error.password || error.userid"
+        @click="login" 
+        :disabled="!userId || !password || error.password || error.userid"
         class="form-control item"
         style="background-color:rgb(250, 215, 73);"
         >로그인</button>
@@ -42,16 +42,14 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
 import PV from "password-validator";
+import authApi from '@/api/auth.js';
 export default {
   name: 'Login',
   data: function () {
     return {
-      credentials:{
-        userId: '',
-        password: '',
-      },
+      userId: '',
+      password: '',
       passwordSchema: new PV(),
       error: {
         userid: false,
@@ -70,8 +68,9 @@ export default {
       .has()
       .letters();
   },
+
   watch: {
-    userid: function() {
+    userId: function() {
       this.checkForm();
     },
     password: function() {
@@ -80,22 +79,49 @@ export default {
 
   },
   methods: {
-    ...mapActions ([
-      'login'
-    ]),
     checkForm() {
       // Ryuhyunsun === ryuhyunsun
-      if (this.credentials.userId != this.credentials.userId.toLowerCase() || this.credentials.userId.length < 8){
+      if (this.userId != this.userId.toLowerCase() || this.userId.length < 8){
         this.error.userid = "아이디 형식이 아닙니다.";
       }else {
         this.error.userid = false
       }
-      if (!this.passwordSchema.validate(this.credentials.password) || this.credentials.password.length < 8){
+      if (!this.passwordSchema.validate(this.password) || this.password.length < 8){
         this.error.password = "비밀번호 형식이 아닙니다.";
       }else {
         this.error.password = false
       }
-    }
+    },
+    // 로그인
+    async login() {
+      const credentials = {userId: this.userId, password: this.password}
+      // console.log(credentials)
+      try {
+        const result = await authApi.login(credentials);
+        this.$store.dispatch('setUser', {
+          userId: result.userId,
+          userName: result.userName,
+          type: result.type,
+          kidId: result.kidId,
+          kidName: result.kidName,
+          accept: result.accept,
+          stateCode: result.stateCode,
+          profileImg: result.profileImg,
+          kinderCode: result.kinderCode,
+          kinderName: result.kinderName,
+          classCode: result.classCode,
+          className: result.className,
+        });
+        this.$router.push('/');
+      }catch (err){
+        if(err.response){
+          alert("아이디와 비밀번호를 확인하세요.");
+        }else{
+          alert('잘못된 접근입니다. 메인화면으로 돌아갑니다.');
+          this.$router.push('/');
+        }
+      }
+    },
   },
 }
 </script>

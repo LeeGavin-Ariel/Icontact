@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,8 +35,8 @@ public class JoinServiceImpl implements JoinService {
 
 
     @Override
+    @Transactional
     public ResponseEntity join(@RequestBody JoinDto joinDto){
-
         //1. 공통 user 만들어서 save
         UserEntity user = new UserEntity(joinDto.getUserId(),
                 joinDto.getPassword(),
@@ -71,6 +72,9 @@ public class JoinServiceImpl implements JoinService {
                 if(userRepository.save(user)!=null && kidRepository.save(kid)!=null){
                     return new ResponseEntity(HttpStatus.OK);
                 }
+                else{
+
+                }
 
                 return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
 
@@ -101,4 +105,35 @@ public class JoinServiceImpl implements JoinService {
 
         return new ResponseEntity(className, HttpStatus.OK);
     }
+
+    @Override
+    @Transactional
+    public ResponseEntity changePW(JoinDto joinDto) {
+
+        try {
+
+            UserEntity user = userRepository.getById(joinDto.getUserId());
+            if(user==null){
+                return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+
+            user.setPassword(joinDto.getPassword());
+            userRepository.save(user);
+            return new ResponseEntity(HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+//
+//        UserEntity user = new UserEntity();
+//        user.setUserId(joinDto.getUserId());
+//        user.setPassword(joinDto.getPassword());
+//
+//        if(userRepository.updatePassword(user.getPassword(), user.getUserId())>0){
+//            return new ResponseEntity(HttpStatus.OK);
+//
+//        }
+
+    }
+
+
 }

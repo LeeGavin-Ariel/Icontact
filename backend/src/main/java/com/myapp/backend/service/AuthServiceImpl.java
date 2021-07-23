@@ -36,6 +36,7 @@ public class AuthServiceImpl implements AuthService{
             //                .create();
 
             //인증용 map에 삽입
+            System.out.println(code);
             authMap.put(autoDto.getPhoneNum(), code);
 
             return true;

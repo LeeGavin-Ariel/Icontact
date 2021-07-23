@@ -20,9 +20,6 @@ export default new Vuex.Store({
     // 로그인 결과 데이터.
     type: 0,
     accept: 0,
-
-    // 비밀번호 변경시 넘겨줄 id
-    sendUserIdForChangePW: '',
   },
   mutations: {
     SET_TOKEN: function (state, token) {
@@ -49,17 +46,14 @@ export default new Vuex.Store({
       state.sendUserName = username,
       state.searchClass = phonenumber 
     },
-    SET_SEND_USER_ID_FOR_CHANGE_PW: function(state, userid){
-      state.sendUserIdForChangePW = userid
-    }
   },
   actions: {
     // 로그인
-    login: function ({ commit }, userid, password){
-      const credentials = {
-        userid,
-        password
-      }
+    login: function ({ commit }, credentials){
+      // const credentials = {
+      //   userId: userid,
+      //   password: password,
+      // }
       console.log(credentials)
       axios({
         // url 체크하기

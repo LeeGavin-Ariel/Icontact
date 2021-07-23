@@ -10,7 +10,7 @@
             <input type="text"
             class="form-control item"
             id="userid" 
-            v-model="userid"
+            v-model="credentials.userid"
             placeholder="ID">
             <div v-if="error.userid" style="color:red;">{{error.userid}}</div>
         </div>
@@ -18,15 +18,16 @@
             <input type="password"
             class="form-control item"
             id="password" 
-            v-model="password" 
+            v-model="credentials.password" 
             placeholder="비밀번호를 입력하세요"
-            @keypress.enter="login(userid,password)">
+            @keypress.enter="login(credentials)">
             <div v-if="error.password" style="color:red;">{{error.password}}</div>
+            <div>{{credentials.password}}</div>
         </div>
 
         <button 
-        @click="login(userid,password)" 
-        :disabled="!userid || !password || error.password || error.userid"
+        @click="login(credentials)" 
+        :disabled="!credentials.userid || !credentials.password || error.password || error.userid"
         class="form-control item"
         style="background-color:rgb(250, 215, 73);"
         >로그인</button>
@@ -48,8 +49,10 @@ export default {
   name: 'Login',
   data: function () {
     return {
-      userid: '',
-      password: '',
+      credentials:{
+        userid: '',
+        password: '',
+      },
       passwordSchema: new PV(),
       error: {
         userid: false,
@@ -83,12 +86,12 @@ export default {
     ]),
     checkForm() {
       // Ryuhyunsun === ryuhyunsun
-      if (this.userid != this.userid.toLowerCase() || this.userid.length < 8){
+      if (this.credentials.userid != this.credentials.userid.toLowerCase() || this.userid.length < 8){
         this.error.userid = "아이디 형식이 아닙니다.";
       }else {
         this.error.userid = false
       }
-      if (!this.passwordSchema.validate(this.password) || this.password.length < 8){
+      if (!this.passwordSchema.validate(this.credentials.password) || this.credentials.password.length < 8){
         this.error.password = "비밀번호 형식이 아닙니다.";
       }else {
         this.error.password = false

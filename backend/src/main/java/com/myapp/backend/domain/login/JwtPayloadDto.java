@@ -6,8 +6,11 @@ import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-public class LoginDto {
+@NoArgsConstructor
+public class JwtPayloadDto {
 
+    private String sub;
+    private int exp;
+    private int iat;
     private String userId;
-    private String password;
 }

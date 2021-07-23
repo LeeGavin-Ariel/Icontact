@@ -10,18 +10,25 @@ import javax.persistence.Table;
 
 @Entity
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Table(name="USER")
 public class User {
     @Id
-    String userId;
+    @Column(length = 15)
+    private String userId;
+
     @JsonIgnore
-    String password;
-    String userName;
-    String userTel;
+    @Column(length = 15)
+    private String password;
+
+    @Column(length = 8)
+    private String userName;
+
+    @Column(length = 13)
+    private String userTel;
 
     @Column(updatable = false)
-    int type;
+    private int type;
 
 }

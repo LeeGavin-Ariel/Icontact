@@ -14,15 +14,26 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Kid {
+
     @Id
-    String kidId;
-    String kidName;
-    int postCnt;
-    int followerCnt;
-    int followCnt;
-    int accept;
-    String createDate;
-    String profileImg;
-    String classCode;
-    String userId;
+    private String kidId;
+
+    @Column(length = 8)
+    private String kidName;
+
+    private int postCnt;
+    private int followerCnt;
+    private int followCnt;
+    private int accept;
+
+    @Column(length = 100)
+    private String statusMsg;
+    private String createDate;
+
+    @Column(length = 100)
+    private String profileImg;
+
+    @Column(length = 6)
+    private String classCode;
+
 }

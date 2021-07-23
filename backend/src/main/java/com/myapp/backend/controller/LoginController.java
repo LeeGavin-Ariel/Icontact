@@ -2,7 +2,6 @@ package com.myapp.backend.controller;
 
 
 import com.myapp.backend.domain.login.LoginDto;
-import com.myapp.backend.domain.login.LoginResultDto;
 import com.myapp.backend.domain.user.User;
 import com.myapp.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,7 @@ public class LoginController {
     UserRepository userRepository;
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResultDto> login(@RequestBody LoginDto loginDto, HttpServletResponse response) {
+    public ResponseEntity<User> login(@RequestBody LoginDto loginDto, HttpServletResponse response) {
         User user = userRepository.findByUserId(loginDto.getUserId());
         if(user != null){
             int userType = user.getType();

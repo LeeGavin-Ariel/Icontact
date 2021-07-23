@@ -3,10 +3,9 @@ package com.myapp.backend.domain.user;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -31,4 +30,12 @@ public class User {
     @Column(updatable = false)
     private int type;
 
+    @JsonIgnore
+    private String refreshToken;
+
+    @OneToMany(mappedBy = "user")
+    private List<Kid> kids = new ArrayList<>();
+
+    @OneToOne(mappedBy = "user")
+    private Teacher teacher;
 }

@@ -6,6 +6,7 @@ import com.myapp.backend.domain.login.TokenDto;
 import io.jsonwebtoken.*;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Date;
@@ -21,6 +22,7 @@ public class JwtService {
         return SECRET_KEY.getBytes(StandardCharsets.UTF_8);
     }
 
+    @Transactional
     public <T> TokenDto create(String key, T data, String subject){
 
         String accessToken = createToken(accessExpTime, key, data, subject);
@@ -29,6 +31,7 @@ public class JwtService {
         return new TokenDto(accessToken, refreshToken);
     }
 
+    @Transactional
     public <T> String createToken(Integer expTime, String key, T data, String subject) {
 
         return Jwts.builder()
@@ -42,6 +45,7 @@ public class JwtService {
                 .compact();
     }
 
+    @Transactional
     public boolean validate(String token){
 
         try {
@@ -54,6 +58,7 @@ public class JwtService {
         }
     }
 
+    @Transactional
     public String decodeUserId(String token) {
 
         String payload = token.split("\\.")[1];

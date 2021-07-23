@@ -32,7 +32,12 @@ public class LoginService {
     @Transactional
     public int setRefreshToken(TokenUpdateDto tokenUpdateDto){
         try{
-            loginRepository.setRefreshToken(tokenUpdateDto);
+            User user = loginRepository.findByUserId(tokenUpdateDto.getUserId());
+
+            if(user != null){
+                user.setRefreshToken(tokenUpdateDto.getRefreshToken());
+                loginRepository.save(user);
+            } else return FAIL;
             return SUCCESS;
         } catch (Exception e){
             e.printStackTrace();
@@ -42,7 +47,11 @@ public class LoginService {
 
     @Transactional
     public String getRefreshToken(String userId){
-        return loginRepository.getRefreshToken(userId);
+        User user = loginRepository.findByUserId(userId);
+        if(user != null){
+            return user.getRefreshToken();
+        }
+        return null;
     }
 
 

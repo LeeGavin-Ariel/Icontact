@@ -10,7 +10,7 @@
             <input type="text"
             class="form-control item"
             id="userid" 
-            v-model="credentials.userid"
+            v-model="credentials.userId"
             placeholder="ID">
             <div v-if="error.userid" style="color:red;">{{error.userid}}</div>
         </div>
@@ -22,12 +22,11 @@
             placeholder="비밀번호를 입력하세요"
             @keypress.enter="login(credentials)">
             <div v-if="error.password" style="color:red;">{{error.password}}</div>
-            <div>{{credentials.password}}</div>
         </div>
 
         <button 
         @click="login(credentials)" 
-        :disabled="!credentials.userid || !credentials.password || error.password || error.userid"
+        :disabled="!credentials.userId || !credentials.password || error.password || error.userid"
         class="form-control item"
         style="background-color:rgb(250, 215, 73);"
         >로그인</button>
@@ -50,7 +49,7 @@ export default {
   data: function () {
     return {
       credentials:{
-        userid: '',
+        userId: '',
         password: '',
       },
       passwordSchema: new PV(),
@@ -86,7 +85,7 @@ export default {
     ]),
     checkForm() {
       // Ryuhyunsun === ryuhyunsun
-      if (this.credentials.userid != this.credentials.userid.toLowerCase() || this.userid.length < 8){
+      if (this.credentials.userId != this.credentials.userId.toLowerCase() || this.credentials.userId.length < 8){
         this.error.userid = "아이디 형식이 아닙니다.";
       }else {
         this.error.userid = false

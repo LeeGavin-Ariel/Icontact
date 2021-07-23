@@ -1,4 +1,4 @@
-const URL = process.env.VUE_APP_SERVER_URL
+const URL = "http://localhost:8080"
 
 export default {
   URL,

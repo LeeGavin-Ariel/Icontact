@@ -126,7 +126,7 @@ export default {
 }
 </script>
 
-<style>
+<style scope>
 body{
   background-color: #dee9ff;
 }

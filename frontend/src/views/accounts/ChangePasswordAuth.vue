@@ -34,7 +34,11 @@
     </div>
     
     <!--isAuth 인증 완료되어야만(상태코드로 업데이트 필요함..) 이라는 조건 추가해야 함  -->
-    <button v-if="!isAuth" @click="checkAuthNumber(phoneNumber, authNumber)">인증</button>
+    <button 
+    :disabled="isAuth" 
+    @click="checkAuthNumber(phoneNumber, authNumber)">
+    인증</button>
+    <div v-if="isAuth">인증이 완료되었습니다</div>
     <button
     @click="GoToChangePassword"
     :disabled="!userid || !isAuth"
@@ -84,10 +88,9 @@ export default {
           this.error.phoneNumber = "휴대폰 번호를 입력해주세요"
         }
       },
-          // 인증번호 발송 요청.
+      // 인증번호 발송 요청.
       requestAuthNumber() {
         axios({
-          // URL 체크 필요
           url: SERVER.URL + SERVER.ROUTES.sms,
           method: 'post',
           data: {
@@ -95,26 +98,30 @@ export default {
             }
         })
         .then((res) => {
-          // res 확인해서 분기처리
-          alert('인증번호 전송이 완료되었습니다.')
-          // alert('인증번호 전송에 실패했습니다.')
           console.log(res)
+          if (res.status === 200) {
+            this.isRequested = true
+          }
         })
-        .catch((err)=>{
-          console.log(err)
+        .catch(()=>{
+          alert('인증번호 전송에 실패했습니다.')
         })
       },
+      
       // 인증번호 확인 요청
       checkAuthNumber() {
         axios({
           url: SERVER.URL + SERVER.ROUTES.sms + '?phoneNum=' + this.phoneNumber + '&code=' + this.authNumber,
           method: 'get'
         })
-        .then(() => {
-          alert('인증번호 전송이 완료되었습니다.')
+        .then((res) => {
+          if (res.stauts === 200) {
+            this.isAuth = true
+          }
         })
         .catch((err)=>{
           console.log(err)
+          alert('인증번호 확인에 실패했습니다. 다시 시도해주세요')
         })
       },
       GoToChangePassword() {
@@ -125,6 +132,6 @@ export default {
 }
 </script>
 
-<style>
+<style scope>
 
 </style>

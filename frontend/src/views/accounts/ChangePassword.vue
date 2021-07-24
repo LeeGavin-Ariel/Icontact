@@ -22,6 +22,7 @@
       <!-- 유효성 검사 통과 못하면 에러 메시지 출력 -->
       <div v-if="error.passwordConfirm">{{error.passwordConfirm}}</div>
     </div>
+    
     <button 
     :disabled="!password && error.password && error.passwordConfirm && !(password==passwordConfirm)"
     @click="changePassword">변경하기</button>
@@ -29,7 +30,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 import PV from "password-validator";
 import axios from 'axios'
 import SERVER from '@/api/drf.js'
@@ -68,9 +68,6 @@ export default {
     },
   },
   methods: {
-    ...mapState ([
-      'sendUserIdForChangePW',
-    ]),
     checkForm() {
       if (!this.passwordSchema.validate(this.password) || this.password.length < 8){
         this.error.password = "비밀 번호 형식이 아닙니다.";
@@ -84,22 +81,23 @@ export default {
       }
     },
     changePassword() {
-      
       axios({
         // URL 체크 필요
-        url: SERVER.URL + '',
+        url: SERVER.URL + SERVER.ROUTES.changepw,
         method: 'post',
         data: {
           userId: this.$store.state.sendUserIdForChangePW,
           password: this.password
           }
       })
-      .then(() => {
-        alert('비밀번호 변경이 완료되었습니다.')
-        this.$router.push({ name: 'Login' })
+      .then((res) => {
+        if (res.status == 200) {
+          alert('비밀번호 변경이 완료되었습니다.')
+          this.$router.push({ name: 'Login' })
+        }
       })
       .catch((err)=>{
-        alert('비밀번호 변경에 실패했습니다.') 
+        alert('비밀번호 변경에 실패했습니다. 다시 시도해주세요') 
         console.log(err)
       })
     }
@@ -107,6 +105,6 @@ export default {
 }  
 </script>
 
-<style>
+<style scope>
 
 </style>

@@ -8,15 +8,15 @@
       id="kindergardenCode" 
       v-model="kindergardenCode"
       @input="searchClass"
+      maxlength="4"
       placeholder="유치원 코드를 입력하세요">
     </div>
-    <div v-if="kindergardenCode && searchKindergardenClass.length === 0">존재하지 않는 유치원 코드입니다.</div>
-
+    <div v-if="!kindergardenCode || kindergardenClasses.length === 0">존재하지 않는 유치원 코드입니다.</div>
     <!-- 반 목록 선택 (드롭다운) -->
     <select name="kindergardenClass" id="kindergardenClass" v-model="kindergardenClass">
       <option value="noValue">반 선택</option>
       <!-- option v-for로 -->
-      <option v-for="Class in searchKindergardenClass" v-bind:key="Class" v-bind:value="Class">
+      <option v-for="Class in kindergardenClasses" v-bind:key="Class" v-bind:value="Class">
         {{ Class }}
       </option>
     </select>
@@ -30,28 +30,23 @@
 </template>
 
 <script>
-import { mapActions,mapState } from 'vuex'
-import userApi from '@/api/auth.js';
 
+import userApi from '@/api/auth.js';
+import axios from 'axios'
+import SERVER from '@/api/drf.js'
 export default {
   name: "SignupTeacher",
   data: () => {
     return {
-      // 부모 1 선생 2
-      relationship: 2,
+
+      relationship: 2, // 부모1 선생2
       kindergardenCode: '',
       kindergardenClass: 'noValue',
       kidName: '',
+      kindergardenClasses:[]
     }
   },
   methods: {
-    ...mapActions ([
-      'searchClass',
-      // 'signup'
-    ]),
-    ...mapState ([
-      'searchKindergardenClass',
-    ]),
     async signup(){
       try {
         await userApi.registerUser({
@@ -60,7 +55,6 @@ export default {
           userName: this.$store.state.sendUserName,
           userTel: this.$store.state.sendPhoneNumber,
           type: this.relationship,
-          // kindergardenCode 필요한가?? 물어보기
           kindergardenCode: this.kindergardenCode,
           kidName : this.kidName,
           classClass: this.kindergardenClass,
@@ -72,10 +66,24 @@ export default {
         alert('회원가입에 실패하였습니다.')
       }
     },
+
+    searchClass() {
+      axios({
+        // url 체크하기
+        url: SERVER.URL + SERVER.ROUTES.searchClass + '?kinderCode=' + this.kindergardenCode,
+        method: 'get',
+      })
+      .then((res) => {
+        this.kindergardenClasses = res.data
+      })
+      .catch(() => {
+        this.kindergardenClasses = []
+      })
+    },
   }
 }
 </script>
 
-<style>
+<style scope>
 
 </style>

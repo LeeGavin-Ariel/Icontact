@@ -1,14 +1,19 @@
 <template>
   <v-app id="app">
+    <Navbar/>
     <router-view/>
   </v-app>
 </template>
 
 <script>
 import { getTokenInfo, tokenExpired } from '@/utils/jwt.js';
+import Navbar from '@/components/common/Navbar.vue';
 import userApi from '@/api/user.js';
 export default {
   name: 'App',
+  components:{
+    Navbar
+  },
   methods: {
     async setUserInfo(userid, accessToken, refreshToken) {
       let result;
@@ -22,6 +27,7 @@ export default {
           "refresh-token": refreshToken,
         });
       }
+      console.log(result.userId)
       this.$store.dispatch('setUser', {
         userId: result.userId,
         userName: result.userName,

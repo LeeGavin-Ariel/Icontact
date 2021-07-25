@@ -6,7 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     user: null,
-   
+    
     // 회원가입 공통화면 데이터
     sendUserId:'',
     sendPassword:'',
@@ -16,7 +16,7 @@ export default new Vuex.Store({
     // 비밀번호 변경 데이터 
     sendUserIdForChangePW: '',
    
-    // 로그인 결과 데이터.
+    // 로그인 결과 데이터
     type: 0,
     accept: 0,
 
@@ -24,20 +24,21 @@ export default new Vuex.Store({
   mutations: {
 
     // 반 검색
-    SET_THEACHER_INFO: function (state, userid, password, username, phonenumber) {
-      state.sendUserId = userid,
-      state.sendPassword = password,
-      state.sendUserName = username,
-      state.searchClass = phonenumber
+    SET_THEACHER_INFO: function (state, data) {
+      state.sendUserId = data.userid,
+      state.sendPassword = data.password,
+      state.sendUserName = data.username,
+      state.searchClass = data.phonenumber
     },
-    SET_PARENT_INFO: function (state, userid, password, username, phonenumber) {
-      state.sendUserId = userid,
-      state.sendPassword = password,
-      state.sendUserName = username,
-      state.searchClass = phonenumber 
+    SET_PARENT_INFO: function (state, data) {
+      state.sendUserId = data.userid,
+      state.sendPassword = data.password,
+      state.sendUserName = data.username,
+      state.searchClass = data.phonenumber 
     },
     SET_USER(state, payload) {
       state.user = payload;
+      console.log(state.user)
     },
     SET_SEND_USER_ID_FOR_CHANGE_PW: function (state, userid) {
       state.sendUserIdForChangePW = userid
@@ -45,13 +46,13 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    // 회원가입 관련
-    setTeacherInfo: function({commit}, userid, password, username, phonenumber) {
-      commit('SET_THEACHER_INFO', userid, password, username, phonenumber)
+    // 회원가입
+    setTeacherInfo: function({commit}, data) {
+      commit('SET_THEACHER_INFO', data)
       router.push({ name: 'SignupTeacher' })
     },
-    setParentInfo: function({commit}, userid, password, username, phonenumber) {
-      commit('SET_PARENT_INFO', userid, password, username, phonenumber)
+    setParentInfo: function({commit}, data) {
+      commit('SET_PARENT_INFO', data)
       router.push({ name: 'SignupParent' })
     },
 
@@ -59,7 +60,7 @@ export default new Vuex.Store({
       context.commit('SET_USER', payload);
     },
 
-    // 비밀번호 변경 시 id 값 저장
+    // 비밀번호 변경 - id 값 저장
     setSendUserIdForChangePW: function ({commit}, userid) {
       commit('SET_SEND_USER_ID_FOR_CHANGE_PW', userid)
     }

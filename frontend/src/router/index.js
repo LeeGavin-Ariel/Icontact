@@ -6,6 +6,7 @@ import SignupTeacher from '@/views/accounts/SignupTeacher'
 import Login from '@/views/accounts/Login'
 import ChangePasswordAuth from '@/views/accounts/ChangePasswordAuth'
 import ChangePassword from '@/views/accounts/ChangePassword'
+import MyPageTeacher from '@/views/mypage/MyPageTeacher'
 
 Vue.use(VueRouter)
 
@@ -26,14 +27,14 @@ const routes = [
 
   // 회원가입 선생님 페이지
   {
-    path: '/signupteacher',
+    path: '/signup/teacher',
     name: 'SignupTeacher',
     component: SignupTeacher
   },
   
   // 회원가입 학부모 페이지
   {
-    path: '/signupparent',
+    path: '/signup/parent',
     name: 'SignupParent',
     component: SignupParent
   },
@@ -49,6 +50,11 @@ const routes = [
     path: '/changepassword',
     name: 'ChangePassword',
     component: ChangePassword
+  },
+  {
+    path: '/mypage/teacher/:userId',
+    name: 'MyPageTeacher',
+    component: MyPageTeacher
   },
 ]
 

@@ -98,21 +98,26 @@ export default {
       // console.log(credentials)
       try {
         const result = await authApi.login(credentials);
-        this.$store.dispatch('setUser', {
-          userId: result.userId,
-          userName: result.userName,
-          type: result.type,
-          kidId: result.kidId,
-          kidName: result.kidName,
-          accept: result.accept,
-          stateCode: result.stateCode,
-          profileImg: result.profileImg,
-          kinderCode: result.kinderCode,
-          kinderName: result.kinderName,
-          classCode: result.classCode,
-          className: result.className,
-        });
-        this.$router.push('/');
+        if (result.accept === 2) {
+          this.$store.dispatch('setUser', {
+            userId: result.userId,
+            userName: result.userName,
+            type: result.type,
+            kidId: result.kidId,
+            kidName: result.kidName,
+            // accept: result.accept,
+            accept: result.accept,
+            stateCode: result.stateCode,
+            profileImg: result.profileImg,
+            kinderCode: result.kinderCode,
+            kinderName: result.kinderName,
+            classCode: result.classCode,
+            className: result.className,
+          });
+          this.$router.push('/');
+        } else {
+          alert('승인되지 않은 계정입니다. 관리자에게 문의하세요')
+        }
       }catch (err){
         if(err.response){
           alert("아이디와 비밀번호를 확인하세요.");

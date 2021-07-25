@@ -213,3 +213,8 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,windows,intellij,vue,vuejs,netbeans
+backend/.gradle/7.1.1/executionHistory/executionHistory.lock
+backend/.gradle/7.1.1/fileHashes/fileHashes.lock
+backend/.gradle/buildOutputCleanup/buildOutputCleanup.lock
+backend/.gradle/7.1.1/fileHashes/fileHashes.bin
+backend/.gradle/7.1.1/executionHistory/executionHistory.bin

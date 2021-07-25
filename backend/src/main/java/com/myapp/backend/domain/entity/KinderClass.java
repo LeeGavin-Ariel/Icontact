@@ -18,7 +18,7 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @DynamicInsert
 @DynamicUpdate
-public class KinderClassEntity {
+public class KinderClass {
 
     @Id
     String classCode;

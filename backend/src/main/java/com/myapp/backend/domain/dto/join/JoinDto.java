@@ -1,4 +1,4 @@
-package com.myapp.backend.domain.dto;
+package com.myapp.backend.domain.dto.join;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

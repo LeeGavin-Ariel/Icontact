@@ -13,7 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @DynamicInsert
 @DynamicUpdate
-public class TeacherEntity {
+public class Teacher {
 
     @Id
     String userId;

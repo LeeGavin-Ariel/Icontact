@@ -17,7 +17,7 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @DynamicInsert
 @DynamicUpdate
-public class UserEntity {
+public class User {
     @Id
     String userId;//id
 

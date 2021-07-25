@@ -1,9 +1,7 @@
 package com.myapp.backend.service;
 
-import com.myapp.backend.domain.dto.AuthDto;
+import com.myapp.backend.domain.dto.join.AuthDto;
 import com.twilio.Twilio;
-import com.twilio.rest.api.v2010.account.Message;
-import com.twilio.type.PhoneNumber;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;

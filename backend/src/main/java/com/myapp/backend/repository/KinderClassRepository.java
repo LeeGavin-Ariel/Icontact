@@ -1,14 +1,13 @@
 package com.myapp.backend.repository;
 
-import com.myapp.backend.domain.entity.KinderClassEntity;
-import com.myapp.backend.domain.entity.UserEntity;
+import com.myapp.backend.domain.entity.KinderClass;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface KinderClassRepository extends JpaRepository<KinderClassEntity, String> {
+public interface KinderClassRepository extends JpaRepository<KinderClass, String> {
 
 
-    List<KinderClassEntity> findByKinderCode(String kinderCode);
+    List<KinderClass> findByKinderCode(String kinderCode);
 
 }

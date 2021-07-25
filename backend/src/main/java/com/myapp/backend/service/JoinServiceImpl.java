@@ -1,11 +1,11 @@
 package com.myapp.backend.service;
 
 
-import com.myapp.backend.domain.dto.JoinDto;
-import com.myapp.backend.domain.entity.KidEntity;
-import com.myapp.backend.domain.entity.KinderClassEntity;
-import com.myapp.backend.domain.entity.TeacherEntity;
-import com.myapp.backend.domain.entity.UserEntity;
+import com.myapp.backend.domain.dto.join.JoinDto;
+import com.myapp.backend.domain.entity.Kid;
+import com.myapp.backend.domain.entity.KinderClass;
+import com.myapp.backend.domain.entity.Teacher;
+import com.myapp.backend.domain.entity.User;
 import com.myapp.backend.repository.KidRepository;
 import com.myapp.backend.repository.KinderClassRepository;
 import com.myapp.backend.repository.TeacherRepository;
@@ -38,7 +38,7 @@ public class JoinServiceImpl implements JoinService {
     @Transactional
     public ResponseEntity join(@RequestBody JoinDto joinDto){
         //1. 공통 user 만들어서 save
-        UserEntity user = new UserEntity(joinDto.getUserId(),
+        User user = new User(joinDto.getUserId(),
                 joinDto.getPassword(),
                 joinDto.getUserName(),
                 joinDto.getUserTel(),
@@ -52,7 +52,7 @@ public class JoinServiceImpl implements JoinService {
 
             if(user.getType()==2){
                 //2. 선생부분 만들어서 save
-                TeacherEntity teacher = new TeacherEntity();
+                Teacher teacher = new Teacher();
                 teacher.setUserId(joinDto.getUserId());
                 teacher.setClassCode(joinDto.getClassCode());
 
@@ -64,7 +64,7 @@ public class JoinServiceImpl implements JoinService {
             }
             else if(user.getType()==1){
                 //2. 학부모부분 만들어서 save
-                KidEntity kid = new KidEntity();
+                Kid kid = new Kid();
                 kid.setKidName(joinDto.getKidName());
                 kid.setClassCode(joinDto.getClassCode());
                 kid.setUserId(joinDto.getUserId());
@@ -92,14 +92,14 @@ public class JoinServiceImpl implements JoinService {
 
         //code로 전체 class 조회
         List<String[]> className=new ArrayList<>();
-        List<KinderClassEntity>kinderClass = kinderClassRepository.findByKinderCode(kinderCode);
+        List<KinderClass>kinderClass = kinderClassRepository.findByKinderCode(kinderCode);
 
         //반이 검색되지 않은=존재하지 않는 유치원 코드 처리
         if(kinderClass==null || kinderClass.size()==0){
             return new ResponseEntity(className, HttpStatus.NOT_FOUND);
         }
 
-        for (KinderClassEntity k: kinderClass) {
+        for (KinderClass k: kinderClass) {
             className.add(new String[]{ k.getClassName(), k.getClassCode() } );
         }
 
@@ -112,7 +112,7 @@ public class JoinServiceImpl implements JoinService {
 
         try {
 
-            UserEntity user = userRepository.getById(joinDto.getUserId());
+            User user = userRepository.getById(joinDto.getUserId());
             if(user==null){
                 return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
             }

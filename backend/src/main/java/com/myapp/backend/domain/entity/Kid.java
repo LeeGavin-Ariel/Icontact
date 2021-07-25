@@ -19,7 +19,7 @@ import javax.persistence.TemporalType;
 @NoArgsConstructor
 @DynamicInsert
 @DynamicUpdate
-public class KidEntity {
+public class Kid {
 
     @Id
     int kidId;

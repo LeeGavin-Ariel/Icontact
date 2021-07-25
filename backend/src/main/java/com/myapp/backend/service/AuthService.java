@@ -1,8 +1,6 @@
 package com.myapp.backend.service;
 
-import com.myapp.backend.domain.dto.AuthDto;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestParam;
+import com.myapp.backend.domain.dto.join.AuthDto;
 
 public interface AuthService {
 

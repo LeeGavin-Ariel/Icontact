@@ -1,7 +1,7 @@
 package com.myapp.backend.controller;
 
 
-import com.myapp.backend.domain.dto.AuthDto;
+import com.myapp.backend.domain.dto.join.AuthDto;
 import com.myapp.backend.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -1,6 +1,6 @@
 package com.myapp.backend.controller;
 
-import com.myapp.backend.domain.dto.JoinDto;
+import com.myapp.backend.domain.dto.join.JoinDto;
 import com.myapp.backend.service.JoinService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

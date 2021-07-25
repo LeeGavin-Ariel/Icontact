@@ -1,10 +1,9 @@
 package com.myapp.backend.repository;
 
-import com.myapp.backend.domain.entity.KidEntity;
-import com.myapp.backend.domain.entity.TeacherEntity;
+import com.myapp.backend.domain.entity.Kid;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface KidRepository extends JpaRepository<KidEntity, String> {
+public interface KidRepository extends JpaRepository<Kid, String> {
 
 
 }

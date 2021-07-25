@@ -87,11 +87,11 @@ public class JoinServiceImpl implements JoinService {
     }
 
     @Override
-    public ResponseEntity<List<String>> classList(@RequestParam String kinderCode){
+    public ResponseEntity<List<String[]>> classList(@RequestParam String kinderCode){
         //test url : http://localhost:8080/user/kinder/class?kinderCode=1
 
         //code로 전체 class 조회
-        List<String> className=new ArrayList<>();
+        List<String[]> className=new ArrayList<>();
         List<KinderClassEntity>kinderClass = kinderClassRepository.findByKinderCode(kinderCode);
 
         //반이 검색되지 않은=존재하지 않는 유치원 코드 처리
@@ -100,7 +100,7 @@ public class JoinServiceImpl implements JoinService {
         }
 
         for (KinderClassEntity k: kinderClass) {
-            className.add(k.getClassName());
+            className.add(new String[]{ k.getClassName(), k.getClassCode() } );
         }
 
         return new ResponseEntity(className, HttpStatus.OK);

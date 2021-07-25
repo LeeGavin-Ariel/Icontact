@@ -1,5 +1,8 @@
 backend/.gradle/*
+backend/.gradle
 backend/.idea/*
+backend/.idea
+backend/.gradle/7.1.1/*
 # Created by https://www.toptal.com/developers/gitignore/api/macos,windows,intellij,vue,vuejs,netbeans
 # Edit at https://www.toptal.com/developers/gitignore?templates=macos,windows,intellij,vue,vuejs,netbeans
 

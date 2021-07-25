@@ -23,7 +23,7 @@ public class UserController {
     }
 
     @GetMapping("/kinder/class")
-    public ResponseEntity<List<String>> classList(@RequestParam String kinderCode){
+    public ResponseEntity<List<String[]>> classList(@RequestParam String kinderCode){
         return joinService.classList(kinderCode);
     }
 

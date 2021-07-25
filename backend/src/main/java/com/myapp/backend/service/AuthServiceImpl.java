@@ -2,6 +2,8 @@ package com.myapp.backend.service;
 
 import com.myapp.backend.domain.dto.AuthDto;
 import com.twilio.Twilio;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -30,10 +32,10 @@ public class AuthServiceImpl implements AuthService{
         try{
             //받을 번호 / 보낼 번호(고정-작성자 이현건의 twilio 발급 가상번호) / 메세지
             //유료임! 주석을 함부로 해제하지 마시오!
-            //        Message msg = Message.creator(new PhoneNumber("+82"+autoDto.phoneNum.substring(1)),
-            //                new PhoneNumber("+14695302245"),
-            //                body)
-            //                .create();
+//                    Message msg = Message.creator(new PhoneNumber("+82"+autoDto.phoneNum.substring(1)),
+//                            new PhoneNumber("+14695302245"),
+//                            body)
+//                            .create();
 
             //인증용 map에 삽입
             System.out.println(code);

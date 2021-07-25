@@ -10,7 +10,7 @@ import java.util.List;
 public interface JoinService {
 
     public ResponseEntity join(@RequestBody JoinDto joinDto);
-    public ResponseEntity<List<String>> classList(@RequestParam String kinderCode);
+    public ResponseEntity<List<String[]>> classList(@RequestParam String kinderCode);
 
     public ResponseEntity changePW(@RequestBody JoinDto joinDto);
 }

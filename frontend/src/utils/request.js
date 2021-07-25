@@ -29,6 +29,7 @@ export const requestGet = async (url, headers) => {
 
 export const requestPost = async (url, data, headers) => {
   try {
+    console.log('good')
     const response = await axios.post(url, data, { headers });
     if (response.status === 200) {
       if (response.headers['jwt-access-token']) setJwtTokens(response);

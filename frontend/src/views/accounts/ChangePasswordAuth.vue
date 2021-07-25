@@ -21,7 +21,7 @@
       placeholder="휴대폰번호를 입력하세요">
     </div>
     <div v-if="error.userid">{{ error.phoneNumber }}</div>
-    <button @click="requestAuthNumber(phoneNumber)">인증번호 받기</button>
+    <button @click="requestAuthNumber">인증번호 받기</button>
     <div v-if="isRequested">인증번호가 발송되었습니다.</div>
 
     <!-- 인증번호 입력 -->
@@ -36,11 +36,11 @@
     <!--isAuth 인증 완료되어야만(상태코드로 업데이트 필요함..) 이라는 조건 추가해야 함  -->
     <button 
     :disabled="isAuth" 
-    @click="checkAuthNumber(phoneNumber, authNumber)">
+    @click="checkAuthNumber">
     인증</button>
     <div v-if="isAuth">인증이 완료되었습니다</div>
     <button
-    @click="GoToChangePassword"
+    @click="setSendUserIdForChangePW(userid)"
     :disabled="!userid || !isAuth"
     >비밀번호 변경</button>
   </div>
@@ -115,7 +115,9 @@ export default {
           method: 'get'
         })
         .then((res) => {
-          if (res.stauts === 200) {
+          console.log(res)
+          alert('인증에 성공하였습니다. 다음 단계를 진행해주세요')
+          if (res.status === 200) {
             this.isAuth = true
           }
         })
@@ -124,14 +126,10 @@ export default {
           alert('인증번호 확인에 실패했습니다. 다시 시도해주세요')
         })
       },
-      GoToChangePassword() {
-        this.$store.actions.setSendUserIdForChangePW(this.userid)
-        this.$router.push({ name: 'ChangePassword' })
-      }
     }
 }
 </script>
 
-<style scope>
+<style scoped>
 
 </style>

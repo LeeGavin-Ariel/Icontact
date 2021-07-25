@@ -7,6 +7,7 @@ import Login from '@/views/accounts/Login'
 import ChangePasswordAuth from '@/views/accounts/ChangePasswordAuth'
 import ChangePassword from '@/views/accounts/ChangePassword'
 import MyPageTeacher from '@/views/mypage/MyPageTeacher'
+import MyPageMaster from '@/views/mypage/MyPageMaster'
 
 Vue.use(VueRouter)
 
@@ -51,10 +52,18 @@ const routes = [
     name: 'ChangePassword',
     component: ChangePassword
   },
+
+  // 선생님 마이페이지
   {
     path: '/mypage/teacher/:userId',
     name: 'MyPageTeacher',
     component: MyPageTeacher
+  },
+  // 관리자 마이페이지
+  {
+    path: '/mypage/master',
+    name: 'MyPageMaster',
+    component: MyPageMaster
   },
 ]
 

@@ -14,10 +14,10 @@
     <div v-if="!kindergardenCode || kindergardenClasses.length === 0">존재하지 않는 유치원 코드입니다.</div>
 
     <!-- 반 목록 선택 (드롭다운) -->
-    <select name="kindergardenClass" id="kindergardenClass" v-model="kindergardenClass">
+    <select name="classCode" id="classCode" v-model="classCode">
       <option value="noValue">반 선택</option>
       <!-- option v-for로 -->
-      <option v-for="Class in kindergardenClasses" v-bind:key="Class" v-bind:value="Class">
+      <option v-for="[Class, idx] in kindergardenClasses" v-bind:key="idx" v-bind:value="idx">
         {{ Class }}
       </option>
     </select>
@@ -35,7 +35,7 @@
   <!-- 필요 : 회원가입 요청 날리기 -->
     <button 
       @click="signup" 
-      :disabled="kindergardenClass === 'noValue' || !kidName"
+      :disabled="classCode === 'noValue' || !kidName"
       >회원가입</button>
   </div>
   
@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import userApi from '@/api/auth.js';
+import {userApi} from '@/api/user.js';
 import axios from 'axios'
 import SERVER from '@/api/drf.js'
 
@@ -53,9 +53,9 @@ export default {
     return {
       relationship: 1, // 부모1 선생2
       kindergardenCode: '',
-      kindergardenClass: 'noValue',
       kidName: '',
-      kindergardenClasses:[]
+      kindergardenClasses:[],
+      classCode: 'noValue'
     }
   },
   methods: {
@@ -67,9 +67,8 @@ export default {
           userName: this.$store.state.sendUserName,
           userTel: this.$store.state.sendPhoneNumber,
           type: this.relationship,
-          kindergardenCode: this.kindergardenCode,
+          classCode: this.classCode,
           kidName : this.kidName,
-          classClass: this.kindergardenClass,
         })
         alert("회원가입에 성공하여 로그인 페이지로 이동합니다 !!");
         this.$router.push({ name: 'Login' });
@@ -95,6 +94,6 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 </style>

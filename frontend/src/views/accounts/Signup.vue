@@ -53,7 +53,7 @@
       v-model="phoneNumber"
       placeholder="휴대폰번호를 입력하세요">
     </div>
-    <button @click="requestAuthNumber(phoneNumber)">인증번호 받기</button>
+    <button @click="requestAuthNumber">인증번호 받기</button>
     <div v-if="isRequested">인증번호가 발송되었습니다.</div>
 
     <!-- 인증번호 입력 -->
@@ -64,7 +64,7 @@
       v-model="authNumber"
       placeholder="인증번호를 입력하세요">
     </div>
-    <button v-if="isAuth" @click="checkAuthNumber(phoneNumber, authNumber)">인증</button>
+    <button v-if="!isAuth" @click="checkAuthNumber">인증</button>
 
     <!-- 선생님, 학부모 회원가입 페이지로 이동 -->
     <!-- 선생 학부모 모두 isAuth 인증 완료되어야만 이라는 조건 추가해야 함  -->
@@ -163,10 +163,12 @@ export default {
       })
       .then((res) => {
         // res 확인해서 분기처리
+        console.log(res)
         if (res.status == 200) {
+          console.log('왔다!')
           this.isRequested = true
         }
-        // alert('인증번호 전송에 실패했습니다.')
+        alert('인증번호가 발송되었습니다')
       })
       .catch(()=>{
         alert('인증번호 전송에 실패했습니다. 다시 시도해주세요')
@@ -179,7 +181,8 @@ export default {
         method: 'get'
       })
       .then((res) => {
-        if (res.stauts === 200) {
+        console.log(res)
+        if (res.status === 200) {
             this.isAuth = true
           }
       })
@@ -191,6 +194,6 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 </style>

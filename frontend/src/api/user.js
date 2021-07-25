@@ -1,10 +1,13 @@
 import  { requestPost, requestGet, requestPut } from '@/utils/request.js';
 import SERVER from './drf.js';
 
-const userApi = {
+export const userApi = {
   registerUser: (data) => {
+    console.log('good')
     return requestPost(SERVER.URL + SERVER.ROUTES.signup, data);
   },
+
+
   getUser: (userId, headers) => {
     // 이거 유알엘 어떻게 하냐.
     // 근데 app.vue에서는 그냥 getUser 하나로만 갱신하는데....

@@ -28,13 +28,13 @@ export default new Vuex.Store({
       state.sendUserId = data.userid,
       state.sendPassword = data.password,
       state.sendUserName = data.username,
-      state.searchClass = data.phonenumber
+      state.sendPhoneNumber = data.phoneNumber
     },
     SET_PARENT_INFO: function (state, data) {
       state.sendUserId = data.userid,
       state.sendPassword = data.password,
       state.sendUserName = data.username,
-      state.searchClass = data.phonenumber 
+      state.sendPhoneNumber = data.phoneNumber 
     },
     SET_USER(state, payload) {
       state.user = payload;
@@ -62,7 +62,9 @@ export default new Vuex.Store({
 
     // 비밀번호 변경 - id 값 저장
     setSendUserIdForChangePW: function ({commit}, userid) {
+      console.log(userid)
       commit('SET_SEND_USER_ID_FOR_CHANGE_PW', userid)
+      router.push({ name: 'ChangePassword' })
     }
 
   },

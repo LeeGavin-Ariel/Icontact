@@ -12,8 +12,15 @@ import userApi from '@/api/user.js';
 export default {
   name: 'App',
   components:{
-    Navbar
+    Navbar // state 방식 불가능식 props로 내려준다...
   },
+
+
+  // getUser -> 우리가 거기서 뽑아낸 값으로 type을 봐서 처리를 한다 -> 노상관
+  // 근데, 선생과 학부모 테이블 형태가 다르면 getUser 했을때 문제 생길 수 있다.
+  // 그럼, 선생 따로, 학부모 따로 유저 정보를 가져와야하는가?
+  // 프론트에서 -> 토큰을 보내서 디코딩해서 유저가 선생인지 학부모인지 체크를 해서,
+  // 체크가 되면, 조건분기해서 그걸로 getTeacher, getParent 방식처럼 2가지로 나누어 불러와야함.
   methods: {
     async setUserInfo(userid, accessToken, refreshToken) {
       let result;

@@ -4,9 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
 
 @Data
@@ -23,4 +21,8 @@ public class Teacher {
     private Date createDate;
     private String  profileImg;
     private String  classCode ;
+
+    @OneToOne
+    @JoinColumn(name = "userId")
+    private User user;
 }

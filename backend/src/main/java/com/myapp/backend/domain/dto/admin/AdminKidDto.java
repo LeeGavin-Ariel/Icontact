@@ -1,5 +1,7 @@
 package com.myapp.backend.domain.dto.admin;
 
+import com.myapp.backend.domain.entity.Kid;
+import com.myapp.backend.domain.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,4 +26,23 @@ public class AdminKidDto extends AdminUserDto {
 
     //외래키로 설정 객체변수로 받을지 고민하기!
     private String userId;      //학부모 Id
+//    private User user;
+
+    public AdminKidDto(Kid k) {
+        super(k.getUser());
+        this.kidId = k.getKidId();
+        this.kidName = k.getKidName();
+        this.postCnt = k.getPostCnt();
+        this.followerCnt = k.getFollowerCnt();
+        this.followCnt = k.getFollowCnt();
+        this.statusMsg = k.getStatusMsg();
+        this.accept = k.getAccept();
+        this.createDate = k.getCreateDate();
+        this.profileImg = k.getProfileImg();
+        this.classCode = k.getClassCode();
+        this.userId = k.getUserId();
+//        this.user = k.getUser();
+
+    }
+
 }

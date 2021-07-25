@@ -1,14 +1,18 @@
 package com.myapp.backend.service;
 
+import com.myapp.backend.domain.dto.admin.AdminKidDto;
+import com.myapp.backend.domain.dto.admin.AdminTeacherDto;
 import com.myapp.backend.domain.dto.admin.AdminUserDto;
 import com.myapp.backend.domain.entity.Kid;
 import com.myapp.backend.domain.entity.Teacher;
+import com.myapp.backend.domain.entity.User;
 import com.myapp.backend.repository.KidRepository;
 import com.myapp.backend.repository.TeacherRepository;
 import com.myapp.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,8 +31,8 @@ public class UserService {
     private final int REJECT = 3;
 
     // 아이 조회
-    public Kid retrieveKid(int userId) {
-        return  kidRepositoryJPA.findByUserId(userId);
+    public Kid retrieveKid(int kidId) {
+        return kidRepositoryJPA.findByKidId(kidId);
     }
 
     //아이 승인
@@ -51,7 +55,7 @@ public class UserService {
 
     //선생님 승인
     public Teacher retrieveTeacher(String userId) {
-        return  teacherRepositoryJPA.findByUserId(userId);
+        return teacherRepositoryJPA.findByUserId(userId);
     }
 
     //선생님 승인
@@ -78,18 +82,42 @@ public class UserService {
 //        List<AdminUserDto> resultList = null;
         List<Teacher> teacherlist = teacherRepositoryJPA.findByClassCodeStartsWith(kinderCode);
         List<Kid> kidlist = kidRepositoryJPA.findByClassCodeStartsWith(kinderCode);
+        List<AdminTeacherDto> adminTeacherDtos = new ArrayList<>();
+        List<AdminKidDto> adminKidDtos = new ArrayList<>();
+
         for (Teacher t : teacherlist) {
             System.out.println(t.getUserId());
+            User findUser = userRepositoryJPA.findByUserId(t.getUserId());
+            t.setUser(findUser);
+
+            AdminTeacherDto item = new AdminTeacherDto(t);
+            adminTeacherDtos.add(item);
         }
         for (Kid k : kidlist) {
-            System.out.println(k.getUserId()+","+k.getKidName());
+            System.out.println(k.getUserId() + "," + k.getKidName());
+            User findUser = userRepositoryJPA.findByUserId(k.getUserId());
+            k.setUser(findUser);
 
+            AdminKidDto item = new AdminKidDto(k);
+            adminKidDtos.add(item);
         }
+
+//        adminKidDtos.addAll(teacherlist);
+
+        List<AdminUserDto> result = new ArrayList<>();
+        result.addAll(adminTeacherDtos);
+        result.addAll(adminKidDtos);
         //성공
 
-//        resultList.add((AdminUserDto) kidRepositoryJPA.findByClassCodeStartsWith(kinderCode));
+        for (AdminUserDto dto : result) {
+            if(dto instanceof AdminKidDto){
+                System.out.println("kid:" + ((AdminKidDto) dto).getKidName());
+            }else if(dto instanceof AdminTeacherDto){
+                System.out.println("teacher:" + dto.getUserId());
+            }
+        }
 
-        return null;
+        return result;
     }
 
 }

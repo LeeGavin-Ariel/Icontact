@@ -12,7 +12,7 @@ import java.util.List;
 @Transactional
 public interface KidRepository extends JpaRepository<Kid, Integer>  {
     Kid findByKidId(int kidId);
-    Kid findByUserId(int userId);
+//    Kid findByUserId(int userId);
     List<Kid> findByClassCodeStartsWith(String kinderCode);
 }
 

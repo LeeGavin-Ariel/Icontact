@@ -1,9 +1,8 @@
 package com.myapp.backend.controller;
 
 import com.myapp.backend.domain.dto.Result;
-import com.myapp.backend.domain.dto.admin.AdminUserDto;
-import com.myapp.backend.domain.entity.Kid;
-import com.myapp.backend.domain.entity.Teacher;
+import com.myapp.backend.domain.dto.mypage.ChangeUserRequestDto;
+import com.myapp.backend.domain.entity.User;
 import com.myapp.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,100 +23,90 @@ public class UserController {
     }
 
     /**
-     * 학부모 계정 조회(kidId로 조회한다)
-     * profileId => kidId
+     * 유저 조회(userId로 조회한다)
      */
-    @GetMapping("/parents/{profileId}")
-    public ResponseEntity<Kid> retrieveKid(@PathVariable int profileId) {
-        Kid kid = userService.retrieveKid(profileId);
+    @GetMapping("/info/{userId}")
+    public ResponseEntity<User> retrieveUser(@PathVariable String userId) {
+        User user = userService.retrieveUser(userId);
 
-        if (kid !=null) {
-            return new ResponseEntity<Kid>(kid, HttpStatus.OK);
+        if (user !=null) {
+            return new ResponseEntity<User>(user, HttpStatus.OK);
         }
-        return new ResponseEntity<Kid>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
     }
 
+
     /**
-     * 학부모 계정 승인(kidId로 승인한다)
-     * profileId => kidId
+     * 모든 유저 조회
      */
-    @PutMapping("/parents/{profileId}")
-    public ResponseEntity<Result> approveKid(@PathVariable int profileId) {
-        boolean flag = userService.approveKid(profileId);
+    @GetMapping
+    public ResponseEntity<List<User>> retrieveAllUser(@RequestParam(value = "code", required = true) String kinderCode) {
+        List<User> userlist = userService.retrieveAllUser(kinderCode);
+
+        if (userlist !=null) {
+            return new ResponseEntity<List<User>>(userlist, HttpStatus.OK);
+        }
+        return new ResponseEntity<List<User>>(HttpStatus.NOT_FOUND);
+    }
+
+
+    /**
+     * 유저 계정 승인
+     */
+    @PutMapping("/approve/{userId}")
+    public ResponseEntity<Result> approveUser(@PathVariable String userId) {
+        boolean flag = userService.approveUser(userId);
 
         if (flag) {
-            return new ResponseEntity<Result>(new Result(true, "가입 요청 승인 : " + profileId), HttpStatus.OK);
+            return new ResponseEntity<Result>(new Result(true, "가입 요청 승인 : " + userId), HttpStatus.OK);
         }
         return new ResponseEntity<Result>(new Result(false, "가입 승인에 실패하였습니다."), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     /**
-     * 학부모 계정 거절(kidId로 거절한다)
-     * profileId => kidId
+     * 유저 계정 거절
      */
-    @PutMapping("/parents/reject/{profileId}")
-    public ResponseEntity<Result> rejectKid(@PathVariable int profileId) {
-        boolean flag = userService.rejectKid(profileId);
+    @PutMapping("/reject/{userId}")
+    public ResponseEntity<Result> rejectUser(@PathVariable String userId) {
+        boolean flag = userService.rejectUser(userId);
 
         if (flag) {
-            return new ResponseEntity<Result>(new Result(true, "가입 요청 거절, kidid : " + profileId), HttpStatus.OK);
+            return new ResponseEntity<Result>(new Result(true, "가입 요청 거절 : " + userId), HttpStatus.OK);
         }
         return new ResponseEntity<Result>(new Result(false, "가입 거절에 실패하였습니다."), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     /**
-     * 선생님 계정 조회(userId 조회한다)
-     * profileId => kidId
+     * 유저 계정 삭제
      */
-    @GetMapping("/teacher/{userId}")
-    public ResponseEntity<Teacher> retrieveTeacher(@PathVariable String userId) {
-        Teacher teacher = userService.retrieveTeacher(userId);
-
-        if (teacher !=null) {
-            System.out.println(teacher.toString());
-            return new ResponseEntity<Teacher>(teacher, HttpStatus.OK);
-        }
-        return new ResponseEntity<Teacher>(HttpStatus.NOT_FOUND);
-    }
-
-    /**
-     * 선생님 계정 승인
-     * 기능은 완료, 코드 다듬기
-     */
-    @PutMapping("/teacher/{userId}")
-    public ResponseEntity<Result> approveTeacher(@PathVariable String userId) {
-        boolean flag = userService.approveTeacher(userId);
+    @PutMapping("/remove/{userId}")
+    public ResponseEntity<Result> removeUser(@PathVariable String userId) {
+        boolean flag = userService.removeUser(userId);
 
         if (flag) {
-            return new ResponseEntity<Result>(new Result(true, "가입 요청 승인, userid : " + userId), HttpStatus.OK);
-        }
-        return new ResponseEntity<Result>(new Result(false, "가입 승인에 실패하였습니다."), HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    /**
-     * 선생님 계정 거절
-     * 기능은 완료, 코드 다듬기
-     */
-    @PutMapping("/teacher/reject/{userId}")
-    public ResponseEntity<Result> rejectTeacher(@PathVariable String userId) {
-        boolean flag = userService.rejectTeacher(userId);
-
-        if (flag) {
-            return new ResponseEntity<Result>(new Result(true, "가입 요청 거절, userid : " + userId), HttpStatus.OK);
+            return new ResponseEntity<Result>(new Result(true, "가입 요청 거절 : " + userId), HttpStatus.OK);
         }
         return new ResponseEntity<Result>(new Result(false, "가입 거절에 실패하였습니다."), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-
     /**
-     * 관리자 계정 소속 유치원의 모든 유저(학부모, 선생님) 조회
+     * 유저 정보 수정
+     * @param User
+     * @param userId
+     * @return
      */
-    @GetMapping("/admin")
-    public List<AdminUserDto> retrieveUserInKindergarden(@RequestParam(value = "code", required = true) String kinderCode) {
-        List<AdminUserDto> adminUserList = userService.retrieveAllUser(kinderCode);
-        return adminUserList;
-    }
+    @PutMapping("/{userId}")
+    public ResponseEntity<Result> updateUser(@RequestBody ChangeUserRequestDto changeUserRequestDto,
+                                                @PathVariable String userId) {
 
+        System.out.println("user:"+changeUserRequestDto.toString());
+        boolean flag = userService.updateUser(changeUserRequestDto);
+
+        if (flag) {
+            return new ResponseEntity<Result>(new Result(true, "정보 수정 완료, userid : " + userId), HttpStatus.OK);
+        }
+        return new ResponseEntity<Result>(new Result(false, "정보 수정에 실패하였습니다."), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
 }
 

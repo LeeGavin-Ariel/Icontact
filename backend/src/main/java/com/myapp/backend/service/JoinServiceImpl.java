@@ -2,13 +2,9 @@ package com.myapp.backend.service;
 
 
 import com.myapp.backend.domain.dto.join.JoinDto;
-import com.myapp.backend.domain.entity.Kid;
 import com.myapp.backend.domain.entity.KinderClass;
-import com.myapp.backend.domain.entity.Teacher;
 import com.myapp.backend.domain.entity.User;
-import com.myapp.backend.repository.KidRepository;
 import com.myapp.backend.repository.KinderClassRepository;
-import com.myapp.backend.repository.TeacherRepository;
 import com.myapp.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,57 +24,46 @@ public class JoinServiceImpl implements JoinService {
     KinderClassRepository kinderClassRepository;
     @Autowired
     UserRepository userRepository;
-    @Autowired
-    TeacherRepository teacherRepository;
-    @Autowired
-    KidRepository kidRepository;
 
 
     @Override
     @Transactional
     public ResponseEntity join(@RequestBody JoinDto joinDto){
-        //1. 공통 user 만들어서 save
-        User user = new User(joinDto.getUserId(),
-                joinDto.getPassword(),
-                joinDto.getUserName(),
-                joinDto.getUserTel(),
-                joinDto.getType());
-
-        if(userRepository.existsByUserId(user.getUserId())){
+        //ID중복체크
+        if(userRepository.existsByUserId(joinDto.getUserId())){
             //ID중복 체크
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
-        else {
 
-            if(user.getType()==2){
-                //2. 선생부분 만들어서 save
-                Teacher teacher = new Teacher();
-                teacher.setUserId(joinDto.getUserId());
-                teacher.setClassCode(joinDto.getClassCode());
+        //1. 공통 user 만들어서 save
 
-                if(userRepository.save(user)!=null && teacherRepository.save(teacher)!=null){
-                    return new ResponseEntity(HttpStatus.OK);
-                }
+        User user = new User();
+        user.setUserId(joinDto.getUserId());
+        user.setPassword(joinDto.getPassword());
+        user.setUserName(joinDto.getUserName());
+        user.setUserTel(joinDto.getUserTel());
+        user.setType(joinDto.getType());
+        user.setClassCode(joinDto.getClassCode());
 
-                return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        if(user.getType()==2){
+            //2. 선생부분 만들어서 save
+
+            user.setClassCode(joinDto.getClassCode());
+            if(userRepository.save(user)!=null){
+                return new ResponseEntity(HttpStatus.OK);
             }
-            else if(user.getType()==1){
-                //2. 학부모부분 만들어서 save
-                Kid kid = new Kid();
-                kid.setKidName(joinDto.getKidName());
-                kid.setClassCode(joinDto.getClassCode());
-                kid.setUserId(joinDto.getUserId());
 
-                if(userRepository.save(user)!=null && kidRepository.save(kid)!=null){
-                    return new ResponseEntity(HttpStatus.OK);
-                }
-                else{
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        else if(user.getType()==1){
+            //2. 학부모부분 만들어서 save
 
-                }
-
-                return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
-
+            user.setKidName(joinDto.getKidName());
+            if(userRepository.save(user)!=null){
+                return new ResponseEntity(HttpStatus.OK);
             }
+
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
 
         }
 
@@ -111,27 +96,21 @@ public class JoinServiceImpl implements JoinService {
     public ResponseEntity changePW(JoinDto joinDto) {
 
         try {
-
             User user = userRepository.getById(joinDto.getUserId());
             if(user==null){
-                return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity(HttpStatus.NOT_FOUND);//404
             }
 
             user.setPassword(joinDto.getPassword());
-            userRepository.save(user);
-            return new ResponseEntity(HttpStatus.OK);
+            if(userRepository.save(user)!=null) {
+                return new ResponseEntity(HttpStatus.OK);
+            }
+            else{
+                return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);//500
+            }
         }catch (Exception e){
-            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);//500
         }
-//
-//        UserEntity user = new UserEntity();
-//        user.setUserId(joinDto.getUserId());
-//        user.setPassword(joinDto.getPassword());
-//
-//        if(userRepository.updatePassword(user.getPassword(), user.getUserId())>0){
-//            return new ResponseEntity(HttpStatus.OK);
-//
-//        }
 
     }
 

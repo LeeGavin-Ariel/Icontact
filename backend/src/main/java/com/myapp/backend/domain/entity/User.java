@@ -1,28 +1,55 @@
 package com.myapp.backend.domain.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Date;
 
-@Entity(name = "USER")
-@Getter
-@Setter
+@Entity
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @DynamicInsert
 @DynamicUpdate
+@Table(name="USER")
 public class User {
     @Id
-    String userId;//id
+    @Column(length = 15)
+    private String userId;
 
-    String password;//pw
-    String userName;//이름
-    String userTel;//전화번호
-    int type;//회원타입
+    @JsonIgnore
+    @Column(length = 15)
+    private String password;
+
+    @Column(length = 8)
+    private String userName;
+
+    @Column(length = 13)
+    private String userTel;
+
+    @Column(updatable = false)
+    private int type;
+
+    @JsonIgnore
+    @Column(length = 255)
+    private String refreshToken;
+
+    private int accept;
+
+    @Column(insertable = false, updatable = false)
+    private Date createDate;
+
+    @Column(length = 100)
+    private String profileImg;
+
+    private int stateCode;
+
+    @Column(length = 8)
+    private String kidName;
+
+    @Column(length = 6)
+    private String classCode;
 }

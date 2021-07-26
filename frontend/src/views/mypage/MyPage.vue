@@ -1,13 +1,14 @@
 <template>
   <div>
-    <h1>선생님 마이페이지</h1>
+    <h1 class="text-center">마이페이지</h1>
     <!-- <img :src="user.profileImg" alt="user-profile-image"> -->
     <!-- <div>[{{user.className}}] 선생님</div> -->
-    <div>내 정보
-      <!-- <div>ID : {{ user.userId }}</div>
-      <div>이름 : {{ user.userName }}</div>
-      <div>원 : {{ user.kinderName }}</div>
-      <div>반 : {{ user.className }}</div> -->
+    <div class="text-center d-grid gap-2 col-6 mx-auto border border-5 rounded-3 border-warning">내 정보
+      <div>ID : {{ userId }}</div>
+      <div>이름 : {{ userName }}</div>
+      <div v-if="type===1">아이 이름 : {{ kidName }}</div>
+      <div>원 : {{ kinderName }}</div>
+      <div>반 : {{ className }}</div>
     </div>
 
     <!-- 
@@ -16,15 +17,20 @@
       3. 처음 프로필 내용 불러올 때 requestGet
      -->
 
+    <!-- 의상이 코드로 확인할 것. -->
+    <!-- get user 잘 되는지 확인 (get방식 요청 날리는 방법이 맞는지.) -->
+    <!-- 프로필 수정 요청 어떤것 날려야하는지. 반환값은 뭔지(url일듯) -->
+
+
     <!-- 사진 변경 모달 -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    <button type="button" class="btn btn-primary d-grid gap-2 col-6 mx-auto" data-bs-toggle="modal" data-bs-target="#profileModal">
       사진변경
     </button>
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">사진 변경</h5>
+            <h5 class="modal-title" id="profileModalLabel">사진 변경</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
@@ -45,25 +51,29 @@
       </div>
     </div>
 
+    <!-- 개인정보 수정할때 비밀번호 변경 : 유저 이름, 비밀번호, 프로필이미지 변경 : 유저이름, profile 이미지.
+    이미지는 로컬에 저장하는걸로 (디폴트 이미지 포함)
+    이미지 자체를 데이터로 어떻게 넘기고 받을것인가.
+    멀티파트? 가빈 누나한테 물어보기. -->
 
     <!-- 비밀번호 변경 모달 -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    <button type="button" class="btn btn-primary d-grid gap-2 col-6 mx-auto" data-bs-toggle="modal" data-bs-target="#passwordModal">
       비밀번호 변경
     </button>
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">비밀번호 변경</h5>
+            <h5 class="modal-title" id="passwordModalLabel">비밀번호 변경</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             
             <!-- 현재 비밀번호 -->
             <div>
-              <label for="password">비밀번호: </label>
+              <label for="currentPassword">현재 비밀번호: </label>
               <input type="password" 
-              id="password" 
+              id="currentPassword" 
               v-model="currentPassword" 
               placeholder="비밀번호를 입력하세요">
               <!-- 유효성 검사 통과 못하면 에러메시지 출력 -->
@@ -72,9 +82,9 @@
 
             <!-- 변경할 비밀번호 -->
             <div>
-              <label for="password">비밀번호: </label>
+              <label for="changePassword">변경할 비밀번호: </label>
               <input type="password" 
-              id="password" 
+              id="changePassword" 
               v-model="changePassword" 
               placeholder="비밀번호를 입력하세요">
               <!-- 유효성 검사 통과 못하면 에러메시지 출력 -->
@@ -83,9 +93,9 @@
 
             <!-- 변경할 비밀번호 확인 -->
             <div>
-              <label for="passwordConfirm">비밀번호확인: </label>
+              <label for="changePasswordConfirm">변경할 비밀번호확인: </label>
               <input type="password" 
-              id="passwordConfirm" 
+              id="changePasswordConfirm" 
               v-model="changePasswordConfirm" 
               placeholder="비밀번호 확인을 입력하세요">
               <!-- 유효성 검사 통과 못하면 에러 메시지 출력 -->
@@ -123,6 +133,8 @@ export default {
       className: '',
       userName: '',
       kinderName: '',
+      kidName: '',
+      type: '',
 
       currentPassword: '',
       changePassword: '',
@@ -175,7 +187,7 @@ export default {
     // userid, 변경된 password 날리기
     async savePassword() {
       try {
-        await userApi.updateTeacher(this.userId, this.changePassword,
+        await userApi.updateUser(this.userId, this.changePassword,
           // 뭘 날려줘야하는지 의논해서 결정하기.
           // 일단 아이디, 비밀번호  
         {
@@ -193,7 +205,7 @@ export default {
       this.userId = this.$route.params.userId
       let accessToken = sessionStorage.getItem('access-token')
       let refreshToken = sessionStorage.getItem('refresh-token')
-      let result = await userApi.getTeacher(this.userId, {
+      let result = await userApi.getUser(this.userId, {
           "access-token": accessToken,
           "refresh-token": refreshToken,
       });
@@ -201,6 +213,8 @@ export default {
       this.className = result.className
       this.userName = result.userName
       this.kinderName = result.kinderName
+      this.kidName = result.kidName
+      this.type = result.type
     },
 
     // userid, picture url 날리기
@@ -216,7 +230,7 @@ export default {
           // 
           // 
           // 
-          //
+          // 
         }, {
           "access-token": sessionStorage.getItem('access-token')
         });

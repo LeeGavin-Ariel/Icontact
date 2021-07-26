@@ -54,7 +54,7 @@ const routes = [
     component: ChangePassword
   },
 
-  // 선생님 마이페이지
+  // 마이페이지
   {
     path: '/mypage/:userId',
     name: 'MyPage',

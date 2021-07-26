@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .gradle
 .gradle/*
 build/
@@ -5,6 +6,14 @@ build/
 !/src/main//build/
 !/src/test//build/
 *.lock
+=======
+HELP.md
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+>>>>>>> ed61bac40c76f87f869f59b93fc103a0639f1859
 
 ### application.properties ###
 application.properties
@@ -15,11 +24,25 @@ application-production.properties
 log
 logback.xml
 
+<<<<<<< HEAD
 backend/.gradle/*
 backend/.gradle
 backend/.idea/*
 backend/.idea
 backend/.gradle/7.1.1/*
+=======
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+
+
+>>>>>>> ed61bac40c76f87f869f59b93fc103a0639f1859
 # Created by https://www.toptal.com/developers/gitignore/api/macos,windows,intellij,vue,vuejs,netbeans
 # Edit at https://www.toptal.com/developers/gitignore?templates=macos,windows,intellij,vue,vuejs,netbeans
 

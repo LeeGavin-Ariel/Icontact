@@ -1,21 +1,31 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+<<<<<<< HEAD
 import SERVER from '@/api/drf.js'
 import router from '@/router/index.js'
 import axios from 'axios'
+=======
+import router from '@/router/index.js'
+>>>>>>> ed61bac40c76f87f869f59b93fc103a0639f1859
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+<<<<<<< HEAD
     authToken: localStorage.getItem('jwt'),
     searchKindergarden:'',
     searchKindergardenClass:[],
 
+=======
+    user: null,
+   
+>>>>>>> ed61bac40c76f87f869f59b93fc103a0639f1859
     // 회원가입 공통화면 데이터
     sendUserId:'',
     sendPassword:'',
     sendUserName:'',
     sendPhoneNumber:'',
+<<<<<<< HEAD
 
     // 로그인 결과 데이터.
     type: 0,
@@ -34,6 +44,20 @@ export default new Vuex.Store({
     SET_KINDERGARDEN_CLASS: function (state, kindergarden) {
       state.searchKindergardenClass = kindergarden
     },
+=======
+    
+    // 비밀번호 변경 데이터 
+    sendUserIdForChangePW: '',
+   
+    // 로그인 결과 데이터.
+    type: 0,
+    accept: 0,
+
+  },
+  mutations: {
+
+    // 반 검색
+>>>>>>> ed61bac40c76f87f869f59b93fc103a0639f1859
     SET_THEACHER_INFO: function (state, userid, password, username, phonenumber) {
       state.sendUserId = userid,
       state.sendPassword = password,
@@ -46,6 +70,7 @@ export default new Vuex.Store({
       state.sendUserName = username,
       state.searchClass = phonenumber 
     },
+<<<<<<< HEAD
   },
   actions: {
     // 로그인
@@ -91,6 +116,17 @@ export default new Vuex.Store({
     },
     
    
+=======
+    SET_USER(state, payload) {
+      state.user = payload;
+    },
+    SET_SEND_USER_ID_FOR_CHANGE_PW: function (state, userid) {
+      state.sendUserIdForChangePW = userid
+      
+    }
+  },
+  actions: {
+>>>>>>> ed61bac40c76f87f869f59b93fc103a0639f1859
     // 회원가입 관련
     setTeacherInfo: function({commit}, userid, password, username, phonenumber) {
       commit('SET_THEACHER_INFO', userid, password, username, phonenumber)
@@ -100,6 +136,7 @@ export default new Vuex.Store({
       commit('SET_PARENT_INFO', userid, password, username, phonenumber)
       router.push({ name: 'SignupParent' })
     },
+<<<<<<< HEAD
     signup: function({state}, relationship, kindergardenCode, kidName, kindergardenClass){
       const signupdata = {
         userId: state.sendUserId,
@@ -147,6 +184,17 @@ export default new Vuex.Store({
     
 
 
+=======
+
+    setUser(context, payload) {
+      context.commit('SET_USER', payload);
+    },
+
+    // 비밀번호 변경 시 id 값 저장
+    setSendUserIdForChangePW: function ({commit}, userid) {
+      commit('SET_SEND_USER_ID_FOR_CHANGE_PW', userid)
+    }
+>>>>>>> ed61bac40c76f87f869f59b93fc103a0639f1859
 
   },
   modules: {

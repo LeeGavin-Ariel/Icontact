@@ -31,4 +31,5 @@ public class UserController {
     public ResponseEntity<List<String>> changePW(@RequestBody JoinDto joinDto){
         return joinService.changePW(joinDto);
     }
+
 }

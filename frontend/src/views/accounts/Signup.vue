@@ -70,11 +70,19 @@
     <!-- 선생 학부모 모두 isAuth 인증 완료되어야만 이라는 조건 추가해야 함  -->
     <button 
     @click="setTeacherInfo(userid, password, username, phoneNumber)"
+<<<<<<< HEAD
     :disabled="!userid || !password || !passwordConfirm || !username || !phoneNumber || error.userid || error.password || error.passwordConfirm"
     >선생님</button>
     <button
     @click="setParentInfo(userid, password, username, phoneNumber)"
     :disabled="!userid || !password || !passwordConfirm || !username || !phoneNumber || error.userid || error.password || error.passwordConfirm"
+=======
+    :disabled="!userid || !password || !passwordConfirm || !username || !phoneNumber || error.userid || error.password || error.passwordConfirm || !isAuth"
+    >선생님</button>
+    <button
+    @click="setParentInfo(userid, password, username, phoneNumber)"
+    :disabled="!userid || !password || !passwordConfirm || !username || !phoneNumber || error.userid || error.password || error.passwordConfirm || !isAuth"
+>>>>>>> ed61bac40c76f87f869f59b93fc103a0639f1859
     >학부모</button>
   </div>
 </template>
@@ -163,6 +171,7 @@ export default {
       })
       .then((res) => {
         // res 확인해서 분기처리
+<<<<<<< HEAD
         alert('인증번호 전송이 완료되었습니다.')
         // alert('인증번호 전송에 실패했습니다.')
         console.log(res)
@@ -170,6 +179,15 @@ export default {
       .catch((err)=>{
         
         console.log(err)
+=======
+        if (res.status == 200) {
+          this.isRequested = true
+        }
+        // alert('인증번호 전송에 실패했습니다.')
+      })
+      .catch(()=>{
+        alert('인증번호 전송에 실패했습니다. 다시 시도해주세요')
+>>>>>>> ed61bac40c76f87f869f59b93fc103a0639f1859
       })
     },
     // 인증번호 확인 요청
@@ -178,11 +196,21 @@ export default {
         url: SERVER.URL + SERVER.ROUTES.sms + '?phoneNum=' + this.phoneNumber + '&code=' + this.authNumber,
         method: 'get'
       })
+<<<<<<< HEAD
       .then(() => {
         alert('인증번호 전송이 완료되었습니다.')
       })
       .catch((err)=>{
         console.log(err)
+=======
+      .then((res) => {
+        if (res.stauts === 200) {
+            this.isAuth = true
+          }
+      })
+      .catch(()=>{
+        alert('인증에 실패했습니다.')
+>>>>>>> ed61bac40c76f87f869f59b93fc103a0639f1859
       })
     }
   }

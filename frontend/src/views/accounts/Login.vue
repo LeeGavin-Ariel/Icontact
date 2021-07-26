@@ -9,8 +9,13 @@
         <div class="form-group">
             <input type="text"
             class="form-control item"
+<<<<<<< HEAD
             id="userid" 
             v-model="userid"
+=======
+            id="userId" 
+            v-model="userId"
+>>>>>>> ed61bac40c76f87f869f59b93fc103a0639f1859
             placeholder="ID">
             <div v-if="error.userid" style="color:red;">{{error.userid}}</div>
         </div>
@@ -20,19 +25,32 @@
             id="password" 
             v-model="password" 
             placeholder="비밀번호를 입력하세요"
+<<<<<<< HEAD
             @keypress.enter="login(userid,password)">
+=======
+            @keypress.enter="login">
+>>>>>>> ed61bac40c76f87f869f59b93fc103a0639f1859
             <div v-if="error.password" style="color:red;">{{error.password}}</div>
         </div>
 
         <button 
+<<<<<<< HEAD
         @click="login(userid,password)" 
         :disabled="!userid || !password || error.password || error.userid"
+=======
+        @click="login" 
+        :disabled="!userId || !password || error.password || error.userid"
+>>>>>>> ed61bac40c76f87f869f59b93fc103a0639f1859
         class="form-control item"
         style="background-color:rgb(250, 215, 73);"
         >로그인</button>
 
         <!-- 비밀번호 찾기 라우터 설정 해주기. -->
+<<<<<<< HEAD
         <div class="btn" style="display:block;">비밀번호 찾기</div>
+=======
+        <div class="btn" style="display:block;" @click="$router.push({ name: 'ChangePasswordAuth' })">비밀번호 찾기</div>
+>>>>>>> ed61bac40c76f87f869f59b93fc103a0639f1859
         <!-- 회원가입 화면으로 -->
         <div class="btn" style="display:block;" @click="$router.push({ name: 'Signup' })">회원가입</div>
       </div>
@@ -42,13 +60,22 @@
 </template>
 
 <script>
+<<<<<<< HEAD
 import { mapActions } from 'vuex'
 import PV from "password-validator";
+=======
+import PV from "password-validator";
+import authApi from '@/api/auth.js';
+>>>>>>> ed61bac40c76f87f869f59b93fc103a0639f1859
 export default {
   name: 'Login',
   data: function () {
     return {
+<<<<<<< HEAD
       userid: '',
+=======
+      userId: '',
+>>>>>>> ed61bac40c76f87f869f59b93fc103a0639f1859
       password: '',
       passwordSchema: new PV(),
       error: {
@@ -68,8 +95,14 @@ export default {
       .has()
       .letters();
   },
+<<<<<<< HEAD
   watch: {
     userid: function() {
+=======
+
+  watch: {
+    userId: function() {
+>>>>>>> ed61bac40c76f87f869f59b93fc103a0639f1859
       this.checkForm();
     },
     password: function() {
@@ -78,12 +111,18 @@ export default {
 
   },
   methods: {
+<<<<<<< HEAD
     ...mapActions ([
       'login'
     ]),
     checkForm() {
       // Ryuhyunsun === ryuhyunsun
       if (this.userid != this.userid.toLowerCase() || this.userid.length < 8){
+=======
+    checkForm() {
+      // Ryuhyunsun === ryuhyunsun
+      if (this.userId != this.userId.toLowerCase() || this.userId.length < 8){
+>>>>>>> ed61bac40c76f87f869f59b93fc103a0639f1859
         this.error.userid = "아이디 형식이 아닙니다.";
       }else {
         this.error.userid = false
@@ -93,12 +132,50 @@ export default {
       }else {
         this.error.password = false
       }
+<<<<<<< HEAD
     }
+=======
+    },
+    // 로그인
+    async login() {
+      const credentials = {userId: this.userId, password: this.password}
+      // console.log(credentials)
+      try {
+        const result = await authApi.login(credentials);
+        this.$store.dispatch('setUser', {
+          userId: result.userId,
+          userName: result.userName,
+          type: result.type,
+          kidId: result.kidId,
+          kidName: result.kidName,
+          accept: result.accept,
+          stateCode: result.stateCode,
+          profileImg: result.profileImg,
+          kinderCode: result.kinderCode,
+          kinderName: result.kinderName,
+          classCode: result.classCode,
+          className: result.className,
+        });
+        this.$router.push('/');
+      }catch (err){
+        if(err.response){
+          alert("아이디와 비밀번호를 확인하세요.");
+        }else{
+          alert('잘못된 접근입니다. 메인화면으로 돌아갑니다.');
+          this.$router.push('/');
+        }
+      }
+    },
+>>>>>>> ed61bac40c76f87f869f59b93fc103a0639f1859
   },
 }
 </script>
 
+<<<<<<< HEAD
 <style>
+=======
+<style scope>
+>>>>>>> ed61bac40c76f87f869f59b93fc103a0639f1859
 body{
   background-color: #dee9ff;
 }

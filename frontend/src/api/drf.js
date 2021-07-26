@@ -8,8 +8,7 @@ export default {
     sms: '/auth/sms',
     searchClass:'/user/kinder/class',
     changepw:'/user/changepw',
-    getteacherinf:'/user/teacher',
-    getparentinf:'/user/parent',
+    getuserinf:'/user/info',
     updateteacherinf:'/user/teacher',
     updateparentinf:'/user/parent',
   }

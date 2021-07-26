@@ -7,7 +7,7 @@
       <input type="text" 
       id="userid" 
       v-model="userid"
-      placeholder="아이디를 입력하세요">
+      placeholder="아이디를 입력하세요.">
       <!-- 유효성 검사 통과 못하면 에러메시지 출력 -->
       <div v-if="error.userid">{{error.userid}}</div>
     </div>
@@ -18,7 +18,7 @@
       <input type="password" 
       id="password" 
       v-model="password" 
-      placeholder="비밀번호를 입력하세요">
+      placeholder="비밀번호를 입력하세요.">
       <!-- 유효성 검사 통과 못하면 에러메시지 출력 -->
       <div v-if="error.password">{{error.password}}</div>
     </div>
@@ -29,7 +29,7 @@
       <input type="password" 
       id="passwordConfirm" 
       v-model="passwordConfirm" 
-      placeholder="비밀번호 확인을 입력하세요">
+      placeholder="비밀번호을 한 번 더 입력하세요.">
       <!-- 유효성 검사 통과 못하면 에러 메시지 출력 -->
       <div v-if="error.passwordConfirm">{{error.passwordConfirm}}</div>
     </div>
@@ -40,7 +40,7 @@
       <input type="text" 
       id="username" 
       v-model="username"
-      placeholder="아이디를 입력하세요">
+      placeholder="이름을 입력하세요.">
     </div>
 
     <!-- 휴대폰번호 입력 -->

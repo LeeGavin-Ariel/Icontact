@@ -96,8 +96,10 @@ export default {
     async login() {
       const credentials = {userId: this.userId, password: this.password}
       // console.log(credentials)
+      
       try {
         const result = await authApi.login(credentials);
+        console.log('ok')
         if (result.accept === 2) {
           this.$store.dispatch('setUser', {
             userId: result.userId,
@@ -105,8 +107,8 @@ export default {
             type: result.type,
             kidId: result.kidId,
             kidName: result.kidName,
-            // accept: result.accept,
             accept: result.accept,
+            userTel: result.userTel,
             stateCode: result.stateCode,
             profileImg: result.profileImg,
             kinderCode: result.kinderCode,
@@ -122,8 +124,7 @@ export default {
         if(err.response){
           alert("아이디와 비밀번호를 확인하세요.");
         }else{
-          alert('잘못된 접근입니다. 메인화면으로 돌아갑니다.');
-          this.$router.push('/');
+          alert('잘못된 접근입니다.');
         }
       }
     },

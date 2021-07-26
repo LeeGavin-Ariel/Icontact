@@ -12,8 +12,12 @@ export const userApi = {
     // 이거 유알엘 어떻게 하냐.
     // 근데 app.vue에서는 그냥 getUser 하나로만 갱신하는데....
     // url 바꿔주기.
-    return requestGet(SERVER.URL + SERVER.ROUTES.signup  + `/${userId}`, headers);
+    return requestGet(SERVER.URL + SERVER.ROUTES.getuserinf  + `/${userId}`, headers);
   },
+
+
+
+
   updateUser: (data, headers) => {
     return requestPut(`${process.env.VUE_APP_API_ENDPOINT}/user`, data, headers);
   },

@@ -24,6 +24,9 @@ export default {
   methods: {
     async setUserInfo(userid, accessToken, refreshToken) {
       let result;
+
+      console.log(this.$store.state.user)
+      // getUser는 의상이 코드에서 확인하기.
       if (!refreshToken) {
         result = await userApi.getUser(userid, {
           "access-token": accessToken,
@@ -34,7 +37,8 @@ export default {
           "refresh-token": refreshToken,
         });
       }
-      console.log(result.userId)
+
+      // 일단 이 밑으로 실행 안됨. 위에 에러나서 그런듯
       this.$store.dispatch('setUser', {
         userId: result.userId,
         userName: result.userName,
@@ -42,6 +46,7 @@ export default {
         kidId: result.kidId,
         kidName: result.kidName,
         accept: result.accept,
+        userTel: result.userTel,
         stateCode: result.stateCode,
         profileImg: result.profileImg,
         kinderCode: result.kinderCode,
@@ -51,6 +56,7 @@ export default {
       });
     }
   },
+  // 토큰만 확인하는 방식. or 이 방식 그대로.
   mounted() {
     const accessToken = sessionStorage.getItem('access-token');
     if (accessToken) {

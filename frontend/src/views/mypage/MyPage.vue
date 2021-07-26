@@ -115,7 +115,7 @@ import PV from "password-validator";
 // import axios from 'axios'
 // import SERVER from '@/api/drf.js'
 export default {
-  name: 'MyPageTeacher',
+  name: 'MyPage',
   data: () => {
     return {
       userId: '',

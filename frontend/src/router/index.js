@@ -6,8 +6,9 @@ import SignupTeacher from '@/views/accounts/SignupTeacher'
 import Login from '@/views/accounts/Login'
 import ChangePasswordAuth from '@/views/accounts/ChangePasswordAuth'
 import ChangePassword from '@/views/accounts/ChangePassword'
-import MyPageTeacher from '@/views/mypage/MyPageTeacher'
+import MyPage from '@/views/mypage/MyPage'
 import MyPageMaster from '@/views/mypage/MyPageMaster'
+
 
 Vue.use(VueRouter)
 
@@ -55,9 +56,9 @@ const routes = [
 
   // 선생님 마이페이지
   {
-    path: '/mypage/teacher/:userId',
-    name: 'MyPageTeacher',
-    component: MyPageTeacher
+    path: '/mypage/:userId',
+    name: 'MyPage',
+    component: MyPage
   },
   // 관리자 마이페이지
   {

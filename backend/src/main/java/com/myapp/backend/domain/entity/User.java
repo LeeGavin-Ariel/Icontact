@@ -20,6 +20,7 @@ public class User {
     @Column(length = 15)
     private String userId;
 
+
     @JsonIgnore
     @Column(length = 15)
     private String password;
@@ -52,4 +53,6 @@ public class User {
 
     @Column(length = 6)
     private String classCode;
+
 }
+

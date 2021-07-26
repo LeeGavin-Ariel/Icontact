@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 .gradle
 .gradle/*
 build/
@@ -15,6 +16,8 @@ build/
 !**/src/test/**/build/
 >>>>>>> ed61bac40c76f87f869f59b93fc103a0639f1859
 
+=======
+>>>>>>> feature/admin
 ### application.properties ###
 application.properties
 application-dev.properties
@@ -23,6 +26,7 @@ application-production.properties
 ### log files ###
 log
 logback.xml
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 backend/.gradle/*
@@ -41,6 +45,8 @@ out/
 !**/src/test/**/out/
 
 
+=======
+>>>>>>> feature/admin
 
 >>>>>>> ed61bac40c76f87f869f59b93fc103a0639f1859
 # Created by https://www.toptal.com/developers/gitignore/api/macos,windows,intellij,vue,vuejs,netbeans
@@ -235,9 +241,20 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+<<<<<<< HEAD
 # End of https://www.toptal.com/developers/gitignore/api/macos,windows,intellij,vue,vuejs,netbeans
 backend/.gradle/7.1.1/executionHistory/executionHistory.lock
 backend/.gradle/7.1.1/fileHashes/fileHashes.lock
 backend/.gradle/buildOutputCleanup/buildOutputCleanup.lock
 backend/.gradle/7.1.1/fileHashes/fileHashes.bin
 backend/.gradle/7.1.1/executionHistory/executionHistory.bin
+=======
+HELP.md
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!/src/main//build/
+!/src/test//build/
+
+# End of https://www.toptal.com/developers/gitignore/api/macos,windows,intellij,vue,vuejs,netbeans
+>>>>>>> feature/admin

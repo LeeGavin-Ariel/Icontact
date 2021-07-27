@@ -120,12 +120,12 @@ public class UserController {
      * @return
      */
     @PutMapping("/profileImg/{userId}")
-    public ResponseEntity<Result> updateProfileImg(@RequestParam("file") MultipartFile file,
+    public ResponseEntity<Result> updateProfileImg(@RequestParam("profileimg") MultipartFile file,
                                                    @PathVariable String userId) throws IOException {
 
-        boolean flag = userService.updateProfileImg(file, userId);
-        if(flag){
-            return new ResponseEntity<Result>(new Result(true, "프로필 사진 수정 완료, userid : " + userId), HttpStatus.OK);
+        String flag = userService.updateProfileImg(file, userId);
+        if(!flag.equals("")){
+            return new ResponseEntity<Result>(new Result(true, flag), HttpStatus.OK);
         }
         return new ResponseEntity<Result>(new Result(false, "프로필 사진 수정 실패"), HttpStatus.INTERNAL_SERVER_ERROR);
     }

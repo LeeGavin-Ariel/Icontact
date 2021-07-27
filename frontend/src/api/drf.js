@@ -9,7 +9,7 @@ export default {
     searchClass:'/user/kinder/class',
     changepw:'/user/changepw',
     getuserinf:'/user/info',
-    changeProfileImg:'/user/profileimg',
+    changeProfileImg:'/user/profileImg',
     changePWAfterLogin:'/user/password'
   }
 }

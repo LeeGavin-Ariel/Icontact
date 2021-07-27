@@ -75,9 +75,10 @@ public class UserService {
     }
 
 
-    public boolean updateProfileImg(MultipartFile file, String userId) throws IOException {
+    public String updateProfileImg(MultipartFile file, String userId) throws IOException {
         // parent directory를 찾는다.
-        Path directory = Paths.get("./profileImg").toAbsolutePath().normalize();
+//        Path directory = Paths.get("./profileImg").toAbsolutePath().normalize();
+        Path directory = Paths.get("../frontend/src/assets/profileImg").toAbsolutePath().normalize();
         System.out.println(directory);
 
         // directory 해당 경로까지 디렉토리를 모두 만든다.
@@ -105,7 +106,7 @@ public class UserService {
 
         file.transferTo(targetPath);
 
-        return true;
+        return targetPath.toString();
     }
 
     public boolean updatePassword(ChangePasswordDto changePasswordDto) {

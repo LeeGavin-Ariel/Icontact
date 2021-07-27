@@ -41,7 +41,7 @@ public class Dosage {
     private String storage;
 
     @Column(length = 100)
-    private String unusual;
+    private String specialNote;
 
     @Column(insertable = false, updatable = false)
     private Date createDate;

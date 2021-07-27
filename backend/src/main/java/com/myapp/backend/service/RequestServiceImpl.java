@@ -59,6 +59,27 @@ public class RequestServiceImpl implements RequestService{
         return FAIL;
     }
 
+
+    @Override
+    public int dosageDelete(int id) {
+        try{
+            dosageRepository.deleteByDosageId(id);
+        } catch (EmptyResultDataAccessException e){
+            return FAIL;
+        }
+        return SUCCESS;
+    }
+
+    @Override
+    public int returnhomeDelete(int id) {
+        try{
+            returnhomeRepository.deleteByRhId(id);
+        } catch (EmptyResultDataAccessException e){
+            return FAIL;
+        }
+        return SUCCESS;
+    }
+
     @Override
     public int dosageUpdate(RequestDto requestDto) {
         Dosage dosage = dosageRepository.findByDosageId(requestDto.getId());

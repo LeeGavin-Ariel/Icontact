@@ -32,6 +32,7 @@ public class RequestController {
         }
     }
 
+    // 요청사항 글 수정
     @PutMapping("/request")
     public ResponseEntity requestUpdate(@RequestBody RequestDto requestDto){
         int result = 0;
@@ -47,6 +48,24 @@ public class RequestController {
             return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
+    }
+
+    // 요청사항 글 삭제
+    @DeleteMapping("/request")
+    public ResponseEntity requestDelete(@RequestParam(required = true) final int requestType,
+                                        @RequestParam(required = true) final int id){
+        int result = 0;
+        if(requestType == 1){ // 투약
+            result = requestService.dosageDelete(id);
+        } else { // 귀가
+            result = requestService.returnhomeDelete(id);
+        }
+
+        if(result == 1){ // 글 삭제 성공
+            return new ResponseEntity(HttpStatus.OK);
+        } else {
+            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 

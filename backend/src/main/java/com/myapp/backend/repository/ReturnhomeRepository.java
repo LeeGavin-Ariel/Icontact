@@ -7,4 +7,6 @@ public interface ReturnhomeRepository extends JpaRepository<Returnhome, Integer>
 
     Returnhome findByRhId(Integer rhId);
 
+    void deleteByRhId(Integer rhId);
+
 }

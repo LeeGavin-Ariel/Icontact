@@ -8,6 +8,8 @@ import com.myapp.backend.domain.entity.User;
 import com.myapp.backend.repository.KinderRepository;
 import com.myapp.backend.repository.LoginRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.myapp.backend.domain.user.Kid;
+import com.myapp.backend.domain.user.Teacher;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -80,7 +82,4 @@ public class LoginService {
 
         return loginResultDto;
     }
-
-
-
 }

@@ -10,7 +10,9 @@ import lombok.NoArgsConstructor;
 public class RequestDto {
     // 어느 요청인지를 입력받아야할듯
     private int requestType;
+    private int id;
     private String userId;
+
 
     // dosage(투약)
     private String symptom;

@@ -3,14 +3,14 @@ package com.myapp.backend.domain.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -19,6 +19,7 @@ import java.util.Date;
 @DynamicInsert
 @DynamicUpdate
 @Table(name="DOSAGE")
+@ToString(exclude = "user")
 public class Dosage {
 
     @Id
@@ -46,7 +47,8 @@ public class Dosage {
     @Column(insertable = false, updatable = false)
     private Date createDate;
 
-    @Column(length = 15)
+    @Column(length = 15, insertable = false, updatable = false)
     private String userId;
+
 
 }

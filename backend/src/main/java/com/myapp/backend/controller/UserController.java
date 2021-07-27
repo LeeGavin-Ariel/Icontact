@@ -119,7 +119,7 @@ public class UserController {
      * @param userId
      * @return
      */
-    @PutMapping("/{userId}/profileImg")
+    @PutMapping("/profileImg/{userId}")
     public ResponseEntity<Result> updateProfileImg(@RequestParam("file") MultipartFile file,
                                                    @PathVariable String userId) throws IOException {
 
@@ -135,7 +135,7 @@ public class UserController {
      * @param userId
      * @return
      */
-    @PutMapping("/{userId}/password")
+    @PutMapping("/password/{userId}")
     public ResponseEntity<Result> updatePassword(
             @RequestBody ChangePasswordDto changePasswordDto,
             @PathVariable String userId){

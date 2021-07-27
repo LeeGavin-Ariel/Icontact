@@ -240,7 +240,6 @@ export default {
       // for (let key of formData.values()) {
       // console.log(key);
       // }
-      console.log(this.profileImg)
       let result = await userApi.updateUserProfileImg({
           userId : this.userId,
           profileimg: formData
@@ -251,7 +250,6 @@ export default {
         // console.log(response.data) == url
         // response.data = result
         this.profileImg = result.message
-        console.log(this.profileImg)
         this.getuserprofile()
     },
     

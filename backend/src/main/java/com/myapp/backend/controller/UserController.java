@@ -1,16 +1,19 @@
 package com.myapp.backend.controller;
 
-import com.myapp.backend.domain.dto.join.JoinDto;
-import com.myapp.backend.service.JoinService;
-import org.springframework.beans.factory.annotation.Autowired;
 import com.myapp.backend.domain.dto.Result;
-import com.myapp.backend.domain.dto.mypage.ChangeUserRequestDto;
+import com.myapp.backend.domain.dto.join.JoinDto;
+import com.myapp.backend.domain.dto.mypage.ChangePasswordDto;
+import com.myapp.backend.domain.dto.mypage.MyPageResultDto;
 import com.myapp.backend.domain.entity.User;
+import com.myapp.backend.service.JoinService;
 import com.myapp.backend.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -44,17 +47,19 @@ public class UserController {
     }
 
     /**
+     * mypage 정보 반화
      * 유저 조회(userId로 조회한다)
      */
     @GetMapping("/info/{userId}")
-    public ResponseEntity<User> retrieveUser(@PathVariable String userId) {
-        User user = userService.retrieveUser(userId);
+    public ResponseEntity<MyPageResultDto> retrieveUser(@PathVariable String userId) {
+        MyPageResultDto findUser = userService.retrieveUser(userId);
 
-        if (user !=null) {
-            return new ResponseEntity<User>(user, HttpStatus.OK);
+        if (findUser !=null) {
+            return new ResponseEntity<MyPageResultDto>(findUser, HttpStatus.OK);
         }
-        return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<MyPageResultDto>(HttpStatus.NOT_FOUND);
     }
+
 
     /**
      * 모든 유저 조회
@@ -68,6 +73,7 @@ public class UserController {
         }
         return new ResponseEntity<List<User>>(HttpStatus.NOT_FOUND);
     }
+
 
     /**
      * 유저 계정 승인
@@ -109,24 +115,37 @@ public class UserController {
     }
 
     /**
-     * 유저 정보 수정
-     * @param User
+     * 유저 프로필사진 수정
      * @param userId
      * @return
      */
-    @PutMapping("/{userId}")
-    public ResponseEntity<Result> updateUser(@RequestBody ChangeUserRequestDto changeUserRequestDto,
-                                                @PathVariable String userId) {
-        System.out.println("user:"+changeUserRequestDto.toString());
-        boolean flag = userService.updateUser(changeUserRequestDto);
+    @PutMapping("/profileImg/{userId}")
+    public ResponseEntity<Result> updateProfileImg(@RequestParam("file") MultipartFile file,
+                                                   @PathVariable String userId) throws IOException {
+
+        boolean flag = userService.updateProfileImg(file, userId);
+        if(flag){
+            return new ResponseEntity<Result>(new Result(true, "프로필 사진 수정 완료, userid : " + userId), HttpStatus.OK);
+        }
+        return new ResponseEntity<Result>(new Result(false, "프로필 사진 수정 실패"), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    /**
+     * 유저 비밀번호 수정
+     * @param userId
+     * @return
+     */
+    @PutMapping("/password/{userId}")
+    public ResponseEntity<Result> updatePassword(
+            @RequestBody ChangePasswordDto changePasswordDto,
+            @PathVariable String userId){
+        boolean flag = userService.updatePassword(changePasswordDto);
 
         if (flag) {
             return new ResponseEntity<Result>(new Result(true, "정보 수정 완료, userid : " + userId), HttpStatus.OK);
         }
         return new ResponseEntity<Result>(new Result(false, "정보 수정에 실패하였습니다."), HttpStatus.INTERNAL_SERVER_ERROR);
-
     }
-
 }
 
 

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 //비밀 번호 변경 요청용
-public class ChangeUserRequestDto {
+public class ChangeProfileImgDto {
     private String userId;
     private String Password;
     private String profileImg;

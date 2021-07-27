@@ -1,7 +1,6 @@
 package com.myapp.backend.service;
 
 import com.myapp.backend.domain.dto.mypage.ChangePasswordDto;
-import com.myapp.backend.domain.dto.mypage.ChangeProfileImgDto;
 import com.myapp.backend.domain.dto.mypage.MyPageResultDto;
 import com.myapp.backend.domain.entity.User;
 import com.myapp.backend.repository.KinderRepository;

@@ -16,11 +16,11 @@ export const userApi = {
   },
 
   updateUserPassword: (data, headers) => {
-    return requestPut(SERVER.URL + SERVER.ROUTES.changePWAfterLogin, data, headers);
+    return requestPut(SERVER.URL + SERVER.ROUTES.changePWAfterLogin + `/${data.userId}`, data, headers);
   },
 
   updateUserProfileImg: (data, headers) => {
-    return requestPut(SERVER.URL + SERVER.ROUTES.changeProfileImg, data, headers);
+    return requestPut(SERVER.URL + SERVER.ROUTES.changeProfileImg + `/${data.userId}`, data.profileimg, headers);
   },
 
 }

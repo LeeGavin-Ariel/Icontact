@@ -1,51 +1,70 @@
 <template>
   <div>
-    <h1 class="text-center">마이페이지</h1>
-    <!-- <img :src="user.profileImg" alt="user-profile-image"> -->
-    <!-- <div>[{{user.className}}] 선생님</div> -->
-    <div class="text-center d-grid gap-2 col-6 mx-auto border border-5 rounded-3 border-warning">내 정보
-      <div>ID : {{ userId }}</div>
-      <div>이름 : {{ userName }}</div>
-      <div v-if="type===1">아이 이름 : {{ kidName }}</div>
-      <div>원 : {{ kinderName }}</div>
-      <div>반 : {{ className }}</div>
-    </div>
+    <div>
+      <h4 class="text-center">{{ userName }}님</h4>
+      <div class="d-flex justify-content-center m-4">
+      <v-avatar
+        color="orange"
+        size="200px"
+      >
+        <img  
+        :src="require('@/assets/profileImg/' + userId + '.jpg')"
+        alt="user-profile-image">
+      </v-avatar>  
+      </div>
+      <div class="text-center d-grid gap-2 col-6 mx-auto border border-5 rounded-3 border-warning">내 정보
+        <div>ID : {{ userId }}</div>
+        <div>이름 : {{ userName }}</div>
+        <div v-if="type===1">아이 이름 : {{ kidName }}</div>
+        <div>원 : {{ kinderName }}</div>
+        <div>반 : {{ className }}</div>
+      </div>
 
-    <!-- 
-      1. 사진변경 시 requestPost
-      2. 비밀번호 변경시 requestPost
-      3. 처음 프로필 내용 불러올 때 requestGet
-     -->
+      <!-- 
+        1. 사진변경 시 requestPost
+        2. 비밀번호 변경시 requestPost
+        3. 처음 프로필 내용 불러올 때 requestGet
+      -->
 
-    <!-- 의상이 코드로 확인할 것. -->
-    <!-- get user 잘 되는지 확인 (get방식 요청 날리는 방법이 맞는지.) -->
-    <!-- 프로필 수정 요청 어떤것 날려야하는지. 반환값은 뭔지(url일듯) -->
+      <!-- 의상이 코드로 확인할 것. -->
+      <!-- get user 잘 되는지 확인 (get방식 요청 날리는 방법이 맞는지.) -->
+      <!-- 프로필 수정 요청 어떤것 날려야하는지. 반환값은 뭔지(url일듯) -->
 
 
-    <!-- 사진 변경 모달 -->
-    <button type="button" class="btn btn-primary d-grid gap-2 col-6 mx-auto" data-bs-toggle="modal" data-bs-target="#profileModal">
-      사진변경
-    </button>
-    <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="profileModalLabel">사진 변경</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <input 
-            type="file" 
-            @change="onFileSelected"
-            accept="image/*">
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-            <button 
-            type="button"
-            class="btn btn-primary"
-            @click="pictureUpload"
-            >변경하기</button>
+      <!-- 사진 변경 모달 -->
+      <button type="button" class="btn btn-primary d-grid gap-2 col-6 mx-auto" data-bs-toggle="modal" data-bs-target="#profileModal">
+        사진변경
+      </button>
+      <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="profileModalLabel">사진 변경</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+              <form>
+                <input
+                type="file" 
+                name="photo" id="photo"
+                @change="onFileSelected"
+                accept="image/*">
+              </form>
+              
+
+              
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+              <button 
+              type="button"
+              class="btn btn-primary"
+              @click="pictureUpload"
+              data-bs-dismiss="modal"
+              :disabled="!changeImg"
+              >변경하기</button>
+            </div>
           </div>
         </div>
       </div>
@@ -107,8 +126,8 @@
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
             <button 
             @click="savePassword"
-            :disabled="!currentPassword && !changePassword && error.currentPassword && error.changePassword && !(changePassword==changePasswordConfirm)"
-            type="button" class="btn btn-primary" :data-bs-dismiss="{modal : isChanged}">변경하기</button>
+            :disabled="!currentPassword || !changePassword || error.currentPassword || error.changePassword || !(changePassword==changePasswordConfirm)"
+            type="button" class="btn btn-primary" data-bs-dismiss="modal">변경하기</button>
           </div>
         </div>
       </div>
@@ -184,6 +203,7 @@ export default {
 
     onFileSelected(event) {
       this.changeImg = event.target.files[0]
+      console.log(event.target.files)
       console.log(this.changeImg)
     },
 
@@ -194,7 +214,7 @@ export default {
           // 뭘 날려줘야하는지 의논해서 결정하기.
           // 일단 아이디, 비밀번호
           userId : this.userId,
-          changePassword : this.changePassword
+          password : this.changePassword
         },
         {
           "access-token": sessionStorage.getItem('access-token')
@@ -210,10 +230,10 @@ export default {
     async getuserprofile() {
       this.userId = this.$route.params.userId
       let accessToken = sessionStorage.getItem('access-token')
-      let refreshToken = sessionStorage.getItem('refresh-token')
+      // let refreshToken = sessionStorage.getItem('refresh-token')
       let result = await userApi.getUser(this.userId, {
           "access-token": accessToken,
-          "refresh-token": refreshToken,
+          // "refresh-token": refreshToken,
       });
       this.profileImg = result.profileImg
       this.className = result.className
@@ -227,15 +247,23 @@ export default {
     // userid, picture url 날리기
     async pictureUpload() {
       const formData = new FormData();
-      formData.append("profileImg", this.changeImg)
-      await userApi.updateUserProfileImg({
+      formData.append("profileimg", this.changeImg)
+      // for (let key of formData.values()) {
+      // console.log(key);
+      // }
+      let result = await userApi.updateUserProfileImg({
           userId : this.userId,
-          profileImg: formData
+          profileimg: formData
         }, {
-          "access-token": sessionStorage.getItem('access-token')
+          "access-token": sessionStorage.getItem('access-token'),
+          'Content-Type': 'multipart/form-data'
         });
+        // console.log(response.data) == url
+        // response.data = result
+        this.profileImg = result.message
         this.getuserprofile()
     },
+    
 
   },
   created() {

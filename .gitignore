@@ -258,3 +258,4 @@ build/
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,windows,intellij,vue,vuejs,netbeans
 >>>>>>> feature/admin
+backend/nootbook/*

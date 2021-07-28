@@ -156,5 +156,19 @@ public class RequestServiceImpl implements RequestService{
         return returnhomeList;
     }
 
+    @Override
+    public DosageResultDto dosageDetail(int id) {
+        DosageResultDto dosageResultDto = null;
+        dosageResultDto = dosageDao.dosageDetail(id);
+        return dosageResultDto;
+    }
+
+    @Override
+    public ReturnhomeResultDto returnhomeDetail(int id) {
+        ReturnhomeResultDto returnhomeResultDto = null;
+        returnhomeResultDto = returnhomeDao.returnhomeDetail(id);
+        return returnhomeResultDto;
+    }
+
 
 }

@@ -31,4 +31,8 @@ public interface RequestService {
     public List<DosageResultDto> parentDosageList(String userId);
 
     public List<ReturnhomeResultDto> parentReturnhomeList(String userId);
+
+    public DosageResultDto dosageDetail(int id);
+
+    public ReturnhomeResultDto returnhomeDetail(int id);
 }

@@ -11,4 +11,6 @@ public interface DosageDao {
 
     public List<DosageResultDto> parentDosageList(String userId);
 
+    public DosageResultDto dosageDetail(int id);
+
 }

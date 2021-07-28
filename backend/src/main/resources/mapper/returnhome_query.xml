@@ -18,4 +18,10 @@
         WHERE user.userId = returnhome.userId and returnhome.userId = #{userId}
         ORDER BY returnhome.createDate DESC
     </select>
+
+    <select id="returnhomeDetail" parameterType="int" resultType="com.myapp.backend.domain.dto.request.ReturnhomeResultDto">
+        SELECT returnhome.userId, kidName, rhId, rhDate, rhTime, guardian, guardianTel, emergency, emergencyTel, returnhome.createDate
+        FROM user, returnhome
+        WHERE user.userId = returnhome.userId and rhId = #{id}
+    </select>
 </mapper>

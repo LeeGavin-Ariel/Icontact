@@ -17,4 +17,10 @@
         WHERE user.userId = dosage.userId and dosage.userId = #{userId}
         ORDER BY dosage.createDate DESC
     </select>
+
+    <select id="dosageDetail" parameterType="int" resultType="com.myapp.backend.domain.dto.request.DosageResultDto">
+        SELECT dosage.userId, kidName, dosageId, symptom, medicineType, dosageVol, dosageCnt, dosageTime, storage, specialNote, dosage.createDate
+        FROM user, dosage
+        WHERE user.userId = dosage.userId and dosageId = #{id};
+    </select>
 </mapper>

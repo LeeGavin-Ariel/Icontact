@@ -96,6 +96,7 @@ public class RequestController {
         return new ResponseEntity<RequestResultDto>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    // 학부모 글 조회
     @GetMapping("/request/parent")
     public ResponseEntity<RequestResultDto> parentRequestList(@RequestParam(required = true) final int requestType,
                                                                @RequestParam(required = true) final String userId) {
@@ -118,6 +119,26 @@ public class RequestController {
         return new ResponseEntity<RequestResultDto>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    // 글 상세 조회
+    @GetMapping("/request")
+    public ResponseEntity<RequestResultDto> requestDetail(@RequestParam(required = true) final int requestType,
+                                                          @RequestParam(required = true) final int id){
+        RequestResultDto requestResultDto = new RequestResultDto();
+
+        if(requestType == 1){ // 투약
+            DosageResultDto dosageResultDto = requestService.dosageDetail(id);
+            if(dosageResultDto != null){
+                requestResultDto.setDosage(dosageResultDto);
+                return new ResponseEntity<RequestResultDto>(requestResultDto, HttpStatus.OK);
+            }
+        } else { // 귀가
+            ReturnhomeResultDto returnhomeResultDto = requestService.returnhomeDetail(id);
+            requestResultDto.setReturnhome(returnhomeResultDto);
+            return new ResponseEntity<RequestResultDto>(requestResultDto, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<RequestResultDto>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
 
 }

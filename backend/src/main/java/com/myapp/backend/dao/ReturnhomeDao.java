@@ -11,4 +11,7 @@ public interface ReturnhomeDao {
     public List<ReturnhomeResultDto> teacherReturnhomeList(String userId);
 
     public List<ReturnhomeResultDto> parentReturnhomeList(String userId);
+
+    public ReturnhomeResultDto returnhomeDetail(int id);
+
 }

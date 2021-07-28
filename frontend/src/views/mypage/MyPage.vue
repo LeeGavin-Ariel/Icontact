@@ -230,10 +230,10 @@ export default {
     async getuserprofile() {
       this.userId = this.$route.params.userId
       let accessToken = sessionStorage.getItem('access-token')
-      // let refreshToken = sessionStorage.getItem('refresh-token')
+      let refreshToken = sessionStorage.getItem('refresh-token')
       let result = await userApi.getUser(this.userId, {
           "access-token": accessToken,
-          // "refresh-token": refreshToken,
+          "refresh-token": refreshToken,
       });
       this.profileImg = result.profileImg
       this.className = result.className

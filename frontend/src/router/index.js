@@ -124,7 +124,7 @@ router.beforeEach((to, from, next) => {
   const authPages = [
     'MyPage', 
     'MainPage',
-    'Notebook',
+    // 'Notebook',
     'Chat',
     'Album',
     'Attendence',

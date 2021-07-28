@@ -44,7 +44,7 @@ public class LoginController {
 
             if(userAccept == 2){ // 승인완료
                 loginResultDto = loginService.setLoginResult(user);
-                TokenDto tokenDto = jwtService.create("userid", loginResultDto.getUserId(), "user");
+                TokenDto tokenDto = jwtService.create("userId", loginResultDto.getUserId(), "user");
 
                 response.setHeader("jwt-access-token", tokenDto.getAccessToken());
                 response.setHeader("jwt-refresh-token", tokenDto.getRefreshToken());

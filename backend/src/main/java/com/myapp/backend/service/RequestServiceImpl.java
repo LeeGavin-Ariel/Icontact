@@ -1,6 +1,10 @@
 package com.myapp.backend.service;
 
+import com.myapp.backend.dao.DosageDao;
+import com.myapp.backend.dao.ReturnhomeDao;
+import com.myapp.backend.domain.dto.request.DosageResultDto;
 import com.myapp.backend.domain.dto.request.RequestDto;
+import com.myapp.backend.domain.dto.request.ReturnhomeResultDto;
 import com.myapp.backend.domain.entity.Dosage;
 import com.myapp.backend.domain.entity.Returnhome;
 import com.myapp.backend.repository.DosageRepository;
@@ -9,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 
 
 @Service
@@ -23,9 +28,16 @@ public class RequestServiceImpl implements RequestService{
     @Autowired
     ReturnhomeRepository returnhomeRepository;
 
+    @Autowired
+    DosageDao dosageDao;
+
+    @Autowired
+    ReturnhomeDao returnhomeDao;
+
     @Override
     public int dosageInsert(RequestDto requestDto) {
         Dosage dosage = new Dosage();
+
         dosage.setUserId(requestDto.getUserId());
         dosage.setSymptom(requestDto.getSymptom());
         dosage.setMedicineType(requestDto.getMedicineType());
@@ -34,7 +46,7 @@ public class RequestServiceImpl implements RequestService{
         dosage.setDosageTime(requestDto.getDosageTime());
         dosage.setStorage(requestDto.getStorage());
         dosage.setSpecialNote(requestDto.getSpecialNote());
-
+        System.out.println(dosage.getUserId());
         if(dosageRepository.save(dosage) != null){
             return SUCCESS;
         }
@@ -115,5 +127,34 @@ public class RequestServiceImpl implements RequestService{
         }
         return FAIL;
     }
+
+    @Override
+    public List<DosageResultDto> teacherDosageList(String userId) {
+        List<DosageResultDto> dosageList = null;
+        dosageList = dosageDao.teacherDosageList(userId);
+        return dosageList;
+    }
+
+    @Override
+    public List<ReturnhomeResultDto> teacherReturnhomeList(String userId) {
+        List<ReturnhomeResultDto> returnhomeList = null;
+        returnhomeList = returnhomeDao.teacherReturnhomeList(userId);
+        return returnhomeList;
+    }
+
+    @Override
+    public List<DosageResultDto> parentDosageList(String userId) {
+        List<DosageResultDto> dosageList = null;
+        dosageList = dosageDao.parentDosageList(userId);
+        return dosageList;
+    }
+
+    @Override
+    public List<ReturnhomeResultDto> parentReturnhomeList(String userId) {
+        List<ReturnhomeResultDto> returnhomeList = null;
+        returnhomeList = returnhomeDao.parentReturnhomeList(userId);
+        return returnhomeList;
+    }
+
 
 }

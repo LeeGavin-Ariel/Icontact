@@ -41,10 +41,10 @@ public class Returnhome {
     @Column(length = 11)
     private String emergencyTel;
 
-    @Column(insertable = false, updatable = false)
+    @Column(updatable = false)
     private Date createDate;
 
-    @Column(length = 15)
+    @Column(length = 15, updatable = false)
     private String userId;
 
 }

@@ -1,5 +1,6 @@
 package com.myapp.backend.domain.entity;
 
+import com.myapp.backend.domain.dto.request.DosageResultDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,7 +20,6 @@ import java.util.List;
 @DynamicInsert
 @DynamicUpdate
 @Table(name="DOSAGE")
-@ToString(exclude = "user")
 public class Dosage {
 
     @Id
@@ -44,10 +44,10 @@ public class Dosage {
     @Column(length = 100)
     private String specialNote;
 
-    @Column(insertable = false, updatable = false)
+    @Column(updatable = false)
     private Date createDate;
 
-    @Column(length = 15, insertable = false, updatable = false)
+    @Column(length = 15, updatable = false)
     private String userId;
 
 

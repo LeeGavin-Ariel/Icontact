@@ -15,7 +15,7 @@ export const notebookApi = {
   
   // 알림장 상세 조회(완료)
   getNotebookDetail: (data, headers) => {
-    return requestGet(SERVER.URL + SERVER.ROUTES.notebook + `/${data.notebookId}`, headers);
+    return requestGet(SERVER.URL + SERVER.ROUTES.notebook + `/${data.notebookId}` +`?userId=${data.userId}`, headers);
   },
 
   // 알림장 수정

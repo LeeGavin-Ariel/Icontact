@@ -46,9 +46,10 @@ public class NotebookServiceImpl implements NotebookService{
             notebookRepository.save(notebook);
             if(img!=null) {
                 //이미지 존재시 저장
-                
+
+                String folderPath="../frontend/src/assets/nootbook/";
                 //경로 재고민 필요
-                Path dir = Paths.get("./nootbook").toAbsolutePath().normalize();
+                Path dir = Paths.get(folderPath).toAbsolutePath().normalize();
 
                 Files.createDirectories(dir);
 
@@ -62,8 +63,7 @@ public class NotebookServiceImpl implements NotebookService{
 
                 img.transferTo(targetPath);
 
-//                notebook.setNoteImgUrl(targetPath.toString());
-                notebook.setNoteImgUrl("./nootbook/"+fileName);
+                notebook.setNoteImgUrl(folderPath+fileName);
 
                 notebookRepository.save(notebook);
             }
@@ -174,8 +174,9 @@ public class NotebookServiceImpl implements NotebookService{
             }
             
             if(img!=null) {
+                String folderPath="../frontend/src/assets/nootbook/";
                 //이미지 새로 저장
-                Path dir = Paths.get("./nootbook").toAbsolutePath().normalize();
+                Path dir = Paths.get(folderPath).toAbsolutePath().normalize();
 
                 Files.createDirectories(dir);
 
@@ -189,8 +190,7 @@ public class NotebookServiceImpl implements NotebookService{
 
                 img.transferTo(targetPath);
 
-//                notebook.setNoteImgUrl(targetPath.toString());
-                notebook.setNoteImgUrl("./nootbook/"+fileName);
+                notebook.setNoteImgUrl(folderPath+fileName);
             }
 
             notebookRepository.save(notebook);

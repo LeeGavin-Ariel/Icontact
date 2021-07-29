@@ -14,9 +14,11 @@ public class DosageResultDto {
     private String kidName;
     private int dosageId;
     private String symptom;
+    private String medicineType;
     private int dosageVol;
     private int dosageCnt;
     private String dosageTime;
+    private String storage;
     private String specialNote;
     private Date createDate;
 }

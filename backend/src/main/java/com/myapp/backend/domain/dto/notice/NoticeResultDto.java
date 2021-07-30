@@ -4,22 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class NoticeDto {
-    private int noticeType;
-    private int id;
+public class NoticeResultDto {
     private String userId;
-    private String classCode;
-
-    // 공지, 일정 공통
+    private String userName;
+    private int noticeId;
     private String title;
     private String content;
-
-    // 식단
-    private String amSnack;
-    private String lunch;
-    private String pmSnack;
-
+    private String noticeImgUrl;
+    private String createDate;
 }

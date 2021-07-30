@@ -1,6 +1,10 @@
 package com.myapp.backend.service;
 
+import com.myapp.backend.dao.NoticeDao;
+import com.myapp.backend.domain.dto.notice.MenuResultDto;
 import com.myapp.backend.domain.dto.notice.NoticeDto;
+import com.myapp.backend.domain.dto.notice.NoticeResultDto;
+import com.myapp.backend.domain.dto.notice.ScheduleResultDto;
 import com.myapp.backend.domain.entity.Menu;
 import com.myapp.backend.domain.entity.Notice;
 import com.myapp.backend.domain.entity.Schedule;
@@ -11,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import java.util.List;
 
 
 @Service
@@ -28,6 +34,9 @@ public class NoticeServiceImpl implements NoticeService {
     @Autowired
     MenuRepository menuRepository;
 
+    @Autowired
+    NoticeDao noticeDao;
+
     // 일반 공지글 등록
     @Override
     public int noticeInsert(NoticeDto noticeDto, MultipartHttpServletRequest request) {
@@ -36,6 +45,7 @@ public class NoticeServiceImpl implements NoticeService {
         notice.setTitle(noticeDto.getTitle());
         notice.setContent(noticeDto.getContent());
         notice.setUserId(noticeDto.getUserId());
+        notice.setClassCode(noticeDto.getClassCode());
 
         // 사진 업로드 로직 필요
 
@@ -55,6 +65,7 @@ public class NoticeServiceImpl implements NoticeService {
         schedule.setTitle(noticeDto.getTitle());
         schedule.setContent(noticeDto.getContent());
         schedule.setUserId(noticeDto.getUserId());
+        schedule.setClassCode(noticeDto.getClassCode());
 
         // 사진 업로드 로직 필요
 
@@ -74,6 +85,7 @@ public class NoticeServiceImpl implements NoticeService {
         menu.setLunch(noticeDto.getLunch());
         menu.setPmSnack(noticeDto.getPmSnack());
         menu.setUserId(noticeDto.getUserId());
+        menu.setClassCode(noticeDto.getClassCode());
         
         // 사진 업로드 로직 필요
 
@@ -171,5 +183,20 @@ public class NoticeServiceImpl implements NoticeService {
             return FAIL;
         }
         return SUCCESS;
+    }
+
+    @Override
+    public List<NoticeResultDto> noticeList(String userId) {
+        return noticeDao.noticeList(userId);
+    }
+
+    @Override
+    public List<ScheduleResultDto> scheduleList(String userId) {
+        return noticeDao.scheduleList(userId);
+    }
+
+    @Override
+    public List<MenuResultDto> menuList(String userId) {
+        return noticeDao.menuList(userId);
     }
 }

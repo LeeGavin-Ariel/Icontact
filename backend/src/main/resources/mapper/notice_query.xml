@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myapp.backend.dao.NoticeDao">
+
+    <select id="noticeList" parameterType="String" resultType="com.myapp.backend.domain.dto.notice.NoticeResultDto">
+        SELECT notice.userId, user.userName, noticeId, title, content, notice.createDate, noticeImgUrl
+        FROM notice, (select classCode from user where userId = #{userId}) as tmp, user
+        WHERE notice.classCode = tmp.classCode
+          and user.userId = notice.userId
+        ORDER BY createDate DESC
+    </select>
+
+    <select id="scheduleList" parameterType="String" resultType="com.myapp.backend.domain.dto.notice.ScheduleResultDto">
+        SELECT schedule.userId, user.userName, scheduleId, title, content, schedule.createDate, scheduleImgUrl
+        FROM schedule, (select classCode from user where userId = #{userId}) as tmp, user
+        WHERE schedule.classCode = tmp.classCode
+          and user.userId = schedule.userId
+        ORDER BY createDate DESC
+    </select>
+
+    <select id="menuList" parameterType="String" resultType="com.myapp.backend.domain.dto.notice.MenuResultDto">
+        SELECT menu.userId, user.userName, menuId, amSnack, amSnackImgUrl, lunch, lunchImgUrl, pmSnack, pmSnackImgUrl, menu.createDate
+        FROM menu, (select classCode from user where userId = #{userId}) as tmp, user
+        WHERE menu.classCode = tmp.classCode
+          and user.userId = menu.userId
+        ORDER BY createDate DESC
+    </select>
+
+</mapper>

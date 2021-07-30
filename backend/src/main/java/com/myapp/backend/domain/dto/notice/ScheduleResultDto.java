@@ -7,19 +7,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class NoticeDto {
-    private int noticeType;
-    private int id;
+public class ScheduleResultDto {
     private String userId;
-    private String classCode;
-
-    // 공지, 일정 공통
+    private String userName;
+    private int scheduleId;
     private String title;
     private String content;
-
-    // 식단
-    private String amSnack;
-    private String lunch;
-    private String pmSnack;
-
+    private String scheduleImgUrl;
+    private String createDate;
 }

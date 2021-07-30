@@ -41,7 +41,7 @@ export default {
   name: "NotebookList",
   data () {
     return {
-      identity:0,
+      identity: 0,
       identity_str: '',
       userId: '',
       notebookList: [],
@@ -55,7 +55,8 @@ export default {
       this.notebookId = Id
       // console.log(this.notebookId)
       this.$emit('selected-notebook', this.notebookId)
-
+      this.$store.state.notebookcreate = 0
+      this.$store.state.notebookupdate = 0
     },
 
     async getNotebook() {
@@ -74,6 +75,7 @@ export default {
         // 최상단 알림장 디테일 페이지 디폴트 값으로 설정
         this.notebookId = this.notebookList[0].noteId
         this.$emit('selected-notebook', this.notebookId)
+        
       }
     }
   },

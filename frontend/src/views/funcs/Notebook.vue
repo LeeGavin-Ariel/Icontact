@@ -22,7 +22,7 @@
   <!-- 디테일 조회 -->
   <v-col>
     <NotebookDetail
-    :selectedNotebookId="notebookId"
+    :selectedNotebook="notebookDetail"
     />
   </v-col>
   </div>
@@ -50,7 +50,6 @@ export default {
 
       // 선택된 글의 아이디 값
       notebookId: 0,
-
       // 상세 알림장을 저장할 변수
       notebookDetail: null,
 
@@ -73,8 +72,20 @@ export default {
   
   methods: {
 
-    setId(Id) {
+    async setId(Id) {
       this.notebookId = Id
+      let accessToken = sessionStorage.getItem('access-token')
+      let refreshToken = sessionStorage.getItem('refresh-token')
+      let data = {
+        Id: this.notebookId,
+      }
+      let result = await notebookApi.getNotebookDetail(data, {
+        "access-token": accessToken,
+        "refresh-token": refreshToken,
+      });
+      // result 값 확인 후에 저장하기
+      console.log(77777)
+      this.notebookDetail = result
     },
 
     // 7/29 할일 : 디테일값 notebook.vue에서 불러와서, NotebookDetail에 뿌려주기.
@@ -82,8 +93,7 @@ export default {
       let accessToken = sessionStorage.getItem('access-token')
       let refreshToken = sessionStorage.getItem('refresh-token')
       let data = {
-        Id: this.selectedNotebookId,
-        userId: this.userId
+        Id: this.notebookId,
       }
       let result = await notebookApi.getNotebookDetail(data, {
         "access-token": accessToken,
@@ -113,38 +123,7 @@ export default {
     },
 
     // [알림장 생성] 버튼 클릭 시 요청
-    async createNotebook() {
-
-      // 
-      if (this.creating === 0) {
-        this.title = ''
-        this.content = ''
-        this.notebookImg = ''
-        this.writerId = ''
-        this.targetId = ''
-      }
-      else if (this.creating === 1) {
-        const formData = new FormData();
-        formData.append("profileimg", this.notebookImg)      
-        let accessToken = sessionStorage.getItem('access-token')
-        let refreshToken = sessionStorage.getItem('refresh-token')
-        let data = {
-          title: this.title,
-          content: this.content,
-          notebookImg: formData,
-          writerId: this.writerId,
-          targetId: this.targetId,
-        }
-        let result = await notebookApi.createNotebook(data, {
-          "access-token": accessToken,
-          "refresh-token": refreshToken,
-          'Content-Type': 'multipart/form-data'
-        });
-        // 뭘로 날라오는 지 확인
-        this.notebookImg = result.message
-        window.location.reload()
-      }
-    },
+   
 
     // [알림장 수정]
     updateNotebook(){
@@ -165,8 +144,7 @@ export default {
       console.log(result)
       this.getNotebook()
     },
-
-  }
+  },
 }
 </script>
 

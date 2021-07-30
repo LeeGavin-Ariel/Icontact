@@ -212,7 +212,7 @@ export default {
       
       console.log(result)
       // this.getNotebook()
-      // window.location.reload()
+      window.location.reload()
     },
 
 

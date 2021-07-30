@@ -190,7 +190,7 @@ export default {
         console.log(result)
         // this.notebookImg = result.message
         this.updating = 0
-        // window.location.reload()
+        window.location.reload()
 
 
       }

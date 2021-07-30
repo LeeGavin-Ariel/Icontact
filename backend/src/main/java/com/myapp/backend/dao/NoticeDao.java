@@ -14,4 +14,10 @@ public interface NoticeDao {
     public List<ScheduleResultDto> scheduleList(String userId);
 
     public List<MenuResultDto> menuList(String userId);
+
+    public NoticeResultDto noticeDetail(int id);
+
+    public ScheduleResultDto scheduleDetail(int id);
+
+    public MenuResultDto menuDetail(int id);
 }

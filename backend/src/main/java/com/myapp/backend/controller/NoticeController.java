@@ -40,7 +40,7 @@ public class NoticeController {
     }
 
     // 공지글 수정
-    @PostMapping("notice/{id}")
+    @PostMapping("notice/{noticeType}")
     public ResponseEntity noticeUpdate(NoticeDto noticeDto, MultipartHttpServletRequest request){
         int result = 0;
         int noticeType = noticeDto.getNoticeType();
@@ -81,27 +81,55 @@ public class NoticeController {
         }
     }
 
+    // 공지글 목록 조회
     @GetMapping("/notice")
     public ResponseEntity<CommonNoticeResultDto> noticeList(@RequestParam(required = true) final int noticeType,
                                                              @RequestParam(required = true) final String userId){
         CommonNoticeResultDto commonNoticeResultDto = new CommonNoticeResultDto();
-        if(noticeType == 1){
+        if(noticeType == 1){ // 일반 공지
             List<NoticeResultDto> noticeList = noticeService.noticeList(userId);
             if(noticeList != null){
                 commonNoticeResultDto.setNoticeList(noticeList);
                 return new ResponseEntity<CommonNoticeResultDto>(commonNoticeResultDto, HttpStatus.OK);
 
             }
-        } else if (noticeType == 2){
+        } else if (noticeType == 2){ // 일정
             List<ScheduleResultDto> scheduleList = noticeService.scheduleList(userId);
             if(scheduleList != null){
                 commonNoticeResultDto.setScheduleList(scheduleList);
                 return new ResponseEntity<CommonNoticeResultDto>(commonNoticeResultDto, HttpStatus.OK);
             }
-        } else {
+        } else { // 식단
             List<MenuResultDto> menuList = noticeService.menuList(userId);
             if(menuList != null){
                 commonNoticeResultDto.setMenuList(menuList);
+                return new ResponseEntity<CommonNoticeResultDto>(commonNoticeResultDto, HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<CommonNoticeResultDto>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    // 공지글 상세 조회
+    @GetMapping("/notice/{noticeType}")
+    public ResponseEntity<CommonNoticeResultDto> noticeDetail(@PathVariable (required = true) final int noticeType,
+                                                              @RequestParam(required = true) int id){
+        CommonNoticeResultDto commonNoticeResultDto = new CommonNoticeResultDto();
+        if(noticeType == 1){
+            NoticeResultDto notice = noticeService.noticeDetail(id);
+            if(notice != null){
+                commonNoticeResultDto.setNotice(notice);
+                return new ResponseEntity<CommonNoticeResultDto>(commonNoticeResultDto, HttpStatus.OK);
+            }
+        } else if (noticeType == 2){
+            ScheduleResultDto schedule = noticeService.scheduleDetail(id);
+            if(schedule != null){
+                commonNoticeResultDto.setSchedule(schedule);
+                return new ResponseEntity<CommonNoticeResultDto>(commonNoticeResultDto, HttpStatus.OK);
+            }
+        } else {
+            MenuResultDto menu = noticeService.menuDetail(id);
+            if(menu != null){
+                commonNoticeResultDto.setMenu(menu);
                 return new ResponseEntity<CommonNoticeResultDto>(commonNoticeResultDto, HttpStatus.OK);
             }
         }

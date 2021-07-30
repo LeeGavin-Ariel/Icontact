@@ -199,4 +199,19 @@ public class NoticeServiceImpl implements NoticeService {
     public List<MenuResultDto> menuList(String userId) {
         return noticeDao.menuList(userId);
     }
+
+    @Override
+    public NoticeResultDto noticeDetail(int id) {
+        return noticeDao.noticeDetail(id);
+    }
+
+    @Override
+    public ScheduleResultDto scheduleDetail(int id) {
+        return noticeDao.scheduleDetail(id);
+    }
+
+    @Override
+    public MenuResultDto menuDetail(int id) {
+        return noticeDao.menuDetail(id);
+    }
 }

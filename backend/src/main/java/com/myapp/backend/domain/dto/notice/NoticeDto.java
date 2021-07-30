@@ -12,6 +12,7 @@ public class NoticeDto {
     private int id;
     private String userId;
     private String classCode;
+    private int pageNum;
 
     // 공지, 일정 공통
     private String title;

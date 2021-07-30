@@ -97,7 +97,7 @@ public class RequestController {
     }
 
     // 학부모 글 조회
-    @GetMapping("/request/parent")
+    @GetMapping("/request/parents")
     public ResponseEntity<RequestResultDto> parentRequestList(@RequestParam(required = true) final int requestType,
                                                                @RequestParam(required = true) final String userId) {
         RequestResultDto requestResultDto = new RequestResultDto();

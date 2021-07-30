@@ -500,7 +500,7 @@ export default {
     // 페이지 들어오자마자 getRequest 실행 (default 투약요청)
     this.identity = this.$store.state.user.type
     if (this.identity === 1) {
-      this.identity_str = 'parent'
+      this.identity_str = 'parents'
     }
     else if (this.identity === 2) {
       this.identity_str = 'teacher'

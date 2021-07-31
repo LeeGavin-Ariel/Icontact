@@ -19,5 +19,6 @@ public class NoteBookListDto {
     String writerName;
     String targetId;
     String targetName;
+    Date createDate;
 
 }

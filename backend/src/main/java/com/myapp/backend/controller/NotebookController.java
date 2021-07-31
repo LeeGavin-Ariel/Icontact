@@ -30,14 +30,14 @@ public class NotebookController {
 
     //학부모 ID(전달자)로 알림장 조회
     @GetMapping("/parents")
-    public ResponseEntity<List<NoteBookListDto>> getParentsNotebook(@RequestParam String userId){
-        return notebookService.getListNotebook(userId,1);
+    public ResponseEntity<List<NoteBookListDto>> getParentsNotebook(@RequestParam int pageNum, @RequestParam String userId){
+        return notebookService.getListNotebook(pageNum, userId,1);
     }
 
     //선생님 ID(작성자)로 알림장 조회
     @GetMapping("/teacher")
-    public ResponseEntity<List<NoteBookListDto>> getTeacherNotebook(@RequestParam String userId){
-        return notebookService.getListNotebook(userId,2);
+    public ResponseEntity<List<NoteBookListDto>> getTeacherNotebook(@RequestParam int pageNum, @RequestParam String userId){
+        return notebookService.getListNotebook(pageNum, userId,2);
     }
 
     //선생님 ID로 같은반 학부모들 조회

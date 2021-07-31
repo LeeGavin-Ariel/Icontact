@@ -15,7 +15,7 @@ public interface NotebookService {
 
     public ResponseEntity createNotebook(MultipartFile img, NoteBookCreateDto noteBookDto);
 
-    public ResponseEntity<List<NoteBookListDto>> getListNotebook(String userId, int type);
+    public ResponseEntity<List<NoteBookListDto>> getListNotebook(int pageNum, String userId, int type);
 
 
     public ResponseEntity<NoteBookDetailDto> getDetailNotebook(int noteId);

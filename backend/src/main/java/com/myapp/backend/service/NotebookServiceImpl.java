@@ -8,6 +8,8 @@ import com.myapp.backend.domain.entity.User;
 import com.myapp.backend.repository.NotebookRepository;
 import com.myapp.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -76,7 +78,7 @@ public class NotebookServiceImpl implements NotebookService{
     }
 
     @Override
-    public ResponseEntity<List<NoteBookListDto>> getListNotebook(String userId, int type){
+    public ResponseEntity<List<NoteBookListDto>> getListNotebook(int pageNum, String userId, int type){
 
         try {
 
@@ -84,8 +86,11 @@ public class NotebookServiceImpl implements NotebookService{
 
             //type==1이면 부모입장, 수신자 고정/작성자 변경
             //type==2면 선생입장, 작성자 고정/수신자 변경
-            if(type==1)notebooks=notebookRepository.findByTargetId(userId);
-            else notebooks=notebookRepository.findByWriterId(userId);
+            int pageCnt=4;
+            Pageable page = PageRequest.of(pageNum, pageCnt);
+
+            if(type==1)notebooks=notebookRepository.findByTargetIdOrderByNoteIdDesc(userId, page);
+            else notebooks=notebookRepository.findByWriterIdOrderByNoteIdDesc(userId, page);
 
             List<NoteBookListDto> result = new ArrayList<>();
             User target = null, writer = null;
@@ -102,7 +107,8 @@ public class NotebookServiceImpl implements NotebookService{
                         n.getWriterId(),
                         writer.getUserName(),
                         n.getTargetId(),
-                        target.getUserName());
+                        target.getUserName(),
+                        n.getCreateDate());
 
 
 //                dto.setNoteId(n.getNoteId());
@@ -233,7 +239,6 @@ public class NotebookServiceImpl implements NotebookService{
                 temp.setUserId(user.getUserId());
                 temp.setUserName(user.getUserName());
                 temp.setKidName(user.getKidName());
-                
                 parents.add(temp);
             }
             return new ResponseEntity(parents, HttpStatus.OK);

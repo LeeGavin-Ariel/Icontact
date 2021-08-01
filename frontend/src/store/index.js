@@ -2,12 +2,20 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import router from '@/router/index.js'
 import userApi from '@/api/user.js';
+import createPersistedState from "vuex-persistedstate"
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+  plugins: [
+        createPersistedState(),
+      ],
   state: {
     user: null,
     
+    notebookcreate:0,
+    notebookupdate:0,
+
+
     // 회원가입 공통화면 데이터
     sendUserId:'',
     sendPassword:'',
@@ -95,6 +103,4 @@ export default new Vuex.Store({
     
 
   },
-  modules: {
-  }
 })

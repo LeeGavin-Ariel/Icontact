@@ -1,145 +1,144 @@
 <template>
-  <div style="display: flex">
+  <div style="display: flex; height:100vh;" >
 
     
   <!-- 사이드바 -->
-    <v-card height="100vh">
-    <v-navigation-drawer
-      permanent
-    >
-      <v-list dense>
-        <v-list-item
-          v-for="item in items"
-          :key="item.title"
-        >
-          <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-item-icon>
-
-          <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
+  <v-card>
+    <Sidebar/>
   </v-card>
   
 
   <!-- 전체 조회 -->
   <v-card
     class="mx-auto"
-    max-width="500"
+    width="400"
+    style="overflow-y:scroll;"
   >
-    <v-list two-line>
-      <v-list-item-group
-        v-model="selected"
-        active-class="pink--text"
-        multiple
-      >
-        <template v-for="(note, index) in notes">
-          <v-list-item :key="note.title">
-            <template v-slot:default="{ active }">
-              <v-list-item-content>
-                <v-list-item-title v-text="note.title"></v-list-item-title>
-
-                <v-list-item-subtitle
-                  class="text--primary"
-                  v-text="note.headline"
-                ></v-list-item-subtitle>
-
-                <v-list-item-subtitle v-text="note.subtitle"></v-list-item-subtitle>
-              </v-list-item-content>
-
-              <v-list-item-action>
-                <v-list-item-action-text v-text="note.action"></v-list-item-action-text>
-
-                <v-icon
-                  v-if="!active"
-                  color="grey lighten-1"
-                >
-                  mdi-star-outline
-                </v-icon>
-
-                <v-icon
-                  v-else
-                  color="yellow darken-3"
-                >
-                  mdi-star
-                </v-icon>
-              </v-list-item-action>
-            </template>
-          </v-list-item>
-
-          <v-divider
-            v-if="index < notes.length - 1"
-            :key="index"
-          ></v-divider>
-        </template>
-      </v-list-item-group>
-    </v-list>
+    <NotebookList
+    @selected-notebook="setId"
+    />
+    
   </v-card>
 
-  <v-col>
-    <v-sheet
-      min-height="100vh"
-      rounded="lg"
-    >
-      h2h2h2h
-    </v-sheet>
+  <!-- 디테일 조회 -->
+  <v-col
+  style="overflow-y:scroll;"
+  >
+    <NotebookDetail
+    :selectedNotebook="notebookDetail"
+    />
   </v-col>
-
-  
   </div>
 </template>
 
 <script>
+import notebookApi from '@/api/notebook.js';
+import Sidebar from '@/components/common/Sidebar.vue';
+import NotebookList from '@/components/Notebook/NotebookList.vue';
+import NotebookDetail from '@/components/Notebook/NotebookDetail.vue';
 export default {
   name: "Notebook",
+  components:{
+    Sidebar,
+    NotebookList,
+    NotebookDetail,
+  },
+
   data () {
     return {
-      items: [
-        { title: 'Home', icon: 'mdi-home-city' },
-        { title: 'My Account', icon: 'mdi-account' },
-        { title: 'Users', icon: 'mdi-account-group-outline' },
-      ],
-      selected: [2],
-      notes: [
-        {
-          action: '15 min',
-          headline: 'Brunch this weekend?',
-          subtitle: `I'll be in your neighborhood doing errands this weekend. Do you want to hang out?`,
-          title: 'Ali Connors',
-        },
-        {
-          action: '2 hr',
-          headline: 'Summer BBQ',
-          subtitle: `Wish I could come, but I'm out of town this weekend.`,
-          title: 'me, Scrott, Jennifer',
-        },
-        {
-          action: '6 hr',
-          headline: 'Oui oui',
-          subtitle: 'Do you have Paris recommendations? Have you ever been?',
-          title: 'Sandra Adams',
-        },
-        {
-          action: '12 hr',
-          headline: 'Birthday gift',
-          subtitle: 'Have any ideas about what we should get Heidi for her birthday?',
-          title: 'Trevor Hansen',
-        },
-        {
-          action: '18hr',
-          headline: 'Recipe to try',
-          subtitle: 'We should eat this: Grate, Squash, Corn, and tomatillo Tacos.',
-          title: 'Britta Holt',
-        },
-      ],
+      // 아이와의 관계
+      identity: 0,
+      // url을 위한 문자로 표현한 아이와의 관계
+      identity_str: '',
+
+      // 선택된 글의 아이디 값
+      notebookId: 0,
+      // 상세 알림장을 저장할 변수
+      notebookDetail: null,
+
+      // 선택 / 선택 아님 상태 저장
+      selected: 1,
+
+
+      // 알림장 생성 시 넘겨줄 변수
+      title: '',
+      content: '',
+      notebookImg: '',
+      writerId: '',
+      targetId: '',
+      
+      // 1 작성 중 0 작성 중 아님
+      creating: 0,      
+      
     }
-  }
+  },
+  
+  methods: {
+    async setId(Id) {
+      this.notebookId = Id
+      this.getNotebookDetail()
+    },
+
+    // 7/29 할일 : 디테일값 notebook.vue에서 불러와서, NotebookDetail에 뿌려주기.
+    async getNotebookDetail() {
+      let accessToken = sessionStorage.getItem('access-token')
+      let refreshToken = sessionStorage.getItem('refresh-token')
+      let data = {
+        Id: this.notebookId,
+      }
+      let result = await notebookApi.getNotebookDetail(data, {
+        "access-token": accessToken,
+        "refresh-token": refreshToken,
+      });
+      // result 값 확인 후에 저장하기
+      console.log(result)
+      this.notebookDetail = result
+    },
+
+
+    
+
+    // 연필 클릭 시 작성 폼
+    onNotebookForm() {
+      this.creating = 1
+    },
+
+    // 작성 취소 시 조회 폼
+    offNotebookForm() {
+      this.creating = 0
+    },
+
+    // [알림장 생성] 사진 선택
+    selectImg(event) {
+      this.notebookImg = event.target.files[0]
+    },
+
+    // [알림장 생성] 버튼 클릭 시 요청
+   
+
+    // [알림장 수정]
+    updateNotebook(){
+
+    },
+
+    // [알림장 삭제]
+    async deleteNotebook() {
+      let accessToken = sessionStorage.getItem('access-token')
+      let refreshToken = sessionStorage.getItem('refresh-token')
+      let data = {
+      id: this.notebookDetail.notebookId
+      }
+      let result = await notebookApi.deleteRequest(data, {
+        "access-token": accessToken,
+        "refresh-token": refreshToken,
+      });
+      console.log(result)
+      this.getNotebook()
+    },
+  },
 }
 </script>
 
-<style>
+<style scoped>
 
 </style>

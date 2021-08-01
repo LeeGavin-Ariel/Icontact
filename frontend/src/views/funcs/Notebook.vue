@@ -1,9 +1,9 @@
 <template>
-  <div style="display: flex">
+  <div style="display: flex; height:100vh;" >
 
     
   <!-- 사이드바 -->
-  <v-card height="100vh">
+  <v-card>
     <Sidebar/>
   </v-card>
   
@@ -12,6 +12,7 @@
   <v-card
     class="mx-auto"
     width="400"
+    style="overflow-y:scroll;"
   >
     <NotebookList
     @selected-notebook="setId"
@@ -20,7 +21,9 @@
   </v-card>
 
   <!-- 디테일 조회 -->
-  <v-col>
+  <v-col
+  style="overflow-y:scroll;"
+  >
     <NotebookDetail
     :selectedNotebook="notebookDetail"
     />
@@ -71,21 +74,9 @@ export default {
   },
   
   methods: {
-
     async setId(Id) {
       this.notebookId = Id
-      let accessToken = sessionStorage.getItem('access-token')
-      let refreshToken = sessionStorage.getItem('refresh-token')
-      let data = {
-        Id: this.notebookId,
-      }
-      let result = await notebookApi.getNotebookDetail(data, {
-        "access-token": accessToken,
-        "refresh-token": refreshToken,
-      });
-      // result 값 확인 후에 저장하기
-      console.log(77777)
-      this.notebookDetail = result
+      this.getNotebookDetail()
     },
 
     // 7/29 할일 : 디테일값 notebook.vue에서 불러와서, NotebookDetail에 뿌려주기.

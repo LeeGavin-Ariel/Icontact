@@ -10,7 +10,7 @@ export const notebookApi = {
   
   // 알림장 전체 조회(완료)
   getNotebook: (data, headers) => {
-    return requestGet(SERVER.URL + SERVER.ROUTES.notebook + `/${data.type}` +`?userId=${data.userId}`, headers);
+    return requestGet(SERVER.URL + SERVER.ROUTES.notebook + `/${data.type}` +`?userId=${data.userId}` + `&pageNum=${data.pageNum}`, headers);
   },
   
   // 알림장 상세 조회(완료)

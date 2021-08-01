@@ -3,6 +3,7 @@ package com.myapp.backend.service;
 
 import com.myapp.backend.domain.dto.request.DosageResultDto;
 import com.myapp.backend.domain.dto.request.RequestDto;
+import com.myapp.backend.domain.dto.request.RequestParamDto;
 import com.myapp.backend.domain.dto.request.ReturnhomeResultDto;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,13 +25,13 @@ public interface RequestService {
     @Transactional
     public int returnhomeDelete(int id);
 
-    public List<DosageResultDto> teacherDosageList(String userId);
+    public List<DosageResultDto> teacherDosageList(RequestParamDto requestParamDto);
 
-    public List<ReturnhomeResultDto> teacherReturnhomeList(String userId);
+    public List<ReturnhomeResultDto> teacherReturnhomeList(RequestParamDto requestParamDto);
 
-    public List<DosageResultDto> parentDosageList(String userId);
+    public List<DosageResultDto> parentDosageList(RequestParamDto requestParamDto);
 
-    public List<ReturnhomeResultDto> parentReturnhomeList(String userId);
+    public List<ReturnhomeResultDto> parentReturnhomeList(RequestParamDto requestParamDto);
 
     public DosageResultDto dosageDetail(int id);
 

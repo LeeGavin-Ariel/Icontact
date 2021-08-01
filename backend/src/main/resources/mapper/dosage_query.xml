@@ -3,19 +3,21 @@
 
 <mapper namespace="com.myapp.backend.dao.DosageDao">
 
-    <select id="teacherDosageList" parameterType="String" resultType="com.myapp.backend.domain.dto.request.DosageResultDto">
+    <select id="teacherDosageList" parameterType="map" resultType="com.myapp.backend.domain.dto.request.DosageResultDto">
         SELECT tmp.userId, kidName, dosageId, symptom, medicineType, dosageVol, dosageCnt, dosageTime, storage, specialNote, createDate
         FROM (select userId, kidName from user where classCode = (select classCode from user where userId = #{userId})
             and type = 1) as tmp, dosage
         WHERE tmp.userId = dosage.userId
         ORDER BY createDate DESC
+        LIMIT #{limit} OFFSET #{offset}
     </select>
 
-    <select id="parentDosageList" parameterType="String" resultType="com.myapp.backend.domain.dto.request.DosageResultDto">
+    <select id="parentDosageList" parameterType="map" resultType="com.myapp.backend.domain.dto.request.DosageResultDto">
         SELECT dosage.userId, kidName, dosageId, symptom, medicineType, dosageVol, dosageCnt, dosageTime, storage, specialNote, dosage.createDate
         FROM user, dosage
         WHERE user.userId = dosage.userId and dosage.userId = #{userId}
         ORDER BY dosage.createDate DESC
+        LIMIT #{limit} OFFSET #{offset}
     </select>
 
     <select id="dosageDetail" parameterType="int" resultType="com.myapp.backend.domain.dto.request.DosageResultDto">

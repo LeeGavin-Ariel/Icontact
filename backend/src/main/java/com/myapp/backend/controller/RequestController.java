@@ -1,9 +1,6 @@
 package com.myapp.backend.controller;
 
-import com.myapp.backend.domain.dto.request.DosageResultDto;
-import com.myapp.backend.domain.dto.request.RequestDto;
-import com.myapp.backend.domain.dto.request.RequestResultDto;
-import com.myapp.backend.domain.dto.request.ReturnhomeResultDto;
+import com.myapp.backend.domain.dto.request.*;
 import com.myapp.backend.service.RequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,6 +22,7 @@ public class RequestController {
         int result = 0;
 
         if (requestDto.getRequestType() == 1) { // 투약
+            System.out.println(requestDto.getRequestType());
             result = requestService.dosageInsert(requestDto);
         } else { // 귀가
             result = requestService.returnhomeInsert(requestDto);
@@ -75,18 +73,22 @@ public class RequestController {
 
     // 선생님 글 조회
     @GetMapping("/request/teacher")
-    public ResponseEntity<RequestResultDto> teacherRequestList(@RequestParam(required = true) final int requestType,
-                                                        @RequestParam(required = true) final String userId) {
+    public ResponseEntity<RequestResultDto> teacherRequestList(RequestParamDto requestParamDto) {
         RequestResultDto requestResultDto = new RequestResultDto();
 
+        int requestType = requestParamDto.getRequestType();
+        int limit = 2;
+        requestParamDto.setLimit(limit);
+        requestParamDto.setOffset((requestParamDto.getPageNum()-1)*limit);
+
         if(requestType == 1){ // 투약
-            List<DosageResultDto> dosageList = requestService.teacherDosageList(userId);
+            List<DosageResultDto> dosageList = requestService.teacherDosageList(requestParamDto);
             if(dosageList != null){
                 requestResultDto.setDosageList(dosageList);
                 return new ResponseEntity<RequestResultDto>(requestResultDto, HttpStatus.OK);
             }
         } else { // 귀가
-            List<ReturnhomeResultDto> returnhomeList = requestService.teacherReturnhomeList(userId);
+            List<ReturnhomeResultDto> returnhomeList = requestService.teacherReturnhomeList(requestParamDto);
             if(returnhomeList != null){
                 requestResultDto.setReturnhomeList(returnhomeList);
                 return new ResponseEntity<RequestResultDto>(requestResultDto, HttpStatus.OK);
@@ -98,18 +100,22 @@ public class RequestController {
 
     // 학부모 글 조회
     @GetMapping("/request/parents")
-    public ResponseEntity<RequestResultDto> parentRequestList(@RequestParam(required = true) final int requestType,
-                                                               @RequestParam(required = true) final String userId) {
+    public ResponseEntity<RequestResultDto> parentRequestList(RequestParamDto requestParamDto) {
         RequestResultDto requestResultDto = new RequestResultDto();
 
+        int requestType = requestParamDto.getRequestType();
+        int limit = 2;
+        requestParamDto.setLimit(limit);
+        requestParamDto.setOffset((requestParamDto.getPageNum()-1)*limit);
+
         if(requestType == 1){ // 투약
-            List<DosageResultDto> dosageList = requestService.parentDosageList(userId);
+            List<DosageResultDto> dosageList = requestService.parentDosageList(requestParamDto);
             if(dosageList != null){
                 requestResultDto.setDosageList(dosageList);
                 return new ResponseEntity<RequestResultDto>(requestResultDto, HttpStatus.OK);
             }
         } else { // 귀가
-            List<ReturnhomeResultDto> returnhomeList = requestService.parentReturnhomeList(userId);
+            List<ReturnhomeResultDto> returnhomeList = requestService.parentReturnhomeList(requestParamDto);
             if(returnhomeList != null){
                 requestResultDto.setReturnhomeList(returnhomeList);
                 return new ResponseEntity<RequestResultDto>(requestResultDto, HttpStatus.OK);

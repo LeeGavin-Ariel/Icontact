@@ -4,6 +4,7 @@ import com.myapp.backend.dao.DosageDao;
 import com.myapp.backend.dao.ReturnhomeDao;
 import com.myapp.backend.domain.dto.request.DosageResultDto;
 import com.myapp.backend.domain.dto.request.RequestDto;
+import com.myapp.backend.domain.dto.request.RequestParamDto;
 import com.myapp.backend.domain.dto.request.ReturnhomeResultDto;
 import com.myapp.backend.domain.entity.Dosage;
 import com.myapp.backend.domain.entity.Returnhome;
@@ -129,30 +130,30 @@ public class RequestServiceImpl implements RequestService{
     }
 
     @Override
-    public List<DosageResultDto> teacherDosageList(String userId) {
+    public List<DosageResultDto> teacherDosageList(RequestParamDto requestParamDto) {
         List<DosageResultDto> dosageList = null;
-        dosageList = dosageDao.teacherDosageList(userId);
+        dosageList = dosageDao.teacherDosageList(requestParamDto);
         return dosageList;
     }
 
     @Override
-    public List<ReturnhomeResultDto> teacherReturnhomeList(String userId) {
+    public List<ReturnhomeResultDto> teacherReturnhomeList(RequestParamDto requestParamDto) {
         List<ReturnhomeResultDto> returnhomeList = null;
-        returnhomeList = returnhomeDao.teacherReturnhomeList(userId);
+        returnhomeList = returnhomeDao.teacherReturnhomeList(requestParamDto);
         return returnhomeList;
     }
 
     @Override
-    public List<DosageResultDto> parentDosageList(String userId) {
+    public List<DosageResultDto> parentDosageList(RequestParamDto requestParamDto) {
         List<DosageResultDto> dosageList = null;
-        dosageList = dosageDao.parentDosageList(userId);
+        dosageList = dosageDao.parentDosageList(requestParamDto);
         return dosageList;
     }
 
     @Override
-    public List<ReturnhomeResultDto> parentReturnhomeList(String userId) {
+    public List<ReturnhomeResultDto> parentReturnhomeList(RequestParamDto requestParamDto) {
         List<ReturnhomeResultDto> returnhomeList = null;
-        returnhomeList = returnhomeDao.parentReturnhomeList(userId);
+        returnhomeList = returnhomeDao.parentReturnhomeList(requestParamDto);
         return returnhomeList;
     }
 

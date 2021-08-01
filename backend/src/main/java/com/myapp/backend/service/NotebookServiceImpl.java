@@ -8,6 +8,7 @@ import com.myapp.backend.domain.entity.User;
 import com.myapp.backend.repository.NotebookRepository;
 import com.myapp.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -82,6 +83,7 @@ public class NotebookServiceImpl implements NotebookService{
 
         try {
 
+            Page<Notebook> pages =null;
             List<Notebook> notebooks =null;
 
             //type==1이면 부모입장, 수신자 고정/작성자 변경
@@ -89,16 +91,21 @@ public class NotebookServiceImpl implements NotebookService{
             int pageCnt=4;
             Pageable page = PageRequest.of(pageNum, pageCnt);
 
-            if(type==1)notebooks=notebookRepository.findByTargetIdOrderByNoteIdDesc(userId, page);
-            else notebooks=notebookRepository.findByWriterIdOrderByNoteIdDesc(userId, page);
+            if(type==1){
+                pages=notebookRepository.findByTargetIdOrderByNoteIdDesc(userId, page);
+            }
+            else{
+                pages=notebookRepository.findByWriterIdOrderByNoteIdDesc(userId, page);
+            }
 
             List<NoteBookListDto> result = new ArrayList<>();
             User target = null, writer = null;
+            int totalCnt =  pages.getTotalPages();
 
             if(type==1)target = userRepositoryJPA.findByUserId(userId);
             else writer = userRepositoryJPA.findByUserId(userId);
 
-            for (Notebook n : notebooks) {
+            for (Notebook n : pages) {
                 if(type==1)writer = userRepositoryJPA.findByUserId(n.getWriterId());
                 else target = userRepositoryJPA.findByUserId(n.getTargetId());
 
@@ -108,15 +115,8 @@ public class NotebookServiceImpl implements NotebookService{
                         writer.getUserName(),
                         n.getTargetId(),
                         target.getUserName(),
-                        n.getCreateDate());
-
-
-//                dto.setNoteId(n.getNoteId());
-//                dto.setTitle(n.getTitle());
-//                dto.setWriterId(n.getWriterId());
-//                dto.setWriterName(writer.getUserName());
-//                dto.setTargetId(n.getTargetId());
-//                dto.setTargetName(target.getUserName());
+                        n.getCreateDate(),
+                        totalCnt);
 
                 result.add(dto);
             }

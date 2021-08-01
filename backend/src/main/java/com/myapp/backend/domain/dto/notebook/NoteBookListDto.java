@@ -20,5 +20,5 @@ public class NoteBookListDto {
     String targetId;
     String targetName;
     Date createDate;
-
+    int pageCnt;
 }

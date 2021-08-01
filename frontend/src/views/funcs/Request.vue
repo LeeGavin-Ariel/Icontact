@@ -1,511 +1,67 @@
+
+
+
 <template>
-  <div style="display: flex">
 
-    
-  <!-- 사이드바 -->
-    <v-card height="100vh">
-    <v-navigation-drawer
-      permanent
-    >
-      <v-list dense>
-        <v-list-item
-          v-for="item in items"
-          :key="item.title"
+  <!-- <template>
+  <div class="row" style=" height:100vh;" >
+      <div style="width:20vw;">
+        <Sidebar/>
+      </div>
+
+      <div class="row" style="width:80vw;">
+        <div
+          class="col-5 mx-auto"
+          style="overflow-y:scroll;"
         >
-          <v-list-item-content>
-            <v-list-item-title @click="$router.push({ name: item.route })">{{ item.title }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
-  </v-card>
-  
+          <NotebookList
+          @selected-notebook="setId"
+          />
+        
+        </div>
 
-  <!-- 요청 사항 리스트 -->
-  <v-card
-    class="mx-auto"
-    width="300"
-  >
-    <button @click="getDosage">투약 요청</button>
-    <div style="display:inline; margin-right:10px;"></div>
-    <button @click="getReturnHome">귀가 동의</button>
-    <v-list two-line>
-      <v-list-item-group
-        active-class="pink--text"
-      >
-        <template v-for="(request, index) in requestList" >
-          <v-list-item v-if="requestType === 1" :key="request.createDate" @click="setDetail(request.dosageId)">
-            <template >
-              <v-list-item-content >
-                <v-list-item-title v-text="request.kidName"></v-list-item-title>
-
-                <v-list-item-subtitle
-                  class="text--primary"
-                  v-text="request.headline"
-                ></v-list-item-subtitle>
-
-                <v-list-item-subtitle v-text="request.dosageTime"></v-list-item-subtitle>
-              </v-list-item-content>
-
-              <v-list-item-action>
-                <v-list-item-action-text v-text="request.createDate"></v-list-item-action-text>
-
-              </v-list-item-action>
-            </template>
-          </v-list-item>
-
-          <v-list-item v-if="requestType === 2" :key="request.createDate" @click="setDetail(request.rhId)">
-            <template>
-              <v-list-item-content>
-                <v-list-item-title v-text="request.kidName"></v-list-item-title>
-
-                <v-list-item-subtitle
-                  class="text--primary"
-                  v-text="request.headline"
-                ></v-list-item-subtitle>
-
-                <v-list-item-subtitle v-text="request.rhTime"></v-list-item-subtitle>
-              </v-list-item-content>
-
-              <v-list-item-action>
-                <v-list-item-action-text v-text="request.createDate"></v-list-item-action-text>
-
-              </v-list-item-action>
-            </template>
-          </v-list-item>
-
-          <v-divider
-            v-if="index < requestList.length - 1"
-            :key="index"
-          ></v-divider>
-        </template>
-      </v-list-item-group>
-    </v-list>
-  </v-card>
+        <div
+        class="col"
+        style="overflow-y:scroll;"
+        >
+          <NotebookDetail
+          :selectedNotebook="notebookDetail"
+          />
+        </div>
+      </div>
+    </div>
+</template> -->
 
 
-  <!-- 디테일 -->
-  <v-col>
-    <button v-if="identity === 1 && updating === 0" @click="createNewRequest">연필</button>
-     | 
-    <button v-if="identity === 1 && updating === 1" @click="updateRequest">연필</button>
-     
-    <button v-if="identity === 1 && updating === 0" @click="updateRequest">글 수정</button>
-      | 
-    <button v-if="identity === 1" @click="deleteRequest">글 삭제</button>
-    <button v-if="identity === 1 && creating" @click="offCreateForm">글 작성 취소</button>
-    <v-sheet
-      min-height="100vh"
-      rounded="lg"
-      v-if="requestType === 1 && requestDetail && (!creating && !updating)"
-    >
-      {{requestDetail}}
-      <p>작성 시간 : {{requestDetail.createDate}}</p>
-      <p>작성자 : {{requestDetail.kidName}} 학부모님</p>
-      <p>투약 시간 : {{requestDetail.dosageTime}}</p>
-      <p>투약 용량 : {{requestDetail.dosageVol}}</p>
-      <p>특이사항 : {{requestDetail.specialNote}}</p>
-      <p>증상 : {{requestDetail.symptom}}</p>
-    </v-sheet>
+  <div style="display: flex; height:100vh;" >
 
-    <v-sheet
-      min-height="100vh"
-      rounded="lg"
-      v-if="requestType === 1 && (creating || updating)"
-    >
-      <p>증상 : </p>
-      <input type="text" v-model="symptom">
-      <p>약 종류 : </p>
-      <input type="text" v-model="medicineType">
-      <p>투약 용량 : </p>
-      <input type="number" v-model="dosageVol">
-      <p>투약 횟수 : </p>
-      <input type="number" v-model="dosageCnt">
-      <p>투약 시간 : </p>
-      <input type="text" v-model="dosageTime">
-      <p>보관 방법 : </p>
-      <input type="text" v-model="storage">
-      <p>특이 사항 : </p>
-      <input type="text" v-model="specialNote">
-    </v-sheet>
-
-    <v-sheet
-      min-height="100vh"
-      rounded="lg"
-      v-if="requestType === 2 && requestDetail && (!creating && !updating)"
-    >
-    {{requestDetail}}
-      <p>작성 시간 : {{requestDetail.createDate}}</p>
-      <p>작성자 : {{requestDetail.kidName}} 학부모님</p>
-      <p>귀가 날짜 : {{requestDetail.rhDate}}</p>
-      <p>귀가 시간 : {{requestDetail.rhTime}}</p>
-      <p>동행인 : {{requestDetail.guardian}}</p>
-      <p>동행인 전화번호 : {{requestDetail.guardianTel}}</p>
-      <p>긴급연락망 : {{requestDetail.emergency}}</p>
-      <p>긴급연락처 : {{requestDetail.emergencyTel}}</p>
-    </v-sheet>
-
-    <v-sheet
-      min-height="100vh"
-      rounded="lg"
-      v-if="requestType === 2 && (creating || updating)"
-    >
-      <p>귀가 날짜 : </p>
-      <input type="text" v-model="rhDate">
-      <p>귀가 시간 : </p>
-      <input type="text" v-model="rhTime">
-      <p>동행인 : </p>
-      <input type="text" v-model="guardian">
-      <p>동행인 전화번호 : </p>
-      <input type="text" v-model="guardianTel">
-      <p>긴급연락망 : </p>
-      <input type="text" v-model="emergency">
-      <p>긴급연락처 : </p>
-      <input type="text" v-model="emergencyTel">
-    </v-sheet>
-
-  </v-col>
+    <!-- 사이드바 -->
+      <div style="width:20vw;">
+        <Sidebar/>
+      </div>
+    
+    <RequestList/>
 
   </div>
 </template>
 
 
 <script>
-import requestApi from '@/api/request.js';
+import Sidebar from '@/components/common/Sidebar.vue';
+
+import RequestList from '@/components/Request/RequestList.vue';
 export default {
   name: "Request",
+  components:{
+    Sidebar,
+    RequestList,
+  },
   data () {
     return {
-      // 관계
-      identity : 0,
-      identity_str : 0,
-
-      // 투약 요청(1)인지, 귀가요청(2)인지. default는 투약요청
-      requestType : 1,
-      // 전체 요청 글을 저장할 리스트.
-      // 어떤값 넘겨주는지 확인하기.
-      requestList: [],
-      // 상세 내용을 저장할 변수
-      requestDetail: null,
-      // 선택된 글 표시 -> 글의 id값으로 처리하기.
-      // selectedRequest: 1,
-      
-      // 디테일 값을 얻어 오기 위한 글의 아이디값
-      id: 0,
-
-      // 사이드바 
-      items: [
-        { title: '알림장', route: 'Notebook' },
-        { title: '채팅', route: 'Chat' },
-        { title: '앨범', route: 'Album' },
-        { title: '출석부', route: 'Attendance' },
-        { title: '공지사항', route: 'Notice' },
-        { title: '요청사항', route: 'Request' },
-      ],
-
-      notes: [
-        {
-          action: '15 min',
-          headline: 'Brunch this weekend?',
-          subtitle: `I'll be in your neighborhood doing errands this weekend. Do you want to hang out?`,
-          title: 'Ali Connors',
-        },
-      ],
-
-
-      // 투약 관련 변수
-      symptom: '',
-      medicineType: '',
-      dosageVol: 0,
-      dosageCnt: 0,
-      dosageTime: '',
-      storage: '',
-      specialNote: '',
-      
-      // 귀가 관련 변수
-      rhDate: '',
-      rhTime: '',
-      guardian: '',
-      guardianTel: '',
-      emergency: '',
-      emergencyTel: '',
-
-      creating: 0,
-      updating: 0,
-
     }
   },
   
   methods: {
-    // 전체 글 불러오기. (투약 -> requestType = 1, 귀가 -> requestType = 2)
-    async getRequest() {
-      let accessToken = sessionStorage.getItem('access-token')
-      let refreshToken = sessionStorage.getItem('refresh-token')
-      let data = {
-        type: this.identity_str,
-        requestType: this.requestType,
-        userId: this.$store.state.user.userId,
-      }
-      let result = await requestApi.getRequest(data, {
-        "access-token": accessToken,
-        "refresh-token": refreshToken,
-      });
-      if (this.requestType === 1) {
-        this.requestList = result.dosageList
-      }
-      else if (this.requestType === 2) {
-        this.requestList = result.returnhomeList
-      }
-
-      if (this.requestList.length !== 0) {
-        // 첫번째 글의 디테일 페이지 디폴트 값으로 올리기.
-        if (this.requestType === 1) {
-          this.id = this.requestList[0].dosageId
-        }
-        else if (this.requestType === 2){
-          this.id = this.requestList[0].rhId
-        }
-        this.getRequestDetail()
-      }
-    },
-
-    async getRequestDetail() {
-      let accessToken = sessionStorage.getItem('access-token')
-      let refreshToken = sessionStorage.getItem('refresh-token')
-      let data = {
-        requestType: this.requestType,
-        id: this.id
-      }
-      // 선생인지, 학부모인지에 따라 다르게 받음.
-      let result = await requestApi.getRequestDetail(data, {
-        "access-token": accessToken,
-        "refresh-token": refreshToken,
-      });
-        // 어떻게 날라오는지 확인후 데이터 집어넣기4
-      
-      if (this.requestType === 1) {
-        this.requestDetail = result.dosage
-      }
-      else if (this.requestType === 2){
-        this.requestDetail = result.returnhome
-      }
-      console.log(this.requestDetail)
-      this.creating = 0
-      this.updating = 0
-    },
-
-    getDosage() {
-      this.creating = 0
-      if (this.requestType !== 1) {
-        this.requestType = 1
-        this.getRequest()
-      }
-    },
-
-    getReturnHome() {
-      this.creating = 0
-      if (this.requestType !== 2) {
-        this.requestType = 2
-        this.getRequest()
-      }
-    },
-
-    setDetail(id) {
-      // 클릭한 애의 id값 저장.
-      this.id = id
-      this.getRequestDetail()
-    },
-
-    offCreateForm() {
-      this.creating = 0
-    },
-
-    // 글 작성 폼 띄우기
-    async createNewRequest() {
-      // 글 작성 중인 상태가 아니라면 글 작성 중 상태로 바꿈.
-
-      if (this.updating === 1){
-        this.updating = 0
-      }
-
-      if (this.creating === 0) {
-        if (this.requestType === 1) {
-          this.symptom = ''
-          this.medicineType = ''
-          this.dosageVol = 0
-          this.dosageCnt = 0
-          this.dosageTime = ''
-          this.storage = ''
-          this.specialNote = ''
-        }
-        else if (this.requestType === 2) {
-          this.rhDate = ''
-          this.rhTime = ''
-          this.guardian = ''
-          this.guardianTel = ''
-          this.emergency = ''
-          this.emergencyTel = ''
-        }
-        this.creating = 1
-      }
-      // 글 작성 중인 상태라면 요청 보내기.
-      else if (this.creating === 1) {
-        let accessToken = sessionStorage.getItem('access-token')
-        let refreshToken = sessionStorage.getItem('refresh-token')
-        if (this.requestType === 1) {
-          let data = {
-          requestType: this.requestType,
-          userId: this.$store.state.user.userId,
-          symptom: this.symptom,
-          medicineType: this.medicineType,
-          dosageVol: this.dosageVol,
-          dosageCnt: this.dosageCnt,
-          dosageTime: this.dosageTime,
-          storage: this.storage,
-          specialNote: this.specialNote,
-          }
-          let result = await requestApi.createRequest(data, {
-            "access-token": accessToken,
-            "refresh-token": refreshToken,
-          });
-          console.log(result)
-        }
-        else if (this.requestType === 2) {
-          let data = {
-          requestType: this.requestType,
-          userId: this.$store.state.user.userId,
-          rhDate: this.rhDate,
-          rhTime: this.rhTime,
-          guardian : this.guardian,
-          guardianTel: this.guardianTel,
-          emergency: this.emergency,
-          emergencyTel: this.emergencyTel,
-          }
-          let result = await requestApi.createRequest(data, {
-            "access-token": accessToken,
-            "refresh-token": refreshToken,
-          });
-          console.log(result)
-          
-        }
-        this.creating = 0
-        this.getRequest()
-      }
-    },
-
-    async updateRequest() {
-
-      if (this.creating === 1) {
-        this.creating = 0
-      }
-
-      if (this.updating === 0 ) {
-          if (this.requestType === 1) {
-          this.symptom = this.requestDetail.symptom
-          this.medicineType = this.requestDetail.medicineType
-          this.dosageVol = this.requestDetail.dosageVol
-          this.dosageCnt = this.requestDetail.dosageCnt
-          this.dosageTime = this.requestDetail.dosageTime
-          this.storage = this.requestDetail.storage
-          this.specialNote = this.requestDetail.specialNote
-        }
-        else if (this.requestType === 2) {
-          this.rhDate = this.requestDetail.rhDate
-          this.rhTime = this.requestDetail.rhTime
-          this.guardian = this.requestDetail.guardian
-          this.guardianTel = this.requestDetail.guardianTel
-          this.emergency = this.requestDetail.emergency
-          this.emergencyTel = this.requestDetail.emergencyTel
-        }
-        this.updating = 1
-      }
-
-      // 여기서부터 다시 작성
-      else if (this.updating === 1) {
-        let accessToken = sessionStorage.getItem('access-token')
-        let refreshToken = sessionStorage.getItem('refresh-token')
-        if (this.requestType === 1) {
-          let data = {
-          requestType: this.requestType,
-          userId: this.$store.state.user.userId,
-          id: this.id,
-          symptom: this.symptom,
-          medicineType: this.medicineType,
-          dosageVol: this.dosageVol,
-          dosageCnt: this.dosageCnt,
-          dosageTime: this.dosageTime,
-          storage: this.storage,
-          specialNote: this.specialNote,
-          }
-          let result = await requestApi.updateRequest(data, {
-            "access-token": accessToken,
-            "refresh-token": refreshToken,
-          });
-          console.log(result)
-        }
-        else if (this.requestType === 2) {
-          let data = {
-          requestType: this.requestType,
-          userId: this.$store.state.user.userId,
-          id: this.id,
-          rhDate: this.rhDate,
-          rhTime: this.rhTime,
-          guardian : this.guardian,
-          guardianTel: this.guardianTel,
-          emergency: this.emergency,
-          emergencyTel: this.emergencyTel,
-          }
-          let result = await requestApi.updateRequest(data, {
-            "access-token": accessToken,
-            "refresh-token": refreshToken,
-          });
-          console.log(result)
-        }
-        this.updating = 0
-        this.getRequest()
-      }
-    },
-
-    async deleteRequest() {
-      let accessToken = sessionStorage.getItem('access-token')
-      let refreshToken = sessionStorage.getItem('refresh-token')
-      if (this.requestType === 1){
-        let data = {
-        requestType: this.requestType,
-        id: this.requestDetail.dosageId
-      }
-      let result = await requestApi.deleteRequest(data, {
-        "access-token": accessToken,
-        "refresh-token": refreshToken,
-      });
-      console.log(result)
-      }
-      else if (this.requestType === 2){
-        let data = {
-        requestType: this.requestType,
-        id: this.requestDetail.rhId
-      }
-      let result = await requestApi.deleteRequest(data, {
-        "access-token": accessToken,
-        "refresh-token": refreshToken,
-      });
-      console.log(result)
-      }
-      this.getRequest()
-    }
-
-  },
-
-  created() {
-    // 페이지 들어오자마자 getRequest 실행 (default 투약요청)
-    this.identity = this.$store.state.user.type
-    if (this.identity === 1) {
-      this.identity_str = 'parents'
-    }
-    else if (this.identity === 2) {
-      this.identity_str = 'teacher'
-    }
-    this.getRequest()
   },
 }
 </script>

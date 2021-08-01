@@ -9,7 +9,7 @@ export const requestApi = {
 
 
   getRequest: (data, headers) => {
-    return requestGet(SERVER.URL + SERVER.ROUTES.request + `/${data.type}` + `?requestType=${data.requestType}`+`&userId=${data.userId}`, headers);
+    return requestGet(SERVER.URL + SERVER.ROUTES.request + `/${data.type}` + `?requestType=${data.requestType}`+`&userId=${data.userId}` + `&pageNum=${data.pageNum}`, headers);
   },
 
 

@@ -1,7 +1,6 @@
 <template>
   <div>
-    <v-navigation-drawer
-      permanent
+    <div
     >
       <v-list dense>
         <v-list-item
@@ -13,7 +12,7 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
-    </v-navigation-drawer>
+    </div>
   </div>
 </template>
 

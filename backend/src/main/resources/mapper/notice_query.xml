@@ -3,28 +3,31 @@
 
 <mapper namespace="com.myapp.backend.dao.NoticeDao">
 
-    <select id="noticeList" parameterType="String" resultType="com.myapp.backend.domain.dto.notice.NoticeResultDto">
+    <select id="noticeList" parameterType="map" resultType="com.myapp.backend.domain.dto.notice.NoticeResultDto">
         SELECT notice.userId, user.userName, noticeId, title, content, notice.createDate, noticeImgUrl
         FROM notice, (select classCode from user where userId = #{userId}) as tmp, user
         WHERE notice.classCode = tmp.classCode
           and user.userId = notice.userId
         ORDER BY createDate DESC
+        LIMIT #{limit} OFFSET #{offset}
     </select>
 
-    <select id="scheduleList" parameterType="String" resultType="com.myapp.backend.domain.dto.notice.ScheduleResultDto">
+    <select id="scheduleList" parameterType="map" resultType="com.myapp.backend.domain.dto.notice.ScheduleResultDto">
         SELECT schedule.userId, user.userName, scheduleId, title, content, schedule.createDate, scheduleImgUrl
         FROM schedule, (select classCode from user where userId = #{userId}) as tmp, user
         WHERE schedule.classCode = tmp.classCode
           and user.userId = schedule.userId
         ORDER BY createDate DESC
+        LIMIT #{limit} OFFSET #{offset}
     </select>
 
-    <select id="menuList" parameterType="String" resultType="com.myapp.backend.domain.dto.notice.MenuResultDto">
+    <select id="menuList" parameterType="map" resultType="com.myapp.backend.domain.dto.notice.MenuResultDto">
         SELECT menu.userId, user.userName, menuId, amSnack, amSnackImgUrl, lunch, lunchImgUrl, pmSnack, pmSnackImgUrl, menu.createDate
         FROM menu, (select classCode from user where userId = #{userId}) as tmp, user
         WHERE menu.classCode = tmp.classCode
           and user.userId = menu.userId
         ORDER BY createDate DESC
+        LIMIT #{limit} OFFSET #{offset}
     </select>
 
     <select id="noticeDetail" parameterType="int" resultType="com.myapp.backend.domain.dto.notice.NoticeResultDto">

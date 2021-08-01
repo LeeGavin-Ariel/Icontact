@@ -83,24 +83,31 @@ public class NoticeController {
 
     // 공지글 목록 조회
     @GetMapping("/notice")
-    public ResponseEntity<CommonNoticeResultDto> noticeList(@RequestParam(required = true) final int noticeType,
-                                                             @RequestParam(required = true) final String userId){
+    public ResponseEntity<CommonNoticeResultDto> noticeList(NoticeParamDto noticeParamDto){
         CommonNoticeResultDto commonNoticeResultDto = new CommonNoticeResultDto();
+
+        int noticeType = noticeParamDto.getNoticeType();
+        System.out.println(noticeType);
+        int limit = 2;
+        noticeParamDto.setLimit(limit);
+        noticeParamDto.setOffset((noticeParamDto.getPageNum()-1)*limit);
+
+
         if(noticeType == 1){ // 일반 공지
-            List<NoticeResultDto> noticeList = noticeService.noticeList(userId);
+            List<NoticeResultDto> noticeList = noticeService.noticeList(noticeParamDto);
             if(noticeList != null){
                 commonNoticeResultDto.setNoticeList(noticeList);
                 return new ResponseEntity<CommonNoticeResultDto>(commonNoticeResultDto, HttpStatus.OK);
 
             }
         } else if (noticeType == 2){ // 일정
-            List<ScheduleResultDto> scheduleList = noticeService.scheduleList(userId);
+            List<ScheduleResultDto> scheduleList = noticeService.scheduleList(noticeParamDto);
             if(scheduleList != null){
                 commonNoticeResultDto.setScheduleList(scheduleList);
                 return new ResponseEntity<CommonNoticeResultDto>(commonNoticeResultDto, HttpStatus.OK);
             }
         } else { // 식단
-            List<MenuResultDto> menuList = noticeService.menuList(userId);
+            List<MenuResultDto> menuList = noticeService.menuList(noticeParamDto);
             if(menuList != null){
                 commonNoticeResultDto.setMenuList(menuList);
                 return new ResponseEntity<CommonNoticeResultDto>(commonNoticeResultDto, HttpStatus.OK);

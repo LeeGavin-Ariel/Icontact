@@ -1,10 +1,7 @@
 package com.myapp.backend.service;
 
 import com.myapp.backend.dao.NoticeDao;
-import com.myapp.backend.domain.dto.notice.MenuResultDto;
-import com.myapp.backend.domain.dto.notice.NoticeDto;
-import com.myapp.backend.domain.dto.notice.NoticeResultDto;
-import com.myapp.backend.domain.dto.notice.ScheduleResultDto;
+import com.myapp.backend.domain.dto.notice.*;
 import com.myapp.backend.domain.entity.Menu;
 import com.myapp.backend.domain.entity.Notice;
 import com.myapp.backend.domain.entity.Schedule;
@@ -186,18 +183,18 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public List<NoticeResultDto> noticeList(String userId) {
-        return noticeDao.noticeList(userId);
+    public List<NoticeResultDto> noticeList(NoticeParamDto noticeParamDto) {
+        return noticeDao.noticeList(noticeParamDto);
     }
 
     @Override
-    public List<ScheduleResultDto> scheduleList(String userId) {
-        return noticeDao.scheduleList(userId);
+    public List<ScheduleResultDto> scheduleList(NoticeParamDto noticeParamDto) {
+        return noticeDao.scheduleList(noticeParamDto);
     }
 
     @Override
-    public List<MenuResultDto> menuList(String userId) {
-        return noticeDao.menuList(userId);
+    public List<MenuResultDto> menuList(NoticeParamDto noticeParamDto) {
+        return noticeDao.menuList(noticeParamDto);
     }
 
     @Override

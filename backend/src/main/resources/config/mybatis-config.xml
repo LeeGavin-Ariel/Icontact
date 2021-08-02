@@ -10,6 +10,8 @@
 
     <mappers>
         <mapper resource="mapper/notice_query.xml" />
+        <mapper resource="mapper/schedule_query.xml" />
+        <mapper resource="mapper/menu_query.xml" />
     </mappers>
 
 

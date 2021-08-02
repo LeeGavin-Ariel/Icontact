@@ -13,4 +13,6 @@ public interface MenuDao {
     public List<MenuResultDto> menuList(NoticeParamDto noticeParamDto);
 
     public MenuResultDto menuDetail(int id);
+
+    public int totalMenuList(String userId);
 }

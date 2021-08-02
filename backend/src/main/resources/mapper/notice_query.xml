@@ -18,4 +18,10 @@
         WHERE notice.noticeId = #{id}
           and user.userId = notice.userId
     </select>
+
+    <select id="totalNoticeList" parameterType="String" resultType="int">
+        SELECT count(*)
+        FROM notice, (select classCode from user where userId = #{userId}) as tmp, user
+        WHERE notice.classCode = tmp.classCode and user.userId = notice.userId
+    </select>
 </mapper>

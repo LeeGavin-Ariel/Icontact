@@ -87,7 +87,6 @@ public class NoticeController {
         CommonNoticeResultDto commonNoticeResultDto = new CommonNoticeResultDto();
 
         int noticeType = noticeParamDto.getNoticeType();
-        System.out.println(noticeType);
         int limit = 2;
         noticeParamDto.setLimit(limit);
         noticeParamDto.setOffset((noticeParamDto.getPageNum()-1)*limit);
@@ -123,6 +122,13 @@ public class NoticeController {
                 return new ResponseEntity<CommonNoticeResultDto>(commonNoticeResultDto, HttpStatus.OK);
             }
         } else { // 식단
+
+            total = noticeService.totalMenuList(noticeParamDto.getUserId());
+
+            if(total%limit > 0) pageCnt = total/limit+1;
+            else pageCnt = total/limit;
+            commonNoticeResultDto.setPageCnt(pageCnt);
+
             List<MenuResultDto> menuList = noticeService.menuList(noticeParamDto);
             if(menuList != null){
                 commonNoticeResultDto.setMenuList(menuList);

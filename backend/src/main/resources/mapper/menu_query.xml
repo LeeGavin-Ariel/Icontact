@@ -17,4 +17,11 @@
         WHERE menu.menuId = #{id}
           and user.userId = menu.userId
     </select>
+
+    <select id="totalMenuList" parameterType="String" resultType="int">
+        SELECT count(*)
+        FROM menu, (select classCode from user where userId = #{userId}) as tmp, user
+        WHERE menu.classCode = tmp.classCode and user.userId = menu.userId
+    </select>
+
 </mapper>

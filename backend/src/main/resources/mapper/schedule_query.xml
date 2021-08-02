@@ -17,4 +17,10 @@
         WHERE schedule.scheduleId = #{id}
           and user.userId = schedule.userId
     </select>
+
+    <select id="totalScheduleList" parameterType="String" resultType="int">
+        SELECT count(*)
+        FROM schedule, (select classCode from user where userId = #{userId}) as tmp, user
+        WHERE schedule.classCode = tmp.classCode and user.userId = schedule.userId
+    </select>
 </mapper>

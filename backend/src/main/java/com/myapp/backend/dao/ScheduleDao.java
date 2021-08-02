@@ -13,4 +13,6 @@ public interface ScheduleDao {
     public List<ScheduleResultDto> scheduleList(NoticeParamDto noticeParamDto);
 
     public ScheduleResultDto scheduleDetail(int id);
+
+    public int totalScheduleList(String userId);
 }

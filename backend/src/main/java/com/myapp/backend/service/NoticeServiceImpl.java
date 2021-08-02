@@ -227,6 +227,11 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Override
     public int totalScheduleList(String userId) {
-        return 0;
+        return scheduleDao.totalScheduleList(userId);
+    }
+
+    @Override
+    public int totalMenuList(String userId) {
+        return menuDao.totalMenuList(userId);
     }
 }

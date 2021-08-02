@@ -44,4 +44,6 @@ public interface NoticeService {
     public int totalNoticeList(String userId);
 
     public int totalScheduleList(String userId);
+
+    public int totalMenuList(String userId);
 }

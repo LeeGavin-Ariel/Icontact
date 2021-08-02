@@ -82,12 +82,26 @@ public class RequestController {
         requestParamDto.setOffset((requestParamDto.getPageNum()-1)*limit);
 
         if(requestType == 1){ // 투약
+            int total = requestService.totalTeacherDosageList(requestParamDto.getUserId());
+
+            int pageCnt = 0;
+            if(total%limit > 0) pageCnt = total/limit+1;
+            else pageCnt = total/limit;
+            requestResultDto.setPageCnt(pageCnt);
+
             List<DosageResultDto> dosageList = requestService.teacherDosageList(requestParamDto);
             if(dosageList != null){
                 requestResultDto.setDosageList(dosageList);
                 return new ResponseEntity<RequestResultDto>(requestResultDto, HttpStatus.OK);
             }
         } else { // 귀가
+            int total = requestService.totalTeacherReturnhomeList(requestParamDto.getUserId());
+
+            int pageCnt = 0;
+            if(total%limit > 0) pageCnt = total/limit+1;
+            else pageCnt = total/limit;
+            requestResultDto.setPageCnt(pageCnt);
+
             List<ReturnhomeResultDto> returnhomeList = requestService.teacherReturnhomeList(requestParamDto);
             if(returnhomeList != null){
                 requestResultDto.setReturnhomeList(returnhomeList);
@@ -109,12 +123,26 @@ public class RequestController {
         requestParamDto.setOffset((requestParamDto.getPageNum()-1)*limit);
 
         if(requestType == 1){ // 투약
+            int total = requestService.totalParentDosageList(requestParamDto.getUserId());
+
+            int pageCnt = 0;
+            if(total%limit > 0) pageCnt = total/limit+1;
+            else pageCnt = total/limit;
+            requestResultDto.setPageCnt(pageCnt);
+
             List<DosageResultDto> dosageList = requestService.parentDosageList(requestParamDto);
             if(dosageList != null){
                 requestResultDto.setDosageList(dosageList);
                 return new ResponseEntity<RequestResultDto>(requestResultDto, HttpStatus.OK);
             }
         } else { // 귀가
+            int total = requestService.totalParentReturnhomeList(requestParamDto.getUserId());
+
+            int pageCnt = 0;
+            if(total%limit > 0) pageCnt = total/limit+1;
+            else pageCnt = total/limit;
+            requestResultDto.setPageCnt(pageCnt);
+
             List<ReturnhomeResultDto> returnhomeList = requestService.parentReturnhomeList(requestParamDto);
             if(returnhomeList != null){
                 requestResultDto.setReturnhomeList(returnhomeList);

@@ -15,4 +15,7 @@ public interface ReturnhomeDao {
 
     public ReturnhomeResultDto returnhomeDetail(int id);
 
+    public int totalTeacherReturnhomeList(String userId);
+
+    public int totalParentReturnhomeList(String userId);
 }

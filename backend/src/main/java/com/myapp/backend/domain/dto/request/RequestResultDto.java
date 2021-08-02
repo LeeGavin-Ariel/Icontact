@@ -11,6 +11,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RequestResultDto {
+    // list 반환시 총 페이지 수 함께 반환
+    int pageCnt;
+
     DosageResultDto dosage;
     List<DosageResultDto> dosageList;
 

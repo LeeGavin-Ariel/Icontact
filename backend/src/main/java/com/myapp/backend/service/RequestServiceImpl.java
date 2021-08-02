@@ -131,44 +131,52 @@ public class RequestServiceImpl implements RequestService{
 
     @Override
     public List<DosageResultDto> teacherDosageList(RequestParamDto requestParamDto) {
-        List<DosageResultDto> dosageList = null;
-        dosageList = dosageDao.teacherDosageList(requestParamDto);
-        return dosageList;
+        return dosageDao.teacherDosageList(requestParamDto);
     }
 
     @Override
     public List<ReturnhomeResultDto> teacherReturnhomeList(RequestParamDto requestParamDto) {
-        List<ReturnhomeResultDto> returnhomeList = null;
-        returnhomeList = returnhomeDao.teacherReturnhomeList(requestParamDto);
-        return returnhomeList;
+        return returnhomeDao.teacherReturnhomeList(requestParamDto);
     }
 
     @Override
     public List<DosageResultDto> parentDosageList(RequestParamDto requestParamDto) {
-        List<DosageResultDto> dosageList = null;
-        dosageList = dosageDao.parentDosageList(requestParamDto);
-        return dosageList;
+        return dosageDao.parentDosageList(requestParamDto);
     }
 
     @Override
     public List<ReturnhomeResultDto> parentReturnhomeList(RequestParamDto requestParamDto) {
-        List<ReturnhomeResultDto> returnhomeList = null;
-        returnhomeList = returnhomeDao.parentReturnhomeList(requestParamDto);
-        return returnhomeList;
+        return returnhomeDao.parentReturnhomeList(requestParamDto);
     }
 
     @Override
     public DosageResultDto dosageDetail(int id) {
-        DosageResultDto dosageResultDto = null;
-        dosageResultDto = dosageDao.dosageDetail(id);
-        return dosageResultDto;
+        return dosageDao.dosageDetail(id);
     }
 
     @Override
     public ReturnhomeResultDto returnhomeDetail(int id) {
-        ReturnhomeResultDto returnhomeResultDto = null;
-        returnhomeResultDto = returnhomeDao.returnhomeDetail(id);
-        return returnhomeResultDto;
+        return returnhomeDao.returnhomeDetail(id);
+    }
+
+    @Override
+    public int totalTeacherDosageList(String userId) {
+        return dosageDao.totalTeacherDosageList(userId);
+    }
+
+    @Override
+    public int totalTeacherReturnhomeList(String userId) {
+        return returnhomeDao.totalTeacherReturnhomeList(userId);
+    }
+
+    @Override
+    public int totalParentDosageList(String userId) {
+        return dosageDao.totalParentDosageList(userId);
+    }
+
+    @Override
+    public int totalParentReturnhomeList(String userId) {
+        return returnhomeDao.totalParentReturnhomeList(userId);
     }
 
 

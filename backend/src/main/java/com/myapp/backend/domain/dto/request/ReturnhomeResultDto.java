@@ -19,5 +19,5 @@ public class ReturnhomeResultDto {
     private String guardianTel;
     private String emergency;
     private String emergencyTel;
-    private Date createDate;
+    private String createDate;
 }

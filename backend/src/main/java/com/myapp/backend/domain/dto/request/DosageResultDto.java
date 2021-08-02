@@ -20,5 +20,5 @@ public class DosageResultDto {
     private String dosageTime;
     private String storage;
     private String specialNote;
-    private Date createDate;
+    private String createDate;
 }

@@ -6,10 +6,18 @@
     <select id="teacherDosageList" parameterType="map" resultType="com.myapp.backend.domain.dto.request.DosageResultDto">
         SELECT tmp.userId, kidName, dosageId, symptom, medicineType, dosageVol, dosageCnt, dosageTime, storage, specialNote, createDate
         FROM (select userId, kidName from user where classCode = (select classCode from user where userId = #{userId})
-            and type = 1) as tmp, dosage
+                                                 and type = 1) as tmp, dosage
         WHERE tmp.userId = dosage.userId
         ORDER BY createDate DESC
-        LIMIT #{limit} OFFSET #{offset}
+            LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+
+    <select id="totalTeacherDosageList" parameterType="String" resultType="int">
+        SELECT count(*)
+        FROM (select userId from user where classCode = (select classCode from user where userId = #{userId})
+                                        and type = 1) as tmp, dosage
+        WHERE tmp.userId = dosage.userId
     </select>
 
     <select id="parentDosageList" parameterType="map" resultType="com.myapp.backend.domain.dto.request.DosageResultDto">
@@ -17,7 +25,13 @@
         FROM user, dosage
         WHERE user.userId = dosage.userId and dosage.userId = #{userId}
         ORDER BY dosage.createDate DESC
-        LIMIT #{limit} OFFSET #{offset}
+            LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="totalParentDosageList" parameterType="String" resultType="int">
+        SELECT count(*)
+        FROM dosage
+        WHERE dosage.userId = #{userId}
     </select>
 
     <select id="dosageDetail" parameterType="int" resultType="com.myapp.backend.domain.dto.request.DosageResultDto">

@@ -36,4 +36,12 @@ public interface RequestService {
     public DosageResultDto dosageDetail(int id);
 
     public ReturnhomeResultDto returnhomeDetail(int id);
+
+    public int totalTeacherDosageList(String userId);
+
+    public int totalTeacherReturnhomeList(String userId);
+
+    public int totalParentDosageList(String userId);
+
+    public int totalParentReturnhomeList(String userId);
 }

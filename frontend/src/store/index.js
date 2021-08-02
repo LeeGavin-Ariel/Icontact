@@ -12,9 +12,6 @@ export default new Vuex.Store({
   state: {
     user: null,
     
-    notebookcreate:0,
-    notebookupdate:0,
-
 
     // 회원가입 공통화면 데이터
     sendUserId:'',

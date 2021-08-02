@@ -1,24 +1,23 @@
 <template>
-  <div>
-    <p>{{selectedNotebook}}</p>
+  <div style="overflow-y:scroll;" class="col">
     <button v-if="$store.state.user.type === 2 && updating === 0" @click="createNotebook">연필</button>
     <button v-if="$store.state.user.type === 2 && updating === 1" @click="updateNotebook">연필</button>
-    <button>뒤로 가기</button>
     <button v-if="$store.state.user.type === 2 && updating === 0" @click="updateNotebook">수정</button>
     <button v-if="$store.state.user.type === 2" @click="deleteNotebook">삭제</button>
     <v-sheet
       min-height="100vh"
       rounded="lg"
-      v-if="selectedNotebook && !creating && !updating"
-    >
-      <p>작성 시간 : {{ selectedNotebook.createDate }}</p>
+      v-if="!creating && !updating && notebookDetail"
+    > 
+      <p>{{notebookDetail}}</p>
+      <p>작성 시간 : {{ notebookDetail.createDate }}</p>
       <!-- 고치기 -->
-      <p>{{ selectedNotebook.kidName }} 학부모님께</p>
-      <p>제목: {{ selectedNotebook.title }}</p>
+      <p>{{ notebookDetail.kidName }} 학부모님께</p>
+      <p>제목: {{ notebookDetail.title }}</p>
       <!-- <img  
-        :src="require('@/assets/profileImg/' + selectedNotebook.noteImgUrl + '.jpg')"
+        :src="require('@/assets/profileImg/' + notebookDetail.noteImgUrl + '.jpg')"
         alt="notebook-image"> -->
-      <p>content : {{ selectedNotebook.content }}</p>
+      <p>content : {{ notebookDetail.content }}</p>
     </v-sheet>
 
     <v-sheet
@@ -59,8 +58,8 @@ export default {
   data () {
     return {
 
-      creating: 0,
-      updating: 0,
+      // 상세 알림장을 저장할 변수
+      notebookDetail: null,
 
       userId:'',
       // 작성폼
@@ -72,22 +71,44 @@ export default {
 
       parentList: [],
 
+      creating: 0,
+      updating: 0,
+      
+
     }
   },
   props: {
-    selectedNotebook: {
-      notebookDetail: Object
+    identity: {
+      identity: Number,
+    },
+    id: {
+      id: Number,
     },
   },
 
   watch: {
-    'selectedNotebook' : function() {
-      this.creating = 0
-      this.updating = 0
+    'id' : function() {
+      this.getNotebookDetail()
     }
   },
 
   methods: {
+
+    async getNotebookDetail() {
+      let accessToken = sessionStorage.getItem('access-token')
+      let refreshToken = sessionStorage.getItem('refresh-token')
+      let data = {
+        Id: this.id,
+      }
+      let result = await notebookApi.getNotebookDetail(data, {
+        "access-token": accessToken,
+        "refresh-token": refreshToken,
+      });
+      this.notebookDetail = result
+      this.creating = 0
+      this.updating = 0
+    },
+
 
     onFileSelected(event) {
       this.img = event.target.files[0]
@@ -105,8 +126,6 @@ export default {
         "access-token": accessToken,
         "refresh-token": refreshToken,
       });
-      console.log(result)
-      console.log("학부모 조회 완료")
       this.parentList = result
     },
 
@@ -142,16 +161,16 @@ export default {
 
 
         let data = formData
-        let result = await notebookApi.createNotebook(data, {
+        await notebookApi.createNotebook(data, {
           "access-token": accessToken,
           "refresh-token": refreshToken,
           'Content-Type': 'multipart/form-data'
         });
         // 뭘로 날라오는 지 확인
-        console.log(result)
-        // this.notebookImg = result.message
+
         this.creating = 0
-        window.location.reload()
+        this.$emit('get-notebooklist')
+        // window.location.reload()
       }
     },
 
@@ -162,17 +181,17 @@ export default {
 
       // 0이면 작성 폼을 불러옴.
       if (this.updating === 0) {
-        this.title = this.selectedNotebook.title
-        this.content = this.selectedNotebook.content
-        this.img = this.selectedNotebook.img
-        this.writerId = this.selectedNotebook.writerId
-        this.targetId = this.selectedNotebook.targetId
+        this.title = this.notebookDetail.title
+        this.content = this.notebookDetail.content
+        this.img = this.notebookDetail.img
+        this.writerId = this.notebookDetail.writerId
+        this.targetId = this.notebookDetail.targetId
         this.updating = 1
       }
       // 1이면 수정 요청 보냄
       else if (this.updating === 1) {
         const formData = new FormData();
-        formData.append("noteId", this.selectedNotebook.noteId)
+        formData.append("noteId", this.notebookDetail.noteId)
         formData.append("img", this.img)
         formData.append("title", this.title)
         formData.append("content", this.content)
@@ -190,20 +209,19 @@ export default {
         console.log(result)
         // this.notebookImg = result.message
         this.updating = 0
-        window.location.reload()
+        this.$emit('get-notebooklist')
+        // window.location.reload()
 
 
       }
       
     },
 
-
-
     async deleteNotebook() {
       let accessToken = sessionStorage.getItem('access-token')
       let refreshToken = sessionStorage.getItem('refresh-token')
       let data = {
-        notebookId: this.selectedNotebook.noteId,
+        notebookId: this.notebookDetail.noteId,
       }
       let result = await notebookApi.deleteNotebook(data, {
         "access-token": accessToken,
@@ -212,19 +230,20 @@ export default {
       
       console.log(result)
       // this.getNotebook()
-      window.location.reload()
+      this.$emit('get-notebooklist')
+      // window.location.reload()
     },
-
-
   },
-  created() {
-  
+  created () {
     this.getParentList()
-  },
-
+  }
 }
 </script>
 
 <style>
-
+/* 위에서는 '@select-video=실행할 함수명' 으로 기다림. */
+/* 밑에서 위로 올려보낼때는 $emit */
+/* selectVideo: function () {
+      this.$emit('select-video', this.video)
+    } */
 </style>

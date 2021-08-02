@@ -1,79 +1,125 @@
 <template>
-  <div>
-    <v-list two-line >
-      <v-list-item-group
-        active-class="pink--text"
+  <div class="row" style="width:80vw; margin:0;">
+
+    <div
+    class="col-5 mx-auto"
+    style="padding-bottom: 0px;"
+    >
+      <!-- 노트북 리스트 -->
+      <v-col
+        class="mx-auto"
       >
-        <template v-for="(note, index) in notebookList">
-          <v-list-item :key="note.createDate" @click="selectedNotebook(note.noteId)">
-            <template >
-              <v-list-item-content>
-                <v-list-item-title v-text="note.title"></v-list-item-title>
-                
-                <v-list-item-subtitle
-                  class="text--primary"
-                  v-text="note.headline"
-                >
-                </v-list-item-subtitle>
+        <v-list two-line>
+          <v-list-item-group
+            active-class="pink--text"
+          >
 
-                <v-list-item-subtitle v-text="note.targetName"></v-list-item-subtitle>
-              </v-list-item-content>
+            <!-- 노트북 리스트 띄우기 -->
+            <div style="overflow-y:scroll; height:80vh;">
+              <template v-for="(note, index) in notebookList">
+                <v-list-item :key="note.createDate" @click="setDetail(note.noteId)">
+                  <template >
+                    <v-list-item-content >
+                      <v-list-item-title v-text="note.title"></v-list-item-title>
 
-              <v-list-item-action>
-                <v-list-item-action-text v-text="note.targetId"></v-list-item-action-text>
-              </v-list-item-action>
-            </template>
-          </v-list-item>
+                      <v-list-item-subtitle
+                        class="text--primary"
+                        v-text="note.headline"
+                      >
+                      </v-list-item-subtitle>
 
-          <v-divider
-            v-if="index < notebookList.length - 1"
-            :key="index"
-          ></v-divider>
-          
-        </template>
-        
-      <infinite-loading @infinite="infiniteHandler" spinner="waveDots"></infinite-loading>
-      </v-list-item-group>
-    </v-list>
+                      <v-list-item-subtitle v-text="note.targetName"></v-list-item-subtitle>
+                    </v-list-item-content>
+
+                    <v-list-item-action>
+                      <v-list-item-action-text v-text="note.targetId"></v-list-item-action-text>
+
+                    </v-list-item-action>
+                  </template>
+                </v-list-item>
+
+      
+
+                <v-divider
+                  v-if="index < notebookList.length - 1"
+                  :key="index"
+                ></v-divider>
+
+              </template>
+              <button @click="getMoreNotebooklist">더보기</button>
+            </div>
+          </v-list-item-group>
+        </v-list>
+      </v-col>
+    </div>
     
+    <NotebookDetail
+    :identity="identity"
+    :id="id"
+    @get-notebooklist="initNotebookList"
+    />
+
+
+
   </div>
+
+
+
 </template>
 
 <script>
 import notebookApi from '@/api/notebook.js';
-import InfiniteLoading from "vue-infinite-loading";
+import NotebookDetail from '@/components/Notebook/NotebookDetail.vue'
 export default {
   name: "NotebookList",
+  components: {
+    NotebookDetail
+  },
   data () {
     return {
+      // 디테일 값 얻어오기 위한 글의 아이디값
+      id:0,
+
+      // 관계
       identity: 0,
       identity_str: '',
+
+
       userId: '',
       notebookList: [],
-      notebookId: 0,
 
       pageNum: 0,
       pageCnt: 0,
 
     }
   },
-  components: {
-    InfiniteLoading
-  },
-
+  
   methods: {
-    infiniteHandler($state) {
-      // 현건이한테 전체 페이지 수 받아서 처리하기.
-      if (this.pageNum > this.pageCnt) {
-        $state.complete();
+    initNotebookList() {
+      this.notebookList = []
+      this.pageNum = 0
+      this.getNotebookList()
+    },
+
+    getMoreNotebooklist () {
+      if (this.pageNum <= this.pageCnt) {
+        this.getNotebookList()
       }
-      else {
-        setTimeout(() => {
-          $state.loaded();
-          this.getNotebook()
-        },1000)
-      }
-        },
+    },
+
+
+    // infiniteHandler($state) {
+    //   // 현건이한테 전체 페이지 수 받아서 처리하기.
+    //   if (this.pageNum > this.pageCnt) {
+    //     $state.complete();
+    //   }
+    //   else {
+    //     setTimeout(() => {
+    //       $state.loaded();
+    //       this.getNotebook()
+    //     },1000)
+    //   }
+    //     },
 
 
     // handleNotificationListScroll(e) {
@@ -86,15 +132,12 @@ export default {
     // },
 
 
-    selectedNotebook (Id) {
-      this.notebookId = Id
-      // console.log(this.notebookId)
-      this.$emit('selected-notebook', this.notebookId)
-      this.$store.state.notebookcreate = 0
-      this.$store.state.notebookupdate = 0
+    setDetail (Id) {
+      this.id = Id
+      // console.log(this.id)
     },
 
-    async getNotebook() {
+    async getNotebookList() {
       let accessToken = sessionStorage.getItem('access-token')
       let refreshToken = sessionStorage.getItem('refresh-token')
       
@@ -115,10 +158,9 @@ export default {
       this.notebookList.push(...result)
       this.pageNum += 1
 
-      if (this.notebookId === 0) {
+      if (this.id === 0) {
         // 최상단 알림장 디테일 페이지 디폴트 값으로 설정
-        this.notebookId = this.notebookList[0].noteId
-        this.$emit('selected-notebook', this.notebookId)
+        this.id = this.notebookList[0].noteId
       }
     },
     // checkBottom: function () {
@@ -140,7 +182,7 @@ export default {
     else if (this.identity === 2) {
       this.identity_str = 'teacher'
     }
-    // this.getNotebook()
+    this.getNotebookList()
 
   },
 }

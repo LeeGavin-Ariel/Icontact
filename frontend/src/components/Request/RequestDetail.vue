@@ -2,79 +2,79 @@
   <div style="overflow-y:scroll;" class="col">
     <!-- 디테일 -->
 
-      <button v-if="identity === 1 && updating === 0" @click="createNewRequest">연필</button>
+    <button v-if="identity === 1 && updating === 0" @click="createNewRequest">연필</button>
+    | 
+    <button v-if="identity === 1 && updating === 1" @click="updateRequest">연필</button>
+    
+    <button v-if="identity === 1 && updating === 0" @click="updateRequest">글 수정</button>
       | 
-      <button v-if="identity === 1 && updating === 1" @click="updateRequest">연필</button>
-      
-      <button v-if="identity === 1 && updating === 0" @click="updateRequest">글 수정</button>
-        | 
-      <button v-if="identity === 1" @click="deleteRequest">글 삭제</button>
-      <button v-if="identity === 1 && creating" @click="offCreateForm">글 작성 취소</button>
-      <v-sheet
-        rounded="lg"
-        v-if="requestType === 1 && requestDetail && (!creating && !updating)"
-      >
-        {{requestDetail}}
-        <p>작성 시간 : {{requestDetail.createDate}}</p>
-        <p>작성자 : {{requestDetail.kidName}} 학부모님</p>
-        <p>투약 시간 : {{requestDetail.dosageTime}}</p>
-        <p>투약 용량 : {{requestDetail.dosageVol}}</p>
-        <p>특이사항 : {{requestDetail.specialNote}}</p>
-        <p>증상 : {{requestDetail.symptom}}</p>
-      </v-sheet>
-
-      <v-sheet
-        rounded="lg"
-        v-if="requestType === 1 && (creating || updating)"
-      >
-        <p>증상 : </p>
-        <input type="text" v-model="symptom">
-        <p>약 종류 : </p>
-        <input type="text" v-model="medicineType">
-        <p>투약 용량 : </p>
-        <input type="number" v-model="dosageVol">
-        <p>투약 횟수 : </p>
-        <input type="number" v-model="dosageCnt">
-        <p>투약 시간 : </p>
-        <input type="text" v-model="dosageTime">
-        <p>보관 방법 : </p>
-        <input type="text" v-model="storage">
-        <p>특이 사항 : </p>
-        <input type="text" v-model="specialNote">
-      </v-sheet>
-
-      <v-sheet
-        rounded="lg"
-        v-if="requestType === 2 && requestDetail && (!creating && !updating)"
-      >
+    <button v-if="identity === 1" @click="deleteRequest">글 삭제</button>
+    <button v-if="identity === 1 && creating" @click="offCreateForm">글 작성 취소</button>
+    <v-sheet
+      rounded="lg"
+      v-if="requestType === 1 && requestDetail && (!creating && !updating)"
+    >
       {{requestDetail}}
-        <p>작성 시간 : {{requestDetail.createDate}}</p>
-        <p>작성자 : {{requestDetail.kidName}} 학부모님</p>
-        <p>귀가 날짜 : {{requestDetail.rhDate}}</p>
-        <p>귀가 시간 : {{requestDetail.rhTime}}</p>
-        <p>동행인 : {{requestDetail.guardian}}</p>
-        <p>동행인 전화번호 : {{requestDetail.guardianTel}}</p>
-        <p>긴급연락망 : {{requestDetail.emergency}}</p>
-        <p>긴급연락처 : {{requestDetail.emergencyTel}}</p>
-      </v-sheet>
+      <p>작성 시간 : {{requestDetail.createDate}}</p>
+      <p>작성자 : {{requestDetail.kidName}} 학부모님</p>
+      <p>투약 시간 : {{requestDetail.dosageTime}}</p>
+      <p>투약 용량 : {{requestDetail.dosageVol}}</p>
+      <p>특이사항 : {{requestDetail.specialNote}}</p>
+      <p>증상 : {{requestDetail.symptom}}</p>
+    </v-sheet>
 
-      <v-sheet
-        rounded="lg"
-        v-if="requestType === 2 && (creating || updating)"
-      >
-        <p>귀가 날짜 : </p>
-        <input type="text" v-model="rhDate">
-        <p>귀가 시간 : </p>
-        <input type="text" v-model="rhTime">
-        <p>동행인 : </p>
-        <input type="text" v-model="guardian">
-        <p>동행인 전화번호 : </p>
-        <input type="text" v-model="guardianTel">
-        <p>긴급연락망 : </p>
-        <input type="text" v-model="emergency">
-        <p>긴급연락처 : </p>
-        <input type="text" v-model="emergencyTel">
-      </v-sheet>
+    <v-sheet
+      rounded="lg"
+      v-if="requestType === 1 && (creating || updating)"
+    >
+      <p>증상 : </p>
+      <input type="text" v-model="symptom">
+      <p>약 종류 : </p>
+      <input type="text" v-model="medicineType">
+      <p>투약 용량 : </p>
+      <input type="number" v-model="dosageVol">
+      <p>투약 횟수 : </p>
+      <input type="number" v-model="dosageCnt">
+      <p>투약 시간 : </p>
+      <input type="text" v-model="dosageTime">
+      <p>보관 방법 : </p>
+      <input type="text" v-model="storage">
+      <p>특이 사항 : </p>
+      <input type="text" v-model="specialNote">
+    </v-sheet>
+
+    <v-sheet
+      rounded="lg"
+      v-if="requestType === 2 && requestDetail && (!creating && !updating)"
+    >
+    {{requestDetail}}
+      <p>작성 시간 : {{requestDetail.createDate}}</p>
+      <p>작성자 : {{requestDetail.kidName}} 학부모님</p>
+      <p>귀가 날짜 : {{requestDetail.rhDate}}</p>
+      <p>귀가 시간 : {{requestDetail.rhTime}}</p>
+      <p>동행인 : {{requestDetail.guardian}}</p>
+      <p>동행인 전화번호 : {{requestDetail.guardianTel}}</p>
+      <p>긴급연락망 : {{requestDetail.emergency}}</p>
+      <p>긴급연락처 : {{requestDetail.emergencyTel}}</p>
+    </v-sheet>
+
+    <v-sheet
+      rounded="lg"
+      v-if="requestType === 2 && (creating || updating)"
+    >
+      <p>귀가 날짜 : </p>
+      <input type="text" v-model="rhDate">
+      <p>귀가 시간 : </p>
+      <input type="text" v-model="rhTime">
+      <p>동행인 : </p>
+      <input type="text" v-model="guardian">
+      <p>동행인 전화번호 : </p>
+      <input type="text" v-model="guardianTel">
+      <p>긴급연락망 : </p>
+      <input type="text" v-model="emergency">
+      <p>긴급연락처 : </p>
+      <input type="text" v-model="emergencyTel">
+    </v-sheet>
 
 
   </div>
@@ -128,7 +128,9 @@ export default {
   watch: {
     'id' : function() {
       console.log('11111')
-      this.getRequestDetail()
+      if (this.id !== 0) {
+        this.getRequestDetail()
+      }
     }
   },
 
@@ -232,7 +234,7 @@ export default {
           
         }
         this.creating = 0
-        window.location.reload()
+        this.$emit('get-notebooklist', this.requestType)
         // this.getRequest()
       }
     },
@@ -306,7 +308,7 @@ export default {
           console.log(result)
         }
         this.updating = 0
-        window.location.reload()
+        this.$emit('get-notebooklist', this.requestType)
         // this.getRequest()
       }
     },
@@ -336,8 +338,8 @@ export default {
       });
       console.log(result)
       }
-      // this.getRequest()
-      window.location.reload()
+      this.$emit('get-notebooklist', this.requestType)
+      // window.location.reload()
     }
   },
 
@@ -345,6 +347,6 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="row" style="width:80vw;">
+  <div class="row" style="width:80vw; margin:0;">
 
     <div
     class="col-5 mx-auto"
@@ -74,8 +74,8 @@
             </div>
             
 
+            <!-- 귀가 리스트 띄우기-->
             <div v-if="requestType === 2" style="overflow-y:scroll; height:80vh;">
-              <!-- 귀가 리스트 띄우기-->
               <template v-for="(request, index) in returnHomeList" >
                 <!-- <v-list-item v-if="requestType === 1" :key="request.createDate" @click="setDetail(request.dosageId)">
                   <template >
@@ -139,6 +139,7 @@
     :identity="identity"
     :requestType="requestType"
     :id="id"
+    @get-notebooklist="initRequestList"
     />
 
 
@@ -149,18 +150,14 @@
 <script>
 import RequestDetail from '@/components/Request/RequestDetail.vue';
 import requestApi from '@/api/request.js';
-// import InfiniteLoading from "vue-infinite-loading";
+
 export default {
   name: "RequestList",
   components:{
     RequestDetail,
-    // InfiniteLoading,
   },
   data () {
     return {
-      // 선택된 글 표시 -> 글의 id값으로 처리하기.
-      // selectedRequest: 1,
-
       // 디테일 값을 얻어 오기 위한 글의 아이디값
       id: 0,
 
@@ -175,57 +172,35 @@ export default {
       dosageList: [],
       returnHomeList: [],
 
-      // 무한스크롤 용 pageNum
+      // 더보기
       dosagePageNum: 1,
       returnhomePageNum: 1,
-      // 전체 페이지 수
+      // 더보기 전체 페이지 수
       dosagePageCnt: 1 ,
       returnhomePageCnt: 1 ,
     }
   },
   methods: {
-
-    // dosageInfiniteHandler($state) {
-    //   // 현건이한테 전체 페이지 수 받아서 처리하기.
-    //   if (this.dosagePageNum > this.dosagePageCnt) {
-    //     $state.complete();
-    //   }
-    //   else {
-    //     setTimeout(() => {
-    //       $state.loaded();
-    //       if (this.requestType === 1) {
-    //         this.getDosageList()
-    //       }
-    //       else if (this.requestType === 2){
-    //         this.getReturnHomeList()
-    //       }
-    //     },1000)
-    //   }
-    // },
-
-    // returnhomeInfiniteHandler($state) {
-    //   // 현건이한테 전체 페이지 수 받아서 처리하기.
-    //   if (this.returnhomePageNum > this.returnhomePageCnt) {
-    //     $state.complete();
-    //   }
-    //   else {
-    //     setTimeout(() => {
-    //       $state.loaded();
-    //       if (this.requestType === 1) {
-    //         this.getDosageList()
-    //       }
-    //       else if (this.requestType === 2){
-    //         this.getReturnHomeList()
-    //       }
-    //     },1000)
-    //   }
-    // },
-
+    // 글 작성, 수정, 삭제 이벤트 발생시 다시 목록 조회.
+    initRequestList (requestType) {
+      if (requestType === 1) {
+        this.dosageList = []
+        this.dosagePageNum = 1
+        this.getDosageList()
+      }
+      else if (requestType === 2) {
+        this.returnHomeList = []
+        this.returnhomePageNum = 1
+        this.getReturnHomeList()
+      }
+    },
+    // 더보기 버튼
     getMoreDosageList() {
       if (this.dosagePageNum <= this.dosagePageCnt) {
         this.getDosageList()
       }
     },
+    // 더보기 버튼
     getMoreReturnhomeList() {
       if (this.returnhomePageNum <= this.returnhomePageCnt) {
         this.getReturnHomeList()
@@ -239,8 +214,10 @@ export default {
     },
 
 
-    // 첫번째 디테일 글로 변경 (밥먹고 와서 생각하기)
+    // 투약 탭 눌렀을때
     getDosage() {
+      
+
       this.creating = 0
       if (this.requestType !== 1) {
 
@@ -248,22 +225,30 @@ export default {
         if (this.dosageList.length === 0) {
           this.getDosageList()
         }
+        if (this.dosageList.length !== 0) {
+        this.id = this.dosageList[0].dosageId
+        }
       }
     },
-  
+    // 귀가 탭 눌렀을때
     getReturnHome() {
+      
       this.creating = 0
-      console.log(this.returnHomeList)
       if (this.requestType !== 2) {
-
+        
         this.requestType = 2
         if (this.returnHomeList.length === 0) {
           this.getReturnHomeList()
         }
+        console.log("길이")
+        console.log(this.returnHomeList.length)
+        if (this.returnHomeList.length !== 0) {
+          this.id = this.returnHomeList[0].rhId
+        }
       }
     },
 
-    // 전체 글 불러오기. (투약 -> requestType = 1, 귀가 -> requestType = 2)
+    // 투약 전체 글 불러오기. (투약 -> requestType = 1, 귀가 -> requestType = 2)
     async getDosageList() {
       let accessToken = sessionStorage.getItem('access-token')
       let refreshToken = sessionStorage.getItem('refresh-token')
@@ -273,21 +258,46 @@ export default {
         userId: this.$store.state.user.userId,
         pageNum: this.dosagePageNum
       }
-      let result = await requestApi.getRequest(data, {
+      requestApi.getRequest(data, {
         "access-token": accessToken,
         "refresh-token": refreshToken,
-      });
-      this.dosagePageCnt = result.pageCnt
-      this.dosageList.push(...result.dosageList)
-      this.dosagePageNum += 1
+      })
+      .then(result => {
+        this.dosagePageCnt = result.pageCnt
+        this.dosageList.push(...result.dosageList)
+        this.dosagePageNum += 1
+
+        if (this.id === 0) {
+          this.id = this.dosageList[0].dosageId
+        }
+      })
       
-      if (this.id === 0) {
-        this.id = this.dosageList[0].dosageId
-      }
     },
 
+    // async getDosageList() {
+    //   let accessToken = sessionStorage.getItem('access-token')
+    //   let refreshToken = sessionStorage.getItem('refresh-token')
+    //   let data = {
+    //     type: this.identity_str,
+    //     requestType: this.requestType,
+    //     userId: this.$store.state.user.userId,
+    //     pageNum: this.dosagePageNum
+    //   }
+    //   let result = await requestApi.getRequest(data, {
+    //     "access-token": accessToken,
+    //     "refresh-token": refreshToken,
+    //   });
+    //   this.dosagePageCnt = result.pageCnt
+    //   this.dosageList.push(...result.dosageList)
+    //   this.dosagePageNum += 1
 
-    async getReturnHomeList() {
+    //   if (this.id === 0) {
+    //     this.id = this.dosageList[0].dosageId
+    //   }
+    // },
+
+    // 귀가 전체 글 조회
+    getReturnHomeList() {
       let accessToken = sessionStorage.getItem('access-token')
       let refreshToken = sessionStorage.getItem('refresh-token')
       let data = {
@@ -296,61 +306,48 @@ export default {
         userId: this.$store.state.user.userId,
         pageNum: this.returnhomePageNum
       }
-      let result = await requestApi.getRequest(data, {
+      requestApi.getRequest(data, {
         "access-token": accessToken,
         "refresh-token": refreshToken,
-      });
-      this.returnhomePageCnt = result.pageCnt
-      this.returnHomeList.push(...result.returnhomeList)
+      })
+      .then(result => {
+        this.returnhomePageCnt = result.pageCnt
+        this.returnHomeList.push(...result.returnhomeList)
+        this.returnhomePageNum += 1
+        if (this.id === 0) {
+          // 첫번째 글의 디테일 페이지 디폴트 값으로 올리기.
+          this.id = this.returnHomeList[0].rhId
+        }
 
-      this.returnhomePageNum += 1
-      
-      if (this.id === 0) {
-        // 첫번째 글의 디테일 페이지 디폴트 값으로 올리기.
-        this.id = this.returnHomeList[0].rhId
-        
-      }
+      })
+
     },
 
-
-
-    // async getRequest() {
+    // // 귀가 전체 글 조회
+    // async getReturnHomeList() {
     //   let accessToken = sessionStorage.getItem('access-token')
     //   let refreshToken = sessionStorage.getItem('refresh-token')
     //   let data = {
     //     type: this.identity_str,
     //     requestType: this.requestType,
     //     userId: this.$store.state.user.userId,
-    //     pageNum: this.pageNum
+    //     pageNum: this.returnhomePageNum
     //   }
     //   let result = await requestApi.getRequest(data, {
     //     "access-token": accessToken,
     //     "refresh-token": refreshToken,
     //   });
-    //   if (this.requestType === 1) {
-    //     this.dosageList.push(...result.dosageList)
-    //     // this.requestList = result.dosageList
-    //   }
-    //   else if (this.requestType === 2) {
-    //     this.returnHomeList.push(...result.returnHomeList)
-    //     // this.requestList = result.returnHomeList
-    //   }
-    //   this.pageNum += 1
-      
+    //   this.returnhomePageCnt = result.pageCnt
+    //   this.returnHomeList.push(...result.returnhomeList)
+
+    //   this.returnhomePageNum += 1
     //   if (this.id === 0) {
     //     // 첫번째 글의 디테일 페이지 디폴트 값으로 올리기.
-    //     if (this.requestType === 1) {
-    //       this.id = this.requestList[0].dosageId
-    //     }
-    //     else if (this.requestType === 2){
-    //       this.id = this.requestList[0].rhId
-    //     }
+    //     this.id = this.returnHomeList[0].rhId
     //   }
     // },
   },
 
-
-  // 상위 컴포넌트의 created -> 하위 컴포넌트의 created -> 하위 컴포넌트의 mounted -> 상위 컴포넌트의 mounted
   created() {
     // 페이지 들어오자마자 getRequest 실행 (default 투약요청)
     this.identity = this.$store.state.user.type

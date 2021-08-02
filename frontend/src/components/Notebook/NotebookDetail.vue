@@ -170,7 +170,6 @@ export default {
 
         this.creating = 0
         this.$emit('get-notebooklist')
-        // window.location.reload()
       }
     },
 
@@ -207,10 +206,9 @@ export default {
         });
         // 뭘로 날라오는 지 확인
         console.log(result)
-        // this.notebookImg = result.message
         this.updating = 0
         this.$emit('get-notebooklist')
-        // window.location.reload()
+
 
 
       }
@@ -229,9 +227,7 @@ export default {
       });
       
       console.log(result)
-      // this.getNotebook()
       this.$emit('get-notebooklist')
-      // window.location.reload()
     },
   },
   created () {
@@ -240,10 +236,6 @@ export default {
 }
 </script>
 
-<style>
-/* 위에서는 '@select-video=실행할 함수명' 으로 기다림. */
-/* 밑에서 위로 올려보낼때는 $emit */
-/* selectVideo: function () {
-      this.$emit('select-video', this.video)
-    } */
+<style scoped>
+
 </style>

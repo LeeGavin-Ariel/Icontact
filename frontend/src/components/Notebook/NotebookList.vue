@@ -108,33 +108,8 @@ export default {
     },
 
 
-    // infiniteHandler($state) {
-    //   // 현건이한테 전체 페이지 수 받아서 처리하기.
-    //   if (this.pageNum > this.pageCnt) {
-    //     $state.complete();
-    //   }
-    //   else {
-    //     setTimeout(() => {
-    //       $state.loaded();
-    //       this.getNotebook()
-    //     },1000)
-    //   }
-    //     },
-
-
-    // handleNotificationListScroll(e) {
-    //   console.log(e)
-    //   const { scrollHeight, scrollTop, clientHeight } = e.target;
-    //   const isAtTheBottom = scrollHeight === scrollTop + clientHeight;
-    //   if (isAtTheBottom) {
-    //     this.getNotebook()
-    //   }
-    // },
-
-
     setDetail (Id) {
       this.id = Id
-      // console.log(this.id)
     },
 
     async getNotebookList() {
@@ -163,14 +138,7 @@ export default {
         this.id = this.notebookList[0].noteId
       }
     },
-    // checkBottom: function () {
-    //   const {scrollTop, clientHeight, scrollHeight} = document.documentElement
-    //   if (scrollHeight - scrollTop <= clientHeight) {
-    //       this.getNotebook()
-    //   }
-    // },
     
-
   },
   created() {
     
@@ -188,13 +156,7 @@ export default {
 }
 </script>
 
-<style>
-
-/* 위에서는 '@select-video=실행할 함수명' 으로 기다림. */
-/* 밑에서 위로 올려보낼때는 $emit */
-/* selectVideo: function () {
-      this.$emit('select-video', this.video)
-    } */
+<style scoped>
 
 </style>
 

@@ -10,6 +10,7 @@ export default {
     changepw:'/user/changepw',
     getuserinf:'/user/info',
     changeProfileImg:'/user/profileImg',
-    changePWAfterLogin:'/user/password'
+    changePWAfterLogin:'/user/password',
+    getClassMember:'/user/class'
   }
 }

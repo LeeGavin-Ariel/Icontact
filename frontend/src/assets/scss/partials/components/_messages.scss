@@ -1,0 +1,9 @@
+.messages {
+  height: calc(100% - 184px);
+  overflow: hidden;
+  overflow-y: auto;
+  padding-bottom: 80px;
+  transition: width 600ms ease;
+  width: auto;
+  position: relative;
+}

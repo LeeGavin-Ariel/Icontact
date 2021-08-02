@@ -29,10 +29,8 @@ export const requestGet = async (url, headers) => {
 
 export const requestPost = async (url, data, headers) => {
   try {
-
     const response = await axios.post(url, data, { headers });
     if (response.status === 200) {
-      console.log(response)
       if (response.headers['jwt-access-token']) setJwtTokens(response);
       return response.data;
     }
@@ -40,7 +38,25 @@ export const requestPost = async (url, data, headers) => {
   } catch (e) {
     throw new Error(e);
   }
-}
+};
+
+export const requestSendBirdPost = async (url, data, headers) => {
+  console.log(url);
+  console.log(headers);
+  console.log(data)
+  try {
+    const response = await axios.post(url, data, { headers });
+    if (response.status === 200) {
+      console.log('성공했습니다.');
+      console.log(response.data);
+      // if (response.headers['jwt-access-token']) setJwtTokens(response);
+      return response.data;
+    }
+    throw new Error();
+  } catch (e) {
+    throw new Error(e);
+  }
+};
 
 export const requestPut = async (url, data, headers) => {
   try {

@@ -40,4 +40,8 @@ public interface NoticeService {
     public ScheduleResultDto scheduleDetail(int id);
 
     public MenuResultDto menuDetail(int id);
+
+    public int totalNoticeList(String userId);
+
+    public int totalScheduleList(String userId);
 }

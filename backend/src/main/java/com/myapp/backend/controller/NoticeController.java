@@ -92,8 +92,17 @@ public class NoticeController {
         noticeParamDto.setLimit(limit);
         noticeParamDto.setOffset((noticeParamDto.getPageNum()-1)*limit);
 
+        int total = 0;
+        int pageCnt = 0;
 
         if(noticeType == 1){ // 일반 공지
+
+            total = noticeService.totalNoticeList(noticeParamDto.getUserId());
+
+            if(total%limit > 0) pageCnt = total/limit+1;
+            else pageCnt = total/limit;
+            commonNoticeResultDto.setPageCnt(pageCnt);
+
             List<NoticeResultDto> noticeList = noticeService.noticeList(noticeParamDto);
             if(noticeList != null){
                 commonNoticeResultDto.setNoticeList(noticeList);
@@ -101,6 +110,13 @@ public class NoticeController {
 
             }
         } else if (noticeType == 2){ // 일정
+
+            total = noticeService.totalScheduleList(noticeParamDto.getUserId());
+
+            if(total%limit > 0) pageCnt = total/limit+1;
+            else pageCnt = total/limit;
+            commonNoticeResultDto.setPageCnt(pageCnt);
+
             List<ScheduleResultDto> scheduleList = noticeService.scheduleList(noticeParamDto);
             if(scheduleList != null){
                 commonNoticeResultDto.setScheduleList(scheduleList);

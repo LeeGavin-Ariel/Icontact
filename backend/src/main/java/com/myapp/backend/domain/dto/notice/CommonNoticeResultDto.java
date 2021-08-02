@@ -10,6 +10,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CommonNoticeResultDto {
+    int pageCnt;
+
     NoticeResultDto notice;
     List<NoticeResultDto> noticeList;
 

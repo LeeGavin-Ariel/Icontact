@@ -12,43 +12,10 @@
         LIMIT #{limit} OFFSET #{offset}
     </select>
 
-    <select id="scheduleList" parameterType="map" resultType="com.myapp.backend.domain.dto.notice.ScheduleResultDto">
-        SELECT schedule.userId, user.userName, scheduleId, title, content, schedule.createDate, scheduleImgUrl
-        FROM schedule, (select classCode from user where userId = #{userId}) as tmp, user
-        WHERE schedule.classCode = tmp.classCode
-          and user.userId = schedule.userId
-        ORDER BY createDate DESC
-        LIMIT #{limit} OFFSET #{offset}
-    </select>
-
-    <select id="menuList" parameterType="map" resultType="com.myapp.backend.domain.dto.notice.MenuResultDto">
-        SELECT menu.userId, user.userName, menuId, amSnack, amSnackImgUrl, lunch, lunchImgUrl, pmSnack, pmSnackImgUrl, menu.createDate
-        FROM menu, (select classCode from user where userId = #{userId}) as tmp, user
-        WHERE menu.classCode = tmp.classCode
-          and user.userId = menu.userId
-        ORDER BY createDate DESC
-        LIMIT #{limit} OFFSET #{offset}
-    </select>
-
     <select id="noticeDetail" parameterType="int" resultType="com.myapp.backend.domain.dto.notice.NoticeResultDto">
         SELECT notice.userId, user.userName, noticeId, title, content, notice.createDate, noticeImgUrl
         FROM notice, user
         WHERE notice.noticeId = #{id}
           and user.userId = notice.userId
     </select>
-
-    <select id="scheduleDetail" parameterType="int" resultType="com.myapp.backend.domain.dto.notice.ScheduleResultDto">
-        SELECT schedule.userId, user.userName, scheduleId, title, content, schedule.createDate, scheduleImgUrl
-        FROM schedule, user
-        WHERE schedule.scheduleId = #{id}
-          and user.userId = schedule.userId
-    </select>
-
-    <select id="menuDetail" parameterType="int" resultType="com.myapp.backend.domain.dto.notice.MenuResultDto">
-        SELECT menu.userId, user.userName, menuId, amSnack, amSnackImgUrl, lunch, lunchImgUrl, pmSnack, pmSnackImgUrl, menu.createDate
-        FROM menu, user
-        WHERE menu.menuId = #{id}
-          and user.userId = menu.userId
-    </select>
-
 </mapper>

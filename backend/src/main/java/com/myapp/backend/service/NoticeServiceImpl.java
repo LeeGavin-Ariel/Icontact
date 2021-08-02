@@ -1,6 +1,8 @@
 package com.myapp.backend.service;
 
+import com.myapp.backend.dao.MenuDao;
 import com.myapp.backend.dao.NoticeDao;
+import com.myapp.backend.dao.ScheduleDao;
 import com.myapp.backend.domain.dto.notice.*;
 import com.myapp.backend.domain.entity.Menu;
 import com.myapp.backend.domain.entity.Notice;
@@ -33,6 +35,12 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Autowired
     NoticeDao noticeDao;
+
+    @Autowired
+    ScheduleDao scheduleDao;
+
+    @Autowired
+    MenuDao menuDao;
 
     // 일반 공지글 등록
     @Override
@@ -189,12 +197,12 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Override
     public List<ScheduleResultDto> scheduleList(NoticeParamDto noticeParamDto) {
-        return noticeDao.scheduleList(noticeParamDto);
+        return scheduleDao.scheduleList(noticeParamDto);
     }
 
     @Override
     public List<MenuResultDto> menuList(NoticeParamDto noticeParamDto) {
-        return noticeDao.menuList(noticeParamDto);
+        return menuDao.menuList(noticeParamDto);
     }
 
     @Override
@@ -204,11 +212,21 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Override
     public ScheduleResultDto scheduleDetail(int id) {
-        return noticeDao.scheduleDetail(id);
+        return scheduleDao.scheduleDetail(id);
     }
 
     @Override
     public MenuResultDto menuDetail(int id) {
-        return noticeDao.menuDetail(id);
+        return menuDao.menuDetail(id);
+    }
+
+    @Override
+    public int totalNoticeList(String userId) {
+        return noticeDao.totalNoticeList(userId);
+    }
+
+    @Override
+    public int totalScheduleList(String userId) {
+        return 0;
     }
 }

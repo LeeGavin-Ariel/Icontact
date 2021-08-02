@@ -44,6 +44,7 @@
 <script>
 import PV from "password-validator";
 import authApi from '@/api/auth.js';
+
 export default {
   name: 'Login',
   data: function () {
@@ -101,7 +102,7 @@ export default {
         const result = await authApi.login(credentials);
         console.log('ok')
         if (result.accept === 2) {
-          this.$store.dispatch('setUser', {
+          await this.$store.dispatch('setUser', {
             userId: result.userId,
             userName: result.userName,
             type: result.type,
@@ -116,6 +117,7 @@ export default {
             classCode: result.classCode,
             className: result.className,
           });
+
           this.$router.push('/');
         } else {
           alert('승인되지 않은 계정입니다. 관리자에게 문의하세요')

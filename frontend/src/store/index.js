@@ -11,6 +11,12 @@ export default new Vuex.Store({
       ],
   state: {
     user: null,
+
+    //chatting용
+    messages: [],
+    channel: null,
+    channels: null,
+    channelUsers: [],
     
 
     // 회원가입 공통화면 데이터
@@ -21,7 +27,7 @@ export default new Vuex.Store({
     
     // 비밀번호 변경 데이터 
     sendUserIdForChangePW: '',
-   
+    
     // 로그인 결과 데이터
     type: 0,
     accept: 0,
@@ -46,7 +52,6 @@ export default new Vuex.Store({
     },
     SET_USER(state, payload) {
       state.user = payload;
-      console.log(state.user)
       state.isLoggedIn = true
     },
     REMOVE_USER(state) {
@@ -57,6 +62,26 @@ export default new Vuex.Store({
       state.sendUserIdForChangePW = userid
       
     },
+
+    //sendbird 관련
+    SET_CHANNELS: (state, channels) => {
+      state.channels = channels
+    },
+    SET_CHANNEL: (state, channel) => {
+      state.channel = channel
+    },
+
+    SET_CHANNEL_USERS: (state, channelUsers) => {
+      state.channelUsers = channelUsers
+    },
+
+    SET_MESSAGES: (state, messages) => {
+      state.messages = messages
+    },
+    //이전 메시지 포함한 메시지로 대체
+    PLUS_MESSAGES:(state, messages) => {
+      state.messages = messages
+    }
     
   },
   actions: {
@@ -97,7 +122,43 @@ export default new Vuex.Store({
       router.push({ name: 'ChangePassword' })
     },
 
+    //sendbird 관련
+    addMessage: ({ commit, state }, message) => {
+      commit('SET_MESSAGES', state.messages.concat(message))
+    },
+
+    addMessages: ({ commit, state }, messages) => {
+      commit('SET_MESSAGES', messages.concat(state.messages))
+    },
+    //이전 메시지 가져오기
+    loadPrevMessages: ({ commit }, messages) => {
+      commit('PLUS_MESSAGES', messages)
+    },
+
+    addChannelUser: ({ commit, state }, user) => {
+      commit('SET_CHANNEL_USERS', state.channelUsers.concat(user))
+    },
+
+    removeChannelUser: ({ commit, state }, user) => {
+      commit('SET_CHANNEL_USERS', state.channelUsers.filter(it => it.userId !== user.userId))
+    }
+
     
 
+  },
+
+  getters: {
+
+    earliestMessage(state) {
+      return state.messages[0]
+    },
+
+    isLogged(state) {
+      return state.user
+    }
+
+  },
+
+  modules: {
   },
 })

@@ -67,8 +67,10 @@
                   v-if="index < dosageList.length - 1"
                   :key="index"
                 ></v-divider>
+
               </template>
-              <infinite-loading @infinite="dosageInfiniteHandler" spinner="waveDots"></infinite-loading>
+              <button @click="getMoreDosageList">더보기</button>
+              <!-- <infinite-loading @infinite="dosageInfiniteHandler" spinner="waveDots"></infinite-loading> -->
             </div>
             
 
@@ -120,8 +122,8 @@
                   :key="index"
                 ></v-divider>
               </template>
-              
-              <infinite-loading @infinite="returnhomeInfiniteHandler" spinner="waveDots"></infinite-loading>
+              <button @click="getMoreReturnhomeList">더보기</button>
+              <!-- <infinite-loading @infinite="returnhomeInfiniteHandler" spinner="waveDots"></infinite-loading> -->
             </div>
             
 
@@ -147,12 +149,12 @@
 <script>
 import RequestDetail from '@/components/Request/RequestDetail.vue';
 import requestApi from '@/api/request.js';
-import InfiniteLoading from "vue-infinite-loading";
+// import InfiniteLoading from "vue-infinite-loading";
 export default {
   name: "RequestList",
   components:{
     RequestDetail,
-    InfiniteLoading,
+    // InfiniteLoading,
   },
   data () {
     return {
@@ -183,61 +185,81 @@ export default {
   },
   methods: {
 
-    dosageInfiniteHandler($state) {
-      // 현건이한테 전체 페이지 수 받아서 처리하기.
-      if (this.dosagePageNum > this.dosagePageCnt) {
-        $state.complete();
+    // dosageInfiniteHandler($state) {
+    //   // 현건이한테 전체 페이지 수 받아서 처리하기.
+    //   if (this.dosagePageNum > this.dosagePageCnt) {
+    //     $state.complete();
+    //   }
+    //   else {
+    //     setTimeout(() => {
+    //       $state.loaded();
+    //       if (this.requestType === 1) {
+    //         this.getDosageList()
+    //       }
+    //       else if (this.requestType === 2){
+    //         this.getReturnHomeList()
+    //       }
+    //     },1000)
+    //   }
+    // },
+
+    // returnhomeInfiniteHandler($state) {
+    //   // 현건이한테 전체 페이지 수 받아서 처리하기.
+    //   if (this.returnhomePageNum > this.returnhomePageCnt) {
+    //     $state.complete();
+    //   }
+    //   else {
+    //     setTimeout(() => {
+    //       $state.loaded();
+    //       if (this.requestType === 1) {
+    //         this.getDosageList()
+    //       }
+    //       else if (this.requestType === 2){
+    //         this.getReturnHomeList()
+    //       }
+    //     },1000)
+    //   }
+    // },
+
+    getMoreDosageList() {
+      if (this.dosagePageNum <= this.dosagePageCnt) {
+        this.getDosageList()
       }
-      else {
-        setTimeout(() => {
-          $state.loaded();
-          if (this.requestType === 1) {
-            this.getDosageList()
-          }
-          else if (this.requestType === 2){
-            this.getReturnHomeList()
-          }
-        },1000)
+    },
+    getMoreReturnhomeList() {
+      if (this.returnhomePageNum <= this.returnhomePageCnt) {
+        this.getReturnHomeList()
       }
     },
 
-    returnhomeInfiniteHandler($state) {
-      // 현건이한테 전체 페이지 수 받아서 처리하기.
-      if (this.returnhomePageNum > this.returnhomePageCnt) {
-        $state.complete();
-      }
-      else {
-        setTimeout(() => {
-          $state.loaded();
-          if (this.requestType === 1) {
-            this.getDosageList()
-          }
-          else if (this.requestType === 2){
-            this.getReturnHomeList()
-          }
-        },1000)
-      }
-    },
 
     // 글을 클릭했을때 id값 저장
     setDetail(id) {
       this.id = id
     },
 
+
+    // 첫번째 디테일 글로 변경 (밥먹고 와서 생각하기)
     getDosage() {
-      window.location.reload()
       this.creating = 0
       if (this.requestType !== 1) {
+
         this.requestType = 1
-        this.getDosageList()
+        if (this.dosageList.length === 0) {
+          this.getDosageList()
+        }
       }
     },
+  
     getReturnHome() {
-      window.location.reload()
       this.creating = 0
+      console.log(this.returnHomeList)
       if (this.requestType !== 2) {
+
         this.requestType = 2
-        this.getReturnHomeList()
+        if (this.returnHomeList.length === 0) {
+          this.getReturnHomeList()
+        }
       }
     },
 
@@ -338,7 +360,7 @@ export default {
     else if (this.identity === 2) {
       this.identity_str = 'teacher'
     }
-    // this.getDosageList()
+    this.getDosageList()
   },
 
 

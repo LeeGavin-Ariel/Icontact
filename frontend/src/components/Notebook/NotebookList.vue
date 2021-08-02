@@ -53,6 +53,7 @@ export default {
       notebookId: 0,
 
       pageNum: 0,
+      pageCnt: 0,
 
     }
   },
@@ -63,7 +64,7 @@ export default {
   methods: {
     infiniteHandler($state) {
       // 현건이한테 전체 페이지 수 받아서 처리하기.
-      if (this.pageNum > 3) {
+      if (this.pageNum > this.pageCnt) {
         $state.complete();
       }
       else {
@@ -106,10 +107,12 @@ export default {
         "access-token": accessToken,
         "refresh-token": refreshToken,
       });
-      
       console.log('확인용')
+      // 페이지 수가 1개일때 문제가 생길 수 있다.
+      if (!this.pageCnt && result) {
+        this.pageCnt = result[0].pageCnt
+      }
       this.notebookList.push(...result)
-      console.log(this.notebookList)
       this.pageNum += 1
 
       if (this.notebookId === 0) {

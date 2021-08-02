@@ -14,10 +14,9 @@
 
     <select id="totalTeacherReturnhomeList" parameterType="String" resultType="int">
         SELECT count(*)
-        FROM (select userId, kidName from user where classCode = (select classCode from user where userId = "testTeacher")
+        FROM (select userId, kidName from user where classCode = (select classCode from user where userId = #{userId})
                                                  and type = 1) as tmp, returnhome
         WHERE tmp.userId = returnhome.userId
-        ORDER BY createDate DESC
     </select>
 
     <select id="parentReturnhomeList" parameterType="map" resultType="com.myapp.backend.domain.dto.request.ReturnhomeResultDto">

@@ -81,13 +81,11 @@ public class RequestController {
         requestParamDto.setLimit(limit);
         requestParamDto.setOffset((requestParamDto.getPageNum()-1)*limit);
 
-        if(requestType == 1){ // 투약
-            int total = requestService.totalTeacherDosageList(requestParamDto.getUserId());
+        int total = 0;
 
-            int pageCnt = 0;
-            if(total%limit > 0) pageCnt = total/limit+1;
-            else pageCnt = total/limit;
-            requestResultDto.setPageCnt(pageCnt);
+        if(requestType == 1){ // 투약
+            total = requestService.totalTeacherDosageList(requestParamDto.getUserId());
+            requestResultDto.setPageCnt(calcPageCnt(total, limit));
 
             List<DosageResultDto> dosageList = requestService.teacherDosageList(requestParamDto);
             if(dosageList != null){
@@ -95,12 +93,8 @@ public class RequestController {
                 return new ResponseEntity<RequestResultDto>(requestResultDto, HttpStatus.OK);
             }
         } else { // 귀가
-            int total = requestService.totalTeacherReturnhomeList(requestParamDto.getUserId());
-
-            int pageCnt = 0;
-            if(total%limit > 0) pageCnt = total/limit+1;
-            else pageCnt = total/limit;
-            requestResultDto.setPageCnt(pageCnt);
+            total = requestService.totalTeacherReturnhomeList(requestParamDto.getUserId());
+            requestResultDto.setPageCnt(calcPageCnt(total, limit));
 
             List<ReturnhomeResultDto> returnhomeList = requestService.teacherReturnhomeList(requestParamDto);
             if(returnhomeList != null){
@@ -112,6 +106,8 @@ public class RequestController {
         return new ResponseEntity<RequestResultDto>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+
+
     // 학부모 글 조회
     @GetMapping("/request/parents")
     public ResponseEntity<RequestResultDto> parentRequestList(RequestParamDto requestParamDto) {
@@ -122,13 +118,11 @@ public class RequestController {
         requestParamDto.setLimit(limit);
         requestParamDto.setOffset((requestParamDto.getPageNum()-1)*limit);
 
-        if(requestType == 1){ // 투약
-            int total = requestService.totalParentDosageList(requestParamDto.getUserId());
+        int total = 0;
 
-            int pageCnt = 0;
-            if(total%limit > 0) pageCnt = total/limit+1;
-            else pageCnt = total/limit;
-            requestResultDto.setPageCnt(pageCnt);
+        if(requestType == 1){ // 투약
+            total = requestService.totalParentDosageList(requestParamDto.getUserId());
+            requestResultDto.setPageCnt(calcPageCnt(total, limit));
 
             List<DosageResultDto> dosageList = requestService.parentDosageList(requestParamDto);
             if(dosageList != null){
@@ -136,12 +130,8 @@ public class RequestController {
                 return new ResponseEntity<RequestResultDto>(requestResultDto, HttpStatus.OK);
             }
         } else { // 귀가
-            int total = requestService.totalParentReturnhomeList(requestParamDto.getUserId());
-
-            int pageCnt = 0;
-            if(total%limit > 0) pageCnt = total/limit+1;
-            else pageCnt = total/limit;
-            requestResultDto.setPageCnt(pageCnt);
+            total = requestService.totalParentReturnhomeList(requestParamDto.getUserId());
+            requestResultDto.setPageCnt(calcPageCnt(total, limit));
 
             List<ReturnhomeResultDto> returnhomeList = requestService.parentReturnhomeList(requestParamDto);
             if(returnhomeList != null){
@@ -151,6 +141,13 @@ public class RequestController {
         }
 
         return new ResponseEntity<RequestResultDto>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    private int calcPageCnt(int total, int limit){
+        int pageCnt = 0;
+        if(total%limit > 0) pageCnt = total/limit+1;
+        else pageCnt = total/limit;
+        return pageCnt;
     }
 
     // 글 상세 조회

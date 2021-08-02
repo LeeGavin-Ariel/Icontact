@@ -3,7 +3,7 @@
 
     <div
     class="col-5 mx-auto"
-    style="overflow-y:scroll; padding-bottom: 0px;"
+    style="padding-bottom: 0px;"
 
     >
       <!-- 요청 사항 리스트 -->
@@ -16,11 +16,12 @@
         <v-list two-line>
           <v-list-item-group
             active-class="pink--text"
+            
           >
 
 
             <!-- 투약 리스트 띄우기 -->
-            <div v-if="requestType === 1">
+            <div v-if="requestType === 1" style="overflow-y:scroll; height:80vh;">
               <template v-for="(request, index) in dosageList" >
                 <v-list-item v-if="requestType === 1" :key="request.createDate" @click="setDetail(request.dosageId)">
                   <template >
@@ -67,10 +68,11 @@
                   :key="index"
                 ></v-divider>
               </template>
+              <infinite-loading @infinite="dosageInfiniteHandler" spinner="waveDots"></infinite-loading>
             </div>
             
 
-            <div v-if="requestType === 2">
+            <div v-if="requestType === 2" style="overflow-y:scroll; height:80vh;">
               <!-- 귀가 리스트 띄우기-->
               <template v-for="(request, index) in returnHomeList" >
                 <!-- <v-list-item v-if="requestType === 1" :key="request.createDate" @click="setDetail(request.dosageId)">
@@ -118,13 +120,13 @@
                   :key="index"
                 ></v-divider>
               </template>
-
+              
+              <infinite-loading @infinite="returnhomeInfiniteHandler" spinner="waveDots"></infinite-loading>
             </div>
             
 
 
-            
-            <!-- <infinite-loading @infinite="infiniteHandler" spinner="waveDots"></infinite-loading> -->
+          
           </v-list-item-group>
         </v-list>
       </v-col>
@@ -145,12 +147,12 @@
 <script>
 import RequestDetail from '@/components/Request/RequestDetail.vue';
 import requestApi from '@/api/request.js';
-// import InfiniteLoading from "vue-infinite-loading";
+import InfiniteLoading from "vue-infinite-loading";
 export default {
   name: "RequestList",
   components:{
     RequestDetail,
-    // InfiniteLoading,
+    InfiniteLoading,
   },
   data () {
     return {
@@ -172,25 +174,50 @@ export default {
       returnHomeList: [],
 
       // 무한스크롤 용 pageNum
-      pageNum: 1,
+      dosagePageNum: 1,
+      returnhomePageNum: 1,
       // 전체 페이지 수
-      possiblePageNum: 0 ,
+      dosagePageCnt: 1 ,
+      returnhomePageCnt: 1 ,
     }
   },
   methods: {
 
-    // infiniteHandler($state) {
-    //   // 현건이한테 전체 페이지 수 받아서 처리하기.
-    //   if (this.pageNum > 3) {
-    //     $state.complete();
-    //   }
-    //   else {
-    //     setTimeout(() => {
-    //       $state.loaded();
-    //       this.getRequest()
-    //     },1000)
-    //   }
-    // },
+    dosageInfiniteHandler($state) {
+      // 현건이한테 전체 페이지 수 받아서 처리하기.
+      if (this.dosagePageNum > this.dosagePageCnt) {
+        $state.complete();
+      }
+      else {
+        setTimeout(() => {
+          $state.loaded();
+          if (this.requestType === 1) {
+            this.getDosageList()
+          }
+          else if (this.requestType === 2){
+            this.getReturnHomeList()
+          }
+        },1000)
+      }
+    },
+
+    returnhomeInfiniteHandler($state) {
+      // 현건이한테 전체 페이지 수 받아서 처리하기.
+      if (this.returnhomePageNum > this.returnhomePageCnt) {
+        $state.complete();
+      }
+      else {
+        setTimeout(() => {
+          $state.loaded();
+          if (this.requestType === 1) {
+            this.getDosageList()
+          }
+          else if (this.requestType === 2){
+            this.getReturnHomeList()
+          }
+        },1000)
+      }
+    },
 
     // 글을 클릭했을때 id값 저장
     setDetail(id) {
@@ -198,18 +225,18 @@ export default {
     },
 
     getDosage() {
+      window.location.reload()
       this.creating = 0
       if (this.requestType !== 1) {
         this.requestType = 1
-        this.pageNum = 0
         this.getDosageList()
       }
     },
     getReturnHome() {
+      window.location.reload()
       this.creating = 0
       if (this.requestType !== 2) {
         this.requestType = 2
-        this.pageNum = 0
         this.getReturnHomeList()
       }
     },
@@ -222,14 +249,15 @@ export default {
         type: this.identity_str,
         requestType: this.requestType,
         userId: this.$store.state.user.userId,
-        pageNum: this.pageNum
+        pageNum: this.dosagePageNum
       }
       let result = await requestApi.getRequest(data, {
         "access-token": accessToken,
         "refresh-token": refreshToken,
       });
+      this.dosagePageCnt = result.pageCnt
       this.dosageList.push(...result.dosageList)
-      this.pageNum += 1
+      this.dosagePageNum += 1
       
       if (this.id === 0) {
         this.id = this.dosageList[0].dosageId
@@ -244,16 +272,16 @@ export default {
         type: this.identity_str,
         requestType: this.requestType,
         userId: this.$store.state.user.userId,
-        pageNum: this.pageNum
+        pageNum: this.returnhomePageNum
       }
       let result = await requestApi.getRequest(data, {
         "access-token": accessToken,
         "refresh-token": refreshToken,
       });
-      this.returnHomeList.push(...result.returnHomeList)
-      // this.requestList = result.returnhomeList
+      this.returnhomePageCnt = result.pageCnt
+      this.returnHomeList.push(...result.returnhomeList)
 
-      this.pageNum += 1
+      this.returnhomePageNum += 1
       
       if (this.id === 0) {
         // 첫번째 글의 디테일 페이지 디폴트 값으로 올리기.
@@ -310,7 +338,7 @@ export default {
     else if (this.identity === 2) {
       this.identity_str = 'teacher'
     }
-    this.getDosageList()
+    // this.getDosageList()
   },
 
 

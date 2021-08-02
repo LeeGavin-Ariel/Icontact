@@ -92,15 +92,11 @@ public class NoticeController {
         noticeParamDto.setOffset((noticeParamDto.getPageNum()-1)*limit);
 
         int total = 0;
-        int pageCnt = 0;
 
         if(noticeType == 1){ // 일반 공지
 
             total = noticeService.totalNoticeList(noticeParamDto.getUserId());
-
-            if(total%limit > 0) pageCnt = total/limit+1;
-            else pageCnt = total/limit;
-            commonNoticeResultDto.setPageCnt(pageCnt);
+            commonNoticeResultDto.setPageCnt(calcPageCnt(total, limit));
 
             List<NoticeResultDto> noticeList = noticeService.noticeList(noticeParamDto);
             if(noticeList != null){
@@ -111,10 +107,7 @@ public class NoticeController {
         } else if (noticeType == 2){ // 일정
 
             total = noticeService.totalScheduleList(noticeParamDto.getUserId());
-
-            if(total%limit > 0) pageCnt = total/limit+1;
-            else pageCnt = total/limit;
-            commonNoticeResultDto.setPageCnt(pageCnt);
+            commonNoticeResultDto.setPageCnt(calcPageCnt(total, limit));
 
             List<ScheduleResultDto> scheduleList = noticeService.scheduleList(noticeParamDto);
             if(scheduleList != null){
@@ -124,10 +117,7 @@ public class NoticeController {
         } else { // 식단
 
             total = noticeService.totalMenuList(noticeParamDto.getUserId());
-
-            if(total%limit > 0) pageCnt = total/limit+1;
-            else pageCnt = total/limit;
-            commonNoticeResultDto.setPageCnt(pageCnt);
+            commonNoticeResultDto.setPageCnt(calcPageCnt(total, limit));
 
             List<MenuResultDto> menuList = noticeService.menuList(noticeParamDto);
             if(menuList != null){
@@ -136,6 +126,14 @@ public class NoticeController {
             }
         }
         return new ResponseEntity<CommonNoticeResultDto>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+
+    private int calcPageCnt(int total, int limit){
+        int pageCnt = 0;
+        if(total%limit > 0) pageCnt = total/limit+1;
+        else pageCnt = total/limit;
+        return pageCnt;
     }
 
     // 공지글 상세 조회

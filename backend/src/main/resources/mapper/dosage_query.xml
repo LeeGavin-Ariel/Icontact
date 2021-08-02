@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myapp.backend.dao.DosageDao">
+
+    <select id="teacherDosageList" parameterType="map" resultType="com.myapp.backend.domain.dto.request.DosageResultDto">
+        SELECT tmp.userId, kidName, dosageId, symptom, medicineType, dosageVol, dosageCnt, dosageTime, storage, specialNote, createDate
+        FROM (select userId, kidName from user where classCode = (select classCode from user where userId = #{userId})
+                                                 and type = 1) as tmp, dosage
+        WHERE tmp.userId = dosage.userId
+        ORDER BY createDate DESC
+            LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+
+    <select id="totalTeacherDosageList" parameterType="String" resultType="int">
+        SELECT count(*)
+        FROM (select userId from user where classCode = (select classCode from user where userId = #{userId})
+                                        and type = 1) as tmp, dosage
+        WHERE tmp.userId = dosage.userId
+    </select>
+
+    <select id="parentDosageList" parameterType="map" resultType="com.myapp.backend.domain.dto.request.DosageResultDto">
+        SELECT dosage.userId, kidName, dosageId, symptom, medicineType, dosageVol, dosageCnt, dosageTime, storage, specialNote, dosage.createDate
+        FROM user, dosage
+        WHERE user.userId = dosage.userId and dosage.userId = #{userId}
+        ORDER BY dosage.createDate DESC
+            LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="totalParentDosageList" parameterType="String" resultType="int">
+        SELECT count(*)
+        FROM dosage
+        WHERE dosage.userId = #{userId}
+    </select>
+
+    <select id="dosageDetail" parameterType="int" resultType="com.myapp.backend.domain.dto.request.DosageResultDto">
+        SELECT dosage.userId, kidName, dosageId, symptom, medicineType, dosageVol, dosageCnt, dosageTime, storage, specialNote, dosage.createDate
+        FROM user, dosage
+        WHERE user.userId = dosage.userId and dosageId = #{id};
+    </select>
+</mapper>

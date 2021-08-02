@@ -12,7 +12,8 @@
         <mapper resource="mapper/notice_query.xml" />
         <mapper resource="mapper/schedule_query.xml" />
         <mapper resource="mapper/menu_query.xml" />
+        <mapper resource="mapper/dosage_query.xml" />
+        <mapper resource="mapper/returnhome_query.xml" />
     </mappers>
-
-
+    
 </configuration>

@@ -74,6 +74,25 @@ public class UserController {
         return new ResponseEntity<List<User>>(HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * 우리반 유저 조회
+     */
+    @GetMapping("/class")
+    public ResponseEntity<List<User>> retrieveAllClassUser(@RequestParam(value = "classCode", required = true) String classCode) {
+        List<User> userlist = userService.retrieveAllClassUser(classCode);
+
+        for (User u:userlist)
+        {
+            System.out.println(u.toString());
+
+        }
+
+        if (userlist !=null) {
+            return new ResponseEntity<List<User>>(userlist, HttpStatus.OK);
+        }
+        return new ResponseEntity<List<User>>(HttpStatus.NOT_FOUND);
+    }
+
 
     /**
      * 유저 계정 승인

@@ -11,6 +11,7 @@ public interface UserRepository extends JpaRepository<User, String>  {
     User findByUserId(String userId);
     boolean deleteByUserId(String userId);
     List<User> findByClassCodeStartsWith(String code);
+    List<User> findByClassCode(String classCode);
     boolean existsByUserId(String userId);
 }
 

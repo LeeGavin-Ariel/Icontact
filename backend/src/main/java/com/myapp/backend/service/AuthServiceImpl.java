@@ -2,6 +2,8 @@ package com.myapp.backend.service;
 
 import com.myapp.backend.domain.dto.join.AuthDto;
 import com.twilio.Twilio;
+import nonapi.io.github.classgraph.json.JSONUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -12,8 +14,11 @@ import com.twilio.type.PhoneNumber;
 @Service
 public class AuthServiceImpl implements AuthService{
     //SMS전송키
-    private final static String ACCOUNT_SID="ACab98c24f7f094b4e0405a590d3ad3bef";
-    private final static String AUTH_TOKEN="f2195a37e709ffdc2b7f76e9df1c4298";
+
+    @Value("${ACCOUNT_SID}")
+    private String ACCOUNT_SID;
+    @Value("${AUTH_TOKEN}")
+    private String AUTH_TOKEN;
 
     private HashMap<String, String> authMap=new HashMap<>();
 
@@ -29,6 +34,7 @@ public class AuthServiceImpl implements AuthService{
         Twilio.init(ACCOUNT_SID,AUTH_TOKEN);
         //전송 메세지
         String body = "입력 코드는 ["+code+"]입니다.";
+
         try{
             //받을 번호 / 보낼 번호(고정-작성자 이현건의 twilio 발급 가상번호) / 메세지
             //유료임! 주석을 함부로 해제하지 마시오!
@@ -38,7 +44,6 @@ public class AuthServiceImpl implements AuthService{
 //                            .create();
 
             //인증용 map에 삽입
-            System.out.println(code);
             authMap.put(autoDto.getPhoneNum(), code);
 
             return true;

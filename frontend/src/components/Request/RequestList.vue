@@ -249,31 +249,6 @@ export default {
     },
 
     // 투약 전체 글 불러오기. (투약 -> requestType = 1, 귀가 -> requestType = 2)
-    async getDosageList() {
-      let accessToken = sessionStorage.getItem('access-token')
-      let refreshToken = sessionStorage.getItem('refresh-token')
-      let data = {
-        type: this.identity_str,
-        requestType: this.requestType,
-        userId: this.$store.state.user.userId,
-        pageNum: this.dosagePageNum
-      }
-      requestApi.getRequest(data, {
-        "access-token": accessToken,
-        "refresh-token": refreshToken,
-      })
-      .then(result => {
-        this.dosagePageCnt = result.pageCnt
-        this.dosageList.push(...result.dosageList)
-        this.dosagePageNum += 1
-
-        if (this.id === 0) {
-          this.id = this.dosageList[0].dosageId
-        }
-      })
-      
-    },
-
     // async getDosageList() {
     //   let accessToken = sessionStorage.getItem('access-token')
     //   let refreshToken = sessionStorage.getItem('refresh-token')
@@ -283,48 +258,46 @@ export default {
     //     userId: this.$store.state.user.userId,
     //     pageNum: this.dosagePageNum
     //   }
-    //   let result = await requestApi.getRequest(data, {
+    //   requestApi.getRequest(data, {
     //     "access-token": accessToken,
     //     "refresh-token": refreshToken,
-    //   });
-    //   this.dosagePageCnt = result.pageCnt
-    //   this.dosageList.push(...result.dosageList)
-    //   this.dosagePageNum += 1
+    //   })
+    //   .then(result => {
+    //     this.dosagePageCnt = result.pageCnt
+    //     this.dosageList.push(...result.dosageList)
+    //     this.dosagePageNum += 1
 
-    //   if (this.id === 0) {
-    //     this.id = this.dosageList[0].dosageId
-    //   }
+    //     if (this.id === 0) {
+    //       this.id = this.dosageList[0].dosageId
+    //     }
+    //   })
+      
     // },
 
-    // 귀가 전체 글 조회
-    getReturnHomeList() {
+    async getDosageList() {
       let accessToken = sessionStorage.getItem('access-token')
       let refreshToken = sessionStorage.getItem('refresh-token')
       let data = {
         type: this.identity_str,
         requestType: this.requestType,
         userId: this.$store.state.user.userId,
-        pageNum: this.returnhomePageNum
+        pageNum: this.dosagePageNum
       }
-      requestApi.getRequest(data, {
+      let result = await requestApi.getRequest(data, {
         "access-token": accessToken,
         "refresh-token": refreshToken,
-      })
-      .then(result => {
-        this.returnhomePageCnt = result.pageCnt
-        this.returnHomeList.push(...result.returnhomeList)
-        this.returnhomePageNum += 1
-        if (this.id === 0) {
-          // 첫번째 글의 디테일 페이지 디폴트 값으로 올리기.
-          this.id = this.returnHomeList[0].rhId
-        }
+      });
+      this.dosagePageCnt = result.pageCnt
+      this.dosageList.push(...result.dosageList)
+      this.dosagePageNum += 1
 
-      })
-
+      if (this.id === 0) {
+        this.id = this.dosageList[0].dosageId
+      }
     },
 
-    // // 귀가 전체 글 조회
-    // async getReturnHomeList() {
+    // 귀가 전체 글 조회
+    // getReturnHomeList() {
     //   let accessToken = sessionStorage.getItem('access-token')
     //   let refreshToken = sessionStorage.getItem('refresh-token')
     //   let data = {
@@ -333,19 +306,44 @@ export default {
     //     userId: this.$store.state.user.userId,
     //     pageNum: this.returnhomePageNum
     //   }
-    //   let result = await requestApi.getRequest(data, {
+    //   requestApi.getRequest(data, {
     //     "access-token": accessToken,
     //     "refresh-token": refreshToken,
-    //   });
-    //   this.returnhomePageCnt = result.pageCnt
-    //   this.returnHomeList.push(...result.returnhomeList)
-
-    //   this.returnhomePageNum += 1
-    //   if (this.id === 0) {
-    //     // 첫번째 글의 디테일 페이지 디폴트 값으로 올리기.
-    //     this.id = this.returnHomeList[0].rhId
-    //   }
+    //   })
+    //   .then(result => {
+    //     this.returnhomePageCnt = result.pageCnt
+    //     this.returnHomeList.push(...result.returnhomeList)
+    //     this.returnhomePageNum += 1
+    //     if (this.id === 0) {
+    //       // 첫번째 글의 디테일 페이지 디폴트 값으로 올리기.
+    //       this.id = this.returnHomeList[0].rhId
+    //     }
+    //   })
     // },
+
+    // // 귀가 전체 글 조회
+    async getReturnHomeList() {
+      let accessToken = sessionStorage.getItem('access-token')
+      let refreshToken = sessionStorage.getItem('refresh-token')
+      let data = {
+        type: this.identity_str,
+        requestType: this.requestType,
+        userId: this.$store.state.user.userId,
+        pageNum: this.returnhomePageNum
+      }
+      let result = await requestApi.getRequest(data, {
+        "access-token": accessToken,
+        "refresh-token": refreshToken,
+      });
+      this.returnhomePageCnt = result.pageCnt
+      this.returnHomeList.push(...result.returnhomeList)
+
+      this.returnhomePageNum += 1
+      if (this.id === 0) {
+        // 첫번째 글의 디테일 페이지 디폴트 값으로 올리기.
+        this.id = this.returnHomeList[0].rhId
+      }
+    },
   },
 
   created() {

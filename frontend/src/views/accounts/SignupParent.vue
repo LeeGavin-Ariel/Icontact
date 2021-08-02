@@ -46,6 +46,8 @@
 import {userApi} from '@/api/user.js';
 import axios from 'axios'
 import SERVER from '@/api/drf.js'
+import sendBird from '@/services/SendBird.js'
+import {requestGet} from '@/utils/request.js'
 
 export default {
   name: "SignupParent",
@@ -70,10 +72,45 @@ export default {
           classCode: this.classCode,
           kidName : this.kidName,
         })
+
+        //sendbird 유저에 추가 , 닉네임 잘 들어가는지 확인
+        const resultSendbird = await sendBird
+            .addUser(this.$store.state.sendUserId, this.kidName + ' 부모님')        
+
+        this.$store.commit('SET_USER', resultSendbird);
+        await sendBird.login(this.$store.state.sendUserId);
+
+        //같은반 유저 불러오기
+        var classMember = await requestGet(SERVER.URL + SERVER.ROUTES.getClassMember + '?classCode=' + this.classCode);
+        console.log('classMember');
+        console.log(classMember);
+
+        var sendUserId = this.$store.state.sendUserId
+        
+        //같은반 사람들과 채팅방 생성
+        classMember.forEach( (element, index) => {
+          // console.log(element.userId != sendUserId?'다르다':'같다')
+
+          // 두 아이디가 다르면 채팅방 생성
+          if(element.userId != sendUserId){
+              console.log(element.userId +","+ sendUserId);
+              var roomName = sendUserId +"님과 " +element.userId +"의 방";
+              
+              (function(index){
+                console.log('시간' + (200*index));
+                setTimeout(()=>
+                  sendBird 
+                .createGroupChannelWithUserIds(sendUserId, element.userId, roomName, null, null)
+                ,200*index);
+              })(index);
+          }
+        });
+          
         alert("회원가입에 성공하여 로그인 페이지로 이동합니다 !!");
         this.$router.push({ name: 'Login' });
       }
       catch (e) {
+        console.log(e);
         alert('회원가입에 실패하였습니다.')
       }
     },
@@ -84,6 +121,7 @@ export default {
         method: 'get',
       })
       .then((res) => {
+        console.log(res.data)
         this.kindergardenClasses = res.data
       })
       .catch(() => {

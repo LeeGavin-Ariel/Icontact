@@ -115,4 +115,10 @@ public class UserService {
         userRepositoryJPA.save(findUser);
         return true;
     }
+
+    //우리반 유저 조회
+    public List<User> retrieveAllClassUser(String classCode) {
+        List<User> userlist = userRepositoryJPA.findByClassCode(classCode);
+        return userlist;
+    }
 }

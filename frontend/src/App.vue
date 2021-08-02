@@ -1,8 +1,10 @@
 <template>
   <v-app id="app">
-    <Navbar
-    v-if="$store.state.isLoggedIn"
+    <Navbar    
     />
+    <!-- <Navbar
+    v-if="$store.state.isLoggedIn"
+    /> -->
     <router-view/>
   </v-app>
 </template>
@@ -11,6 +13,7 @@
 import { getTokenInfo, tokenExpired } from '@/utils/jwt.js';
 import Navbar from '@/components/common/Navbar.vue';
 import userApi from '@/api/user.js';
+
 export default {
   name: 'App',
   components:{
@@ -53,6 +56,7 @@ export default {
         classCode: result.classCode,
         className: result.className,
       });
+      console.log(this.$store.state.user);
     }
   },
   // 토큰만 확인하는 방식. or 이 방식 그대로.
@@ -69,3 +73,8 @@ export default {
   },
 };
 </script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="scss">
+  @import "./assets/scss/index.scss";
+</style>

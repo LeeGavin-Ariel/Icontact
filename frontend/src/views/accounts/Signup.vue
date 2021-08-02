@@ -68,13 +68,19 @@
 
     <!-- 선생님, 학부모 회원가입 페이지로 이동 -->
     <!-- 선생 학부모 모두 isAuth 인증 완료되어야만 이라는 조건 추가해야 함  -->
-    <button 
+    <!-- <button 
     @click="setTeacherInfo({userid, password, username, phoneNumber})"
     :disabled="!userid || !password || !passwordConfirm || !username || !phoneNumber || error.userid || error.password || error.passwordConfirm || !isAuth"
+    >선생님</button> -->
+        <button 
+    @click="setTeacherInfo({userid, password, username, phoneNumber})"
     >선생님</button>
-    <button
+    <!-- <button
     @click="setParentInfo({userid, password, username, phoneNumber})"
     :disabled="!userid || !password || !passwordConfirm || !username || !phoneNumber || error.userid || error.password || error.passwordConfirm || !isAuth"
+    >학부모</button> -->
+     <button
+    @click="setParentInfo({userid, password, username, phoneNumber})"
     >학부모</button>
   </div>
 </template>

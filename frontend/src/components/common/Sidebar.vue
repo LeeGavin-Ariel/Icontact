@@ -8,7 +8,7 @@
           :key="item.title"
         >
           <v-list-item-content>
-            <v-list-item-title @click="$router.push({ name: item.route })">{{ item.title }}</v-list-item-title>
+            <v-list-item-title @click="movePage(item.route)">{{ item.title }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -30,6 +30,13 @@ export default {
         { title: '공지사항', route: 'Notice' },
         { title: '요청사항', route: 'Request' },
       ],
+    }
+  },
+  methods: {
+    movePage (page) {
+      if (this.$route.path !== `/${page.toLowerCase()}`) {
+        this.$router.push({ name: page })
+      }
     }
   }  
 }

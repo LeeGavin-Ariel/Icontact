@@ -1,6 +1,7 @@
 <template>
   <v-app id="app">
-    <Navbar    
+    <Navbar
+    v-if="$store.state.user"
     />
     <!-- <Navbar
     v-if="$store.state.isLoggedIn"
@@ -63,7 +64,8 @@ export default {
   mounted() {
     const accessToken = sessionStorage.getItem('access-token');
     if (accessToken) {
-      const userid = getTokenInfo().userid;
+      const userid = getTokenInfo().userId;
+      console.log(userid)
       if (tokenExpired()) {
         this.setUserInfo(userid, sessionStorage.getItem('access-token'), sessionStorage.getItem('refresh-token'));
       } else {

@@ -11,12 +11,12 @@
       >
 
         <!-- 여기가 그 검색창 들어갈 부분 (선생님만) -->
-        <input 
+        <!-- <input 
         type="text" 
         v-if="identity === 2" 
         :value="searchPerson" 
         @input="searchPerson=$event.target.value"
-        @keypress.enter="searchNotebookList">
+        @keypress.enter="searchNotebookList"> -->
 
         <v-list two-line>
           <v-list-item-group
@@ -103,7 +103,8 @@ export default {
       pageCnt: 0,
 
       // 검색
-      searchPerson: '',
+      // searchPerson: '',
+      // searchNotebookList: [],
 
     }
   },
@@ -164,13 +165,46 @@ export default {
           this.id = this.notebookList[0].noteId
         }
       }
-      console.log(this.id)
     },
 
     // 검색 관련
-    searchNotebookList () {
-      console.log(this.searchPerson)
-    },
+    // searchNotebookList () {
+    //   console.log(this.searchPerson)
+    //   let accessToken = sessionStorage.getItem('access-token')
+    //   let refreshToken = sessionStorage.getItem('refresh-token')
+    //   let data = {
+    //     type: this.identity_str,
+    //     userId: this.userId,
+    //     searchName: this.searchPerson,
+    //     pageNum: this.pageNum,
+    //   }
+    //   let result = notebookApi.getNotebook(data, {
+    //     "access-token": accessToken,
+    //     "refresh-token": refreshToken,
+    //   })
+    //   if (result.length !== 0) {
+    //     this.pageCnt = result[0].pageCnt
+    //     // 아니라면?
+    //   } else {
+    //     // 만약 반환받은 result 값이 없다면 pageCnt를 0으로 해줌.
+    //     this.pageCnt = 0
+    //   }
+    //   this.searchNotebookList.push(...result)
+    //   this.pageNum += 1
+
+    //   if (this.id === 0) {
+    //     // 최상단 알림장 디테일 페이지 디폴트 값으로 설정
+    //     if (this.searchNotebookList.length !== 0) {
+    //       this.id = this.searchNotebookList[0].noteId
+    //     }
+    //   } else {
+    //     if (this.searchNotebookList.length === 0) {
+    //       this.id = 0
+    //     } else {
+    //       this.id = this.searchNotebookList[0].noteId
+    //     }
+    //   }
+    // },
 
     
   },

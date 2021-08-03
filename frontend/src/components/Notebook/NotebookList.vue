@@ -113,6 +113,7 @@ export default {
     },
 
     async getNotebookList() {
+      console.log(this.id)
       let accessToken = sessionStorage.getItem('access-token')
       let refreshToken = sessionStorage.getItem('refresh-token')
       
@@ -125,18 +126,30 @@ export default {
         "access-token": accessToken,
         "refresh-token": refreshToken,
       });
-      console.log('확인용')
       // 페이지 수가 1개일때 문제가 생길 수 있다.
       if (!this.pageCnt && result) {
         this.pageCnt = result[0].pageCnt
+      } else {
+        if (!result) {
+          this.pageCnt = 0
+        }
       }
       this.notebookList.push(...result)
       this.pageNum += 1
 
       if (this.id === 0) {
         // 최상단 알림장 디테일 페이지 디폴트 값으로 설정
-        this.id = this.notebookList[0].noteId
+        if (this.notebookList.length !== 0) {
+          this.id = this.notebookList[0].noteId
+        }
+      } else {
+        if (this.notebookList.length === 0) {
+          this.id = 0
+        } else {
+          this.id = this.notebookList[0].noteId
+        }
       }
+      console.log(this.id)
     },
     
   },

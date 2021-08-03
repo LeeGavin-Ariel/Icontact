@@ -1,18 +1,26 @@
 <template>
   <div style="overflow-y:scroll;" class="col">
     <!-- 디테일 -->
-
     <button v-if="identity === 1 && updating === 0" @click="createNewRequest">연필</button>
     | 
-    <button v-if="identity === 1 && updating === 1" @click="updateRequest">연필</button>
+    <button v-if="identity === 1 && updating === 1 && id" @click="updateRequest">연필</button>
     
-    <button v-if="identity === 1 && updating === 0" @click="updateRequest">글 수정</button>
+    <button v-if="identity === 1 && updating === 0 && id" @click="updateRequest">글 수정</button>
       | 
-    <button v-if="identity === 1" @click="deleteRequest">글 삭제</button>
-    <button v-if="identity === 1 && creating" @click="offCreateForm">글 작성 취소</button>
+    <button v-if="identity === 1 && id" @click="deleteRequest">글 삭제</button>
+    <button v-if="identity === 1 && creating && id" @click="offCreateForm">글 작성 취소</button>
+    
     <v-sheet
       rounded="lg"
-      v-if="requestType === 1 && requestDetail && (!creating && !updating)"
+      v-if="id === 0 && !(creating || updating)"
+    >
+      등록된 요청이 없습니다.
+    </v-sheet>
+    
+    
+    <v-sheet
+      rounded="lg"
+      v-if="requestType === 1 && requestDetail && (!creating && !updating) && (id !== 0)"
     >
       {{requestDetail}}
       <p>작성 시간 : {{requestDetail.createDate}}</p>
@@ -45,7 +53,7 @@
 
     <v-sheet
       rounded="lg"
-      v-if="requestType === 2 && requestDetail && (!creating && !updating)"
+      v-if="requestType === 2 && requestDetail && (!creating && !updating) && (id !== 0)"
     >
     {{requestDetail}}
       <p>작성 시간 : {{requestDetail.createDate}}</p>
@@ -127,7 +135,7 @@ export default {
   },
   watch: {
     'id' : function() {
-      console.log('11111')
+      console.log('아이디값 변경!')
       if (this.id !== 0) {
         this.getRequestDetail()
       }

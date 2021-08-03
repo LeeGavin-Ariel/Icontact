@@ -14,8 +14,8 @@
         </v-btn>
         
         <v-spacer></v-spacer>
-        <p v-if="$store.state.user.type == 2" style="color: black; margin-bottom:0px; margin-right:20px">{{ $store.state.user.className }} {{ $store.state.user.userName }} 선생님</p>
-        <p v-if="$store.state.user.type == 1">{{ $store.state.user.className }} {{ $store.state.user.userName }} 보호자님</p>
+        <p v-if="type == 2" style="color: black; margin-bottom:0px; margin-right:20px">{{ className }} {{ userName }} 선생님</p>
+        <p v-if="type == 1">{{ className }} {{ userName }} 보호자님</p>
         <v-menu
           left
           bottom
@@ -27,12 +27,12 @@
               v-on="on"
             style="margin-right:15px">
               <v-avatar size="40">
-                <img :src="require('@/assets/profileImg/' + $store.state.user.userId + '.jpg')" alt="profile-image">
+                <img :src="require('@/assets/profileImg/' + userId + '.jpg')" alt="profile-image">
               </v-avatar>
             </v-btn>
           </template>
           <v-list>
-            <v-list-item @click="$router.push({ name: 'MyPage', params: { userId: $store.state.user.userId }})">
+            <v-list-item @click="$router.push({ name: 'MyPage', params: { userId: userId }})">
               <v-list-item-title >마이페이지</v-list-item-title>
             </v-list-item>
             <v-list-item>
@@ -64,7 +64,21 @@
 <script>
 export default {
   name: 'Navbar',
+  data() {
+    return {
+      type: 0,
+      className: '',
+      userName: '',
+      userId: '',
+    }
+  },
   methods: {
+    setInfo() {
+      this.type = this.$store.state.user.type
+      this.className = this.$store.state.user.className
+      this.userName = this.$store.state.user.userName
+      this.userId = this.$store.state.user.userId
+    },
     logout() {
       if (confirm("정말 로그아웃하시겠습니까?")) {
         this.$store.dispatch('removeUser');
@@ -76,6 +90,19 @@ export default {
         this.$router.push({ name: 'MainPage' })
       }
     },
+  },
+  computed: {
+    checkLogin() {
+      console.log('로그인됨')
+      this.setInfo()
+      
+      return this.$store.getters.isLogged
+    }
+  },
+  watch: {
+    checkLogin() {
+      this.setInfo()
+    }
   }
 }
 </script>

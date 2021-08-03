@@ -77,6 +77,9 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss">
-  @import "./assets/scss/index.scss";
+<style>
+  #app {
+    height: 100vh;
+    width: 100vw;
+  }
 </style>

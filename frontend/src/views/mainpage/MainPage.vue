@@ -1,5 +1,5 @@
 <template >
-  <div style="height:100vh" class="d-flex align-center placement">
+  <div style="height:100vh" class="d-flex align-center">
     <v-container id="container" >
       <v-row>
         <v-col
@@ -8,7 +8,7 @@
           class="d-flex child-flex"
           cols="4"
         >
-          <!-- 라우터 이거 해결 불가능인가... -->
+
           <button @click="$router.push({ name: func })">
             <v-img
               :src="require(`@/assets/${func}.png`)"
@@ -56,6 +56,6 @@ export default {
 
 <style scoped>
 #container {
-  width: 80vh; 
+  width: 800px;
 }
 </style>

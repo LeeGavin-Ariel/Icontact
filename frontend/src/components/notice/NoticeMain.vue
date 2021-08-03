@@ -104,7 +104,7 @@
       v-if="this.noticeType == 1"
       :id="id"
       @createNotice="initRequestList(1, 'create')"
-      @updateNotice="initRequestList(1,'update')"
+      @updateNotice="afterUpdate"
     />
     <schedule-view v-if="this.noticeType == 2" :id="id" />
     <menu-view v-if="this.noticeType == 3" :id="id" />
@@ -138,7 +138,6 @@ export default {
       identity: 0,
       identity_str: "",
 
-      
       noticeList: [],
       returnHomeList: [],
 
@@ -151,15 +150,21 @@ export default {
     };
   },
   methods: {
+    afterUpdate(id) {
+      this.noticeList = [];
+      this.noticePageNum = 1;
+      this.setDetail(id);
+
+      this.getNoticeList();
+    },
     // 글 작성, 수정, 삭제 이벤트 발생시 다시 목록 조회.
     initRequestList(noticeType, mode) {
       if (noticeType === 1) {
         this.noticeList = [];
         this.noticePageNum = 1;
-        this.id=0;
-        if(mode=='update')        
-          this.setDetail(this.id);
-        
+        this.id = 0;
+        if (mode == "update") this.setDetail(this.id);
+
         this.getNoticeList();
       } else if (noticeType === 2) {
         this.returnHomeList = [];
@@ -177,7 +182,6 @@ export default {
 
     // 글을 클릭했을때 id값 저장
     setDetail(id) {
-      this.id = 0;
       this.id = id;
     },
 

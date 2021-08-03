@@ -7,7 +7,7 @@
     
     <v-btn @click="showUpdateNoticeForm">글 수정</v-btn> -->
 
-    <v-sheet rounded="lg" v-if="createMode">
+    <v-sheet rounded="lg" v-if="createMode && this.noticeInfo">
       <br />
       <p>
         제목 : {{this.noticeInfo.title}}

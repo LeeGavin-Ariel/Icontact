@@ -84,51 +84,47 @@ export default {
   },
 
   methods: {
+    //공지 업데이트 완료
     updateNotice(){
       console.log('에밋 view111');
       console.log(this.noticeDetail);
+      this.getNoticeDetail();
 
       this.changeMode(false, false, true);
-      this.$emit("updateNotice", this.noticeDetail.id);
+      this.$emit("updateNotice", this.noticeDetail.noticeId);
     },
+    //공지 작성 완료
     createNotice(){
       this.changeMode(false, false, true);
       this.$emit("createNotice");
     },
+    //공지 작성 취소
     cancelCreateNotice() {
       console.log('생성취소');
       this.changeMode(false, false, true);
     },
-
+    //공지 수정 취소
     cancelUpdateNotice() {
       this.changeMode(false, false, true);
     },
-
-    offCreateForm() {
-      this.creating = 0;
-    },
-
+    //공지 (작성,수정,상세) 모드 변경
     changeMode(create, update, detail) {
       this.createMode = create;
       this.updateMode = update;
       this.detailMode = detail;
     },
-
-    // 생성창 띄우기
+    // 공지 작성창 띄우기
     async showCreateNoticeForm() {
       this.changeMode(true, false, false);
-
-      // this.$emit("get-notebooklist", this.noticeType);
-      // this.getNotice()
     },
 
-    // 수정창 띄우기
+    // 공지 수정창 띄우기
     async showUpdateNoticeForm() {
       console.log("업데이트폼");
       this.changeMode(false, true, false);
     },
 
-    // 상세창 띄우기
+    // 공지 상세창 띄우기
     async showDetailNoticeForm() {
       console.log("상세페이지폼");
       this.changeMode(false, false, true);

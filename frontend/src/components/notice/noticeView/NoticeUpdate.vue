@@ -12,7 +12,7 @@
     |
     <!-- <button @click="deleteNotice">글 삭제</button>-->
     |
-    <button @click="offUpdateForm">글 작성 취소</button> 
+    <button @click="offUpdateForm">글 작성 취소</button>
 
     <v-sheet rounded="lg">
       공지 수정 페이지
@@ -77,16 +77,19 @@ export default {
     },
   },
 
-  created: {
-    init() {
-      this.title = this.noticeInfo.title;
-      this.content = this.noticeInfo.content;
-    },
+  created() {
+    this.init();
   },
 
   methods: {
+    init() {
+      this.title = this.noticeInfo.title;
+      this.content = this.noticeInfo.content;
+      this.files = this.noticeInfo.files;
+    },
+
     offUpdateForm() {
-      this.$emit('cancelUpdateNotice')
+      this.$emit("cancelUpdateNotice");
     },
 
     async getNoticeDetail() {
@@ -200,12 +203,12 @@ export default {
         "refresh-token": refreshToken,
       });
 
-      console.log('result');
+      console.log("result");
       console.log(result);
       this.updating = 0;
 
       this.$emit("updateNotice");
-      alert('공지사항이 수정되었습니다.');
+      alert("공지사항이 수정되었습니다.");
     },
   },
 };

@@ -3,20 +3,20 @@
     <!-- 디테일 -->
 
     <!-- 공지
-    <button  @click="createNewNotice">연필</button>
+    <button  @click="createNewSchedule">연필</button>
     | 
-    <button @click="updateNotice">연필</button> -->
+    <button @click="updateSchedule">연필</button> -->
     |
-    <button @click="updateNotice">글 수정하기</button>
+    <button @click="updateSchedule">글 수정하기</button>
 
     |
-    <!-- <button @click="deleteNotice">글 삭제</button>-->
+    <!-- <button @click="deleteSchedule">글 삭제</button>-->
     |
-    <button @click="offCreateForm">글 작성 취소</button> 
+    <button @click="offUpdateForm">글 작성 취소</button>
 
     <v-sheet rounded="lg">
-      공지 수정 페이지
-      {{ noticeDetail }}
+      일정 수정 페이지
+      {{ scheduleDetail }}
       <p>
         제목 : <input type="text" v-model="title" style="border: solid 1px" />
       </p>
@@ -41,79 +41,85 @@
 </template>
 
 <script>
-import noticeApi from "@/api/notice.js";
+import scheduleApi from "@/api/schedule.js";
 export default {
-  name: "NoticeUpdate",
+  name: "ScheduleUpdate",
 
   props: {
     identity: {
       identity: Number,
     },
-    noticeType: {
+    scheduleType: {
       requestType: Number,
     },
     id: {
       id: Number,
     },
-    noticeInfo: {},
+    scheduleInfo: {},
   },
 
   data() {
     return {
       // 상세 내용을 저장할 변수
-      noticeDetail: null,
+      scheduleDetail: null,
 
       createMode: true,
       updateMode: false,
-      title: this.noticeInfo.title,
-      content: this.noticeInfo.content,
+      title: this.scheduleInfo.title,
+      content: this.scheduleInfo.content,
+      files: this.scheduleInfo.files,
     };
   },
   watch: {
     id: function () {
       if (this.id !== 0) {
-        this.getNoticeDetail();
+        this.getScheduleDetail();
       }
     },
   },
 
-  created: {
-    init() {
-      this.title = this.noticeInfo.title;
-      this.content = this.noticeInfo.content;
-    },
+  created() {
+    this.init();
   },
 
   methods: {
-    offCreateForm() {
-      this.creating = 0;
+    init() {
+      console.log("scheduleInfo");
+      console.log(this.scheduleInfo);
+      this.title = this.scheduleInfo.title;
+      this.content = this.scheduleInfo.content;
+      this.files = this.scheduleInfo.files;
     },
 
-    async getNoticeDetail() {
+    offUpdateForm() {
+      this.$emit("cancelUpdateSchedule");
+    },
+
+    async getScheduleDetail() {
       let accessToken = sessionStorage.getItem("access-token");
       let refreshToken = sessionStorage.getItem("refresh-token");
       let data = {
-        noticeType: this.noticeType,
+        scheduleType: this.scheduleType,
         id: this.id,
       };
       // 선생인지, 학부모인지에 따라 다르게 받음.
-      let result = await noticeApi.getNoticeDetail(data, {
+      let result = await scheduleApi.getScheduleDetail(data, {
         "access-token": accessToken,
         "refresh-token": refreshToken,
       });
       // 어떻게 날라오는지 확인후 데이터 집어넣기4
-      if (this.noticeType === 1) {
-        this.noticeDetail = result.dosage;
-      } else if (this.noticeType === 2) {
-        this.noticeDetail = result.returnhome;
+      if (this.scheduleType === 1) {
+        this.scheduleDetail = result.dosage;
+      } else if (this.scheduleType === 2) {
+        this.scheduleDetail = result.returnhome;
       }
-      console.log(this.noticeDetail);
+      console.log(this.scheduleDetail);
       this.creating = 0;
       this.updating = 0;
     },
 
     // 글 작성 폼 띄우기
-    async createNewNotice() {
+    async createNewSchedule() {
       // 글 작성 중인 상태가 아니라면 글 작성 중 상태로 바꿈.
 
       if (this.updating) {
@@ -121,7 +127,7 @@ export default {
       }
 
       if (this.creating === 0) {
-        if (this.noticeType === 1) {
+        if (this.scheduleType === 1) {
           this.symptom = "";
           this.medicineType = "";
           this.dosageVol = 0;
@@ -129,7 +135,7 @@ export default {
           this.dosageTime = "";
           this.storage = "";
           this.specialNote = "";
-        } else if (this.noticeType === 2) {
+        } else if (this.scheduleType === 2) {
           this.rhDate = "";
           this.rhTime = "";
           this.guardian = "";
@@ -143,9 +149,9 @@ export default {
       else if (this.creating === 1) {
         let accessToken = sessionStorage.getItem("access-token");
         let refreshToken = sessionStorage.getItem("refresh-token");
-        if (this.noticeType === 1) {
+        if (this.scheduleType === 1) {
           let data = {
-            noticeType: this.noticeType,
+            scheduleType: this.scheduleType,
             userId: this.$store.state.user.userId,
             symptom: this.symptom,
             medicineType: this.medicineType,
@@ -155,14 +161,14 @@ export default {
             storage: this.storage,
             specialNote: this.specialNote,
           };
-          let result = await noticeApi.createNotice(data, {
+          let result = await scheduleApi.createSchedule(data, {
             "access-token": accessToken,
             "refresh-token": refreshToken,
           });
           console.log(result);
-        } else if (this.noticeType === 2) {
+        } else if (this.scheduleType === 2) {
           let data = {
-            noticeType: this.noticeType,
+            scheduleType: this.scheduleType,
             userId: this.$store.state.user.userId,
             rhDate: this.rhDate,
             rhTime: this.rhTime,
@@ -171,71 +177,42 @@ export default {
             emergency: this.emergency,
             emergencyTel: this.emergencyTel,
           };
-          let result = await noticeApi.createNotice(data, {
+          let result = await scheduleApi.createSchedule(data, {
             "access-token": accessToken,
             "refresh-token": refreshToken,
           });
           console.log(result);
         }
         this.creating = 0;
-        this.$emit("get-notebooklist", this.noticeType);
-        // this.getNotice()
+        this.$emit("get-notebooklist", this.scheduleType);
+        // this.getSchedule()
       }
     },
 
-    async updateNotice() {
+    async updateSchedule() {
+      console.log("일정 업데이트 버튼 클릭11S");
       let accessToken = sessionStorage.getItem("access-token");
       let refreshToken = sessionStorage.getItem("refresh-token");
 
-      const formData = new FormData();
-      formData.append("img", this.files);
-      formData.append("noticeType", 1);
-      formData.append("id", this.noticeInfo.noticeId);
-      formData.append("userId", this.$store.state.user.userId);
-      formData.append("title", this.title);
-      formData.append("content", this.content);
+      const formDataa = new FormData();
+      formDataa.append("img", this.files);
+      formDataa.append("scheduleType", 2);
+      formDataa.append("id", this.scheduleInfo.scheduleId);
+      formDataa.append("userId", this.$store.state.user.userId);
+      formDataa.append("title", this.title);
+      formDataa.append("content", this.content);
 
-      let result = await noticeApi.updateNotice(formData, {
+      let result = await scheduleApi.updateSchedule(formDataa, {
         "access-token": accessToken,
         "refresh-token": refreshToken,
       });
 
-      console.log('result');
+      console.log("result");
       console.log(result);
       this.updating = 0;
 
-      // this.$emit("get-notebooklist", this.noticeType);
-      // this.getNotice()\
-      window.location.reload()
-     alert('공지사항이 수정되었습니다.');
-    },
-
-    async deleteNotice() {
-      let accessToken = sessionStorage.getItem("access-token");
-      let refreshToken = sessionStorage.getItem("refresh-token");
-      if (this.noticeType === 1) {
-        let data = {
-          noticeType: this.noticeType,
-          id: this.noticeDetail.dosageId,
-        };
-        let result = await noticeApi.deleteNotice(data, {
-          "access-token": accessToken,
-          "refresh-token": refreshToken,
-        });
-        console.log(result);
-      } else if (this.noticeType === 2) {
-        let data = {
-          noticeType: this.noticeType,
-          id: this.noticeDetail.rhId,
-        };
-        let result = await noticeApi.deleteNotice(data, {
-          "access-token": accessToken,
-          "refresh-token": refreshToken,
-        });
-        console.log(result);
-      }
-      this.$emit("get-notebooklist", this.noticeType);
-      // window.location.reload()
+      this.$emit("updateSchedule");
+      alert("공지사항이 수정되었습니다.");
     },
   },
 };

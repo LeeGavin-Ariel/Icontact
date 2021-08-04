@@ -2,19 +2,19 @@
   <div style="overflow-y: scroll" class="col">
     <!-- 디테일 -->
 
-    공지 상세페이지 <br />
-    <v-btn @click="showCreateNoticeForm">새 글 작성</v-btn>
+    일정 상세페이지 <br />
+    <!-- <v-btn @click="showCreateNoticeForm">새 글 작성</v-btn>
     
-    <v-btn @click="showUpdateNoticeForm">글 수정</v-btn>
+    <v-btn @click="showUpdateNoticeForm">글 수정</v-btn> -->
 
-    <v-sheet rounded="lg" v-if="createMode">
+    <v-sheet rounded="lg" v-if="createMode && this.scheduleInfo">
       <br />
       <p>
-        제목 : {{this.noticeInfo.title}}
+        제목 : {{this.scheduleInfo.title}}
       </p>
 
       <p>내용</p>
-       {{this.noticeInfo.content}}
+       {{this.scheduleInfo.content}}
       <!-- <p>작성 일자 : </p>
       <input type="number" v-model="createDate"> -->
       <br/><br/>
@@ -39,7 +39,7 @@ export default {
     id: {
       id: Number,
     },
-    noticeInfo:{}
+    scheduleInfo:{}
   },
 
   data() {
@@ -52,6 +52,7 @@ export default {
   },
   watch: {
     // id: function () {
+    //   console.log('noticedetail');
     //   if (this.id !== 0) {
     //     this.getNoticeDetail();
     //   }

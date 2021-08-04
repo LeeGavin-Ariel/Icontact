@@ -57,43 +57,43 @@
               v-if="noticeType === 2"
               style="overflow-y: scroll; height: 80vh"
             >
-              <template v-for="(request, index) in returnHomeList">
+              <template v-for="(schedule, index) in scheduleList">
                 <v-list-item
                   v-if="noticeType === 2"
-                  :key="request.createDate"
-                  @click="setDetail(request.rhId)"
+                  :key="schedule.createDate"
+                  @click="setDetail(schedule.scheduleId)"
                 >
                   <template>
                     <v-list-item-content>
                       <v-list-item-title
-                        v-text="request.kidName"
+                        v-text="schedule.scheduleId"
                       ></v-list-item-title>
 
                       <v-list-item-subtitle
                         class="text--primary"
-                        v-text="request.headline"
+                        v-text="schedule.title"
                       ></v-list-item-subtitle>
 
                       <v-list-item-subtitle
-                        v-text="request.rhTime"
+                        v-text="schedule.userId"
                       ></v-list-item-subtitle>
                     </v-list-item-content>
 
                     <v-list-item-action>
                       <v-list-item-action-text
-                        v-text="request.createDate"
+                        v-text="schedule.createDate"
                       ></v-list-item-action-text>
                     </v-list-item-action>
                   </template>
                 </v-list-item>
 
                 <v-divider
-                  v-if="index < returnHomeList.length - 1"
+                  v-if="index < scheduleList.length - 1"
                   :key="index"
                 ></v-divider>
               </template>
-              <button @click="getMoreReturnhomeList">더보기</button>
-              <!-- <infinite-loading @infinite="returnhomeInfiniteHandler" spinner="waveDots"></infinite-loading> -->
+              <button @click="getMoreScheduleList">더보기</button>
+              <!-- <infinite-loading @infinite="scheduleInfiniteHandler" spinner="waveDots"></infinite-loading> -->
             </div>
           </v-list-item-group>
         </v-list>
@@ -105,20 +105,28 @@
       :id="id"
       @createNotice="initRequestList(1, 'create')"
       @updateNotice="afterUpdate"
+      @deleteNotice="initRequestList(1, 'delete')"
     />
-    <schedule-view v-if="this.noticeType == 2" :id="id" />
+    <schedule-view
+      v-if="this.noticeType == 2"
+      :id="id"
+      @createSchedule="initRequestList(2, 'create')"
+      @updateSchedule="afterUpdate"
+      @deleteSchedule="initRequestList(2, 'delete')"
+    />
     <menu-view v-if="this.noticeType == 3" :id="id" />
   </div>
 </template>
 
 <script>
 import noticeApi from "@/api/notice.js";
-import NoticeView from "./noticeView/NoticeView.vue";
-import MenuView from "./MenuView.vue";
-import ScheduleView from "./ScheduleView.vue";
+import scheduleApi from "@/api/schedule.js";
+import NoticeView from "./noticePage/NoticeView.vue";
+import MenuView from "./menuPage/MenuView.vue";
+import ScheduleView from "./schedulePage/ScheduleView.vue";
 
 export default {
-  name: "NoticeList",
+  name: "NoticeMain",
   components: {
     NoticeView,
     MenuView,
@@ -129,9 +137,9 @@ export default {
       // 디테일 값을 얻어 오기 위한 글의 아이디값
       id: 0,
 
-      noticeType: 1,
-      noticeView: true,
-      scheduleView: false,
+      noticeType: 2,
+      noticeView: false,
+      scheduleView: true,
       menuView: false,
 
       // 관계
@@ -139,14 +147,14 @@ export default {
       identity_str: "",
 
       noticeList: [],
-      returnHomeList: [],
+      scheduleList: [],
 
       // 더보기
       noticePageNum: 1,
-      returnhomePageNum: 1,
+      schedulePageNum: 1,
       // 더보기 전체 페이지 수
       noticePageCnt: 1,
-      returnhomePageCnt: 1,
+      schedulePageCnt: 1,
     };
   },
   methods: {
@@ -167,16 +175,25 @@ export default {
 
         this.getNoticeList();
       } else if (noticeType === 2) {
-        this.returnHomeList = [];
-        this.returnhomePageNum = 1;
-        this.getReturnHomeList();
+        this.scheduleList = [];
+        this.schedulePageNum = 1;
+        this.getScheduleList();
+        this.id = 0;
+        if (mode == "update") this.setDetail(this.id);
       }
     },
 
-    // 더보기 버튼
+    // 일반공지 더보기 버튼
     getMoreNoticeList() {
       if (this.noticePageNum <= this.noticePageCnt) {
         this.getNoticeList();
+      }
+    },
+
+    // 일정 더보기 버튼
+    getMoreScheduleList() {
+      if (this.schedulePageNum <= this.schedulePageCnt) {
+        this.getScheduleList();
       }
     },
 
@@ -236,10 +253,38 @@ export default {
         this.id = this.noticeList[0].noticeId;
       }
     },
+
+    //일정 조회
+    async getScheduleList() {
+      let accessToken = sessionStorage.getItem("access-token");
+      let refreshToken = sessionStorage.getItem("refresh-token");
+      let data = {
+        scheduleType: 2,
+        userId: this.$store.state.user.userId,
+        pageNum: this.schedulePageNum,
+      };
+
+      console.log("일정조회");
+      let result = await scheduleApi.getSchedule(data, {
+        "access-token": accessToken,
+        "refresh-token": refreshToken,
+      });
+
+      console.log(result);
+
+      this.schedulePageCnt = result.pageCnt;
+      this.scheduleList.push(...result.scheduleList);
+      this.schedulePageNum += 1;
+
+      if (this.id === 0) {
+        this.id = this.scheduleList[0].scheduleId;
+      }
+    },
   },
 
   created() {
     this.getNoticeList();
+    this.getScheduleList();
   },
 };
 </script>

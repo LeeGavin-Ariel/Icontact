@@ -1,7 +1,7 @@
 <template>
   <div style="overflow-y: scroll" class="col">
     <v-spacer></v-spacer>
-    <!-- <v-btn @click="showCreateNoticeForm">새 글</v-btn> -->
+    
     <v-fab-transition>
       <v-btn
         color="red"
@@ -11,52 +11,52 @@
         bottom
         left
         class="v-btn--example"
-        @click="showCreateNoticeForm"
+        @click="showCreateMenuForm"
         v-if="!createMode"
       >
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
     </v-fab-transition>
 
-    <button v-if="detailMode" @click="showUpdateNoticeForm">|글 수정</button>
+    <button v-if="detailMode" @click="showUpdateMenuForm">|글 수정</button>
 
-    <!-- <button v-if="detailMode" @click="deleteNotice">|글 삭제</button> -->
+    <!-- <button v-if="detailMode" @click="deleteMenu">|글 삭제</button> -->
 
     <!-- <button @click="offCreateForm">글 작성 취소</button> -->
 
-    <!-- <notice-detail v-if="detailMode"/> -->
-    <notice-create
+    <!-- <menu-detail v-if="detailMode"/> -->
+    <menu-create
       v-if="this.createMode"
-      @cancelCreateNotice="cancelCreateNotice"
-      @createNotice="createNotice"
+      @cancelCreateMenu="cancelCreateMenu"
+      @createMenu="createMenu"
     />
-    <notice-update
+    <menu-update
       v-if="this.updateMode"
-      :noticeInfo="this.noticeDetail"
-      @cancelUpdateNotice="cancelUpdateNotice"
-      @updateNotice="updateNotice"
+      :menuInfo="this.menuDetail"
+      @cancelUpdateMenu="cancelUpdateMenu"
+      @updateMenu="updateMenu"
     />
-    <notice-detail v-if="this.detailMode" :noticeInfo="this.noticeDetail" />
+    <menu-detail v-if="this.detailMode" :menuInfo="this.menuDetail" />
   </div>
 </template>
 
 <script>
-import noticeApi from "@/api/notice.js";
-import NoticeDetail from "./NoticeDetail.vue";
-import NoticeCreate from "./NoticeCreate.vue";
-import NoticeUpdate from "./NoticeUpdate.vue";
+import menuApi from "@/api/menu.js";
+import MenuDetail from "./MenuDetail.vue";
+import MenuCreate from "./MenuCreate.vue";
+import MenuUpdate from "./MenuUpdate.vue";
 export default {
-  name: "NoticeView",
+  name: "MenuIndex",
   components: {
-    NoticeDetail,
-    NoticeCreate,
-    NoticeUpdate,
+    MenuDetail,
+    MenuCreate,
+    MenuUpdate,
   },
   props: {
     identity: {
       identity: Number,
     },
-    noticeType: {
+    menuType: {
       requestType: Number,
     },
     id: {
@@ -67,7 +67,7 @@ export default {
   data() {
     return {
       // 상세 내용을 저장할 변수
-      noticeDetail: null,
+      menuDetail: null,
 
       createMode: false,
       detailMode: false,
@@ -78,33 +78,33 @@ export default {
     id: function () {
       console.log("아이디가 변했어요" + this.id);
       if (this.id !== 0) {
-        this.getNoticeDetail();
+        this.getMenuDetail();
       }
     },
   },
 
   methods: {
-    //공지 업데이트 완료
-    updateNotice(){
+    //일정 업데이트 완료
+    updateMenu(){
       console.log('에밋 view111');
-      console.log(this.noticeDetail);
-      this.getNoticeDetail();
+      console.log(this.menuDetail);
+      this.getMenuDetail();
 
       this.changeMode(false, false, true);
-      this.$emit("updateNotice", this.noticeDetail.noticeId);
+      this.$emit("updateMenu", this.menuDetail.menuId);
     },
-    //공지 작성 완료
-    createNotice(){
+    //일정 작성 완료
+    createMenu(){
       this.changeMode(false, false, true);
-      this.$emit("createNotice");
+      this.$emit("createMenu");
     },
     //공지 작성 취소
-    cancelCreateNotice() {
+    cancelCreateMenu() {
       console.log('생성취소');
       this.changeMode(false, false, true);
     },
     //공지 수정 취소
-    cancelUpdateNotice() {
+    cancelUpdateMenu() {
       this.changeMode(false, false, true);
     },
     //공지 (작성,수정,상세) 모드 변경
@@ -114,39 +114,40 @@ export default {
       this.detailMode = detail;
     },
     // 공지 작성창 띄우기
-    async showCreateNoticeForm() {
+    async showCreateMenuForm() {
       this.changeMode(true, false, false);
     },
 
     // 공지 수정창 띄우기
-    async showUpdateNoticeForm() {
+    async showUpdateMenuForm() {
       console.log("업데이트폼");
       this.changeMode(false, true, false);
     },
 
     // 공지 상세창 띄우기
-    async showDetailNoticeForm() {
+    async showDetailMenuForm() {
       console.log("상세페이지폼");
       this.changeMode(false, false, true);
     },
 
-    async getNoticeDetail() {
+    async getMenuDetail() {
       this.changeMode(false, false, true);
       console.log("공지상세요청간다");
       let accessToken = sessionStorage.getItem("access-token");
       let refreshToken = sessionStorage.getItem("refresh-token");
       let data = {
-        noticeType: 1,
+        menuType: 2,
         id: this.id,
       };
 
-      let result = await noticeApi.getNoticeDetail(data, {
+      let result = await menuApi.getMenuDetail(data, {
         "access-token": accessToken,
         "refresh-token": refreshToken,
       });
 
-      this.noticeDetail = result.notice;
-      console.log(this.noticeDetail);
+      this.menuDetail = result.menu;
+      console.log('this.menuDetail');
+      console.log(this.menuDetail);
     },
   },
 };

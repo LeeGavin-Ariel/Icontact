@@ -198,6 +198,8 @@ export default {
       formData.append("title", this.title);
       formData.append("content", this.content);
 
+      console.log(formData.noticeType);
+
       let result = await noticeApi.updateNotice(formData, {
         "access-token": accessToken,
         "refresh-token": refreshToken,

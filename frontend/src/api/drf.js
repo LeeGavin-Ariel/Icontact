@@ -14,6 +14,7 @@ export default {
     notebook: '/notebook',
     request: '/request',
     getClassMember:'/user/class',
-    notice: '/notice'
+    notice: '/notice',
+    schedule: '/notice',
   }
 }

@@ -13,6 +13,9 @@ export default {
     changePWAfterLogin:'/user/password',
     notebook: '/notebook',
     request: '/request',
-    getClassMember:'/user/class'
+    getClassMember:'/user/class',
+    notice: '/notice',
+    schedule: '/notice',
+    menu: '/notice',
   }
 }

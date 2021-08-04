@@ -11,8 +11,8 @@ import com.myapp.backend.repository.MenuRepository;
 import com.myapp.backend.repository.NoticeRepository;
 import com.myapp.backend.repository.ScheduleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.util.List;
@@ -44,7 +44,7 @@ public class NoticeServiceImpl implements NoticeService {
 
     // 일반 공지글 등록
     @Override
-    public int noticeInsert(NoticeDto noticeDto, MultipartHttpServletRequest request) {
+    public int noticeInsert(NoticeDto noticeDto, MultipartFile request) {
         Notice notice = new Notice();
 
         notice.setTitle(noticeDto.getTitle());
@@ -63,7 +63,7 @@ public class NoticeServiceImpl implements NoticeService {
 
     // 일정 등록
     @Override
-    public int scheduleInsert(NoticeDto noticeDto, MultipartHttpServletRequest request) {
+    public int scheduleInsert(NoticeDto noticeDto, MultipartFile request) {
 
         Schedule schedule = new Schedule();
 
@@ -82,7 +82,7 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public int menuInsert(NoticeDto noticeDto, MultipartHttpServletRequest request) {
+    public int menuInsert(NoticeDto noticeDto, List<MultipartFile> request) {
 
         Menu menu = new Menu();
 
@@ -102,7 +102,7 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public int noticeUpdate(NoticeDto noticeDto, MultipartHttpServletRequest request) {
+    public int noticeUpdate(NoticeDto noticeDto, MultipartFile request) {
         Notice notice = noticeRepository.findByNoticeId(noticeDto.getId());
         if(notice != null){
             notice.setTitle(noticeDto.getTitle());
@@ -118,7 +118,7 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public int scheduleUpdate(NoticeDto noticeDto, MultipartHttpServletRequest request) {
+    public int scheduleUpdate(NoticeDto noticeDto, MultipartFile request) {
         Schedule schedule = scheduleRepository.findByScheduleId(noticeDto.getId());
         if(schedule != null){
             schedule.setTitle(noticeDto.getTitle());
@@ -134,7 +134,7 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public int menuUpdate(NoticeDto noticeDto, MultipartHttpServletRequest request) {
+    public int menuUpdate(NoticeDto noticeDto, MultipartFile request) {
         Menu menu = menuRepository.findByMenuId(noticeDto.getId());
         if(menu != null){
             menu.setAmSnack(noticeDto.getAmSnack());

@@ -2,23 +2,24 @@ package com.myapp.backend.service;
 
 import com.myapp.backend.domain.dto.notice.*;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.util.List;
 
 
 public interface NoticeService {
-    public int noticeInsert(NoticeDto noticeDto, MultipartHttpServletRequest request);
+    public int noticeInsert(NoticeDto noticeDto, MultipartFile request);
 
-    public int scheduleInsert(NoticeDto noticeDto, MultipartHttpServletRequest request);
+    public int scheduleInsert(NoticeDto noticeDto, MultipartFile request);
 
-    public int menuInsert(NoticeDto noticeDto, MultipartHttpServletRequest request);
+    public int menuInsert(NoticeDto noticeDto, List<MultipartFile> request);
 
-    public int noticeUpdate(NoticeDto noticeDto, MultipartHttpServletRequest request);
+    public int noticeUpdate(NoticeDto noticeDto, MultipartFile request);
 
-    public int scheduleUpdate(NoticeDto noticeDto, MultipartHttpServletRequest request);
+    public int scheduleUpdate(NoticeDto noticeDto, MultipartFile request);
 
-    public int menuUpdate(NoticeDto noticeDto, MultipartHttpServletRequest request);
+    public int menuUpdate(NoticeDto noticeDto, MultipartFile request);
 
     @Transactional
     public int noticeDelete(int id);

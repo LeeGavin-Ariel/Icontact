@@ -11,13 +11,13 @@ import java.util.List;
 public interface NoticeService {
     public int noticeInsert(NoticeDto noticeDto, MultipartFile request);
 
-    public int scheduleInsert(NoticeDto noticeDto, MultipartHttpServletRequest request);
+    public int scheduleInsert(NoticeDto noticeDto, MultipartFile request);
 
     public int menuInsert(NoticeDto noticeDto, MultipartHttpServletRequest request);
 
     public int noticeUpdate(NoticeDto noticeDto, MultipartFile request);
 
-    public int scheduleUpdate(NoticeDto noticeDto, MultipartHttpServletRequest request);
+    public int scheduleUpdate(NoticeDto noticeDto, MultipartFile request);
 
     public int menuUpdate(NoticeDto noticeDto, MultipartHttpServletRequest request);
 

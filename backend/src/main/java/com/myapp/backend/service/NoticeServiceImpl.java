@@ -63,7 +63,7 @@ public class NoticeServiceImpl implements NoticeService {
 
     // 일정 등록
     @Override
-    public int scheduleInsert(NoticeDto noticeDto, MultipartHttpServletRequest request) {
+    public int scheduleInsert(NoticeDto noticeDto, MultipartFile request) {
 
         Schedule schedule = new Schedule();
 
@@ -118,7 +118,7 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public int scheduleUpdate(NoticeDto noticeDto, MultipartHttpServletRequest request) {
+    public int scheduleUpdate(NoticeDto noticeDto, MultipartFile request) {
         Schedule schedule = scheduleRepository.findByScheduleId(noticeDto.getId());
         if(schedule != null){
             schedule.setTitle(noticeDto.getTitle());

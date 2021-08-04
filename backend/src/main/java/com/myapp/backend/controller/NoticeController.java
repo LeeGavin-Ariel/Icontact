@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.util.List;
 
@@ -28,7 +27,7 @@ public class NoticeController {
         if (noticeType == 1) { // 일반 공지
             result = noticeService.noticeInsert(noticeDto, img);
         } else if (noticeType == 2) { // 일정
-//            result = noticeService.scheduleInsert(noticeDto, img);
+            result = noticeService.scheduleInsert(noticeDto, img);
         } else { // 식단
 //            result = noticeService.menuInsert(noticeDto, img);
         }
@@ -52,7 +51,7 @@ public class NoticeController {
         if (noticeType == 1) { // 일반 공지
             result = noticeService.noticeUpdate(noticeDto, img);
         } else if (noticeType == 2) { // 일정
-//            result = noticeService.scheduleUpdate(noticeDto, request);
+            result = noticeService.scheduleUpdate(noticeDto, img);
         } else { // 식단
 //            result = noticeService.menuUpdate(noticeDto, request);
         }
@@ -74,7 +73,7 @@ public class NoticeController {
         if (noticeType == 1) { // 일반 공지
             result = noticeService.noticeDelete(id);
         } else if (noticeType == 2) { // 일정
-//            result = noticeService.scheduleDelete(id);
+            result = noticeService.scheduleDelete(id);
         } else { // 식단
 //            result = noticeService.menuDelete(id);
         }

@@ -16,5 +16,6 @@ export default {
     getClassMember:'/user/class',
     notice: '/notice',
     schedule: '/notice',
+    menu: '/notice',
   }
 }

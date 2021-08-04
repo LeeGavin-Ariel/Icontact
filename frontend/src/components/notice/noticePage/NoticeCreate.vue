@@ -75,6 +75,7 @@ export default {
       let accessToken = sessionStorage.getItem("access-token");
       let refreshToken = sessionStorage.getItem("refresh-token");
 
+
       const formData = new FormData();
       formData.append("img", this.files);
       formData.append("noticeType", 1);

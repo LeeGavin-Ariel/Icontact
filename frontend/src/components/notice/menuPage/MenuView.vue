@@ -20,7 +20,7 @@
 
     <button v-if="detailMode" @click="showUpdateMenuForm">|글 수정</button>
 
-    <!-- <button v-if="detailMode" @click="deleteMenu">|글 삭제</button> -->
+    <button v-if="detailMode" @click="deleteMenu">|글 삭제</button>
 
     <!-- <button @click="offCreateForm">글 작성 취소</button> -->
 
@@ -84,6 +84,28 @@ export default {
   },
 
   methods: {
+    async deleteMenu(){
+      console.log('삭제시작');
+      
+      let accessToken = sessionStorage.getItem("access-token");
+      let refreshToken = sessionStorage.getItem("refresh-token");
+      
+      let data = {
+        menuType: 3,
+        id: this.id,
+      };
+
+      let result = await menuApi.deleteMenu(data, {
+        "access-token": accessToken,
+        "refresh-token": refreshToken,
+      });
+
+      console.log(result);
+
+      
+      this.$emit("deleteMenu");
+    },
+
     //일정 업데이트 완료
     updateMenu(){
       console.log('에밋 view111');
@@ -136,7 +158,7 @@ export default {
       let accessToken = sessionStorage.getItem("access-token");
       let refreshToken = sessionStorage.getItem("refresh-token");
       let data = {
-        menuType: 2,
+        menuType: 3,
         id: this.id,
       };
 

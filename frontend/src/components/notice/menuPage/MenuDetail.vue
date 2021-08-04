@@ -2,61 +2,83 @@
   <div style="overflow-y: scroll" class="col">
     <!-- 디테일 -->
 
-    일정 상세페이지 <br />
-    <!-- <v-btn @click="showCreateNoticeForm">새 글 작성</v-btn>
+    식단 상세페이지 <br />
+    <!-- <v-btn @click="showCreateMenuForm">새 글 작성</v-btn>
     
-    <v-btn @click="showUpdateNoticeForm">글 수정</v-btn> -->
+    <v-btn @click="showUpdateMenuForm">글 수정</v-btn> -->
 
-    <v-sheet rounded="lg" v-if="createMode && this.scheduleInfo">
+    <v-sheet rounded="lg" v-if="createMode && this.menuInfo">
       <br />
       <p>
-        제목 : {{this.scheduleInfo.title}}
+        오전 간식 :
+        {{ this.menuInfo.amSnack }}
       </p>
 
-      <p>내용</p>
-       {{this.scheduleInfo.content}}
-      <!-- <p>작성 일자 : </p>
-      <input type="number" v-model="createDate"> -->
-      <br/><br/>
-      <p>첨부사진 :</p>
-      <!-- <v-file-input v-model="files" accept="image/*" label="File input"></v-file-input> -->
+      <p>오전 간식 사진 :</p>
+      <!-- <v-file-input
+        v-model="amSnackFile"
+        accept="image/*"
+        label="File input"
+      ></v-file-input> -->
+
+      <p>
+        점심 식사 :
+         {{ this.menuInfo.lunch }}
+      </p>
+      <p>점심 식사 사진 :</p>
+      <!-- <v-file-input
+        v-model="lunchFile"
+        accept="image/*"
+        label="File input"
+      ></v-file-input> -->
+
+      <p>
+        오후 간식 :
+        {{ this.menuInfo.pmSnack }}
+      </p>
+      <p>오후 간식 사진 :</p>
+      <!-- <v-file-input
+        v-model="pmSnackFile"
+        accept="image/*"
+        label="File input"
+      ></v-file-input> -->
     </v-sheet>
   </div>
 </template>
 
 <script>
-// import noticeApi from "@/api/notice.js";
 export default {
-  name: "NoticeDetail",
+  name: "MenuDetail",
 
   props: {
     identity: {
       identity: Number,
     },
-    noticeType: {
+    menuType: {
       requestType: Number,
     },
     id: {
       id: Number,
     },
-    scheduleInfo:{}
+    menuInfo: {},
   },
 
   data() {
     return {
       // 상세 내용을 저장할 변수
-      noticeDetail: null,
+      menuDetail: null,
       createMode: true,
       updateMode: false,
+
+      // amSnackFile: this.menuInfo.amSnackImgUrl==null?"":this.menuInfo.amSnackImgUrl,
+      // pmSnackFile: this.menuInfo.pmSnackImgUrl==null?"":this.menuInfo.pmSnackImgUrl,
+      // lunchFile: this.menuInfo.lunchSnackImgUrl==null?"":this.menuInfo.lunchSnackImgUrl,
     };
   },
-  watch: {
-    // id: function () {
-    //   console.log('noticedetail');
-    //   if (this.id !== 0) {
-    //     this.getNoticeDetail();
-    //   }
-    // },
+
+  created() {
+    console.log('created');
+    console.log(this.menuInfo);
   },
 
   methods: {
@@ -66,33 +88,10 @@ export default {
       this.detailMode = detail;
     },
 
-     // 생성창 띄우기
-    async showCreateNoticeForm() {
-      console.log('눌렀는데');
+    // 생성창 띄우기
+    async showCreateMenuForm() {
       this.changeMode(true, false, false);
-
-      // this.$emit("get-notebooklist", this.noticeType);
-      // this.getNotice()
     },
-
-    // async getNoticeDetail() {
-    //   let accessToken = sessionStorage.getItem("access-token");
-    //   let refreshToken = sessionStorage.getItem("refresh-token");
-    //   let data = {
-    //     noticeType: this.noticeType,
-    //     id: this.id,
-    //   };
-    //   // 선생인지, 학부모인지에 따라 다르게 받음.
-    //   let result = await noticeApi.getNoticeDetail(data, {
-    //     "access-token": accessToken,
-    //     "refresh-token": refreshToken,
-    //   });
-    //   // 어떻게 날라오는지 확인후 데이터 집어넣기4
-    //   this.noticeDetail = result.notice;
-
-    //   console.log('this.noticeDetail');
-    //   console.log(this.noticeDetail);
-    // },
   },
 };
 </script>

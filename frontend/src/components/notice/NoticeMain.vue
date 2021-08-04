@@ -52,7 +52,7 @@
               <button @click="getMoreNoticeList">더보기</button>
             </div>
 
-            <!-- 공지사항 리스트 띄우기-->
+            <!-- 일정 리스트 띄우기-->
             <div
               v-if="noticeType === 2"
               style="overflow-y: scroll; height: 80vh"
@@ -95,6 +95,54 @@
               <button @click="getMoreScheduleList">더보기</button>
               <!-- <infinite-loading @infinite="scheduleInfiniteHandler" spinner="waveDots"></infinite-loading> -->
             </div>
+
+            <!-- 식단 리스트 띄우기-->
+            <div
+              v-if="noticeType === 3"
+              style="overflow-y: scroll; height: 80vh"
+            >
+              <template v-for="(menu, index) in menuList">
+                <v-list-item
+                  v-if="noticeType === 3"
+                  :key="menu.createDate"
+                  @click="setDetail(menu.menuId)"
+                >
+                  <template>
+                    <v-list-item-content>
+                      <v-list-item-title
+                        v-text="menu.menuId"
+                      ></v-list-item-title>
+
+                      <v-list-item-title
+                        v-text="menu.createDate"
+                      ></v-list-item-title>
+
+                      <v-list-item-subtitle
+                        class="text--primary"
+                        v-text="menu.amSnack"
+                      ></v-list-item-subtitle>
+
+                      <v-list-item-subtitle
+                        v-text="menu.pmSnack"
+                      ></v-list-item-subtitle>
+                    </v-list-item-content>
+
+                    <v-list-item-action>
+                      <v-list-item-action-text
+                        v-text="menu.lunch"
+                      ></v-list-item-action-text>
+                    </v-list-item-action>
+                  </template>
+                </v-list-item>
+
+                <v-divider
+                  v-if="index < menuList.length - 1"
+                  :key="index"
+                ></v-divider>
+              </template>
+              <button @click="getMoreMenuList">더보기</button>
+              <!-- <infinite-loading @infinite="scheduleInfiniteHandler" spinner="waveDots"></infinite-loading> -->
+            </div>
           </v-list-item-group>
         </v-list>
       </v-col>
@@ -114,13 +162,20 @@
       @updateSchedule="afterUpdate"
       @deleteSchedule="initRequestList(2, 'delete')"
     />
-    <menu-view v-if="this.noticeType == 3" :id="id" />
+    <menu-view
+      v-if="this.noticeType == 3"
+      :id="id"
+      @createMenu="initRequestList(3, 'create')"
+      @updateMenu="afterUpdate"
+      @deleteMenu="initRequestList(3, 'delete')"
+    />
   </div>
 </template>
 
 <script>
 import noticeApi from "@/api/notice.js";
 import scheduleApi from "@/api/schedule.js";
+import menuApi from "@/api/menu.js";
 import NoticeView from "./noticePage/NoticeView.vue";
 import MenuView from "./menuPage/MenuView.vue";
 import ScheduleView from "./schedulePage/ScheduleView.vue";
@@ -137,9 +192,9 @@ export default {
       // 디테일 값을 얻어 오기 위한 글의 아이디값
       id: 0,
 
-      noticeType: 2,
-      noticeView: false,
-      scheduleView: true,
+      noticeType: 1,
+      noticeView: true,
+      scheduleView: false,
       menuView: false,
 
       // 관계
@@ -148,22 +203,36 @@ export default {
 
       noticeList: [],
       scheduleList: [],
+      menuList: [],
 
       // 더보기
       noticePageNum: 1,
       schedulePageNum: 1,
+      menuPageNum: 1,
       // 더보기 전체 페이지 수
       noticePageCnt: 1,
       schedulePageCnt: 1,
+      menuPageCnt: 1,
     };
   },
   methods: {
     afterUpdate(id) {
-      this.noticeList = [];
-      this.noticePageNum = 1;
-      this.setDetail(id);
-
-      this.getNoticeList();
+      if (this.noticeType == 1) {
+        this.noticeList = [];
+        this.noticePageNum = 1;
+        this.setDetail(id);
+        this.getNoticeList();
+      } else if (this.noticeType == 2) {
+        this.scheduleList = [];
+        this.schedulePageNum = 1;
+        this.setDetail(id);
+        this.getScheduleList();
+      } else if (this.noticeType == 3) {
+        this.menuList = [];
+        this.menuPageNum = 1;
+        this.setDetail(id);
+        this.getMenuList();
+      }
     },
     // 글 작성, 수정, 삭제 이벤트 발생시 다시 목록 조회.
     initRequestList(noticeType, mode) {
@@ -180,6 +249,12 @@ export default {
         this.getScheduleList();
         this.id = 0;
         if (mode == "update") this.setDetail(this.id);
+      } else if (noticeType === 3) {
+        this.menuList = [];
+        this.menuPageNum = 1;
+        this.getMenuList();
+        this.id = 0;
+        if (mode == "update") this.setDetail(this.id);
       }
     },
 
@@ -194,6 +269,13 @@ export default {
     getMoreScheduleList() {
       if (this.schedulePageNum <= this.schedulePageCnt) {
         this.getScheduleList();
+      }
+    },
+
+    // 식단 더보기 버튼
+    getMoreMenuList() {
+      if (this.menuPageNum <= this.menuPageCnt) {
+        this.getMenuList();
       }
     },
 
@@ -280,11 +362,39 @@ export default {
         this.id = this.scheduleList[0].scheduleId;
       }
     },
+    //식단 조회
+    async getMenuList() {
+      let accessToken = sessionStorage.getItem("access-token");
+      let refreshToken = sessionStorage.getItem("refresh-token");
+      let data = {
+        menuType: 3,
+        userId: this.$store.state.user.userId,
+        pageNum: this.menuPageNum,
+      };
+
+      console.log("식단조회");
+      let result = await menuApi.getMenu(data, {
+        "access-token": accessToken,
+        "refresh-token": refreshToken,
+      });
+
+      console.log("result");
+      console.log(result);
+
+      this.menuPageCnt = result.pageCnt;
+      this.menuList.push(...result.menuList);
+      this.menuPageNum += 1;
+
+      if (this.id === 0) {
+        this.id = this.menuList[0].menuId;
+      }
+    },
   },
 
   created() {
     this.getNoticeList();
     this.getScheduleList();
+    this.getMenuList();
   },
 };
 </script>

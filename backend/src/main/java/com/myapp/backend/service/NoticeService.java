@@ -13,13 +13,13 @@ public interface NoticeService {
 
     public int scheduleInsert(NoticeDto noticeDto, MultipartFile request);
 
-    public int menuInsert(NoticeDto noticeDto, MultipartHttpServletRequest request);
+    public int menuInsert(NoticeDto noticeDto, List<MultipartFile> request);
 
     public int noticeUpdate(NoticeDto noticeDto, MultipartFile request);
 
     public int scheduleUpdate(NoticeDto noticeDto, MultipartFile request);
 
-    public int menuUpdate(NoticeDto noticeDto, MultipartHttpServletRequest request);
+    public int menuUpdate(NoticeDto noticeDto, MultipartFile request);
 
     @Transactional
     public int noticeDelete(int id);

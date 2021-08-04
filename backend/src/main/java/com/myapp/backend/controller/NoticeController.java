@@ -20,16 +20,20 @@ public class NoticeController {
 
     // 공지글 등록
     @PostMapping("notice")
-    public ResponseEntity noticeInsert(@ModelAttribute NoticeDto noticeDto, @RequestParam(required = false) MultipartFile img) {
+    public ResponseEntity noticeInsert(@ModelAttribute NoticeDto noticeDto, @RequestParam(required = false) List<MultipartFile> imgs) {
         int result = 0;
         int noticeType = noticeDto.getNoticeType();
+        MultipartFile img = null;
+        if (imgs != null)
+            img = imgs.get(0);
+
 
         if (noticeType == 1) { // 일반 공지
             result = noticeService.noticeInsert(noticeDto, img);
         } else if (noticeType == 2) { // 일정
             result = noticeService.scheduleInsert(noticeDto, img);
         } else { // 식단
-//            result = noticeService.menuInsert(noticeDto, img);
+            result = noticeService.menuInsert(noticeDto, imgs);
         }
 
         if (result == 1) {
@@ -45,15 +49,15 @@ public class NoticeController {
         int result = 0;
         int noticeType = noticeDto.getNoticeType();
 
-        System.out.println("noticeDTO:"+noticeDto);
-        System.out.println("img:"+img);
+        System.out.println("noticeDTO:" + noticeDto);
+        System.out.println("img:" + img);
 
         if (noticeType == 1) { // 일반 공지
             result = noticeService.noticeUpdate(noticeDto, img);
         } else if (noticeType == 2) { // 일정
             result = noticeService.scheduleUpdate(noticeDto, img);
         } else { // 식단
-//            result = noticeService.menuUpdate(noticeDto, request);
+            result = noticeService.menuUpdate(noticeDto, img);
         }
 
         if (result == 1) {
@@ -67,7 +71,7 @@ public class NoticeController {
     @DeleteMapping("/notice")
     public ResponseEntity noticeDelete(@RequestParam(required = true) final int noticeType,
                                        @RequestParam(required = true) final int id) {
-        System.out.println("id:"+id);
+        System.out.println("id:" + id);
         int result = 0;
 
         if (noticeType == 1) { // 일반 공지
@@ -75,7 +79,7 @@ public class NoticeController {
         } else if (noticeType == 2) { // 일정
             result = noticeService.scheduleDelete(id);
         } else { // 식단
-//            result = noticeService.menuDelete(id);
+            result = noticeService.menuDelete(id);
         }
 
         if (result == 1) {
@@ -107,8 +111,8 @@ public class NoticeController {
             List<NoticeResultDto> noticeList = noticeService.noticeList(noticeParamDto);
             if (noticeList != null) {
                 commonNoticeResultDto.setNoticeList(noticeList);
-                for (NoticeResultDto n:noticeList
-                     ) {
+                for (NoticeResultDto n : noticeList
+                ) {
                     System.out.println(n);
                 }
                 return new ResponseEntity<CommonNoticeResultDto>(commonNoticeResultDto, HttpStatus.OK);

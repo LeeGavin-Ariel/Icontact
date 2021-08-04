@@ -82,7 +82,7 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public int menuInsert(NoticeDto noticeDto, MultipartHttpServletRequest request) {
+    public int menuInsert(NoticeDto noticeDto, List<MultipartFile> request) {
 
         Menu menu = new Menu();
 
@@ -134,7 +134,7 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public int menuUpdate(NoticeDto noticeDto, MultipartHttpServletRequest request) {
+    public int menuUpdate(NoticeDto noticeDto, MultipartFile request) {
         Menu menu = menuRepository.findByMenuId(noticeDto.getId());
         if(menu != null){
             menu.setAmSnack(noticeDto.getAmSnack());

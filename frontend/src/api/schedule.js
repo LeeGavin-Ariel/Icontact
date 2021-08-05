@@ -24,7 +24,9 @@ export const scheduleApi = {
     return requestGet(SERVER.URL + SERVER.ROUTES.schedule + `/${data.scheduleType}` + `?id=${data.id}`, headers);
   },
   
-  updateSchedule: (data, headers) => {
+  updateSchedule: (data, headers) => { 
+    console.log('updateSchedule');
+    console.log(data.get('scheduleType'));
     console.log(SERVER.URL + SERVER.ROUTES.schedule);
     return requestPost(SERVER.URL + SERVER.ROUTES.schedule + `/2`, data, headers);
     // return requestPost(SERVER.URL + SERVER.ROUTES.schedule + `/${data.scheduleType}`, data, headers);

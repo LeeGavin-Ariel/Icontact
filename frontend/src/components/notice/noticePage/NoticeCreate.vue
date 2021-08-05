@@ -2,8 +2,8 @@
   <div style="overflow-y: scroll" class="col">
     <!-- 디테일 -->
 
-    공지 작성페이지 <br />
-
+    <!-- 공지 작성페이지 <br /> -->
+<v-row>
     <v-sheet rounded="lg" v-if="createMode">
       <br />
       <p>
@@ -21,13 +21,15 @@
         label="File input"
       ></v-file-input>
     </v-sheet>
-
-    <v-btn color="primary" fab small dark @click="createNewNotice">
+</v-row>
+<v-row justify="end">
+    <v-btn class="mr-3" color="primary" fab small dark @click="createNewNotice">
       <v-icon>mdi-check </v-icon>
     </v-btn>
-    <v-btn color="red" fab small dark @click="offCreateForm">
+    <v-btn class="mr-3" color="red" fab small dark @click="offCreateForm">
       <v-icon>mdi-window-close </v-icon>
     </v-btn>
+    </v-row>
   </div>
 </template>
 

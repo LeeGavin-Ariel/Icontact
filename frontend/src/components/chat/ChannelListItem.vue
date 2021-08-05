@@ -89,8 +89,8 @@ export default {
       console.log(this.nickName);
     },
 
-    openChannel(url) {
-      sendBird
+    async openChannel(url) {
+      await sendBird
         .getChannel(url)
         .then((channel) => {
           this.$store.commit("SET_CHANNEL", channel);

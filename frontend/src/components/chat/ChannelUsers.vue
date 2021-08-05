@@ -59,8 +59,8 @@ export default {
   },
 
   methods: {
-    init (channel) {
-      sendBird
+    async init (channel) {
+      await sendBird
         .getChannelUsers(channel)
         .then((participantList) => {
           this.$store.commit('SET_CHANNEL_USERS', participantList)
@@ -71,11 +71,11 @@ export default {
           console.error(error)
         })
 
-      sendBird.onUserEntered(channel, (channel, user) => {
+      await sendBird.onUserEntered(channel, (channel, user) => {
         this.$store.dispatch('addChannelUser', user)
       })
 
-      sendBird.onUserExited(channel, (channel, user) => {
+      await sendBird.onUserExited(channel, (channel, user) => {
         this.$store.dispatch('removeChannelUser', user)
       })
       

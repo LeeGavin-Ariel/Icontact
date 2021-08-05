@@ -1,6 +1,7 @@
 <template>
   <div>
     {{date}}
+    {{kids}}
     <!-- vuetify menus 참고 -->
     <template>
       <div class="text-center">
@@ -74,26 +75,27 @@
         <!-- v-for="kid in kids" -->
         <!-- :key="kid.userId" -->
         <v-col
-          v-for="n in 15"
-          :key="n"
+          v-for="kid in kids"
+          :key="kid.userId"
           cols="2"
         >
-        <!-- :class="{ attend: kid.state, notattend: !kid.state}" -->
+        <!--  -->
           <v-card
             class="mx-auto"
             max-width="200"
             max-height="300"
             outlined
-            style="border-color: yellow; border-width: 6px;"
+            :class="{ attend: (kid.attend===1), notattend: (kid.attend===0) }"
           >
           <!-- 여기 테두리 주기, 아이 사진으로 넣기 반복문에 들어오는 아이의 키값을 아이의 아이디 값으로 설정. -->
             <v-img
               src="@/assets/1.jpeg"
               height="200px"
+              @click="setKid(kid.userId)"
             ></v-img>
             <!-- 여기 아이 이름 넣어주기. -->
           </v-card>
-          <p style="text-align:center;">아이이름</p>
+          <p style="text-align:center;">{{kid.kidName}}</p>
         </v-col>
       </v-row>
     </div>
@@ -144,9 +146,7 @@ export default {
       userId: '',
       kids: [],
       // 클릭된 아이의 아이디
-      kidid: 0,
-      // 클린된 아이의 출석 상태
-      state: 0,
+      kidId: 0,
 
       // 달력관련
       date: new Date().toISOString().substr(0, 10),
@@ -162,14 +162,17 @@ export default {
   watch: {
     'date': function() {
       this.menu = false
-      // this.getChildren()
+      this.getChildren()
     }
   },
   methods: {
 
     // 해당 날짜에 아이들의 출석 상태를 불러와야함. 아이들의 목록, 출석 상황.
     // 아이 사진 클릭 시, 그 아이의 출석 상태가 변경되어야함. 그리고 그 즉시 화면에서 테두리 색깔이 변해야함.
-    
+    setKid(Id) {
+      this.kidId = Id
+      this.updateAttendance()
+    },
     
     // 아이들 목록 불러오기 
     async getChildren () {
@@ -183,6 +186,7 @@ export default {
         "access-token": accessToken,
         "refresh-token": refreshToken,
       });
+      console.log(result)
       this.kids = result
     },
 
@@ -192,15 +196,15 @@ export default {
       let accessToken = sessionStorage.getItem('access-token')
       let refreshToken = sessionStorage.getItem('refresh-token')
       let data = {
-        userId: this.kidid,
+        userId: this.kidId,
         date: this.date,
-        // 얘는 넣어야할지 고민.
-        state: this.state
       }
-      await attendanceApi.getChildren(data, {
+      let result = await attendanceApi.updateAttendence(data, {
         "access-token": accessToken,
         "refresh-token": refreshToken,
       });
+      console.log("결과")
+      console.log(result)
       this.getChildren()
     },
 
@@ -232,7 +236,7 @@ export default {
 
   created() {
     this.userId = this.$store.state.user.userId
-    // this.getChildren()
+    this.getChildren()
   }
 }
 </script>
@@ -253,14 +257,16 @@ export default {
   }
 
   .attend {
+    border-style: solid;
     border-color: #eeea0a;
-    border-width: 6px;
+    border-width: 12px;
     margin: auto 0;
   }
 
   .notattend {
-    border-color: #eeea0a;
-    border-width: 6px;
+    border-style: solid;
+    border-color: #8ca3a3;
+    border-width: 12px;
     margin: auto 0;
   }
 

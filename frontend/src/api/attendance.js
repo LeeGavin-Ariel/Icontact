@@ -4,7 +4,7 @@ import SERVER from './drf.js';
 export const attendanceApi = {
 
   getChildren: (data, headers) => {
-    return requestGet(SERVER.URL + SERVER.ROUTES.attendance + '/teacher' + `?${data.userId}` + `&${data.date}`, headers)
+    return requestGet(SERVER.URL + SERVER.ROUTES.attendance + '/teacher' + `?userId=${data.userId}` + `&date=${data.date}`, headers)
   },
 
   getChild: (data, headers) => {

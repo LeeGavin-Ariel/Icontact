@@ -1,10 +1,9 @@
 <template>
     <div style="background-color: rgb(250, 215, 73);">
 
-      <v-app-bar
-        color="mainColor accent-4"
-        dense
-        dark
+      <nav
+      class="navbar bg-light"
+      style="background-color: rgb(230, 232, 240)"
       >
         <v-btn icon plain @click="moveToMainPage">
           <v-icon>로고</v-icon>
@@ -57,7 +56,7 @@
           </v-badge>
         </v-btn>
 
-      </v-app-bar>
+      </nav>
     </div>
 </template>
 

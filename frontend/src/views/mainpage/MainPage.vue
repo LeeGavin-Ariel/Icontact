@@ -14,7 +14,7 @@
               :src="require(`@/assets/${func}.png`)"
               :lazy-src="require(`@/assets/${func}.png`)"
               aspect-ratio="1"
-              class="grey lighten-2"
+              class="grey lighten-2 img"
             >
               <template v-slot:placeholder>
                 <v-row

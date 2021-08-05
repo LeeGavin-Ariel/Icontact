@@ -1,9 +1,10 @@
 <template>
-  <div class="messages">
+  <div class="messages" id="messagesScroll">
 
     <loading :is-active="loadingIsActive"/>
 
     <h1 v-if="stateFlag">TEST</h1>
+    <h1 >{{messages[0].createdAt}}</h1>
 
     <ul v-if="messages" ref="messagesList">
       <message
@@ -175,3 +176,36 @@ export default {
 
 }
 </script>
+<style scoped lang="scss">
+  @import "../../assets/scss/index.scss";
+
+// .overflow-y-auto::-webkit-scrollbar {
+//   /* display: none; */
+//   /* width: 0 !important; */
+//   width: 3px;
+// }
+
+// /* 현재 스크롤의 위치바의 색 */
+// .overflow-y-auto::-webkit-scrollbar-thumb {
+//   background-color: black;
+// }
+
+// /* 남는공간의 색 */
+// .overflow-y-auto::-webkit-scrollbar-track {
+//   background-color: white;
+// }
+
+#messagesScroll::-webkit-scrollbar {
+  width: 3px;
+}
+
+/* 현재 스크롤의 위치바의 색 */
+#messagesScroll::-webkit-scrollbar-thumb {
+  background-color: black;
+}
+
+/* 남는공간의 색 */
+#messagesScroll::-webkit-scrollbar-track {
+  background-color:white;
+}
+</style>

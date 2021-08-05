@@ -1,35 +1,41 @@
 <template>
-  <div v-if="channels" class="channel-list">
-    <h2>{{ title }}</h2>
-    <input
-      type="text"
-      id="searchId"
+  <v-container fluid>
+    <v-text-field
+      label="유저명으로 검색"
+      dense
       v-model="searchId"
-      placeholder="검색할 사용자 입력"
       @keypress.enter="searchById(searchId)"
-    />
-    <v-btn @click="searchById">검색</v-btn>
+      append-icon="mdi-account-search"
+    ></v-text-field>
+    <!-- 
+    <v-btn @click="searchById">모든유저</v-btn>
 
-    <v-btn @click="disconnectSendbird">연결해제</v-btn>
-
-    <ul ref="channelFrame" class="overflow-y-auto" v-scroll:#scroll-target="onScroll"
-        align="center"
-        justify="center"
-        style="height: 80vh">
-      <channel-list-item
-        v-for="(channel, index) in this.channelList"
-        :key="index"
-        :cover-url="channel.coverUrl"
-        :name="channel.name"
-        :url="channel.url"
-        :members="channel.members"
-        :searchId="searchId"
-        :lastMessage="
-          channel.lastMessage === undefined ? null : channel.lastMessage
-        "
-      />
-    </ul>
-  </div>
+    <v-btn @click="disconnectSendbird">연결해제</v-btn> -->
+    <v-list
+      two-line
+      ref="channelFrame"
+      class="overflow-y-auto"
+      v-scroll:#scroll-target="onScroll"
+      align="left"
+      justify="center"
+      style="height: 80vh"
+    >
+      <v-list-item-group active-class="pink--text">
+        <channel-list-item
+          v-for="(channel, index) in this.channelList"
+          :key="index"
+          :cover-url="channel.coverUrl"
+          :name="channel.name"
+          :url="channel.url"
+          :members="channel.members"
+          :searchId="searchId"
+          :lastMessage="
+            channel.lastMessage === undefined ? null : channel.lastMessage
+          "
+        />
+      </v-list-item-group>
+    </v-list>
+  </v-container>
 </template>
 
 <script>
@@ -65,10 +71,13 @@ export default {
     },
 
     channelList(newValue) {
-      console.log('channelList 변경되었습니다')
-      console.log(this.channelList)
-      
-      if (newValue && this.$el.offsetHeight + this.$el.scrollTop === this.$el.scrollHeight ) {
+      console.log("channelList 변경되었습니다");
+      console.log(this.channelList);
+
+      if (
+        newValue &&
+        this.$el.offsetHeight + this.$el.scrollTop === this.$el.scrollHeight
+      ) {
         this.$nextTick(() => {
           this.scrollToBottom();
         });
@@ -77,9 +86,9 @@ export default {
   },
 
   methods: {
-    onScroll (e) {
-        this.offsetTop = e.target.scrollTop
-      },
+    onScroll(e) {
+      this.offsetTop = e.target.scrollTop;
+    },
 
     handleScroll() {
       console.log("scroll");
@@ -103,7 +112,8 @@ export default {
           // this.$store.dispatch('loadPrevMessages', messageList)
 
           this.$nextTick(() => {
-            this.$el.scrollTop = this.$refs.channelFrame.offsetHeight - oldHeight;
+            this.$el.scrollTop =
+              this.$refs.channelFrame.offsetHeight - oldHeight;
             this.loadingIsActive = false;
           });
         })
@@ -135,18 +145,16 @@ export default {
       console.log(this.$store.state.user);
       console.log(this.$store.state.channels);
 
-      await sendBird
-      .login(this.$store.state.user.userId)      
+      await sendBird.login(this.$store.state.user.userId);
 
       sendBird
-      .getGroupChannelList()
-      .then(async channels => {
-        await this.$store.commit('SET_CHANNELS', channels)
-      })
-      .catch((error) => {
-        console.error(error)
-      })      
-
+        .getGroupChannelList()
+        .then(async (channels) => {
+          await this.$store.commit("SET_CHANNELS", channels);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
     },
 
     disconnectSendbird() {
@@ -161,13 +169,23 @@ export default {
 </script>
 
 <style>
-.vscroll{
+.vscroll {
   height: "inherit";
 }
 
-.overflow-y-auto::-webkit-scrollbar { 
-    display: none;
-    width: 0 !important;
+.overflow-y-auto::-webkit-scrollbar {
+  /* display: none; */
+  /* width: 0 !important; */
+  width: 3px;
 }
 
+/* 현재 스크롤의 위치바의 색 */
+.overflow-y-auto::-webkit-scrollbar-thumb {
+  background-color: black;
+}
+
+/* 남는공간의 색 */
+.overflow-y-auto::-webkit-scrollbar-track {
+  background-color: white;
+}
 </style>

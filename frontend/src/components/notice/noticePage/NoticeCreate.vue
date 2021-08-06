@@ -3,38 +3,52 @@
     <!-- 디테일 -->
 
     <!-- 공지 작성페이지 <br /> -->
-<v-row>
-    <v-sheet rounded="lg" v-if="createMode">
-      <br />
-      <p>
-        제목 : <input type="text" v-model="title" style="border: solid 1px" />
-      </p>
+    <v-row>
+      <v-sheet rounded="lg" v-if="createMode">
+        <br />
+        <p>
+          제목 : <input type="text" v-model="title" style="border: solid 1px" />
+        </p>
 
-      <p>내용</p>
-      <input type="textarea" v-model="content" style="border: solid 1px" />
-      <!-- <p>작성 일자 : </p>
+        <p>내용</p>
+        <input
+          id=""
+          type="textarea"
+          v-model="content"
+          style="border: solid 1px"
+        />
+        <!-- <p>작성 일자 : </p>
       <input type="number" v-model="createDate"> -->
-      <p>공지사항첨부사진 :</p>
-      <v-file-input
-        v-model="files"
-        accept="image/*"
-        label="File input"
-      ></v-file-input>
-    </v-sheet>
-</v-row>
-<v-row justify="end">
-    <v-btn class="mr-3" color="primary" fab small dark @click="createNewNotice">
-      <v-icon>mdi-check </v-icon>
-    </v-btn>
-    <v-btn class="mr-3" color="red" fab small dark @click="offCreateForm">
-      <v-icon>mdi-window-close </v-icon>
-    </v-btn>
+        <p>공지사항첨부사진 :</p>
+        <v-file-input
+          id="noticeFile"
+          v-model="files"
+          accept="image/*"
+          label="File input"
+        ></v-file-input>
+      </v-sheet>
+    </v-row>
+    <v-row justify="end">
+      <v-btn
+        class="mr-3"
+        color="primary"
+        fab
+        small
+        dark
+        @click="createNewNotice"
+      >
+        <v-icon>mdi-check </v-icon>
+      </v-btn>
+      <v-btn class="mr-3" color="red" fab small dark @click="offCreateForm">
+        <v-icon>mdi-window-close </v-icon>
+      </v-btn>
     </v-row>
   </div>
 </template>
 
 <script>
 import noticeApi from "@/api/notice.js";
+import awss3 from "@/utils/awss3.js";
 export default {
   name: "NoticeCreate",
 
@@ -63,8 +77,8 @@ export default {
   },
 
   methods: {
-    offCreateForm() {
-      this.$emit('cancelCreateNotice')
+    async offCreateForm() {
+      this.$emit("cancelCreateNotice");
     },
 
     // 공지 생성
@@ -77,23 +91,32 @@ export default {
       let accessToken = sessionStorage.getItem("access-token");
       let refreshToken = sessionStorage.getItem("refresh-token");
 
+      let noticeImgUrl = await awss3.uploadPhoto("notice", "noticeFile");
 
-      const formData = new FormData();
-      formData.append("img", this.files);
-      formData.append("noticeType", 1);
-      formData.append("userId", this.$store.state.user.userId);
-      formData.append("classCode", this.$store.state.user.classCode);
-      formData.append("title", this.title);
-      formData.append("content", this.content);
+      let data = {
+        noticeImgUrl: noticeImgUrl[0],
+        noticeType: 1,
+        userId: this.$store.state.user.userId,
+        classCode: this.$store.state.user.classCode,
+        title: this.title,
+        content: this.content,
+      };
 
-      let result = await noticeApi
-        .createNotice(formData, {
-          "access-token": accessToken,
-          "refresh-token": refreshToken,
-          "Content-Type": "multipart/form-data",
-        })
+      // const formData = new FormData();
+      // formData.append("img", this.files);
+      // formData.append("noticeType", 1);
+      // formData.append("userId", this.$store.state.user.userId);
+      // formData.append("classCode", this.$store.state.user.classCode);
+      // formData.append("title", this.title);
+      // formData.append("content", this.content);
 
-      console.log('result');
+      let result = await noticeApi.createNotice(data, {
+        "access-token": accessToken,
+        "refresh-token": refreshToken,
+        // "Content-Type": "multipart/form-data",
+      });
+
+      console.log("result");
       console.log(result);
 
       this.$emit("createNotice");

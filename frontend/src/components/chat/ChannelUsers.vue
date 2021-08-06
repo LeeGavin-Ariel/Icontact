@@ -46,6 +46,7 @@ export default {
 
     channel: {
       handler: function(newValue) {
+        console.log('채널유저스 채널 변경');
         this.init(newValue)
       },
       deep: true

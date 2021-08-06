@@ -3,12 +3,12 @@
 
     <loading :is-active="loadingIsActive"/>
 
-    <h1 v-if="stateFlag">TEST</h1>
-    <h1 >{{messages[0].createdAt}}</h1>
+    <!-- <h1 v-if="stateFlag">TEST</h1>
+    <h1 >{{messages[0].createdAt}}</h1> -->
 
     <ul v-if="messages" ref="messagesList">
       <message
-        v-for="(message, index) in messages"
+        v-for="(message, index) in transferMessage"
         :key="index"
         :message="message"/>
     </ul>
@@ -39,7 +39,8 @@ export default {
     return {
       loadingIsActive: false,
       allMessagesIsLoaded: false,
-      stateFlag: false
+      stateFlag: false,
+      transferMessage:[],
     }
   },
 
@@ -64,6 +65,12 @@ export default {
 
     messages: {
       handler: async function(newValue) {
+        console.log("메시지스 : 메시지스 변경");
+        console.log(newValue);
+        this.transferMessage = newValue;
+        newValue.forEach(element => {
+          console.log(element._sender.nickname+":"+element.message);
+        });
         if (newValue && this.$el.offsetHeight + this.$el.scrollTop === this.$el.scrollHeight) {
 
           this.$nextTick(() => {
@@ -77,6 +84,7 @@ export default {
 
     channel: {
       handler: function(newValue) {
+        console.log("메시지스 채널 변경");
         this.init(newValue)
       }
     },
@@ -94,21 +102,30 @@ export default {
 
   methods: {
 
-    init (channel) {
-
-      sendBird
+    async init (channel) {
+      console.log('메시지스 이닛(채널)');
+      console.log(channel==this.$store.state.channel);
+      await sendBird
         .getChannelMessages(channel, 10)
         .then((messageList) => {
           this.$store.commit('SET_MESSAGES', messageList)
           this.scrollToBottom()
+          console.log('메시지스 이닛 겟채널 리스트');
+          console.log(messageList);
+          console.log(this.$store.state.messages);
+          console.log(this.$store.state.messages==messageList);
+          messageList.forEach(element => {
+            console.log(element._sender.userId+":"+element.message);
+          });
+          
         })
         .catch((error) => {
           console.error(error)
         })
 
-      sendBird.onMessageReceived(channel, (channel, message) => {
-        this.$store.dispatch('addMessage', message)
-      })
+      // sendBird.onMessageReceived(channel, (channel, message) => {
+      //   this.$store.dispatch('addMessage', message)
+      // })
 
       this.$nextTick(() => {
         this.$el.addEventListener('scroll', this.handleScroll)

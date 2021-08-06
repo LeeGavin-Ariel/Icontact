@@ -4,7 +4,8 @@
     <v-row no-gutters>
       <v-col align-self="center" class="" cols="2" style="border: solid 0px">
         <v-avatar>
-          <img :src="coverUrl" alt="coverUrl" />
+          <img :src="require('@/assets/profileImg/' + opponentId + '.jpg')" alt="profile-image">
+          <!-- <img :src="coverUrl" alt="coverUrl" /> -->
         </v-avatar>
       </v-col>
       <v-col>
@@ -48,6 +49,7 @@ export default {
       connectionStatus: "",
       // lastMessage:"",
       createdAt: "",
+      opponentId:"",
     };
   },
 
@@ -68,6 +70,15 @@ export default {
       type: Object,
     },
     members: [],
+    channel:{
+      type:Object,
+    },
+  },
+
+  watch:{
+    channel(){
+      this.setData();
+    }
   },
 
   methods: {
@@ -80,10 +91,12 @@ export default {
 
         this.nickName = this.members[1].nickname;
         this.connectionStatus = this.members[1].connectionStatus;
+        this.opponentId = this.members[1].userId;
       } else {
         console.log("1번");
         this.nickName = this.members[0].nickname;
         this.connectionStatus = this.members[0].connectionStatus;
+        this.opponentId = this.members[0].userId;
       }
 
       console.log(this.nickName);
@@ -94,10 +107,17 @@ export default {
         .getChannel(url)
         .then((channel) => {
           this.$store.commit("SET_CHANNEL", channel);
+          // 채널이 변경되면 computed 작동
+          console.log('채널을 가져왔어요');
+          console.log(channel);
+          console.log(this.$store.state.channel);
+          console.log(channel==this.$store.state.channel);
         })
         .catch((error) => {
           console.error(error);
         });
+
+
     },
 
     toStringByFormatting(source, delimiter = "/") {

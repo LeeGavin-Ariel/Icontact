@@ -32,6 +32,7 @@
           :lastMessage="
             channel.lastMessage === undefined ? null : channel.lastMessage
           "
+          :channel="channel"
         />
       </v-list-item-group>
     </v-list>

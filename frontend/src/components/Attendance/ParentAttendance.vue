@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="container d-flex justify-content-center" style="height:60vh; margin:2.5rem;  border: solid rgba(169,177,204, 0.7); border-radius: 8px;">
+    <div class="container d-flex justify-content-center" style="height:70vh; margin:2.5rem;  border: solid rgba(169,177,204, 0.7); border-radius: 8px;">
       
       
       <template>
@@ -24,7 +24,7 @@
             </v-sheet>
 
             <!-- 켈린더 -->
-            <v-sheet height="600">
+            <v-sheet height="400">
               <v-calendar
                 ref="calendar"
                 v-model="focus"
@@ -54,6 +54,7 @@ export default {
       userId: '',
       month: '',
       // 달력 관련
+      attendance: [],
       focus: '',
       type: 'month',
       events: [],
@@ -75,7 +76,7 @@ export default {
     },
     prev () {
       this.$refs.calendar.prev()
-      console.log(this.$refs.calendar)
+      // console.log(this.$refs.calendar)
     },
     next () {
       this.$refs.calendar.next()
@@ -100,60 +101,51 @@ export default {
 
 
 
-    updateRange ({ start, end }) {
+    async updateRange ({ start, end }) {
 
         // 날짜
 
         const events = []
-        const min = new Date(`${start.date}T00:00:00`)
-        const max = new Date(`${end.date}T23:59:59`)
-        console.log(start.date)
-        console.log(min)
-        console.log(max)
+        this.userId = this.$store.state.user.userId
+        this.month = start.date
+        await this.getChild()
+        // const min = new Date(`${start.date}T00:00:00`)
+        // const max = new Date(`${end.date}T23:59:59`)
+        // console.log(start.date)
+        // console.log(min)
+        console.log(end)
         // const days = (max.getTime() - min.getTime()) / 86400000
         // const eventCount = this.rnd(days, days + 20)
-
         // 날짜만큼 진행. i = start.date.substr(9,11), i < end.date.substr(9,11)
         // 혹은 리턴받은 배열 길이 만큼 진행.
-        for (let i = 0; i < 1; i++) {
+        for (let i = 0; i < this.attendance.length; i++) {
           // const allDay = this.rnd(0, 3) === 0
-          const firstTimestamp = this.rnd(min.getTime(), max.getTime())
-          const first = new Date(firstTimestamp - (firstTimestamp % 900000))
-          // // console.log(firstTimestamp)
-          // // console.log(new Date())
-          console.log(first)
-          console.log('hi')
+
           // const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000
           // const second = new Date(first.getTime() + secondTimestamp)
           // console.log(secondTimestamp)
           // console.log(second)
 
-
+          
           // let state = this.kid[i] ? 0 : 1
-          events.push({
-            name: this.names[this.rnd(0, this.names.length - 1)],
-            // 여기서 각각의 날짜 날짜 넣어주기.
-            start: `${start.date}`,
-            end: `${start.date}`,
-            color: this.colors[this.rnd(0, this.colors.length - 1)],
-            // timed: !allDay,
-          })
+
 
           events.push({
-            name: this.names[this.rnd(0, this.names.length - 1)],
-            // 여기서 각각의 날짜 날짜 넣어주기.
-            start: `${end.date}`,
-            end: `${end.date}`,
-            color: this.colors[this.rnd(0, this.colors.length - 1)],
-            // timed: !allDay,
+            name: this.attendance[i].attend ? this.names[0] : this.names[1],
+            start: this.attendance[i].date,
+            end: this.attendance[i].date,
+            color: this.attendance[i].attend ? this.colors[0] : this.colors[1],
           })
+
+
         }
 
         this.events = events
+        
+
+
       },
-      rnd (a, b) {
-        return Math.floor((b - a + 1) * Math.random()) + a
-      },
+
 
 
 
@@ -166,22 +158,17 @@ export default {
       let refreshToken = sessionStorage.getItem('refresh-token')
       let data = {
         userId: this.userId,
-        // 달만 날리면 되겠지?
+        // yyyy-mm 꼴로 보내주기.
         date: this.month,
       }
       let result = await attendanceApi.getChild(data, {
         "access-token": accessToken,
         "refresh-token": refreshToken,
       });
-      this.kid = result
+      // console.log(result)
+      this.attendance = result
     },
   },
-  created() {
-    let today = new Date()
-    this.userId = this.$store.state.user.userId
-    this.month = today.getMonth() + 1
-
-  }
 }
 </script>
 

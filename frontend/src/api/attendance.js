@@ -8,11 +8,11 @@ export const attendanceApi = {
   },
 
   getChild: (data, headers) => {
-    return requestGet(SERVER.URL + SERVER.ROUTES.attendance + '/parents' + `?${data.userId}` + `&${data.date}`, headers)
+    return requestGet(SERVER.URL + SERVER.ROUTES.attendance + '/parents' + `?userId=${data.userId}` + `&date=${data.date}`, headers)
   },
 
   updateAttendence: (data, headers) => {
-    return requestPost(SERVER.URL + SERVER.ROUTES.request, data, headers);
+    return requestPost(SERVER.URL + SERVER.ROUTES.attendance, data, headers);
   },
 
 };

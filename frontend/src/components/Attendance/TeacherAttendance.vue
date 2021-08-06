@@ -75,7 +75,7 @@
         <!-- v-for="kid in kids" -->
         <!-- :key="kid.userId" -->
         <v-col
-          v-for="kid in kids"
+          v-for="(kid,index) in kids"
           :key="kid.userId"
           cols="2"
         >
@@ -85,13 +85,14 @@
             max-width="200"
             max-height="300"
             outlined
-            :class="{ attend: (kid.attend===1), notattend: (kid.attend===0) }"
+            
           >
           <!-- 여기 테두리 주기, 아이 사진으로 넣기 반복문에 들어오는 아이의 키값을 아이의 아이디 값으로 설정. -->
             <v-img
               src="@/assets/1.jpeg"
               height="200px"
-              @click="setKid(kid.userId)"
+              @click="setKid(index)"
+              :class="{ attend: (kid.attend===1), notattend: (kid.attend===0) }"
             ></v-img>
             <!-- 여기 아이 이름 넣어주기. -->
           </v-card>
@@ -146,6 +147,7 @@ export default {
       userId: '',
       kids: [],
       // 클릭된 아이의 아이디
+      kidIndex: 0,
       kidId: 0,
 
       // 달력관련
@@ -169,8 +171,9 @@ export default {
 
     // 해당 날짜에 아이들의 출석 상태를 불러와야함. 아이들의 목록, 출석 상황.
     // 아이 사진 클릭 시, 그 아이의 출석 상태가 변경되어야함. 그리고 그 즉시 화면에서 테두리 색깔이 변해야함.
-    setKid(Id) {
-      this.kidId = Id
+    setKid(index) {
+      this.kidId = this.kids[index].userId
+      this.kidIndex = index
       this.updateAttendance()
     },
     
@@ -203,12 +206,10 @@ export default {
         "access-token": accessToken,
         "refresh-token": refreshToken,
       });
-      console.log("결과")
-      console.log(result)
-      this.getChildren()
+      this.kids[this.kidIndex].attend = result
+      //이게 맞나, 그냥 result를 변수에 담아서 써야할까.
+      // this.getChildren()
     },
-
-
 
 
 

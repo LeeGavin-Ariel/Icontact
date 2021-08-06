@@ -9,17 +9,17 @@ import java.util.List;
 
 
 public interface NoticeService {
-    public int noticeInsert(NoticeDto noticeDto, MultipartFile request);
+    public int noticeInsert(NoticeDto noticeDto);
 
-    public int scheduleInsert(NoticeDto noticeDto, MultipartFile request);
+    public int scheduleInsert(NoticeDto noticeDto);
 
-    public int menuInsert(NoticeDto noticeDto, List<MultipartFile> request);
+    public int menuInsert(NoticeDto noticeDto);
 
-    public int noticeUpdate(NoticeDto noticeDto, MultipartFile request);
+    public int noticeUpdate(NoticeDto noticeDto);
 
-    public int scheduleUpdate(NoticeDto noticeDto, MultipartFile request);
+    public int scheduleUpdate(NoticeDto noticeDto);
 
-    public int menuUpdate(NoticeDto noticeDto, MultipartFile request);
+    public int menuUpdate(NoticeDto noticeDto);
 
     @Transactional
     public int noticeDelete(int id);

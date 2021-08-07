@@ -13,6 +13,7 @@ export default {
     changePWAfterLogin:'/user/password',
     notebook: '/notebook',
     request: '/request',
+    album: '/album',
     getClassMember:'/user/class'
   }
 }

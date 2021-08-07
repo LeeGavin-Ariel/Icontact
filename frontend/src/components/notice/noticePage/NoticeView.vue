@@ -45,6 +45,7 @@ import noticeApi from "@/api/notice.js";
 import NoticeDetail from "./NoticeDetail.vue";
 import NoticeCreate from "./NoticeCreate.vue";
 import NoticeUpdate from "./NoticeUpdate.vue";
+import awss3 from "@/utils/awss3.js";
 export default {
   name: "NoticeIndex",
   components: {
@@ -85,10 +86,13 @@ export default {
 
   methods: {
     //공지 삭제
-    async deleteNotice(){
+    async deleteNotice() {
       let accessToken = sessionStorage.getItem("access-token");
       let refreshToken = sessionStorage.getItem("refresh-token");
-      
+
+      let PhotoKey = this.noticeDetail.noticeImgUrl;
+      await awss3.deletePhoto([PhotoKey], "");
+
       let data = {
         noticeType: 1,
         id: this.id,
@@ -100,13 +104,13 @@ export default {
       });
 
       console.log(result);
-      
+
       this.$emit("deleteNotice");
     },
 
     //공지 업데이트 완료
-    updateNotice(){
-      console.log('에밋 view111');
+    updateNotice() {
+      console.log("에밋 view111");
       console.log(this.noticeDetail);
       this.getNoticeDetail();
 
@@ -114,13 +118,13 @@ export default {
       this.$emit("updateNotice", this.noticeDetail.noticeId);
     },
     //공지 작성 완료
-    createNotice(){
+    createNotice() {
       this.changeMode(false, false, true);
       this.$emit("createNotice");
     },
     //공지 작성 취소
     cancelCreateNotice() {
-      console.log('생성취소');
+      console.log("생성취소");
       this.changeMode(false, false, true);
     },
     //공지 수정 취소

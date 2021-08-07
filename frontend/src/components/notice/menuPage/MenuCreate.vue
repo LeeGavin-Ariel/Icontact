@@ -112,11 +112,9 @@ export default {
       console.log("식단생성")
       let accessToken = sessionStorage.getItem("access-token");
       let refreshToken = sessionStorage.getItem("refresh-token");
-      // let elIds = ["amSnackFile", "lunchFile", "pmSnackFile"];
       let amSnackImgUrl = await awss3.uploadPhoto("menu", "amSnackFile");
       let lunchImgUrl = await awss3.uploadPhoto("menu", "lunchFile");
       let pmSnackImgUrl = await awss3.uploadPhoto("menu", "pmSnackFile");
-      // console.log(menuImgUrl);
 
       let data = {
         amSnackImgUrl: amSnackImgUrl[0],
@@ -129,17 +127,6 @@ export default {
         userId: this.$store.state.user.userId,
         classCode: this.$store.state.user.classCode,
       };
-
-      // const formData = new FormData();
-      // formData.append("imgs", this.amSnackFile);
-      // formData.append("imgs", this.pmSnackFile);
-      // formData.append("imgs", this.lunchFile);
-      // formData.append("amSnack", this.amSnackName);
-      // formData.append("pmSnack", this.pmSnackName);
-      // formData.append("lunch", this.lunchName);
-      // formData.append("menuType", 3);
-      // formData.append("userId", this.$store.state.user.userId);
-      // formData.append("classCode", this.$store.state.user.classCode);
 
       let result = await menuApi.createMenu(data, {
         "access-token": accessToken,

@@ -25,23 +25,29 @@
       <input type="textarea" v-model="content" style="border: solid 1px" />
 
       <p>공지사항첨부사진 :</p>
+      
+
+      <img
+        :src="
+          'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
+          noticeInfo.noticeImgUrl
+        "
+        alt="profile-image"
+      />
+      <hr />
       <v-file-input
-        v-model="files"
+        id="noticeFile"
+        v-model="noticeImgUrl"
         accept="image/*"
         label="File input"
       ></v-file-input>
-
-      <!-- <p>작성 일자 : </p>
-      <input type="number" v-model="createDate"> -->
-      <br /><br />
-      <p>첨부사진 :</p>
-      <!-- <v-file-input v-model="files" accept="image/*" label="File input"></v-file-input> -->
     </v-sheet>
   </div>
 </template>
 
 <script>
 import noticeApi from "@/api/notice.js";
+import awss3 from "@/utils/awss3.js";
 export default {
   name: "NoticeUpdate",
 
@@ -67,6 +73,7 @@ export default {
       updateMode: false,
       title: this.noticeInfo.title,
       content: this.noticeInfo.content,
+      noticeImgUrl: this.noticeInfo.noticeImgUrl,
     };
   },
   watch: {
@@ -83,9 +90,11 @@ export default {
 
   methods: {
     init() {
+      console.log(this.noticeInfo.noticeImgUrl);
       this.title = this.noticeInfo.title;
       this.content = this.noticeInfo.content;
-      this.files = this.noticeInfo.files;
+      this.noticeImgUrl = this.noticeInfo.noticeImgUrl;
+      console.log(this.noticeImgUrl);
     },
 
     offUpdateForm() {
@@ -115,92 +124,32 @@ export default {
       this.updating = 0;
     },
 
-    // 글 작성 폼 띄우기
-    async createNewNotice() {
-      // 글 작성 중인 상태가 아니라면 글 작성 중 상태로 바꿈.
-
-      if (this.updating) {
-        this.updating = false;
-      }
-
-      if (this.creating === 0) {
-        if (this.noticeType === 1) {
-          this.symptom = "";
-          this.medicineType = "";
-          this.dosageVol = 0;
-          this.dosageCnt = 0;
-          this.dosageTime = "";
-          this.storage = "";
-          this.specialNote = "";
-        } else if (this.noticeType === 2) {
-          this.rhDate = "";
-          this.rhTime = "";
-          this.guardian = "";
-          this.guardianTel = "";
-          this.emergency = "";
-          this.emergencyTel = "";
-        }
-        this.creating = 1;
-      }
-      // 글 작성 중인 상태라면 요청 보내기.
-      else if (this.creating === 1) {
-        let accessToken = sessionStorage.getItem("access-token");
-        let refreshToken = sessionStorage.getItem("refresh-token");
-        if (this.noticeType === 1) {
-          let data = {
-            noticeType: this.noticeType,
-            userId: this.$store.state.user.userId,
-            symptom: this.symptom,
-            medicineType: this.medicineType,
-            dosageVol: this.dosageVol,
-            dosageCnt: this.dosageCnt,
-            dosageTime: this.dosageTime,
-            storage: this.storage,
-            specialNote: this.specialNote,
-          };
-          let result = await noticeApi.createNotice(data, {
-            "access-token": accessToken,
-            "refresh-token": refreshToken,
-          });
-          console.log(result);
-        } else if (this.noticeType === 2) {
-          let data = {
-            noticeType: this.noticeType,
-            userId: this.$store.state.user.userId,
-            rhDate: this.rhDate,
-            rhTime: this.rhTime,
-            guardian: this.guardian,
-            guardianTel: this.guardianTel,
-            emergency: this.emergency,
-            emergencyTel: this.emergencyTel,
-          };
-          let result = await noticeApi.createNotice(data, {
-            "access-token": accessToken,
-            "refresh-token": refreshToken,
-          });
-          console.log(result);
-        }
-        this.creating = 0;
-        this.$emit("get-notebooklist", this.noticeType);
-        // this.getNotice()
-      }
-    },
-
     async updateNotice() {
       let accessToken = sessionStorage.getItem("access-token");
       let refreshToken = sessionStorage.getItem("refresh-token");
 
-      const formData = new FormData();
-      formData.append("img", this.files);
-      formData.append("noticeType", 1);
-      formData.append("id", this.noticeInfo.noticeId);
-      formData.append("userId", this.$store.state.user.userId);
-      formData.append("title", this.title);
-      formData.append("content", this.content);
+      console.log('업데이트하자')
+      let photoKey = this.noticeInfo.noticeImgUrl;
+      let noticeImgUrl = await awss3.updatePhoto(
+        "notice",
+        photoKey,
+        "noticeFile"
+      );  
 
-      console.log(formData.noticeType);
+      console.log('noticeImgUrl');
+      console.log(noticeImgUrl);
+      console.log(this.noticeInfo.noticeId);
 
-      let result = await noticeApi.updateNotice(formData, {
+      let data = {
+        noticeImgUrl: noticeImgUrl[0],
+        noticeType: 1,
+        userId: this.$store.state.user.userId,
+        id: this.noticeInfo.noticeId,
+        title: this.title,
+        content: this.content,
+      };
+
+      let result = await noticeApi.updateNotice(data, {
         "access-token": accessToken,
         "refresh-token": refreshToken,
       });

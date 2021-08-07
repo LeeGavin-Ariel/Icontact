@@ -1,4 +1,4 @@
-import  { requestGet, requestPost, requestDelete } from '@/utils/request.js';
+import  { requestGet, requestPost, requestPut,requestDelete } from '@/utils/request.js';
 import SERVER from './drf.js';
 
 export const scheduleApi = {
@@ -26,9 +26,7 @@ export const scheduleApi = {
   
   updateSchedule: (data, headers) => { 
     console.log('updateSchedule');
-    console.log(data.get('scheduleType'));
-    console.log(SERVER.URL + SERVER.ROUTES.schedule);
-    return requestPost(SERVER.URL + SERVER.ROUTES.schedule + `/2`, data, headers);
+    return requestPut(SERVER.URL + SERVER.ROUTES.schedule, data, headers);
     // return requestPost(SERVER.URL + SERVER.ROUTES.schedule + `/${data.scheduleType}`, data, headers);
   },
 

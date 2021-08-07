@@ -1,7 +1,7 @@
 <template>
   <div style="overflow-y: scroll" class="col">
     <v-spacer></v-spacer>
-    
+
     <v-fab-transition>
       <v-btn
         color="red"
@@ -45,6 +45,7 @@ import menuApi from "@/api/menu.js";
 import MenuDetail from "./MenuDetail.vue";
 import MenuCreate from "./MenuCreate.vue";
 import MenuUpdate from "./MenuUpdate.vue";
+import awss3 from "@/utils/awss3.js";
 export default {
   name: "MenuIndex",
   components: {
@@ -84,12 +85,20 @@ export default {
   },
 
   methods: {
-    async deleteMenu(){
-      console.log('삭제시작');
-      
+    async deleteMenu() {
+      console.log("삭제시작");
+
       let accessToken = sessionStorage.getItem("access-token");
       let refreshToken = sessionStorage.getItem("refresh-token");
-      
+
+      let amSnackPhotoKey = this.menuDetail.amSnackImgUrl;
+      let lunchPhotoKey = this.menuDetail.lunchImgUrl;
+      let pmSnackPhotoKey = this.menuDetail.pmSnackImgUrl;
+
+      await awss3.deletePhoto([amSnackPhotoKey], "");
+      await awss3.deletePhoto([lunchPhotoKey], "");
+      await awss3.deletePhoto([pmSnackPhotoKey], "");
+
       let data = {
         menuType: 3,
         id: this.id,
@@ -102,13 +111,12 @@ export default {
 
       console.log(result);
 
-      
       this.$emit("deleteMenu");
     },
 
     //일정 업데이트 완료
-    updateMenu(){
-      console.log('에밋 view111');
+    updateMenu() {
+      console.log("에밋 view111");
       console.log(this.menuDetail);
       this.getMenuDetail();
 
@@ -116,13 +124,13 @@ export default {
       this.$emit("updateMenu", this.menuDetail.menuId);
     },
     //일정 작성 완료
-    createMenu(){
+    createMenu() {
       this.changeMode(false, false, true);
       this.$emit("createMenu");
     },
     //공지 작성 취소
     cancelCreateMenu() {
-      console.log('생성취소');
+      console.log("생성취소");
       this.changeMode(false, false, true);
     },
     //공지 수정 취소
@@ -168,7 +176,7 @@ export default {
       });
 
       this.menuDetail = result.menu;
-      console.log('this.menuDetail');
+      console.log("this.menuDetail");
       console.log(this.menuDetail);
     },
   },

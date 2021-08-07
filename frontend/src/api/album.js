@@ -1,4 +1,4 @@
-import  { requestGet, requestPost } from '@/utils/request.js';
+import  { requestGet, requestPost, requestDelete } from '@/utils/request.js';
 import SERVER from './drf.js';
 
 export const albumApi = {
@@ -11,22 +11,22 @@ export const albumApi = {
     return requestGet(SERVER.URL + SERVER.ROUTES.album + `?classCode=${data.classCode}`+`&pageNum=${data.pageNum}`, headers);
   },
 
+  
+  getAlbumDetail: (data, headers) => {
+    return requestGet(SERVER.URL + SERVER.ROUTES.album + `/${data.albumId}`, headers);
+  },
+  
+  deleteAlbum: ( data,headers ) => {
+    return requestDelete(SERVER.URL + SERVER.ROUTES.album + `?albumId=${data.albumId}`, headers);
+  },
   // getRequest: (data, headers) => {
   //   return requestGet(SERVER.URL + SERVER.ROUTES.request + `/${data.type}` + `?requestType=${data.requestType}`+`&userId=${data.userId}` + `&pageNum=${data.pageNum}`, headers);
-  // },
-
-
-  // getRequestDetail: (data, headers) => {
-  //   return requestGet(SERVER.URL + SERVER.ROUTES.request + `?requestType=${data.requestType}` + `&id=${data.id}`, headers);
   // },
 
   // updateRequest: (data, headers) => {
   //   return requestPut(SERVER.URL + SERVER.ROUTES.request, data, headers);
   // },
 
-  // deleteRequest: ( data,headers ) => {
-  //   return requestDelete(SERVER.URL + SERVER.ROUTES.request + `?requestType=${data.requestType}` + `&id=${data.id}`, headers);
-  // },
 
 
 };

@@ -73,15 +73,20 @@
           ></v-img>
           <v-card-subtitle style="font-size:0.7em; text-align:right;">
             {{album.title}}
+            <!-- 날짜 추가 -->
+            <!-- {{album.createDate2}} -->
           </v-card-subtitle>
         </v-card>  
       </v-col>
-      <infinite-loading @infinite="infiniteHandler" spinner="waveDots"></infinite-loading>
+      <button @click="getMoreThumbnail" v-if="albumList.length > 0 && (pageNum < pageCnt)">더보기</button>
+      <p v-else>불러올 글이 없습니다</p>
+      <!-- <infinite-loading @infinite="infiniteHandler" spinner="waveDots"></infinite-loading> -->
       <AlbumDetail
         v-if="visible"
         :visible="visible"
         :selectedAlbumId="selectedAlbumId"
         @updateVisible="updateVisible"
+        @get-album="reGetAlbumthumbnail"
       />
 
 
@@ -97,13 +102,13 @@ import AlbumDetail from '@/components/Album/AlbumDetail'
 // import AWS from 'aws-sdk'
 import albumApi from '@/api/album.js';
 import awss3 from '@/utils/awss3.js'
-import InfiniteLoading from "vue-infinite-loading";
+// import InfiniteLoading from "vue-infinite-loading";
 
 export default {
   name : "AlbumList",
   components: {
     AlbumDetail,
-    InfiniteLoading,
+    // InfiniteLoading,
   },
   data () {
     return {
@@ -114,7 +119,7 @@ export default {
 
       // 페이지 카운트에서 에러나면 1로 바꿔보기.
       pageNum: 0,
-      pageCnt: 0,
+      pageCnt: 0, 
 
       albumList: [],
 
@@ -123,18 +128,28 @@ export default {
     }
   },
   methods: {
-    infiniteHandler($state) {
-      // 현건이한테 전체 페이지 수 받아서 처리하기.
-      if (this.pageNum > this.pageCnt) {
-        $state.complete();
-      }
-      else {
-        setTimeout(() => {
-          $state.loaded();
-          this.getAlbumthumbnail()
-        },1000)
+    reGetAlbumthumbnail() {
+      this.pageNum = 0
+      this.albumList = []
+      this.getMoreThumbnail()
+    },
+    getMoreThumbnail() {
+      if (this.pageNum <= this.pageCnt) {
+        this.getAlbumthumbnail()
       }
     },
+    // infiniteHandler($state) {
+    //   // 현건이한테 전체 페이지 수 받아서 처리하기.
+    //   if (this.pageNum > this.pageCnt) {
+    //     $state.complete();
+    //   }
+    //   else {
+    //     setTimeout(() => {
+    //       $state.loaded();
+    //       this.getAlbumthumbnail()
+    //     },1000)
+    //   }
+    // },
     // 썸네일 조회
     async getAlbumthumbnail () {
       let accessToken = sessionStorage.getItem('access-token')
@@ -148,8 +163,9 @@ export default {
         "access-token": accessToken,
         "refresh-token": refreshToken,
       })
+      console.log(result)
       this.pageCnt = result.pageCnt
-      this.albumList.push(...result.albumList)
+      this.albumList.push(...result.thumbnailList)
       this.pageNum += 1
     },
 
@@ -159,16 +175,17 @@ export default {
     async uploadZip() {
       // 기존 title, classCode, writerId(userId)
       // 1. urlList -> photoList
+      this.title = document.getElementById("title").value;
       var list1 = await awss3.uploadPhoto('album', 'photoupload');
       // 2. downloadUrl
       var list2 = awss3.uploadZip();
       console.log({photoKeyLilst: list1, zipKey: list2});
-
+      
       this.photoList = list1;
       this.ZipUrl = list2;
       let classCode = this.$store.state.user.classCode
       let writerId = this.$store.state.user.userId
-
+      console.log(this.title)
       let accessToken = sessionStorage.getItem('access-token')
       let refreshToken = sessionStorage.getItem('refresh-token')
       let data = {
@@ -176,7 +193,7 @@ export default {
         classCode: classCode,
         writerId: writerId,
         photoList: this.photoList,
-        downUrl: this.ZipUrl,
+        downloadUrl: this.ZipUrl,
       }
       await albumApi.createAlbum(data, {
         "access-token": accessToken,
@@ -188,6 +205,9 @@ export default {
       .catch(() => {
         alert('업로드 실패')
       })
+      this.pageNum = 0
+      this.albumList = []
+      this.getAlbumthumbnail()
     },
 
 
@@ -199,6 +219,9 @@ export default {
       this.visible = !this.visible
     }
   },
+  created () {
+    this.getAlbumthumbnail()
+  }
 }
 </script>
 

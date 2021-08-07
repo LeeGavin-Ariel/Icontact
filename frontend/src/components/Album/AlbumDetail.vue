@@ -9,7 +9,7 @@
   </div>
 
     <!-- 모달 박스 -->
-    <div class="modalBox">
+    <div class="modalBox" v-if="visible">
       
       <!-- 슬라이더 -->
       <div
@@ -17,32 +17,32 @@
       >
         <swiper class="swiper gallery-top" :options="swiperOptionTop" ref="swiperTop">
           <!-- <swiper-slide class="slide-1"></swiper-slide> -->
-          <swiper-slide class="slide-2"></swiper-slide>
-          <swiper-slide class="slide-3"></swiper-slide>
-          <swiper-slide class="slide-4"></swiper-slide>
-          <swiper-slide class="slide-5"></swiper-slide>
+          <swiper-slide v-for="image in images" :key="image.photoId">
+            <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/'+ image.photoId" style="width:100%; height: 100%" alt="">
+          </swiper-slide>
+
           <div class="swiper-button-next swiper-button-white" slot="button-next"></div>
           <div class="swiper-button-prev swiper-button-white" slot="button-prev"></div>
         </swiper>
         <!-- swiper2 Thumbs -->
         <swiper class="swiper gallery-thumbs" :options="swiperOptionThumbs" ref="swiperThumbs">
-          <!-- <swiper-slide class="slide-1"></swiper-slide> 이미지 태그 추가 가능  -->
-          <swiper-slide class="slide-2"></swiper-slide>
-          <swiper-slide class="slide-3"></swiper-slide>
-          <swiper-slide class="slide-4"></swiper-slide>
-          <swiper-slide class="slide-5"></swiper-slide>
+          <swiper-slide v-for="image in images" :key="image.photoId">
+            <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/'+ image.photoId" style="width:100%; height: 100%" alt="">
+          </swiper-slide>
         </swiper>
       </div>
 
       <!-- 다운로드 버튼 -->
       <button
         class="modalBtn"
-      >
-        <img id="downloadBtn" src="@/assets/flaticon/download.png" alt="close-icon">
+      > <a :href="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + downloadUrl" download>
+          <img id="downloadBtn" src="@/assets/flaticon/download.png" alt="close-icon">
+        </a>
       </button>
       <!-- 삭제 버튼 -->
       <button
         class="modalBtn"
+        @click="deleteAlbum"
       >
         <img id="deleteBtn" src="@/assets/flaticon/trash.png" alt="close-icon">
       </button>      
@@ -90,6 +90,9 @@
 <script>
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
 import 'swiper/css/swiper.css'
+import albumApi from '@/api/album.js';
+import awss3 from '@/utils/awss3.js'
+
 
 export default {
   name: 'AlbumDetail',
@@ -109,6 +112,14 @@ export default {
   },
   data() {
     return {
+      // 1. 디테일 띄우기.
+      // 2. 삭제.
+      // 3. 다운로드.
+      
+      images : [],
+      downloadUrl : "",
+      photoKeyList:[],
+
       swiperOptionTop: {
         loop: true,
         loopedSlides: 5, // looped slides should be the same
@@ -119,7 +130,7 @@ export default {
         }
       },
       swiperOptionThumbs: {
-        loop: true,
+        loop: false,
         loopedSlides: 5, // looped slides should be the same
         spaceBetween: 10,
         centeredSlides: true,
@@ -130,10 +141,50 @@ export default {
     }
   },
   methods: {
-      
+    async getAlbumDetail() {
+      let accessToken = sessionStorage.getItem('access-token')
+      let refreshToken = sessionStorage.getItem('refresh-token')
+      let data = {
+        albumId: this.selectedAlbumId
+      }
+      let result = await albumApi.getAlbumDetail(data, {
+        "access-token": accessToken,
+        "refresh-token": refreshToken,
+      })
+      // 이미지 띄울때 이미지 소스 안에 주소를 만들어서 넣는다.
+      // 
+      this.downloadUrl = result.downloadUrl
+      this.images = result.albumImgs
+      console.log(this.images)
+      for(var image of this.images) {
+        this.photoKeyList.push(image.photoId)
+      }
+    },
+
+    async deleteAlbum() {
+      let accessToken = sessionStorage.getItem('access-token')
+      let refreshToken = sessionStorage.getItem('refresh-token')
+
+      let data = {
+        albumId: this.selectedAlbumId
+      }
+      await albumApi.deleteAlbum(data, {
+        "access-token": accessToken,
+        "refresh-token": refreshToken,
+      })
+      // testlist = photoKeyList, testzip = photoKey, 
+      awss3.deletePhoto(this.photoKeyList, this.downloadUrl);
+      this.photoKeyList = []
+      this.downloadUrl = ""
+      this.$emit('updateVisible', !this.visible)
+      this.$emit('get-album')
+    },
+
+
     },
   created() {
     console.log(this.selectedAlbumId)
+    this.getAlbumDetail()
   },
   mounted() {
     this.$nextTick(() => {
@@ -201,22 +252,6 @@ export default {
   .swiper-slide {
     background-size: cover;
     background-position: center;
-
-    &.slide-1 {
-      background-image:url('https://d2qgx4jylglh9c.cloudfront.net/kr/wp-content/uploads/2018/05/960X640_08.png');
-    }
-    &.slide-2 {
-      background-image:url('https://d2qgx4jylglh9c.cloudfront.net/kr/wp-content/uploads/2018/05/kids3.png');
-    }
-    &.slide-3 {
-      background-image:url('https://d2qgx4jylglh9c.cloudfront.net/kr/wp-content/uploads/2018/05/960X640_09.png');
-    }
-    &.slide-4 {
-      background-image:url('https://d2qgx4jylglh9c.cloudfront.net/kr/wp-content/uploads/2018/05/KIDS6.png');
-    }
-    &.slide-5 {
-      background-image:url('https://cphoto.asiae.co.kr/listimglink/6/2020081712321328872_1597635133.jpg');
-    }
   }
 
   &.gallery-top {

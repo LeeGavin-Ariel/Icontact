@@ -11,12 +11,6 @@
         <br>
         <br>
         <img src="@/assets/flaticon/toys.png" class="logo" alt="">
-        <path fill="#FFFFFF" stroke="#000000" stroke-width="10" stroke-miterlimit="10" d="M57,283" />
-        <g><path fill="#fff"
-        d="M250.4,0.8C112.7,0.8,1,112.4,1,250.2c0,137.7,111.7,249.4,249.4,249.4c137.7,0,249.4-111.7,249.4-249.4
-        C499.8,112.4,388.1,0.8,250.4,0.8z M383.8,326.3c-62,0-101.4-14.1-117.6-46.3c-17.1-34.1-2.3-75.4,13.2-104.1
-        c-22.4,3-38.4,9.2-47.8,18.3c-11.2,10.9-13.6,26.7-16.3,45c-3.1,20.8-6.6,44.4-25.3,62.4c-19.8,19.1-51.6,26.9-100.2,24.6l1.8-39.7    c35.9,1.6,59.7-2.9,70.8-13.6c8.9-8.6,11.1-22.9,13.5-39.6c6.3-42,14.8-99.4,141.4-99.4h41L333,166c-12.6,16-45.4,68.2-31.2,96.2  c9.2,18.3,41.5,25.6,91.2,24.2l1.1,39.8C390.5,326.2,387.1,326.3,383.8,326.3z" />
-        </g>
         <h1>ICONTACT</h1>
         <br>
       </div>
@@ -24,42 +18,42 @@
       
 
       <!-- 로그인 폼 -->
-      <div style="width: 200px;">
-        <div class="d-flex justify-content-start">
-          <vs-input
-            color="#58679A"
-            v-model="userId"
-            placeholder="ID"
-            style="text-align:left;"
-          >
-            <template #message-danger v-if="error.userid" style="margin: 0;">
-              {{error.userid}}
-            </template>
-          </vs-input>
-        </div>
+      <div style="width: 300px;">
+        <input
+          class="formInput"
+          type="text"
+          color="#58679A"
+          v-model="userId"
+          placeholder="아이디"
+          style="text-align:left; margin:3px 0;"
+        >
+        <div v-if="error.userid" style="text-align:left; color: red; font-size: 12px; margin-left: 19px">{{error.userid}}</div>
 
-        <vs-input
+        <input
+          class="formInput"
           type="password"
           color="#58679A"
           v-model="password"
-          placeholder="Password"
-          style="text-align:left;"
+          placeholder="비밀번호"
+          style="text-align:left; margin:3px 0;"
           @keypress.enter="login"
         >
-        <template #message-danger v-if="error.password" style="margin: 0;">
-          {{error.password}}
-        </template>
-        </vs-input>
-        <br>         
-        <v-btn 
-        block 
-        rounded 
-        style="background-color: #58679A; color: white;"
-        @click="login"
-        :disabled="!userId || !password || error.password || error.userid"
-        >
-          로그인
-        </v-btn>    
+        <div v-if="error.password" style="text-align:left; color: red; font-size: 12px; margin-left: 19px">{{error.password}}</div>
+
+
+
+        
+        <div style="width:304px; margin-top:3px;">
+          <v-btn 
+          block 
+          rounded 
+          style="background-color: #58679A; color: white;"
+          @click="login"
+          :disabled="!userId || !password || error.password || error.userid"
+          >
+            로그인
+          </v-btn>    
+        </div>
       </div>
       
       <hr>
@@ -69,7 +63,8 @@
       </div>
     </div>
 
-    <!--Waves Container-->
+
+    <!--파도-->
     <div>
       <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
       viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
@@ -84,78 +79,16 @@
         </g>
       </svg>
     </div>
-    <!--Waves end-->
 
 
-
-    <!--Content starts-->
+    <!--하단 내용-->
     <div class="content flex">
-      <p>Team of ICONTACT | 2021 | Web for Kindergarden</p>
+      <p>ICONTACT | 2021 | Web for Kindergarden</p>
     </div>
-    <!--Content ends-->
 
   </div>
   
-  
 
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <!-- 
-  <div class="main_container">
-    <div class="main_left_btn">
-    </div>
-
-    <div class="main_right_btn registration-form">
-    
-      <div style="margin:1.5rem;">
-        <div class="form-group">
-            <input type="text"
-            class="form-control item"
-            id="userId" 
-            v-model="userId"
-            placeholder="ID">
-            <div v-if="error.userid" style="color:red;">{{error.userid}}</div>
-        </div>
-        <div class="form-group">
-            <input type="password"
-            class="form-control item"
-            id="password" 
-            v-model="password" 
-            placeholder="비밀번호를 입력하세요"
-            @keypress.enter="login">
-            <div v-if="error.password" style="color:red;">{{error.password}}</div>
-        </div>
-
-        <button 
-        @click="login" 
-        :disabled="!userId || !password || error.password || error.userid"
-        class="form-control item"
-        style="background-color:rgb(250, 215, 73);"
-        >로그인</button>
-
-        <div class="btn" style="display:block;" @click="$router.push({ name: 'ChangePasswordAuth' })">비밀번호 찾기</div>
-        <div class="btn" style="display:block;" @click="$router.push({ name: 'Signup' })">회원가입</div>
-      </div>
-
-    </div>
-  </div> -->
   
 </template>
 
@@ -203,12 +136,12 @@ export default {
     checkForm() {
       // Ryuhyunsun === ryuhyunsun
       if (this.userId != this.userId.toLowerCase() || this.userId.length < 8){
-        this.error.userid = "아이디 형식이 아닙니다.";
+        this.error.userid = "아이디를 확인해주세요";
       }else {
         this.error.userid = false
       }
       if (!this.passwordSchema.validate(this.password) || this.password.length < 8){
-        this.error.password = "비밀번호 형식이 아닙니다.";
+        this.error.password = "비밀번호를 확인해주세요";
       }else {
         this.error.password = false
       }
@@ -240,7 +173,7 @@ export default {
 
           this.$router.push('/');
         } else {
-          alert('승인되지 않은 계정입니다. 관리자에게 문의하세요')
+          alert('승인되지 않은 계정입니다. 관리자에게 문의하세요.')
         }
       }catch (err){
         if(err.response){

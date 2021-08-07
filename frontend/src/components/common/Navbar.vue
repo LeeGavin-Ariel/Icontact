@@ -3,14 +3,14 @@
 
       <nav
       class="navbar bg-light"
-      style="background-color: rgb(230, 232, 240)"
+      style="background-color: rgb(230, 232, 240) padding-top; 0"
       >
-        <v-btn icon plain @click="moveToMainPage">
-          <v-icon>로고</v-icon>
-        </v-btn>
-        <v-btn plain @click="moveToMainPage">
+        <button @click="moveToMainPage">
+          <img src="@/assets/icontact2.png" style="height:2.8rem" alt="">
+        </button>
+        <!-- <v-btn plain @click="moveToMainPage">
           <v-icon>Icontact</v-icon>
-        </v-btn>
+        </v-btn> -->
         
         <v-spacer></v-spacer>
         <p v-if="type == 2" style="color: black; margin-bottom:0px; margin-right:20px">{{ className }} {{ userName }} 선생님</p>

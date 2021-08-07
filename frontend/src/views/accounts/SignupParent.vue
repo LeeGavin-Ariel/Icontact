@@ -1,45 +1,78 @@
 <template>
-  <div>
-    <div>
-      <!-- 유치원 코드 입력 -->
-      <label for="kindergardenCode">유치원코드 : </label>
-      <input type="text"
-      oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
-      id="kindergardenCode" 
-      v-model="kindergardenCode"
-      @input="searchClass"
-      maxlength="4"
-      placeholder="유치원 코드를 입력하세요">
-    </div>
-    <div v-if="!kindergardenCode || kindergardenClasses.length === 0">존재하지 않는 유치원 코드입니다.</div>
+  <div id="bg">
+    <div class="inner-header flex flex-column">
+      <!-- 로고 -->
+      <div>
+        <br>
+        <br>
+        <img src="@/assets/flaticon/toys.png" class="logo" alt="">
+        <h1>회원가입</h1>
+        <br>
+      </div>
+    
+      <!-- 학부모 회원가입 폼 -->
+      <div style="width: 300px;" >
+        <!-- 아이 이름 입력 -->
+        <input
+          class="formInput"
+          type="text"
+          id="kidName"
+          color="#58679A"
+          v-model="kidName"
+          placeholder="아이 이름"
+          style="text-align:left;"
+        >
 
-    <!-- 반 목록 선택 (드롭다운) -->
-    <select name="classCode" id="classCode" v-model="classCode">
-      <option value="noValue">반 선택</option>
-      <!-- option v-for로 -->
-      <option v-for="[Class, idx] in kindergardenClasses" v-bind:key="idx" v-bind:value="idx">
-        {{ Class }}
-      </option>
-    </select>
-  
-    <div>
-      <!-- 아이 이름 입력 -->
-      <label for="kidName">아이 이름: </label>
-      <input type="text" 
-      id="kidName" 
-      v-model="kidName"
-      placeholder="아이 이름을 입력하세요">
-    </div>
-    <div v-if="!kidName">아이 이름을 입력해주세요.</div>
 
-  <!-- 필요 : 회원가입 요청 날리기 -->
-    <button 
-      @click="signup" 
-      :disabled="classCode === 'noValue' || !kidName"
-      >회원가입</button>
+        <!-- 유치원 코드-->
+        <input
+          class="formInput"
+          type="text"
+          oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+          id="kindergardenCode"
+          color="#58679A"
+          v-model="kindergardenCode"
+          @input="searchClass"
+          maxlength="4"
+          placeholder="유치원 코드"
+          style="text-align:left;"
+        >
+        <div v-if="!kindergardenCode || kindergardenClasses.length === 0" style="text-align:left; color: red; font-size: 12px; margin-left: 19px">존재하지 않는 유치원 코드입니다.</div>
+    
+
+
+        <v-select
+          v-model="classCode"
+          :items="kindergardenClasses"
+          label="반 선택"
+          dense
+        ></v-select>
+
+        <!-- 반 목록 선택 (드롭다운) -->
+        <!--
+        <select name="classCode" id="classCode" v-model="classCode">
+          <option value="noValue">반 선택</option>
+          <option v-for="[Class, idx] in kindergardenClasses" v-bind:key="idx" v-bind:value="idx">
+            {{ Class }}
+          </option>
+        </select>
+        -->
+        
+
+        <!-- 회원가입 버튼 -->
+        <v-btn 
+          block 
+          rounded
+          style="background-color: #58679A; color: white;"
+          :disabled="classCode === 'noValue' || !kidName"
+          @click="signup"
+          >
+          회원가입
+        </v-btn>
+
+      </div>
+    </div>
   </div>
-  
- 
 </template>
 
 <script>

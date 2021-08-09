@@ -1,88 +1,137 @@
-<template>
-  <div>
-    <h1>회원가입</h1>
-    <!-- 아이디 입력 -->
-    <div>
-      <label for="userid">아이디: </label>
-      <input type="text" 
-      id="userid" 
-      v-model="userid"
-      placeholder="아이디를 입력하세요.">
-      <!-- 유효성 검사 통과 못하면 에러메시지 출력 -->
-      <div v-if="error.userid">{{error.userid}}</div>
-    </div>
+<template >
+  <div id="bg">
+    <div class="inner-header flex flex-column">
+      <!-- 로고 -->
+      <div>
+        <br>
+        <br>
+        <img src="@/assets/flaticon/toys.png" class="logo" alt="">
+        <h1>회원가입</h1>
+        <br>
+      </div>
+    
+    
+      <!-- 회원가입 폼 -->
+      <div style="width: 300px;" >
 
-    <!-- 패스워드 입력 -->
-    <div>
-      <label for="password">비밀번호: </label>
-      <input type="password" 
-      id="password" 
-      v-model="password" 
-      placeholder="비밀번호를 입력하세요.">
-      <!-- 유효성 검사 통과 못하면 에러메시지 출력 -->
-      <div v-if="error.password">{{error.password}}</div>
-    </div>
+        <!-- 아이디 입력 -->
+        <input
+          class="formInput"
+          type="text"
+          color="#58679A"
+          v-model="userid"
+          placeholder="아이디"
+          style="text-align:left;"
+        >
+        <div v-if="error.userid" style="text-align:left; color: red; font-size: 12px; margin-left: 19px">{{error.userid}}</div>
+    
 
-    <!-- 패스워드 확인 입력 -->
-    <div>
-      <label for="passwordConfirm">비밀번호확인: </label>
-      <input type="password" 
-      id="passwordConfirm" 
-      v-model="passwordConfirm" 
-      placeholder="비밀번호을 한 번 더 입력하세요.">
-      <!-- 유효성 검사 통과 못하면 에러 메시지 출력 -->
-      <div v-if="error.passwordConfirm">{{error.passwordConfirm}}</div>
-    </div>
 
-    <!-- 이름 입력 -->
-    <div>
-      <label for="username">이름: </label>
-      <input type="text" 
-      id="username" 
-      v-model="username"
-      placeholder="이름을 입력하세요.">
-    </div>
+        <!-- 비밀번호 입력 -->
+        <input
+          class="formInput"
+          type="password"
+          color="#58679A"
+          v-model="password"
+          placeholder="비밀번호"
+          style="text-align:left;"
+        >
+        <div v-if="error.password" style="text-align:left; color: red; font-size: 12px; margin-left: 19px">{{error.password}}</div>
 
-    <!-- 휴대폰번호 입력 -->
-    <div>
-      <label for="phoneNumber">휴대폰번호 : </label>
-      <input type="text"
-      oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
-      maxlength="11"
-      id="phoneNumber" 
-      v-model="phoneNumber"
-      placeholder="휴대폰번호를 입력하세요">
-    </div>
-    <button @click="requestAuthNumber">인증번호 받기</button>
-    <div v-if="isRequested">인증번호가 발송되었습니다.</div>
 
-    <!-- 인증번호 입력 -->
-    <div>
-      <label for="authNumber">인증번호 : </label>
-      <input type="text"
-      id="authNumber"
-      v-model="authNumber"
-      placeholder="인증번호를 입력하세요">
-    </div>
-    <button v-if="!isAuth" @click="checkAuthNumber">인증</button>
+        <!-- 비밀번호 확인 -->
+        <input
+          class="formInput"
+          type="password"
+          color="#58679A"
+          v-model="passwordConfirm"
+          placeholder="비밀번호 확인"
+          style="text-align:left;"
+        >
+        <div v-if="error.passwordConfirm" style="text-align:left; color: red; font-size: 12px; margin-left: 19px">{{error.passwordConfirm}}</div>
 
-    <!-- 선생님, 학부모 회원가입 페이지로 이동 -->
-    <!-- 선생 학부모 모두 isAuth 인증 완료되어야만 이라는 조건 추가해야 함  -->
-    <!-- <button 
-    @click="setTeacherInfo({userid, password, username, phoneNumber})"
-    :disabled="!userid || !password || !passwordConfirm || !username || !phoneNumber || error.userid || error.password || error.passwordConfirm || !isAuth"
-    >선생님</button> -->
-        <button 
-    @click="setTeacherInfo({userid, password, username, phoneNumber})"
-    >선생님</button>
-    <!-- <button
-    @click="setParentInfo({userid, password, username, phoneNumber})"
-    :disabled="!userid || !password || !passwordConfirm || !username || !phoneNumber || error.userid || error.password || error.passwordConfirm || !isAuth"
-    >학부모</button> -->
-     <button
-    @click="setParentInfo({userid, password, username, phoneNumber})"
-    >학부모</button>
+
+
+
+        <!-- 이름 입력 -->
+        <input
+          class="formInput"
+          color="#58679A"
+          v-model="username"
+          placeholder="이름"
+          style="text-align:left;"
+        >
+        
+        <!-- 휴대폰 번호 입력 -->
+        <div class="placement">
+          <input
+            class="formInput"
+            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+            maxlength="11"
+            color="#58679A"
+            v-model="phoneNumber"
+            placeholder="휴대전화"
+            style="text-align:left; width:62%"
+          >
+          <!-- <button><img src="@/assets/flaticon/email.png" style="width: 2.5rem; margin-left:0.5rem;" alt=""></button> -->
+          
+          <div style="width: 30%; margin: 3px 0px;">
+            <v-btn 
+              block 
+              rounded
+              style="background-color: #58679A; color: white; letter-spacing: -0.8px;"
+              @click="requestAuthNumber"
+              >
+              인증번호 받기
+            </v-btn>
+
+          </div>
+        </div>
+
+        
+
+        <!-- 인증 번호 입력 -->
+        <div class="placement">
+          <input
+            class="formInput"
+            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+            maxlength="4"
+            color="#58679A"
+            v-model="authNumber"
+            placeholder="authNumber"
+            style="text-align:left; width:62%"
+          >
+          <div style="width: 30%; margin: 3px 0px;">
+            <v-btn 
+              block 
+              rounded 
+              style="background-color: #58679A; color: white; letter-spacing: -0.8px;"
+              v-if="!isAuth"
+              @click="checkAuthNumber"
+              >
+                인증번호 확인
+            </v-btn>
+          </div>
+        </div>
+          
+
+
+        <!-- 선생님, 학부모 회원가입 페이지로 이동 -->
+        <!-- 선생 학부모 모두 isAuth 인증 완료되어야만 이라는 조건 추가해야 함  -->
+        <!-- :disabled="!userid || !password || !passwordConfirm || !username || !phoneNumber || error.userid || error.password || error.passwordConfirm || !isAuth"  -->
+
+        
+
+      </div>
+          
+
+      <div style="d-flex flex-column">
+        <button class="signupTypeBtn" @click="setTeacherInfo({userid, password, username, phoneNumber})"><img src="@/assets/flaticon/teacher.png" class="logo" alt="">선생님으로 가입</button>
+        <button class="signupTypeBtn" @click="setParentInfo({userid, password, username, phoneNumber})"><img src="@/assets/flaticon/parents.png" class="logo" alt="">학부모로 가입</button>
+      </div>
+    </div>
   </div>
+
 </template>
 
 <script>
@@ -142,17 +191,17 @@ export default {
     ]),
     checkForm() {
       if (this.userid != this.userid.toLowerCase() || this.userid.length < 8){
-        this.error.userid = "아이디 형식이 아닙니다.";
+        this.error.userid = "8자 이상의 영문 소문자 또는 숫자";
       }else {
         this.error.userid = false
       }
       if (!this.passwordSchema.validate(this.password) || this.password.length < 8){
-        this.error.password = "비밀 번호 형식이 아닙니다.";
+        this.error.password = "8자 이상의 영문 소문자와 숫자 조합";
       }else {
         this.error.password = false
       }
       if (this.password != this.passwordConfirm){
-        this.error.passwordConfirm = "비밀 번호가 틀립니다.";
+        this.error.passwordConfirm = "비밀 번호가 일치하지 않습니다";
       }else {
         this.error.passwordConfirm = false
       }
@@ -200,6 +249,88 @@ export default {
 }
 </script>
 
-<style scoped>
+<style >
+@font-face {
+  font-family: "TmoneyRoundWindExtraBold";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/TmoneyRoundWindExtraBold.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.formInput {
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 1px 1px 1px 1px #58679A;
+  border-radius: 70px; 
+  height: 36px; 
+  width: 300px; 
+  padding:0px 0px 0px 15px;
+  margin: 3px 3px 3px 3px;
+}
+
+.signupTypeBtn {
+  border: 2px #58679A;
+  border-style: solid;
+  border-radius: 4%;
+  height: 70px; 
+  width: 150px; 
+  margin: 30px 3px 3px 3px;
+  padding: 0px 7px 0px 3px;  
+  font-size: small;
+  letter-spacing: -2px;
+  font-family: "TmoneyRoundWindExtraBold";
+  color: #404c74;
+
+}
+.signupTypeBtn:hover {
+  transition: 0.3s;
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+
+#bg {
+  background-color: #A8B1CF;
+  width: 100%;
+  height: 100vw;
+}
+
+.placement {
+ display: flex;
+ flex-direction: row;
+}
+
+h1 {
+  font-family:'Noto Sans KR', sans-serif;
+  font-weight: 900;
+  letter-spacing: 2px;
+  font-size:48px;
+  color: #58679A;
+  text-shadow:2px 2px 2px rgba(255, 255, 255, 0.7);
+}
+p {
+  font-family:'Noto Sans KR', sans-serif;
+  font-weight: 100;
+  letter-spacing: 1px;
+  font-size:14px;
+  color: #58679A;
+  
+
+}
+
+.logo {
+  width:60px;
+  fill:white;
+  padding-right:10px;
+  display:inline-block;
+  vertical-align: middle;
+}
+
+@font-face {
+  font-family: "TmoneyRoundWindExtraBold";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/TmoneyRoundWindExtraBold.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
 
 </style>

@@ -1,4 +1,3 @@
-
 import AWS from "aws-sdk"
 import JSZip from 'jszip'
 
@@ -144,4 +143,3 @@ export const awss3 = {
 }
 
 export default awss3;
-	

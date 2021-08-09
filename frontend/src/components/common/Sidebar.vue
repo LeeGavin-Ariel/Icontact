@@ -1,22 +1,20 @@
 <template>
   <div>
-    <div
-    >
-      <v-list>
+    <v-list>
 
-        <v-list-item
-          v-for="item in items"
-          :key="item.title"
-          active-class="primary"
-          class="py-1"
-        >
-          <v-list-item-content>
-            <v-list-item-title @click="movePage(item.route)">{{ item.title }}</v-list-item-title>
+      <v-list-item
+        v-for="item in items"
+        :key="item.title"
+        active-class="primary"
+        class="py-1"
+      >
+        <v-list-item-content>
+          <v-list-item-title @click="movePage(item.route)">{{ item.title }}</v-list-item-title>
 
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-    </div>
+        </v-list-item-content>
+      </v-list-item>
+    </v-list>
+  </div>
 </template>
 
 <script>

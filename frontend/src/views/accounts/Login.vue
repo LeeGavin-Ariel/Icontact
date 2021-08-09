@@ -1,44 +1,95 @@
 <template>
-  <div class="main_container">
-    <div class="main_left_btn">
-    </div>
+  
+  <div style="background-color: #A8B1CF">
 
-    <div class="main_right_btn registration-form">
+    <!--Content before waves-->
+    <div class="inner-header flex flex-column">
     
-      <div style="margin:1.5rem;">
-        <div class="form-group">
-            <input type="text"
-            class="form-control item"
-            id="userId" 
-            v-model="userId"
-            placeholder="ID">
-            <div v-if="error.userid" style="color:red;">{{error.userid}}</div>
-        </div>
-        <div class="form-group">
-            <input type="password"
-            class="form-control item"
-            id="password" 
-            v-model="password" 
-            placeholder="비밀번호를 입력하세요"
-            @keypress.enter="login">
-            <div v-if="error.password" style="color:red;">{{error.password}}</div>
-        </div>
-
-        <button 
-        @click="login" 
-        :disabled="!userId || !password || error.password || error.userid"
-        class="form-control item"
-        style="background-color:rgb(250, 215, 73);"
-        >로그인</button>
-
-        <!-- 비밀번호 찾기 라우터 설정 해주기. -->
-        <div class="btn" style="display:block;" @click="$router.push({ name: 'ChangePasswordAuth' })">비밀번호 찾기</div>
-        <!-- 회원가입 화면으로 -->
-        <div class="btn" style="display:block;" @click="$router.push({ name: 'Signup' })">회원가입</div>
+    
+      <!-- 로고 -->
+      <div>
+        <br>
+        <br>
+        <img src="@/assets/flaticon/toys.png" class="logo" alt="">
+        <h1>ICONTACT</h1>
+        <br>
       </div>
+      
+      
 
+      <!-- 로그인 폼 -->
+      <div style="width: 300px;">
+        <input
+          class="formInput"
+          type="text"
+          color="#58679A"
+          v-model="userId"
+          placeholder="아이디"
+          style="text-align:left; margin:3px 0;"
+        >
+        <div v-if="error.userid" style="text-align:left; color: red; font-size: 12px; margin-left: 19px">{{error.userid}}</div>
+
+        <input
+          class="formInput"
+          type="password"
+          color="#58679A"
+          v-model="password"
+          placeholder="비밀번호"
+          style="text-align:left; margin:3px 0;"
+          @keypress.enter="login"
+        >
+        <div v-if="error.password" style="text-align:left; color: red; font-size: 12px; margin-left: 19px">{{error.password}}</div>
+
+
+
+        
+        <div style="width:304px; margin-top:3px;">
+          <v-btn 
+          block 
+          rounded 
+          style="background-color: #58679A; color: white;"
+          @click="login"
+          :disabled="!userId || !password || error.password || error.userid"
+          >
+            로그인
+          </v-btn>    
+        </div>
+      </div>
+      
+      <hr>
+      <div>
+        <button @click="$router.push({ name: 'Signup' })">회원가입</button> |
+        <button @click="$router.push({ name: 'ChangePasswordAuth' })">비밀번호 찾기</button>
+      </div>
     </div>
+
+
+    <!--파도-->
+    <div>
+      <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+      viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+        <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+        </defs>
+        <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7)" />
+          <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)" />
+          <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)" />
+          <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff" />
+        </g>
+      </svg>
+    </div>
+
+
+    <!--하단 내용-->
+    <div class="content flex">
+      <p>ICONTACT | 2021 | Web for Kindergarden</p>
+    </div>
+
   </div>
+  
+
+  
 </template>
 
 <script>
@@ -55,7 +106,9 @@ export default {
       error: {
         userid: false,
         password: false,
-      }
+      },
+      value1: '',
+      value2: ''      
     }
   },
   created() {
@@ -83,12 +136,12 @@ export default {
     checkForm() {
       // Ryuhyunsun === ryuhyunsun
       if (this.userId != this.userId.toLowerCase() || this.userId.length < 8){
-        this.error.userid = "아이디 형식이 아닙니다.";
+        this.error.userid = "아이디를 확인해주세요";
       }else {
         this.error.userid = false
       }
       if (!this.passwordSchema.validate(this.password) || this.password.length < 8){
-        this.error.password = "비밀번호 형식이 아닙니다.";
+        this.error.password = "비밀번호를 확인해주세요";
       }else {
         this.error.password = false
       }
@@ -120,7 +173,7 @@ export default {
 
           this.$router.push('/');
         } else {
-          alert('승인되지 않은 계정입니다. 관리자에게 문의하세요')
+          alert('승인되지 않은 계정입니다. 관리자에게 문의하세요.')
         }
       }catch (err){
         if(err.response){
@@ -135,6 +188,7 @@ export default {
 </script>
 
 <style scoped>
+
 body{
   background-color: #dee9ff;
 }
@@ -211,5 +265,114 @@ height:100%;
 float:right;
 }
 
+
+
+
+
+
+
+body {
+  margin:0;
+  width: 60vw;
+}
+
+h1 {
+  font-family:'Noto Sans KR', sans-serif;
+  font-weight: 900;
+  letter-spacing: 2px;
+  font-size:48px;
+  color: #58679A;
+  text-shadow:2px 2px 2px rgba(255, 255, 255, 0.7);
+}
+p {
+  font-family:'Noto Sans KR', sans-serif;
+  font-weight: 100;
+  letter-spacing: 1px;
+  font-size:14px;
+  color: #58679A;
+  
+
+}
+
+.logo {
+  width:60px;
+  fill:white;
+  padding-right:10px;
+  display:inline-block;
+  vertical-align: middle;
+}
+
+.inner-header {
+  height:85%;
+  width:100%;
+  margin: 0;
+  padding: 0;
+}
+
+.flex { /*Flexbox for containers*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.waves {
+  position:relative;
+  width: 100%;
+  height:10vh;
+  margin-bottom:0; /*Fix for safari gap*/
+  min-height:100px;
+  max-height:150px;
+}
+
+.content {
+  position:relative;
+  height:20vh;
+  text-align:center;
+  background-color: white;
+}
+
+/* Animation */
+
+.parallax > use {
+  animation: move-forever 25s cubic-bezier(.55,.5,.45,.5)     infinite;
+}
+.parallax > use:nth-child(1) {
+  animation-delay: -2s;
+  animation-duration: 7s;
+}
+.parallax > use:nth-child(2) {
+  animation-delay: -3s;
+  animation-duration: 10s;
+}
+.parallax > use:nth-child(3) {
+  animation-delay: -4s;
+  animation-duration: 13s;
+}
+.parallax > use:nth-child(4) {
+  animation-delay: -5s;
+  animation-duration: 20s;
+}
+@keyframes move-forever {
+  0% {
+   transform: translate3d(-90px,0,0);
+  }
+  100% { 
+    transform: translate3d(85px,0,0);
+  }
+}
+/*Shrinking for mobile*/
+@media (max-width: 768px) {
+  .waves {
+    height:40px;
+    min-height:40px;
+  }
+  .content {
+    height:30vh;
+  }
+  h1 {
+    font-size:24px;
+  }
+}
 
 </style>

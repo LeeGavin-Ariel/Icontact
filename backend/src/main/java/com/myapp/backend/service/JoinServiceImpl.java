@@ -74,7 +74,6 @@ public class JoinServiceImpl implements JoinService {
     @Override
     public ResponseEntity<List<String[]>> classList(@RequestParam String kinderCode){
         //test url : http://localhost:8080/user/kinder/class?kinderCode=1
-
         //code로 전체 class 조회
         List<String[]> className=new ArrayList<>();
         List<KinderClass>kinderClass = kinderClassRepository.findByKinderCode(kinderCode);

@@ -1,31 +1,52 @@
 <template>
   <div>
-  <h1>비밀번호 변경</h1>
-  <!-- 패스워드 입력 -->
-    <div>
-      <label for="password">비밀번호: </label>
-      <input type="password" 
-      id="password" 
-      v-model="password" 
-      placeholder="비밀번호를 입력하세요">
-      <!-- 유효성 검사 통과 못하면 에러메시지 출력 -->
-      <div v-if="error.password">{{error.password}}</div>
-    </div>
-
-    <!-- 패스워드 확인 입력 -->
-    <div>
-      <label for="passwordConfirm">비밀번호확인: </label>
-      <input type="password" 
-      id="passwordConfirm" 
-      v-model="passwordConfirm" 
-      placeholder="비밀번호 확인을 입력하세요">
-      <!-- 유효성 검사 통과 못하면 에러 메시지 출력 -->
-      <div v-if="error.passwordConfirm">{{error.passwordConfirm}}</div>
-    </div>
+    <div class="inner-header flex flex-column">
+      <!-- 로고 -->
+      <div>
+        <br>
+        <br>
+        <img src="@/assets/flaticon/toys.png" class="logo" alt="">
+        <h1>비밀번호 변경</h1>
+        <br>
+      </div>
     
-    <button 
-    :disabled="!password && error.password && error.passwordConfirm && !(password==passwordConfirm)"
-    @click="changePassword">변경하기</button>
+    
+      <div style="width: 300px;" >
+
+        <!-- 새 비밀번호 입력 -->
+        <input
+          class="formInput"
+          type="password"
+          color="#58679A"
+          v-model="password" 
+          placeholder="새 비밀번호"
+          style="text-align:left;"
+        >
+        <div v-if="error.password" style="text-align:left; color: red; font-size: 12px; margin-left: 19px">{{error.password}}</div>
+
+
+        <input
+          class="formInput"
+          type="password"
+          color="#58679A"
+          v-model="passwordConfirm" 
+          placeholder="새 비밀번호 확인"
+          style="text-align:left;"
+        >
+        <div v-if="error.passwordConfirm" style="text-align:left; color: red; font-size: 12px; margin-left: 19px">{{error.passwordConfirm}}</div>
+
+
+        <v-btn 
+          block 
+          rounded
+          style="background-color: #58679A; color: white; margin: 3px 0px;"
+          :disabled="!password || error.password || error.passwordConfirm || !(password==passwordConfirm)"
+          @click="changePassword"
+          >
+          변경하기
+        </v-btn>
+      </div>
+    </div>
   </div>
 </template>
 

@@ -1,48 +1,92 @@
 <template>
-  <div>
-    <h1>비밀번호 변경</h1>
-    <div>
-      <label for="userid">아이디: </label>
-      <input type="text" 
-      id="userid" 
-      v-model="userid"
-      placeholder="아이디를 입력하세요">
-      <!-- 유효성 검사 통과 못하면 에러메시지 출력 -->
-      <div v-if="error.userid">{{error.userid}}</div>
-    </div>
-
-    <div>
-      <label for="phoneNumber">휴대폰번호 : </label>
-      <input type="text"
-      oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
-      maxlength="11"
-      id="phoneNumber" 
-      v-model="phoneNumber"
-      placeholder="휴대폰번호를 입력하세요">
-    </div>
-    <div v-if="error.userid">{{ error.phoneNumber }}</div>
-    <button @click="requestAuthNumber">인증번호 받기</button>
-    <div v-if="isRequested">인증번호가 발송되었습니다.</div>
-
-    <!-- 인증번호 입력 -->
-    <div>
-      <label for="authNumber">인증번호 : </label>
-      <input type="text"
-      id="authNumber"
-      v-model="authNumber"
-      placeholder="인증번호를 입력하세요">
-    </div>
+  <div id="bg">
+    <div class="inner-header flex flex-column">
+      <!-- 로고 -->
+      <div>
+        <br>
+        <br>
+        <img src="@/assets/flaticon/toys.png" class="logo" alt="">
+        <h1>비밀번호 변경</h1>
+        <br>
+      </div>
     
-    <!--isAuth 인증 완료되어야만(상태코드로 업데이트 필요함..) 이라는 조건 추가해야 함  -->
-    <button 
-    :disabled="isAuth" 
-    @click="checkAuthNumber">
-    인증</button>
-    <div v-if="isAuth">인증이 완료되었습니다</div>
-    <button
-    @click="setSendUserIdForChangePW(userid)"
-    :disabled="!userid || !isAuth"
-    >비밀번호 변경</button>
+    
+      <div style="width: 300px;" >
+
+        <!-- 아이디 입력 -->
+        <input
+          class="formInput"
+          type="text"
+          color="#58679A"
+          v-model="userid"
+          placeholder="아이디"
+          style="text-align:left;"
+        >
+    
+        
+        <!-- 휴대폰 번호 입력 -->
+        <div class="placement">
+          <input
+            class="formInput"
+            type="text"
+            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+            maxlength="11"
+            color="#58679A"
+            v-model="phoneNumber"
+            placeholder="비밀번호"
+            style="text-align:left; width:62%"
+          >
+          
+          
+          <div style="width: 30%; margin: 3px 0px;">
+            <v-btn 
+              block 
+              rounded
+              style="background-color: #58679A; color: white; letter-spacing: -0.8px;"
+              @click="requestAuthNumber"
+              >
+              인증번호 받기
+            </v-btn>
+          </div>
+        </div>
+
+        
+
+        <!-- 인증 번호 입력 -->
+        <div class="placement">
+          <input
+            class="formInput"
+            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
+            maxlength="4"
+            color="#58679A"
+            v-model="authNumber"
+            placeholder="인증 번호"
+            style="text-align:left; width:62%"
+          >
+          <div style="width: 30%; margin: 3px 0px;">
+            <v-btn 
+              block 
+              rounded 
+              style="background-color: #58679A; color: white; letter-spacing: -0.8px;"
+              :disabled="!isAuth" 
+              @click="checkAuthNumber"
+              >
+              인증번호 확인
+            </v-btn>
+          </div>
+        </div>
+        <v-btn 
+          block 
+          rounded
+          style="background-color: #58679A; color: white; margin: 3px 0px;"
+          @click="setSendUserIdForChangePW(userid)"
+          >
+            <!-- :disabled="!userid || !isAuth" -->
+          비밀번호 재설정
+        </v-btn>
+
+      </div>
+    </div>
   </div>
 </template>
 
@@ -131,5 +175,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

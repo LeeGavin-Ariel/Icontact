@@ -23,6 +23,7 @@ export const requestGet = async (url, headers) => {
     }
     throw new Error();
   } catch (e) {
+
     throw new Error(e);
   }
 };

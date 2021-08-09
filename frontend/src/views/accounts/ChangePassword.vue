@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="bg">
     <div class="inner-header flex flex-column">
       <!-- 로고 -->
       <div>
@@ -11,7 +11,7 @@
       </div>
     
     
-      <div style="width: 300px;" >
+      <div style="width: 300px;">
 
         <!-- 새 비밀번호 입력 -->
         <input
@@ -45,6 +45,11 @@
           >
           변경하기
         </v-btn>
+        <button @click="$router.go(-1)"
+          class="backBtn"
+        >
+          뒤로 가기
+        </button>        
       </div>
     </div>
   </div>
@@ -140,14 +145,13 @@ button, h1 {
 #bg {
   background-color: #a8b1cf;
   width: 100%;
-  height: 100vw;
+  height: 100%;
 }
 h1 {
   font-weight: 900;
   letter-spacing: 2px;
   font-size:48px;
   color: #58679A;
-  text-shadow:2px 2px 2px rgba(255, 255, 255, 0.7);
 }
 .logo {
   width:60px;
@@ -173,14 +177,5 @@ h1 {
   font-size: small;
   letter-spacing: -2px;
   color: #404c74;
-}
-.select-class-code {
-  background-color: rgba(255, 255, 255, 0.9);
-  box-shadow: 1px 1px 1px 1px #58679A;
-  border-radius: 70px; 
-  height: 36px; 
-  width: 300px; 
-  padding:0px 0px 0px 15px;
-  margin: 3px 3px 6px 3px;
 }
 </style>

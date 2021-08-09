@@ -74,86 +74,8 @@
         </ul>
       </div>
 
-      <div>
-        <svg
-          class="waves"
-          xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-          viewBox="0 24 150 28"
-          preserveAspectRatio="none"
-          shape-rendering="auto"
-        >
-          <defs>
-            <path
-              id="gentle-wave"
-              d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"
-            />
-          </defs>
-          <g class="parallax">
-            <use
-              xlink:href="#gentle-wave"
-              x="48"
-              y="0"
-              fill="rgba(255,255,255,0.7)"
-            />
-            <use
-              xlink:href="#gentle-wave"
-              x="48"
-              y="3"
-              fill="rgba(255,255,255,0.5)"
-            />
-            <use
-              xlink:href="#gentle-wave"
-              x="48"
-              y="5"
-              fill="rgba(255,255,255,0.3)"
-            />
-            <use xlink:href="#gentle-wave" x="48" y="7" fill="#fff" />
-          </g>
-        </svg>
-      </div>
     </div>
-    <!--Waves Container-->
-    <!--Waves end-->
   </div>
-
-  <!--  
-  <div style="height:100vh" class="d-flex align-center">
-    <v-container id="container" >
-      <v-row>
-        <v-col
-          v-for="func in funcName"
-          :key="func"
-          class="d-flex child-flex"
-          cols="4"
-        >
-
-          <button @click="$router.push({ name: func })">
-            <v-img
-              :src="require(`@/assets/${func}.png`)"
-              :lazy-src="require(`@/assets/${func}.png`)"
-              aspect-ratio="1"
-              class="grey lighten-2 img"
-            >
-              <template v-slot:placeholder>
-                <v-row
-                  class="fill-height ma-0"
-                  align="center"
-                  justify="center"
-                >
-                  <v-progress-circular
-                    indeterminate
-                    color="grey lighten-5"
-                  ></v-progress-circular>
-                </v-row>
-              </template>
-            </v-img>
-          </button>
-        </v-col>
-      </v-row>
-    </v-container>
-  </div>
-  -->
 </template>
 
 <script>
@@ -176,9 +98,9 @@ export default {
 
 <style >
 #bg {
-  background-color: #FFE495;
+  background-color: #a8b1cf;
   width: 100%;
-  height: 100vw;
+  height: 100%;
 }
 /* #container {
   width: 800px;
@@ -329,67 +251,4 @@ export default {
   margin: 0;
   padding: 0;
 }
-
-.flex {
-  /*Flexbox for containers*/
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.waves {
-  position: absolute;
-  align-items: flex-end;
-  left:0;
-  bottom: 0;
-  width: 100vw;
-  height: 100vh;
-  /*Fix for safari gap*/
-  min-height: 130px;
-  max-height: 150px;
-}
-
-/* Animation */
-
-.parallax > use {
-  animation: move-forever 25s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;
-}
-.parallax > use:nth-child(1) {
-  animation-delay: -2s;
-  animation-duration: 7s;
-}
-.parallax > use:nth-child(2) {
-  animation-delay: -3s;
-  animation-duration: 10s;
-}
-.parallax > use:nth-child(3) {
-  animation-delay: -4s;
-  animation-duration: 13s;
-}
-.parallax > use:nth-child(4) {
-  animation-delay: -5s;
-  animation-duration: 20s;
-}
-@keyframes move-forever {
-  0% {
-    transform: translate3d(-90px, 0, 0);
-  }
-  100% {
-    transform: translate3d(85px, 0, 0);
-  }
-}
-/*Shrinking for mobile*/
-@media (max-width: 768px) {
-  .waves {
-    height: 40px;
-    min-height: 40px;
-  }
-  h1 {
-    font-size: 24px;
-  }
-}
-
-
-
 </style>

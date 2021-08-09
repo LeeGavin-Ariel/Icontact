@@ -150,7 +150,7 @@
         <button
           class="signupTypeBtn"
           @click="setTeacherInfo({ userid, password, username, phoneNumber })"
-          :disabled="!userid || !password || !passwordConfirm || !username || !phoneNumber || error.userid || error.password || error.passwordConfirm || !isAuth"
+          :disabled="!userid || !password || !passwordConfirm || !username || !phoneNumber || error.userid !== false || error.password !== false || error.passwordConfirm !== false || !isAuth"
         >
           <img
             src="@/assets/flaticon/teacher.png"
@@ -162,7 +162,7 @@
         <button
           class="signupTypeBtn"
           @click="setParentInfo({ userid, password, username, phoneNumber })"
-          :disabled="!userid || !password || !passwordConfirm || !username || !phoneNumber || error.userid || error.password || error.passwordConfirm || !isAuth"        
+          :disabled="!userid || !password || !passwordConfirm || !username || !phoneNumber || error.userid !== false || error.password !== false || error.passwordConfirm !== false || !isAuth"        
         >
           <img
             src="@/assets/flaticon/parents.png"
@@ -317,7 +317,7 @@ button{
 #bg {
   background-color: #a8b1cf;
   width: 100%;
-  height: 100vw;
+  height: 100%;
 }
 h1 {
   font-family: "TmoneyRoundWindExtraBold";  

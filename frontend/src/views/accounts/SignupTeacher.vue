@@ -159,7 +159,7 @@ button, h1 {
 #bg {
   background-color: #a8b1cf;
   width: 100%;
-  height: 100vw;
+  height: 100%;
 }
 h1 {
   font-weight: 900;

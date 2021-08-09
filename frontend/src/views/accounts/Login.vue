@@ -49,7 +49,7 @@
           rounded 
           style="background-color: #58679A; color: white;"
           @click="login"
-          :disabled="!userId || !password || error.password || error.userid"
+          :disabled="!userId || !password || error.password !== false || error.userid !== false"
           >
             로그인
           </v-btn>    

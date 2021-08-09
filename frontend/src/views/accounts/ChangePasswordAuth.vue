@@ -84,10 +84,15 @@
           rounded
           style="background-color: #58679A; color: white; margin: 3px 0px;"
           @click="setSendUserIdForChangePW(userid)"
+          :disabled="!userid || !isAuth"
           >
-            <!-- :disabled="!userid || !isAuth" -->
           비밀번호 재설정
         </v-btn>
+        <button @click="$router.go(-1)"
+          class="backBtn"
+        >
+          뒤로 가기
+        </button>
 
       </div>
     </div>
@@ -192,14 +197,13 @@ button, h1 {
 #bg {
   background-color: #a8b1cf;
   width: 100%;
-  height: 100vw;
+  height: 100%;
 }
 h1 {
   font-weight: 900;
   letter-spacing: 2px;
   font-size:48px;
   color: #58679A;
-  text-shadow:2px 2px 2px rgba(255, 255, 255, 0.7);
 }
 .logo {
   width:60px;

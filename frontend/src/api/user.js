@@ -21,7 +21,7 @@ export const userApi = {
 
   updateUserProfileImg: (data, headers) => {    
     console.log(data);
-    return requestPut(SERVER.URL + SERVER.ROUTES.changeProfileImg + `/${data.userId}?profileImg=${data.profileImg}`, headers);
+    return requestPut(SERVER.URL + SERVER.ROUTES.changeProfileImg + `/${data.userId}?profileImg=${data.profileImg}`, data, headers);
   },
 
 }

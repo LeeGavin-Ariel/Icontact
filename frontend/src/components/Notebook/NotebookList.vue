@@ -11,12 +11,13 @@
       >
 
         <!-- 여기가 그 검색창 들어갈 부분 (선생님만) -->
-        <!-- <input 
+        <input 
         type="text" 
         v-if="identity === 2" 
-        :value="searchPerson" 
         @input="searchPerson=$event.target.value"
-        @keypress.enter="searchNotebookList"> -->
+        @keypress.enter="getSearchNotebookList">
+        <button @click="getSearchNotebookList" v-if="!searchFlag">검색</button>
+        <button @click="getNotebookList" v-if="searchFlag">초기화</button>
 
         <v-list two-line>
           <v-list-item-group
@@ -24,7 +25,7 @@
           >
 
             <!-- 노트북 리스트 띄우기 -->
-            <div style="overflow-y:scroll; height:80vh;">
+            <div style="overflow-y:scroll; height:80vh;" v-if="!searchFlag">
               <template v-for="(note, index) in notebookList">
                 <v-list-item :key="note.createDate" @click="setDetail(note.noteId)">
                   <template >
@@ -47,17 +48,57 @@
                   </template>
                 </v-list-item>
 
-      
-
                 <v-divider
                   v-if="index < notebookList.length - 1"
                   :key="index"
                 ></v-divider>
 
               </template>
+
               <!-- 조건문. 리스트의 길이가 0이거나, 다 불러온 경우에만 더보기 버튼 활성화. -->
               <button @click="getMoreNotebooklist" v-if="notebookList.length > 0 && (pageNum < pageCnt)">더보기</button>
               <p v-else>불러올 글이 없습니다</p>
+              <p>리스트 길이 : {{notebookList.length}}</p>
+              <p>페이지 넘버 : {{pageNum}}</p>
+              <p>페이지 카운트 : {{pageCnt}}</p>
+            </div>
+
+            <div style="overflow-y:scroll; height:80vh;" v-if="searchFlag">
+              <template v-for="(note, index) in searchedNotebookList">
+                <v-list-item :key="note.createDate" @click="setDetail(note.noteId)">
+                  <template >
+                    <v-list-item-content >
+                      <v-list-item-title v-text="note.title"></v-list-item-title>
+
+                      <v-list-item-subtitle
+                        class="text--primary"
+                        v-text="note.headline"
+                      >
+                      </v-list-item-subtitle>
+
+                      <v-list-item-subtitle v-text="note.targetName"></v-list-item-subtitle>
+                    </v-list-item-content>
+
+                    <v-list-item-action>
+                      <v-list-item-action-text v-text="note.targetId"></v-list-item-action-text>
+
+                    </v-list-item-action>
+                  </template>
+                </v-list-item>
+
+                <v-divider
+                  v-if="index < searchedNotebookList.length - 1"
+                  :key="index"
+                ></v-divider>
+
+              </template>
+
+              <!-- 조건문. 리스트의 길이가 0이거나, 다 불러온 경우에만 더보기 버튼 활성화. -->
+              <button @click="getMoreSearchNotebooklist" v-if="searchedNotebookList.length > 0 && (searchPageNum < searchPageCnt)">더보기</button>
+              <p v-else>불러올 글이 없습니다</p>
+              <p>리스트 길이 : {{notebookList.length}}</p>
+              <p>페이지 넘버 : {{pageNum}}</p>
+              <p>페이지 카운트 : {{pageCnt}}</p>
             </div>
           </v-list-item-group>
         </v-list>
@@ -103,8 +144,12 @@ export default {
       pageCnt: 0,
 
       // 검색
-      // searchPerson: '',
-      // searchNotebookList: [],
+      searchFlag: 0,
+      searchPerson: '',
+      searchedNotebookList: [],
+
+      searchPageNum: 0,
+      searchPageCnt: 0,
 
     }
   },
@@ -113,6 +158,7 @@ export default {
     initNotebookList() {
       this.notebookList = []
       this.pageNum = 0
+      this.pageCnt = 0
       this.getNotebookList()
     },
 
@@ -122,12 +168,19 @@ export default {
       }
     },
 
+    getMoreSearchNotebooklist () {
+      if (this.pageNum <= this.pageCnt) {
+        this.getSearchNotebookList()
+      }
+    },
+
 
     setDetail (Id) {
       this.id = Id
     },
 
     async getNotebookList() {
+      this.searchFlag = 0
       console.log(this.id)
       let accessToken = sessionStorage.getItem('access-token')
       let refreshToken = sessionStorage.getItem('refresh-token')
@@ -141,10 +194,9 @@ export default {
         "access-token": accessToken,
         "refresh-token": refreshToken,
       });
-    
       // 만약 pageCnt가 0인데, result의 길이가 0이 아니라면 (즉 글이 있다면) pageCnt 값을 result값의 pageCnt로 바꿔줌
       if (result.length !== 0) {
-        this.pageCnt = result[0].pageCnt
+        this.pageCnt = result[0].totalNum
         // 아니라면?
       } else {
         // 만약 반환받은 result 값이 없다면 pageCnt를 0으로 해줌.ㄴ
@@ -168,45 +220,43 @@ export default {
     },
 
     // 검색 관련
-    // searchNotebookList () {
-    //   console.log(this.searchPerson)
-    //   let accessToken = sessionStorage.getItem('access-token')
-    //   let refreshToken = sessionStorage.getItem('refresh-token')
-    //   let data = {
-    //     type: this.identity_str,
-    //     userId: this.userId,
-    //     searchName: this.searchPerson,
-    //     pageNum: this.pageNum,
-    //   }
-    //   let result = notebookApi.getNotebook(data, {
-    //     "access-token": accessToken,
-    //     "refresh-token": refreshToken,
-    //   })
-    //   if (result.length !== 0) {
-    //     this.pageCnt = result[0].pageCnt
-    //     // 아니라면?
-    //   } else {
-    //     // 만약 반환받은 result 값이 없다면 pageCnt를 0으로 해줌.
-    //     this.pageCnt = 0
-    //   }
-    //   this.searchNotebookList.push(...result)
-    //   this.pageNum += 1
-
-    //   if (this.id === 0) {
-    //     // 최상단 알림장 디테일 페이지 디폴트 값으로 설정
-    //     if (this.searchNotebookList.length !== 0) {
-    //       this.id = this.searchNotebookList[0].noteId
-    //     }
-    //   } else {
-    //     if (this.searchNotebookList.length === 0) {
-    //       this.id = 0
-    //     } else {
-    //       this.id = this.searchNotebookList[0].noteId
-    //     }
-    //   }
-    // },
-
-    
+    async getSearchNotebookList () {
+      this.searchFlag = 1
+      console.log(this.searchPerson)
+      let accessToken = sessionStorage.getItem('access-token')
+      let refreshToken = sessionStorage.getItem('refresh-token')
+      let data = {
+        userId: this.userId,
+        pageNum: this.searchPageNum,
+        searchParam: this.searchPerson,
+      }
+      let result = await notebookApi.getSearchNotebook(data, {
+        "access-token": accessToken,
+        "refresh-token": refreshToken,
+      })
+      console.log(result.result)
+      if (result.result.length !== 0) {
+        this.searchPageCnt = result.pageCnt
+        // 아니라면?
+      } else {
+        // 만약 반환받은 result 값이 없다면 pageCnt를 0으로 해줌.
+        this.searchPageCnt = 0
+      }
+      this.searchedNotebookList.push(...result.result)
+      this.searchPageNum += 1
+      if (this.id === 0) {
+        // 최상단 알림장 디테일 페이지 디폴트 값으로 설정
+        if (this.searchedNotebookList.length !== 0) {
+          this.id = this.searchedNotebookList[0].noteId
+        }
+      } else {
+        if (this.searchedNotebookList.length === 0) {
+          this.id = 0
+        } else {
+          this.id = this.searchedNotebookList[0].noteId
+        }
+      }
+    },
   },
 
 

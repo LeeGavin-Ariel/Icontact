@@ -252,9 +252,15 @@ export default {
     async pictureUpload() {
       await awss3.updatePhoto('profileImg', this.$store.state.user.profileImg, 'photo')
       .then( (res) => {
+        let accessToken = sessionStorage.getItem('access-token')
+        let refreshToken = sessionStorage.getItem('refresh-token')
         userApi.updateUserProfileImg({
           userId: this.$store.state.user.userId,
           profileImg: res[0]
+        },
+        {
+          "access-token": accessToken,
+          "refresh-token": refreshToken,
         })
         this.$store.state.user.profileImg = res[0];
         this.profileImg = url + res[0];

@@ -27,7 +27,7 @@
               v-on="on"
             style="margin-right:15px">
               <v-avatar size="40">
-                <img :src="require('@/assets/profileImg/' + $store.state.user.userId + '.jpg')" alt="profile-image">
+                <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + $store.state.user.profileImg">
               </v-avatar>
             </v-btn>
           </template>
@@ -76,7 +76,7 @@ export default {
         this.$router.push({ name: 'MainPage' })
       }
     },
-  }
+  },
 }
 </script>
 

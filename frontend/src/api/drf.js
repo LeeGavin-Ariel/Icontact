@@ -17,5 +17,6 @@ export default {
     notice: '/notice',
     schedule: '/notice',
     menu: '/notice',
+    attendance: '/attendance'
   }
 }

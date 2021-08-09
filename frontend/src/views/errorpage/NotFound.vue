@@ -1,8 +1,8 @@
 <template>
   <div class="notfound-container">
-    <div class="flex flex-column">
+    <div class="flex flex-column mt-5">
     
-      <img src="">
+      <img class="notfound-img mt-5 mb-5" src="@/assets/notfound.png">
 
       <div class="notfound-title">
         찾으시는 페이지가 없습니다.
@@ -38,8 +38,17 @@ export default {
 }
 </script>
 <style scoped>
+@font-face {
+    font-family: 'NanumSquareRound';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NanumSquareRound.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 *{
-  font-family:'Noto Sans KR', sans-serif;
+  font-family:'NanumSquareRound';
+}
+.notfound-img{
+  width: 500px;
 }
 .notfound-container{
   background-color: #A8B1CF;

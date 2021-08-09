@@ -116,6 +116,11 @@ const routes = [
     name: 'ruru',
     component: ruru
   },
+  {
+    // 존재하지 않는 경로를 page not found 페이지로 이동
+    path: '*',
+    redirect: "/notfound"
+  },
   // 404 Error Page
   {
     path: '/notfound',

@@ -69,8 +69,8 @@
                 ></v-divider>
 
               </template>
-              <button @click="getMoreDosageList">더보기</button>
-              <!-- <infinite-loading @infinite="dosageInfiniteHandler" spinner="waveDots"></infinite-loading> -->
+              <button @click="getMoreDosageList" v-if="dosageList.length > 0 && (dosagePageNum <= dosagePageCnt)">더보기</button>
+              <p v-else>불러올 글이 없습니다</p>
             </div>
             
 
@@ -122,8 +122,8 @@
                   :key="index"
                 ></v-divider>
               </template>
-              <button @click="getMoreReturnhomeList">더보기</button>
-              <!-- <infinite-loading @infinite="returnhomeInfiniteHandler" spinner="waveDots"></infinite-loading> -->
+              <button @click="getMoreReturnhomeList" v-if="returnHomeList.length > 0 && (returnhomePageNum <= returnhomePageCnt)">더보기</button>
+              <p v-else>불러올 글이 없습니다</p>
             </div>
             
 

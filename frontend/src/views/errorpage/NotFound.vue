@@ -29,7 +29,12 @@
 </template>
 <script>
 export default {
-  
+  name: "NotFound",
+  methods: {
+    moveToHome() {
+
+    }
+  }
 }
 </script>
 <style scoped>

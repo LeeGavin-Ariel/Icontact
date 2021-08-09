@@ -17,6 +17,7 @@ import Notice from '@/views/funcs/Notice'
 import Request from '@/views/funcs/Request'
 import ruru from '@/views/funcs/ruru'
 import NotFound from '@/views/errorpage/NotFound'
+import ServerError from '@/views/errorpage/ServerError'
 
 
 Vue.use(VueRouter)
@@ -120,6 +121,12 @@ const routes = [
     path: '/notfound',
     name: 'NotFound',
     component: NotFound
+  },
+  // 500 Error Page
+  {
+    path: '/servererror',
+    name: 'ServerError',
+    component: ServerError
   },
 
 ]

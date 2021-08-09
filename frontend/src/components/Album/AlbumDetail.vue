@@ -112,10 +112,6 @@ export default {
   },
   data() {
     return {
-      // 1. 디테일 띄우기.
-      // 2. 삭제.
-      // 3. 다운로드.
-      
       images : [],
       downloadUrl : "",
       photoKeyList:[],
@@ -151,8 +147,6 @@ export default {
         "access-token": accessToken,
         "refresh-token": refreshToken,
       })
-      // 이미지 띄울때 이미지 소스 안에 주소를 만들어서 넣는다.
-      // 
       this.downloadUrl = result.downloadUrl
       this.images = result.albumImgs
       console.log(this.images)
@@ -199,6 +193,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "@/assets/scss/index.scss";
+
 // 모달 관련
 .modalBackground {
   position: fixed;
@@ -242,6 +237,7 @@ export default {
   height: 90%;
   width: 100%;
 }
+
 // 슬라이더 관련
 .thumb-example {
   height: 480px;

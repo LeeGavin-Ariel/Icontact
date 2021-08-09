@@ -4,7 +4,7 @@
     <v-row no-gutters>
       <v-col align-self="center" class="" cols="2" style="border: solid 0px">
         <v-avatar>
-          <img :src="require('@/assets/profileImg/' + opponentId + '.jpg')" alt="profile-image">
+          <!-- <img :src="require('@/assets/profileImg/' + opponentId + '.jpg')" alt="profile-image"> -->
           <!-- <img :src="coverUrl" alt="coverUrl" /> -->
         </v-avatar>
       </v-col>

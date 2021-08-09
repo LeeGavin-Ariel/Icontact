@@ -21,6 +21,9 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController {
 
+    private final int SUCCESS = 1;
+    private final int FAIL = -1;
+
     private UserService userService;
 
     @Autowired
@@ -135,14 +138,13 @@ public class UserController {
      * @return
      */
     @PutMapping("/profileImg/{userId}")
-    public ResponseEntity<Result> updateProfileImg(@RequestParam("profileimg") MultipartFile file,
+    public ResponseEntity<Result> updateProfileImg(@RequestParam("profileImg") String photoKey,
                                                    @PathVariable String userId) throws IOException {
 
-        String flag = userService.updateProfileImg(file, userId);
-        if(!flag.equals("")){
-            return new ResponseEntity<Result>(new Result(true, flag), HttpStatus.OK);
-        }
-        return new ResponseEntity<Result>(new Result(false, "프로필 사진 수정 실패"), HttpStatus.INTERNAL_SERVER_ERROR);
+        int result = userService.updateProfileImg(photoKey, userId);
+
+        if(result == SUCCESS) return new ResponseEntity(result, HttpStatus.OK);
+        return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
     }
 
     /**

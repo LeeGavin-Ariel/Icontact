@@ -28,11 +28,9 @@ export const awss3 = {
 			console.log("no img");
 			return;
 		}
-
-		// 삭제
-		if (photoKey) awss3.deletePhoto([photoKey], "");
-		// 재업로드
-		// url(photoKey) 반환 -> photoKey -> url 백으로 넘겨주기
+		if (photoKey && photoKey != 'profileImg/noImg_1628231352109.png') {
+			awss3.deletePhoto([photoKey], "");
+		}
 		return await awss3.uploadPhoto(albumName, elId);
 
 	},

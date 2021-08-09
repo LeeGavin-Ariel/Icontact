@@ -7,9 +7,9 @@
         color="orange"
         size="200px"
       >
-        <img  
-        :src="require('@/assets/profileImg/' + userId + '.jpg')"
-        alt="user-profile-image">
+        <img
+        :src="this.profileImg"
+        alt="user-profile-image" id='profileImg'>
       </v-avatar>  
       </div>
       <div class="text-center d-grid gap-2 col-6 mx-auto border border-5 rounded-3 border-warning">내 정보
@@ -141,8 +141,11 @@
 <script>
 import userApi from '@/api/user.js';
 import PV from "password-validator";
+import awss3 from '@/utils/awss3.js';
 // import axios from 'axios'
 // import SERVER from '@/api/drf.js'
+const url = "https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/";
+
 export default {
   name: 'MyPage',
   data: () => {
@@ -180,8 +183,6 @@ export default {
     }
   },
   methods: {
-
-  
 
     checkForm() {
       if (!this.passwordSchema.validate(this.currentPassword) || this.currentPassword.length < 8){
@@ -235,7 +236,7 @@ export default {
           "access-token": accessToken,
           "refresh-token": refreshToken,
       });
-      this.profileImg = result.profileImg
+      this.profileImg = url + result.profileImg
       this.className = result.className
       this.userName = result.userName
       this.kinderName = result.kinderName
@@ -246,22 +247,15 @@ export default {
 
     // userid, picture url 날리기
     async pictureUpload() {
-      const formData = new FormData();
-      formData.append("profileimg", this.changeImg)
-      // for (let key of formData.values()) {
-      // console.log(key);
-      // }
-      let result = await userApi.updateUserProfileImg({
-          userId : this.userId,
-          profileimg: formData
-        }, {
-          "access-token": sessionStorage.getItem('access-token'),
-          'Content-Type': 'multipart/form-data'
-        });
-        // console.log(response.data) == url
-        // response.data = result
-        this.profileImg = result.message
-        this.getuserprofile()
+      await awss3.updatePhoto('profileImg', this.$store.state.user.profileImg, 'photo')
+      .then( (res) => {
+        userApi.updateUserProfileImg({
+          userId: this.$store.state.user.userId,
+          profileImg: res[0]
+        })
+        this.$store.state.user.profileImg = res[0];
+        this.profileImg = url + res[0];
+      });
     },
     
 
@@ -277,10 +271,10 @@ export default {
       .digits()
       .has()
       .letters();
-  }
+  },
 }
 </script>
 
 <style scoped>
-
+  .modal {   z-index: 10000; }
 </style>

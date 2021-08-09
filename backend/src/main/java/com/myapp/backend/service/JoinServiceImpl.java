@@ -44,6 +44,7 @@ public class JoinServiceImpl implements JoinService {
         user.setUserTel(joinDto.getUserTel());
         user.setType(joinDto.getType());
         user.setClassCode(joinDto.getClassCode());
+        user.setProfileImg("profileImg/noImg_1628231352109.png");
 
         if(user.getType()==2){
             //2. 선생부분 만들어서 save

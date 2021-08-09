@@ -15,10 +15,8 @@
 
       <div>
         <v-btn
-        block 
         rounded
         class="mt-5 home-btn"
-        style="background-color: white; color: #58679A;"
         @click="moveToHome">
         홈으로 이동
         </v-btn>
@@ -32,7 +30,7 @@ export default {
   name: "NotFound",
   methods: {
     moveToHome() {
-
+      this.$router.push('/');
     }
   }
 }
@@ -48,7 +46,7 @@ export default {
   font-family:'NanumSquareRound';
 }
 .notfound-img{
-  width: 500px;
+  width: 30%;
 }
 .notfound-container{
   background-color: #A8B1CF;
@@ -56,7 +54,7 @@ export default {
   height:100%;
 }
 .notfound-title{
-  font-weight: 700;
+  font-weight: 900;
   letter-spacing: 2px;
   font-size:36px;
   color: black;
@@ -66,6 +64,9 @@ export default {
   letter-spacing: 1px;
 }
 .home-btn{
+  background-color: white;
+  color: #58679A;
+  width: 150px;
   font-size: 18px;
 }
 </style>

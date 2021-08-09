@@ -1,7 +1,8 @@
 <template>
   <div class="servererror-container">
-    <div class="flex flex-column">
-      <img src="">
+    <div class="flex flex-column mt-5">
+
+      <img class="servererror-img mt-5 mb-5" src="@/assets/servererror.png">
 
       <div class="servererror-title">
         서비스에 접속할 수 없습니다.
@@ -13,14 +14,12 @@
       </div>
 
       <div>
-          <v-btn
-          block 
-          rounded
-          class="mt-5 home-btn"
-          style="background-color: white; color: #58679A;"
-          @click="moveToHome">
-          홈으로 이동
-          </v-btn>
+        <v-btn
+        rounded
+        class="mt-5 home-btn"
+        @click="moveToHome">
+        홈으로 이동
+        </v-btn>
         </div>
     </div>
   </div>
@@ -30,14 +29,23 @@ export default {
   name: "ServerError",
   methods: {
     moveToHome() {
-
+      this.$router.push('/');
     }
   }
 }
 </script>
 <style scoped>
+@font-face {
+    font-family: 'NanumSquareRound';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NanumSquareRound.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 *{
-  font-family:'Noto Sans KR', sans-serif;
+  font-family:'NanumSquareRound';
+}
+.servererror-img{
+  width: 30%;
 }
 .servererror-container{
   background-color: #A8B1CF;
@@ -55,7 +63,10 @@ export default {
   letter-spacing: 1px;
 }
 .home-btn{
-  font-size: 16px;
+  background-color: white;
+  color: #58679A;
+  width: 150px;
+  font-size: 18px;
 }
 </style>
 

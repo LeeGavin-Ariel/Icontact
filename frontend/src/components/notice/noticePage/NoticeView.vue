@@ -12,15 +12,15 @@
         left
         class="v-btn--example"
         @click="showCreateNoticeForm"
-        v-if="!createMode"
+        v-if="!createMode & this.$store.state.user.type==2"
       >
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
     </v-fab-transition>
 
-    <button v-if="detailMode" @click="showUpdateNoticeForm">|글 수정</button>
+    <button v-if="detailMode & this.$store.state.user.type==2" @click="showUpdateNoticeForm">|글 수정</button>
 
-    <button v-if="detailMode" @click="deleteNotice">|글 삭제</button>
+    <button v-if="detailMode & this.$store.state.user.type==2"  @click="deleteNotice">|글 삭제</button>
 
     <!-- <button @click="offCreateForm">글 작성 취소</button> -->
 
@@ -77,8 +77,8 @@ export default {
   },
   watch: {
     id: function () {
-      console.log("아이디가 변했어요" + this.id);
       if (this.id !== 0) {
+        console.log("아이디가 변했어요" + this.id);
         this.getNoticeDetail();
       }
     },

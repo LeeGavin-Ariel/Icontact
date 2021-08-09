@@ -12,15 +12,15 @@
         left
         class="v-btn--example"
         @click="showCreateMenuForm"
-        v-if="!createMode"
+        v-if="!createMode & this.$store.state.user.type==2"
       >
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
     </v-fab-transition>
 
-    <button v-if="detailMode" @click="showUpdateMenuForm">|글 수정</button>
+    <button v-if="detailMode & this.$store.state.user.type==2" @click="showUpdateMenuForm">|글 수정</button>
 
-    <button v-if="detailMode" @click="deleteMenu">|글 삭제</button>
+    <button v-if="detailMode & this.$store.state.user.type==2" @click="deleteMenu">|글 삭제</button>
 
     <!-- <button @click="offCreateForm">글 작성 취소</button> -->
 
@@ -78,7 +78,7 @@ export default {
   watch: {
     id: function () {
       console.log("아이디가 변했어요" + this.id);
-      if (this.id !== 0) {
+      if (this.id != 0) {
         this.getMenuDetail();
       }
     },

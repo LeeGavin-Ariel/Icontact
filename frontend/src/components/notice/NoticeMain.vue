@@ -1,6 +1,9 @@
 <template>
-  <div class="row mt-5 mb-5" style="width: 100vw; margin: 0; ">
-    <div class="col-5 mx height:100vh" style="padding-bottom: 0px; border-right:1px solid" >
+  <div class="row mt-5 mb-5" style="width: 100vw; margin: 0">
+    <div
+      class="col-5 mx height:100vh"
+      style="padding-bottom: 0px; border-right: 1px solid"
+    >
       <!-- 공지 사항 리스트 -->
       <v-col class="mx-auto">
         <v-btn
@@ -37,7 +40,8 @@
         <v-list two-line>
           <v-list-item-group active-class="pink--text">
             <!-- 공지사항 리스트 띄우기 -->
-            <div id="noticeListContainer"
+            <div
+              id="noticeListContainer"
               v-if="noticeType === 1"
               style="overflow-y: scroll; height: 80vh"
             >
@@ -105,7 +109,6 @@
                   :menuInfo="menu"
                   @click="setDetail(menu.menuId)"
                 />
-               
               </template>
               <v-row fluid dense justify="center" no-gutters>
                 <v-col></v-col>
@@ -268,6 +271,7 @@ export default {
 
     // 공지 일정 식단 페이지를 변경하는 함수
     changeView(notice, schedule, menu) {
+      this.id = 0;
       this.noticeView = notice;
       this.menuView = schedule;
       this.scheduleView = menu;
@@ -389,11 +393,11 @@ export default {
 
 /* 현재 스크롤의 위치바의 색 */
 #noticeListContainer::-webkit-scrollbar-thumb {
-  background-color:white;
+  background-color: white;
 }
 
 /* 남는공간의 색 */
 #noticeListContainer::-webkit-scrollbar-track {
-  background-color:black;
+  background-color: black;
 }
 </style>

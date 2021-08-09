@@ -91,7 +91,11 @@ export default {
       let accessToken = sessionStorage.getItem("access-token");
       let refreshToken = sessionStorage.getItem("refresh-token");
 
-      let noticeImgUrl = await awss3.uploadPhoto("notice", "noticeFile");
+      let noticeImgUrl = "";
+      if (document.getElementById("noticeFile").files.length != 0) {
+        noticeImgUrl = await awss3.uploadPhoto("notice", "noticeFile");
+        console.log("파일있음");
+      }
 
       let data = {
         noticeImgUrl: noticeImgUrl[0],
@@ -102,25 +106,15 @@ export default {
         content: this.content,
       };
 
-      // const formData = new FormData();
-      // formData.append("img", this.files);
-      // formData.append("noticeType", 1);
-      // formData.append("userId", this.$store.state.user.userId);
-      // formData.append("classCode", this.$store.state.user.classCode);
-      // formData.append("title", this.title);
-      // formData.append("content", this.content);
-
       let result = await noticeApi.createNotice(data, {
         "access-token": accessToken,
         "refresh-token": refreshToken,
-        // "Content-Type": "multipart/form-data",
       });
 
       console.log("result");
       console.log(result);
 
       this.$emit("createNotice");
-      // this.getNotice()
     },
   },
 };

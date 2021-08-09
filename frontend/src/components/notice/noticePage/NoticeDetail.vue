@@ -9,19 +9,24 @@
 
     <v-sheet rounded="lg" v-if="createMode && this.noticeInfo">
       <br />
-      <p>
-        제목 : {{this.noticeInfo.title}}
-      </p>
+      <p>제목 : {{ this.noticeInfo.title }}</p>
 
       <p>내용</p>
-       {{this.noticeInfo.content}}
+      {{ this.noticeInfo.content }}
       <!-- <p>작성 일자 : </p>
       <input type="number" v-model="createDate"> -->
-      <br/><br/>
+      <br /><br />
       <p>첨부사진 :</p>
       <!-- <v-file-input v-model="files" accept="image/*" label="File input"></v-file-input> -->
-         <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/'+ noticeInfo.noticeImgUrl" alt="profile-image">
- 
+      <div v-if="noticeInfo.noticeImgUrl">
+        <img
+          :src="
+            'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
+            noticeInfo.noticeImgUrl
+          "
+          alt="profile-image"
+        />
+      </div>
     </v-sheet>
   </div>
 </template>
@@ -41,7 +46,7 @@ export default {
     id: {
       id: Number,
     },
-    noticeInfo:{}
+    noticeInfo: {},
   },
 
   data() {
@@ -68,9 +73,9 @@ export default {
       this.detailMode = detail;
     },
 
-     // 생성창 띄우기
+    // 생성창 띄우기
     async showCreateNoticeForm() {
-      console.log('눌렀는데');
+      console.log("눌렀는데");
       this.changeMode(true, false, false);
 
       // this.$emit("get-notebooklist", this.noticeType);
@@ -97,9 +102,9 @@ export default {
     // },
   },
 
-  created(){
+  created() {
     console.log(this.noticeInfo);
-  }
+  },
 };
 </script>
 

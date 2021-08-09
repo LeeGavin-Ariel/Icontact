@@ -1,7 +1,7 @@
 <template>
   <div style="overflow-y: scroll" class="col">
     <v-spacer></v-spacer>
-    
+
     <v-fab-transition>
       <v-btn
         color="red"
@@ -12,15 +12,25 @@
         left
         class="v-btn--example"
         @click="showCreateScheduleForm"
-        v-if="!createMode"
+        v-if="!createMode & (this.$store.state.user.type == 2)"
       >
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
     </v-fab-transition>
 
-    <button v-if="detailMode" @click="showUpdateScheduleForm">|글 수정</button>
+    <button
+      v-if="detailMode & (this.$store.state.user.type == 2)"
+      @click="showUpdateScheduleForm"
+    >
+      |글 수정
+    </button>
 
-    <button v-if="detailMode" @click="deleteSchedule">|글 삭제</button>
+    <button
+      v-if="detailMode & (this.$store.state.user.type == 2)"
+      @click="deleteSchedule"
+    >
+      |글 삭제
+    </button>
 
     <!-- <button @click="offCreateForm">글 작성 취소</button> -->
 
@@ -36,7 +46,10 @@
       @cancelUpdateSchedule="cancelUpdateSchedule"
       @updateSchedule="updateSchedule"
     />
-    <schedule-detail v-if="this.detailMode" :scheduleInfo="this.scheduleDetail" />
+    <schedule-detail
+      v-if="this.detailMode"
+      :scheduleInfo="this.scheduleDetail"
+    />
   </div>
 </template>
 
@@ -85,12 +98,12 @@ export default {
   },
 
   methods: {
-    async deleteSchedule(){
-      console.log('삭제시작');
-      
+    async deleteSchedule() {
+      console.log("삭제시작");
+
       let accessToken = sessionStorage.getItem("access-token");
       let refreshToken = sessionStorage.getItem("refresh-token");
-      
+
       let PhotoKey = this.scheduleDetail.scheduleImgUrl;
       await awss3.deletePhoto([PhotoKey], "");
 
@@ -106,13 +119,12 @@ export default {
 
       console.log(result);
 
-      
       this.$emit("deleteSchedule");
     },
 
     //일정 업데이트 완료
-    updateSchedule(){
-      console.log('에밋 view111');
+    updateSchedule() {
+      console.log("에밋 view111");
       console.log(this.scheduleDetail);
       this.getScheduleDetail();
 
@@ -120,13 +132,13 @@ export default {
       this.$emit("updateSchedule", this.scheduleDetail.scheduleId);
     },
     //일정 작성 완료
-    createSchedule(){
+    createSchedule() {
       this.changeMode(false, false, true);
       this.$emit("createSchedule");
     },
     //공지 작성 취소
     cancelCreateSchedule() {
-      console.log('생성취소');
+      console.log("생성취소");
       this.changeMode(false, false, true);
     },
     //공지 수정 취소
@@ -172,7 +184,7 @@ export default {
       });
 
       this.scheduleDetail = result.schedule;
-      console.log('this.scheduleDetail');
+      console.log("this.scheduleDetail");
       console.log(this.scheduleDetail);
     },
   },

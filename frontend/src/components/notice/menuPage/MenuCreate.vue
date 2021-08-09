@@ -104,25 +104,33 @@ export default {
 
     // 식단 생성
     async createNewMenu() {
-      if (this.lunchFile == "") {
-        alert("입력하세요");
+      //점심명을 입력하지 않으면 생성불가
+      if (this.lunchName == "") {
+        alert("점심 메뉴를 입력하세요");
         return;
       }
 
-      console.log("식단생성")
+      console.log("식단생성");
       let accessToken = sessionStorage.getItem("access-token");
       let refreshToken = sessionStorage.getItem("refresh-token");
-      let amSnackImgUrl = await awss3.uploadPhoto("menu", "amSnackFile");
-      let lunchImgUrl = await awss3.uploadPhoto("menu", "lunchFile");
-      let pmSnackImgUrl = await awss3.uploadPhoto("menu", "pmSnackFile");
+
+      let amSnackImgUrl = await this.imgUpload("amSnackFile");
+      let lunchImgUrl = await this.imgUpload("lunchFile");
+      let pmSnackImgUrl = await this.imgUpload("pmSnackFile");
+
+      console.log("결과들");
+      console.log(amSnackImgUrl);
+      console.log(lunchImgUrl);
+      console.log(pmSnackImgUrl);
+
 
       let data = {
-        amSnackImgUrl: amSnackImgUrl[0],
-        lunchImgUrl: lunchImgUrl[0],
-        pmSnackImgUrl: pmSnackImgUrl[0],
+        amSnackImgUrl: amSnackImgUrl,
+        lunchImgUrl: lunchImgUrl,
+        pmSnackImgUrl: pmSnackImgUrl,
         amSnack: this.amSnackName,
-        pmSnack: this.pmSnackName,
         lunch: this.lunchName,
+        pmSnack: this.pmSnackName,
         noticeType: 3,
         userId: this.$store.state.user.userId,
         classCode: this.$store.state.user.classCode,
@@ -131,12 +139,23 @@ export default {
       let result = await menuApi.createMenu(data, {
         "access-token": accessToken,
         "refresh-token": refreshToken,
-        // "Content-Type": "multipart/form-data",
       });
       console.log("result");
       console.log(result);
 
       this.$emit("createMenu");
+    },
+
+    async imgUpload(elId) {
+      var resultImgUrl = "";
+      if (document.getElementById(elId).files.length != 0) {
+        await awss3
+          .uploadPhoto("menu", elId)
+          .then((result) => (resultImgUrl = result[0]));
+      }
+      console.log("resultImgUrl");
+      console.log(resultImgUrl);
+      return resultImgUrl;
     },
   },
 };

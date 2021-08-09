@@ -38,14 +38,13 @@
 
 
         <!-- 반 목록 선택 (드롭다운) -->
-        <!--  
-        <select name="classCode" id="classCode" v-model="classCode">
+        <!-- <select name="classCode" id="classCode" v-model="classCode">
           <option value="noValue">반 선택</option>
           <option v-for="[Class, idx] in kindergardenClasses" v-bind:key="idx" v-bind:value="idx">
             {{ Class }}
           </option>
-        </select>
-        -->
+        </select> -->
+       
         
 
         <!-- 회원가입 버튼 -->
@@ -93,19 +92,18 @@ export default {
           userName: this.$store.state.sendUserName,
           userTel: this.$store.state.sendPhoneNumber,
           type: this.relationship,
-          classCode: this.classCode,
+          classCode: this.classCode[1],
           kidName : this.kidName,
         })
 
         //sendbird 유저에 추가 , 닉네임 잘 들어가는지 확인
-        const resultSendbird = await sendBird
+        await sendBird
             .addUser(this.$store.state.sendUserId, this.$store.state.sendUserName + ' 선생님')        
 
-        this.$store.commit('SET_USER', resultSendbird);
         await sendBird.login(this.$store.state.sendUserId);
 
         //같은반 유저 불러오기
-        var classMember = await requestGet(SERVER.URL + SERVER.ROUTES.getClassMember + '?classCode=' + this.classCode);
+        var classMember = await requestGet(SERVER.URL + SERVER.ROUTES.getClassMember + '?classCode=' + this.classCode[1]);
         console.log('classMember');
         console.log(classMember);
 

@@ -126,16 +126,41 @@ export default {
       let accessToken = sessionStorage.getItem("access-token");
       let refreshToken = sessionStorage.getItem("refresh-token");
 
-      console.log("업데이트하자");
+      let scheduleImgUrl = "";
       let photoKey = this.scheduleInfo.scheduleImgUrl;
-      let scheduleImgUrl = await awss3.updatePhoto(
-        "chedule",
-        photoKey,
-        "scheduleFile"
-      );
+
+      //s3 업로드 부분
+      //기존에 사진파일이 없을때
+      if (photoKey == null) {
+        console.log("포토키없는데");
+
+        //첨부한 사진이 있으면 업로드
+        if (document.getElementById("scheduleFile").files.length != 0) {
+          console.log("첨부파일있음");
+
+          await awss3
+            .uploadPhoto("schedule", "scheduleFile")
+            .then((result) => (scheduleImgUrl = result[0]));
+        }
+      } else {
+        console.log("포토키있는데");
+
+        //기존에 사진파일이 있을 때
+        //첨부한 사진이 있으면 업데이트
+        if (document.getElementById("scheduleFile").files.length != 0) {
+          console.log("첨부파일이있음");
+          await awss3
+            .updatePhoto("schedule", photoKey, "scheduleFile")
+            .then((result) => (scheduleImgUrl = result[0]));
+        } else {
+          console.log("첨부파일이없음");
+          //첨부한 사진이 없으면 기존 사진 삭제? 놔두기? 일단 놔두기로
+          // awss3.deletePhoto([photoKey], "");
+        }
+      }
 
       let data = {
-        scheduleImgUrl: scheduleImgUrl[0],
+        scheduleImgUrl: scheduleImgUrl,
         noticeType: 2,
         userId: this.$store.state.user.userId,
         id: this.scheduleInfo.scheduleId,

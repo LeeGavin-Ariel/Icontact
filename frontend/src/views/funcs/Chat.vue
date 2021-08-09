@@ -1,14 +1,11 @@
 <template>
-<!-- <style="display: flex; height:100vh;" >
- </div>  -->
-  <v-container fluid style="display:flex">
-    <div style="width:20vw;">
-      <Sidebar/>
+  <div style="display: flex; height: 100vh;">
+    <div style="width: 20vw">
+      <Sidebar />
     </div>
 
-    <chat-main/>
-  </v-container>
-
+    <chat-main />
+  </div>
 </template>
 
 <script>
@@ -58,5 +55,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  @import "@/assets/scss/index.scss";
+// @import "@/assets/scss/index.scss";
 </style>

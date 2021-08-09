@@ -24,7 +24,7 @@
       </p>
 
       <p>오전 간식 사진 :</p>
-  <v-file-input
+      <v-file-input
         id="amSnackFile"
         v-model="amSnackFile"
         accept="image/*"
@@ -150,20 +150,24 @@ export default {
       let accessToken = sessionStorage.getItem("access-token");
       let refreshToken = sessionStorage.getItem("refresh-token");
 
-
       let amSnackPhotoKey = this.menuInfo.amSnackImgUrl;
       let lunchPhotoKey = this.menuInfo.lunchImgUrl;
       let pmSnackPhotoKey = this.menuInfo.pmSnackImgUrl;
 
-      let amSnackImgUrl = await awss3.updatePhoto("menu", amSnackPhotoKey, "amSnackFile");
-      let lunchImgUrl = await awss3.updatePhoto("menu", lunchPhotoKey, "lunchFile");
-      let pmSnackImgUrl = await awss3.updatePhoto("menu", pmSnackPhotoKey, "pmSnackFile");
+      let amSnackImgUrl = await this.imgUpdate(amSnackPhotoKey, "amSnackFile");
+      let lunchImgUrl = await this.imgUpdate(lunchPhotoKey, "lunchFile");
+      let pmSnackImgUrl = await this.imgUpdate(pmSnackPhotoKey, "pmSnackFile");
+
+      console.log("결과들");
+      console.log(amSnackImgUrl);
+      console.log(lunchImgUrl);
+      console.log(pmSnackImgUrl);
 
 
       let data = {
-        amSnackImgUrl: amSnackImgUrl[0],
-        lunchImgUrl: lunchImgUrl[0],
-        pmSnackImgUrl: pmSnackImgUrl[0],
+        amSnackImgUrl: amSnackImgUrl,
+        lunchImgUrl: lunchImgUrl,
+        pmSnackImgUrl: pmSnackImgUrl,
         amSnack: this.amSnackName,
         pmSnack: this.pmSnackName,
         lunch: this.lunchName,
@@ -184,6 +188,41 @@ export default {
 
       this.$emit("updateMenu");
       alert("공지사항이 수정되었습니다.");
+    },
+
+    async imgUpdate(photoKey, elId) {
+      var resultImgUrl = "";
+      //s3 업로드 부분
+      //기존에 사진파일이 없을때
+      if (photoKey == null) {
+        console.log(elId + " 포토키없는데");
+        //첨부한 사진이 있으면 업로드
+        if (document.getElementById(elId).files.length != 0) {
+          console.log("첨부파일있음");
+
+          await awss3
+            .uploadPhoto("menu", elId)
+            .then((result) => (resultImgUrl = result[0]));
+        }
+      } else {
+        console.log("포토키있는데");
+
+        //기존에 사진파일이 있을 때
+        //첨부한 사진이 있으면 업데이트
+        if (document.getElementById(elId).files.length != 0) {
+          console.log("첨부파일이있음");
+          await awss3
+            .updatePhoto("menu", photoKey, elId)
+            .then((result) => (resultImgUrl = result[0]));
+        } else {
+          console.log("첨부파일이없음");
+          //첨부한 사진이 없으면 기존 사진 삭제? 놔두기? 일단 놔두기로
+          // awss3.deletePhoto([photoKey], "");
+        }
+      }
+      console.log("resultImgUrl");
+      console.log(resultImgUrl);
+      return resultImgUrl;
     },
   },
 };

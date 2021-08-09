@@ -25,8 +25,6 @@
       <input type="textarea" v-model="content" style="border: solid 1px" />
 
       <p>공지사항첨부사진 :</p>
-      
-
       <img
         :src="
           'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
@@ -90,6 +88,7 @@ export default {
 
   methods: {
     init() {
+      console.log(this.noticeInfo);
       console.log(this.noticeInfo.noticeImgUrl);
       this.title = this.noticeInfo.title;
       this.content = this.noticeInfo.content;
@@ -128,20 +127,50 @@ export default {
       let accessToken = sessionStorage.getItem("access-token");
       let refreshToken = sessionStorage.getItem("refresh-token");
 
-      console.log('업데이트하자')
-      let photoKey = this.noticeInfo.noticeImgUrl;
-      let noticeImgUrl = await awss3.updatePhoto(
-        "notice",
-        photoKey,
-        "noticeFile"
-      );  
+      console.log("this.noticeInfo");
+      console.log(this.noticeInfo);
 
-      console.log('noticeImgUrl');
+      let noticeImgUrl = "";
+      let photoKey = this.noticeInfo.noticeImgUrl;
+
+      //s3 업로드 부분
+      //기존에 사진파일이 없을때
+      if (photoKey == null) {
+        console.log("포토키없는데");
+
+        //첨부한 사진이 있으면 업로드
+        if (document.getElementById("noticeFile").files.length != 0) {
+          console.log("첨부파일있음");
+
+          await awss3
+            .uploadPhoto("notice", "noticeFile")
+            .then((result) => (noticeImgUrl = result[0]));
+        }
+      } else {
+        console.log("포토키있는데");
+
+        //기존에 사진파일이 있을 때
+        //첨부한 사진이 있으면 업데이트
+        if (document.getElementById("noticeFile").files.length != 0) {
+          console.log("첨부파일이있음");
+          await awss3
+            .updatePhoto("notice", photoKey, "noticeFile")
+            .then((result) => (noticeImgUrl = result[0]));
+        } else {
+          console.log("첨부파일이없음");
+          //첨부한 사진이 없으면 기존 사진 삭제? 놔두기? 일단 놔두기로
+          // awss3.deletePhoto([photoKey], "");
+        }
+      }
+
+      console.log("업데이트하자");
+
+      console.log("noticeImgUrl");
       console.log(noticeImgUrl);
       console.log(this.noticeInfo.noticeId);
 
       let data = {
-        noticeImgUrl: noticeImgUrl[0],
+        noticeImgUrl: noticeImgUrl,
         noticeType: 1,
         userId: this.$store.state.user.userId,
         id: this.noticeInfo.noticeId,

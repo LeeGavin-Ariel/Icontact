@@ -78,7 +78,11 @@ export default {
       let accessToken = sessionStorage.getItem("access-token");
       let refreshToken = sessionStorage.getItem("refresh-token");
 
-      let scheduleImgUrl = await awss3.uploadPhoto("schedule", "scheduleFile");
+      let scheduleImgUrl = "";
+      if (document.getElementById("scheduleFile").files.length != 0) {
+        scheduleImgUrl = await awss3.uploadPhoto("schedule", "scheduleFile");
+        console.log("파일있음");
+      }
 
       let data = {
         scheduleImgUrl: scheduleImgUrl[0],
@@ -89,19 +93,10 @@ export default {
         content: this.content,
       };
 
-      // const formData = new FormData();
-      // formData.append("img", this.files);
-      // formData.append("noticeType", 2);
-      // formData.append("userId", this.$store.state.user.userId);
-      // formData.append("classCode", this.$store.state.user.classCode);
-      // formData.append("title", this.title);
-      // formData.append("content", this.content);
-
       let result = await scheduleApi
         .createSchedule(data, {
           "access-token": accessToken,
           "refresh-token": refreshToken,
-          // "Content-Type": "multipart/form-data",
         })
 
       console.log('result');

@@ -20,6 +20,8 @@
       <br/><br/>
       <p>첨부사진 :</p>
       <!-- <v-file-input v-model="files" accept="image/*" label="File input"></v-file-input> -->
+         <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/'+ noticeInfo.noticeImgUrl" alt="profile-image">
+ 
     </v-sheet>
   </div>
 </template>
@@ -94,6 +96,10 @@ export default {
     //   console.log(this.noticeDetail);
     // },
   },
+
+  created(){
+    console.log(this.noticeInfo);
+  }
 };
 </script>
 

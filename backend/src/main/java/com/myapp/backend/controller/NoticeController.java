@@ -16,24 +16,18 @@ public class NoticeController {
     @Autowired
     NoticeService noticeService;
 
-    // 사진 첨부 아직 안함 S3 써야함
-
     // 공지글 등록
     @PostMapping("notice")
-    public ResponseEntity noticeInsert(@ModelAttribute NoticeDto noticeDto, @RequestParam(required = false) List<MultipartFile> imgs) {
+    public ResponseEntity noticeInsert(@RequestBody NoticeDto noticeDto) {
         int result = 0;
         int noticeType = noticeDto.getNoticeType();
-        MultipartFile img = null;
-        if (imgs != null)
-            img = imgs.get(0);
-
 
         if (noticeType == 1) { // 일반 공지
-            result = noticeService.noticeInsert(noticeDto, img);
+            result = noticeService.noticeInsert(noticeDto);
         } else if (noticeType == 2) { // 일정
-            result = noticeService.scheduleInsert(noticeDto, img);
+            result = noticeService.scheduleInsert(noticeDto);
         } else { // 식단
-            result = noticeService.menuInsert(noticeDto, imgs);
+            result = noticeService.menuInsert(noticeDto);
         }
 
         if (result == 1) {
@@ -44,20 +38,17 @@ public class NoticeController {
     }
 
     // 공지글 수정
-    @PostMapping("notice/{noticeType}")
-    public ResponseEntity noticeUpdate(@ModelAttribute NoticeDto noticeDto, @RequestParam(required = false) MultipartFile img) {
+    @PutMapping("notice")
+    public ResponseEntity noticeUpdate(@RequestBody NoticeDto noticeDto) {
         int result = 0;
         int noticeType = noticeDto.getNoticeType();
 
-        System.out.println("noticeDTO:" + noticeDto);
-        System.out.println("img:" + img);
-
         if (noticeType == 1) { // 일반 공지
-            result = noticeService.noticeUpdate(noticeDto, img);
+            result = noticeService.noticeUpdate(noticeDto);
         } else if (noticeType == 2) { // 일정
-            result = noticeService.scheduleUpdate(noticeDto, img);
+            result = noticeService.scheduleUpdate(noticeDto);
         } else { // 식단
-            result = noticeService.menuUpdate(noticeDto, img);
+            result = noticeService.menuUpdate(noticeDto);
         }
 
         if (result == 1) {
@@ -92,7 +83,7 @@ public class NoticeController {
     // 공지글 목록 조회
     @GetMapping("/notice")
     public ResponseEntity<CommonNoticeResultDto> noticeList(NoticeParamDto noticeParamDto) {
-        System.out.println(noticeParamDto);
+//        System.out.println(noticeParamDto);
 
         CommonNoticeResultDto commonNoticeResultDto = new CommonNoticeResultDto();
 
@@ -111,10 +102,10 @@ public class NoticeController {
             List<NoticeResultDto> noticeList = noticeService.noticeList(noticeParamDto);
             if (noticeList != null) {
                 commonNoticeResultDto.setNoticeList(noticeList);
-                for (NoticeResultDto n : noticeList
-                ) {
-                    System.out.println(n);
-                }
+//                for (NoticeResultDto n : noticeList
+//                ) {
+//                    System.out.println(n);
+//                }
                 return new ResponseEntity<CommonNoticeResultDto>(commonNoticeResultDto, HttpStatus.OK);
             }
         } else if (noticeType == 2) { // 일정

@@ -16,6 +16,7 @@
       <input type="number" v-model="createDate"> -->
       <p>공지사항첨부사진 :</p>
       <v-file-input
+        id="scheduleFile"
         v-model="files"
         accept="image/*"
         label="File input"
@@ -32,7 +33,9 @@
 </template>
 
 <script>
-import noticeApi from "@/api/notice.js";
+import scheduleApi from "@/api/schedule.js";
+import awss3 from "@/utils/awss3.js";
+
 export default {
   name: "ScheduleCreate",
 
@@ -75,19 +78,30 @@ export default {
       let accessToken = sessionStorage.getItem("access-token");
       let refreshToken = sessionStorage.getItem("refresh-token");
 
-      const formData = new FormData();
-      formData.append("img", this.files);
-      formData.append("noticeType", 2);
-      formData.append("userId", this.$store.state.user.userId);
-      formData.append("classCode", this.$store.state.user.classCode);
-      formData.append("title", this.title);
-      formData.append("content", this.content);
+      let scheduleImgUrl = await awss3.uploadPhoto("schedule", "scheduleFile");
 
-      let result = await noticeApi
-        .createNotice(formData, {
+      let data = {
+        scheduleImgUrl: scheduleImgUrl[0],
+        noticeType: 2,
+        userId: this.$store.state.user.userId,
+        classCode: this.$store.state.user.classCode,
+        title: this.title,
+        content: this.content,
+      };
+
+      // const formData = new FormData();
+      // formData.append("img", this.files);
+      // formData.append("noticeType", 2);
+      // formData.append("userId", this.$store.state.user.userId);
+      // formData.append("classCode", this.$store.state.user.classCode);
+      // formData.append("title", this.title);
+      // formData.append("content", this.content);
+
+      let result = await scheduleApi
+        .createSchedule(data, {
           "access-token": accessToken,
           "refresh-token": refreshToken,
-          "Content-Type": "multipart/form-data",
+          // "Content-Type": "multipart/form-data",
         })
 
       console.log('result');

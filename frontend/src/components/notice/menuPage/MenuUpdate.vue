@@ -24,7 +24,8 @@
       </p>
 
       <p>오전 간식 사진 :</p>
-      <v-file-input
+  <v-file-input
+        id="amSnackFile"
         v-model="amSnackFile"
         accept="image/*"
         label="File input"
@@ -36,6 +37,7 @@
       </p>
       <p>점심 식사 사진 :</p>
       <v-file-input
+        id="lunchFile"
         v-model="lunchFile"
         accept="image/*"
         label="File input"
@@ -47,6 +49,7 @@
       </p>
       <p>오후 간식 사진 :</p>
       <v-file-input
+        id="pmSnackFile"
         v-model="pmSnackFile"
         accept="image/*"
         label="File input"
@@ -57,6 +60,7 @@
 
 <script>
 import menuApi from "@/api/menu.js";
+import awss3 from "@/utils/awss3.js";
 export default {
   name: "MenuUpdate",
 
@@ -141,93 +145,35 @@ export default {
       this.updating = 0;
     },
 
-    // 글 작성 폼 띄우기
-    async createNewMenu() {
-      // 글 작성 중인 상태가 아니라면 글 작성 중 상태로 바꿈.
-
-      if (this.updating) {
-        this.updating = false;
-      }
-
-      if (this.creating === 0) {
-        if (this.menuType === 1) {
-          this.symptom = "";
-          this.medicineType = "";
-          this.dosageVol = 0;
-          this.dosageCnt = 0;
-          this.dosageTime = "";
-          this.storage = "";
-          this.specialNote = "";
-        } else if (this.menuType === 2) {
-          this.rhDate = "";
-          this.rhTime = "";
-          this.guardian = "";
-          this.guardianTel = "";
-          this.emergency = "";
-          this.emergencyTel = "";
-        }
-        this.creating = 1;
-      }
-      // 글 작성 중인 상태라면 요청 보내기.
-      else if (this.creating === 1) {
-        let accessToken = sessionStorage.getItem("access-token");
-        let refreshToken = sessionStorage.getItem("refresh-token");
-        if (this.menuType === 1) {
-          let data = {
-            menuType: this.menuType,
-            userId: this.$store.state.user.userId,
-            symptom: this.symptom,
-            medicineType: this.medicineType,
-            dosageVol: this.dosageVol,
-            dosageCnt: this.dosageCnt,
-            dosageTime: this.dosageTime,
-            storage: this.storage,
-            specialNote: this.specialNote,
-          };
-          let result = await menuApi.createMenu(data, {
-            "access-token": accessToken,
-            "refresh-token": refreshToken,
-          });
-          console.log(result);
-        } else if (this.menuType === 2) {
-          let data = {
-            menuType: this.menuType,
-            userId: this.$store.state.user.userId,
-            rhDate: this.rhDate,
-            rhTime: this.rhTime,
-            guardian: this.guardian,
-            guardianTel: this.guardianTel,
-            emergency: this.emergency,
-            emergencyTel: this.emergencyTel,
-          };
-          let result = await menuApi.createMenu(data, {
-            "access-token": accessToken,
-            "refresh-token": refreshToken,
-          });
-          console.log(result);
-        }
-        this.creating = 0;
-        this.$emit("get-notebooklist", this.menuType);
-      }
-    },
-
     async updateMenu() {
       console.log("일정 업데이트 버튼 클릭11S");
       let accessToken = sessionStorage.getItem("access-token");
       let refreshToken = sessionStorage.getItem("refresh-token");
 
-      const formDataa = new FormData();
-      formDataa.append("imgs", this.amSnackFile);
-      formDataa.append("imgs", this.pmSnackFile);
-      formDataa.append("imgs", this.lunchFile);
-      formDataa.append("amSnack", this.amSnackName);
-      formDataa.append("pmSnack", this.pmSnackName);
-      formDataa.append("lunch", this.lunchName);
-      formDataa.append("menuType", 3);
-      formDataa.append("id", this.menuInfo.menuId);
-      formDataa.append("userId", this.$store.state.user.userId);
 
-      let result = await menuApi.updateMenu(formDataa, {
+      let amSnackPhotoKey = this.menuInfo.amSnackImgUrl;
+      let lunchPhotoKey = this.menuInfo.lunchImgUrl;
+      let pmSnackPhotoKey = this.menuInfo.pmSnackImgUrl;
+
+      let amSnackImgUrl = await awss3.updatePhoto("menu", amSnackPhotoKey, "amSnackFile");
+      let lunchImgUrl = await awss3.updatePhoto("menu", lunchPhotoKey, "lunchFile");
+      let pmSnackImgUrl = await awss3.updatePhoto("menu", pmSnackPhotoKey, "pmSnackFile");
+
+
+      let data = {
+        amSnackImgUrl: amSnackImgUrl[0],
+        lunchImgUrl: lunchImgUrl[0],
+        pmSnackImgUrl: pmSnackImgUrl[0],
+        amSnack: this.amSnackName,
+        pmSnack: this.pmSnackName,
+        lunch: this.lunchName,
+        noticeType: 3,
+        id: this.menuInfo.menuId,
+        userId: this.$store.state.user.userId,
+        classCode: this.$store.state.user.classCode,
+      };
+
+      let result = await menuApi.updateMenu(data, {
         "access-token": accessToken,
         "refresh-token": refreshToken,
       });

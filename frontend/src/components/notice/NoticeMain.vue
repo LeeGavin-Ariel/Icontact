@@ -1,55 +1,69 @@
 <template>
-  <div class="row" style="width: 80vw; margin: 0">
-    <div class="col-5 mx-auto" style="padding-bottom: 0px">
+  <div class="row mt-5 mb-5" style="width: 100vw; margin: 0; ">
+    <div class="col-5 mx height:100vh" style="padding-bottom: 0px; border-right:1px solid" >
       <!-- 공지 사항 리스트 -->
       <v-col class="mx-auto">
-        <button @click="showNotice">공지</button>
-        <div style="display: inline; margin-right: 10px"></div>
-        <button @click="showSchedule">일정</button>
-        <div style="display: inline; margin-right: 10px"></div>
-        <button @click="showMenu">식단</button>
+        <v-btn
+          id="btnNotice"
+          class="mr-3"
+          rounded
+          color="blue lighten-1"
+          dark
+          @click="showNotice"
+        >
+          공지
+        </v-btn>
+        <v-btn
+          id="btnSchedule"
+          class="mr-3"
+          rounded
+          color="blue lighten-1"
+          dark
+          @click="showSchedule"
+        >
+          일정
+        </v-btn>
+        <v-btn
+          id="btnMenu"
+          class="mr-3"
+          rounded
+          color="blue lighten-1"
+          dark
+          @click="showMenu"
+        >
+          식단
+        </v-btn>
+
         <v-list two-line>
           <v-list-item-group active-class="pink--text">
             <!-- 공지사항 리스트 띄우기 -->
-            <div
+            <div id="noticeListContainer"
               v-if="noticeType === 1"
               style="overflow-y: scroll; height: 80vh"
             >
-              <template v-for="(notice, index) in noticeList">
-                <v-list-item
-                  v-if="noticeType === 1"
+              <template v-for="notice in noticeList">
+                <notice-list-item
                   :key="notice.createDate"
+                  :noticeInfo="notice"
                   @click="setDetail(notice.noticeId)"
-                >
-                  <template>
-                    <v-list-item-content>
-                      <v-list-item-title
-                        v-text="notice.noticeId"
-                      ></v-list-item-title>
-
-                      <v-list-item-title
-                        v-text="notice.title"
-                      ></v-list-item-title>
-
-                      <v-list-item-subtitle
-                        v-text="notice.userId"
-                      ></v-list-item-subtitle>
-                    </v-list-item-content>
-
-                    <v-list-item-action>
-                      <v-list-item-action-text
-                        v-text="notice.createDate"
-                      ></v-list-item-action-text>
-                    </v-list-item-action>
-                  </template>
-                </v-list-item>
-
-                <v-divider
-                  v-if="index < noticeList.length - 1"
-                  :key="index"
-                ></v-divider>
+                />
               </template>
-              <button @click="getMoreNoticeList">더보기</button>
+              <v-row fluid dense justify="center" no-gutters>
+                <v-col></v-col>
+                <v-col>
+                  <v-btn
+                    class="mt-5"
+                    outlined
+                    color="indigo"
+                    @click="getMoreNoticeList"
+                  >
+                    더보기
+                  </v-btn>
+                </v-col>
+                <v-col></v-col>
+              </v-row>
+
+              <!-- <v-btn @click="getMoreNoticeList">더보기</v-btn> -->
             </div>
 
             <!-- 일정 리스트 띄우기-->
@@ -57,43 +71,27 @@
               v-if="noticeType === 2"
               style="overflow-y: scroll; height: 80vh"
             >
-              <template v-for="(schedule, index) in scheduleList">
-                <v-list-item
-                  v-if="noticeType === 2"
+              <template v-for="schedule in scheduleList">
+                <schedule-list-item
                   :key="schedule.createDate"
+                  :scheduleInfo="schedule"
                   @click="setDetail(schedule.scheduleId)"
-                >
-                  <template>
-                    <v-list-item-content>
-                      <v-list-item-title
-                        v-text="schedule.scheduleId"
-                      ></v-list-item-title>
-
-                      <v-list-item-subtitle
-                        class="text--primary"
-                        v-text="schedule.title"
-                      ></v-list-item-subtitle>
-
-                      <v-list-item-subtitle
-                        v-text="schedule.userId"
-                      ></v-list-item-subtitle>
-                    </v-list-item-content>
-
-                    <v-list-item-action>
-                      <v-list-item-action-text
-                        v-text="schedule.createDate"
-                      ></v-list-item-action-text>
-                    </v-list-item-action>
-                  </template>
-                </v-list-item>
-
-                <v-divider
-                  v-if="index < scheduleList.length - 1"
-                  :key="index"
-                ></v-divider>
+                />
               </template>
-              <button @click="getMoreScheduleList">더보기</button>
-              <!-- <infinite-loading @infinite="scheduleInfiniteHandler" spinner="waveDots"></infinite-loading> -->
+              <v-row fluid dense justify="center" no-gutters>
+                <v-col></v-col>
+                <v-col>
+                  <v-btn
+                    class="mt-5"
+                    outlined
+                    color="indigo"
+                    @click="getMoreScheduleList"
+                  >
+                    더보기
+                  </v-btn>
+                </v-col>
+                <v-col></v-col>
+              </v-row>
             </div>
 
             <!-- 식단 리스트 띄우기-->
@@ -101,47 +99,28 @@
               v-if="noticeType === 3"
               style="overflow-y: scroll; height: 80vh"
             >
-              <template v-for="(menu, index) in menuList">
-                <v-list-item
-                  v-if="noticeType === 3"
+              <template v-for="menu in menuList">
+                <menu-list-item
                   :key="menu.createDate"
+                  :menuInfo="menu"
                   @click="setDetail(menu.menuId)"
-                >
-                  <template>
-                    <v-list-item-content>
-                      <v-list-item-title
-                        v-text="menu.menuId"
-                      ></v-list-item-title>
-
-                      <v-list-item-title
-                        v-text="menu.createDate"
-                      ></v-list-item-title>
-
-                      <v-list-item-subtitle
-                        class="text--primary"
-                        v-text="menu.amSnack"
-                      ></v-list-item-subtitle>
-
-                      <v-list-item-subtitle
-                        v-text="menu.pmSnack"
-                      ></v-list-item-subtitle>
-                    </v-list-item-content>
-
-                    <v-list-item-action>
-                      <v-list-item-action-text
-                        v-text="menu.lunch"
-                      ></v-list-item-action-text>
-                    </v-list-item-action>
-                  </template>
-                </v-list-item>
-
-                <v-divider
-                  v-if="index < menuList.length - 1"
-                  :key="index"
-                ></v-divider>
+                />
+               
               </template>
-              <button @click="getMoreMenuList">더보기</button>
-              <!-- <infinite-loading @infinite="scheduleInfiniteHandler" spinner="waveDots"></infinite-loading> -->
+              <v-row fluid dense justify="center" no-gutters>
+                <v-col></v-col>
+                <v-col>
+                  <v-btn
+                    class="mt-5"
+                    outlined
+                    color="indigo"
+                    @click="getMoreMenuList"
+                  >
+                    더보기
+                  </v-btn>
+                </v-col>
+                <v-col></v-col>
+              </v-row>
             </div>
           </v-list-item-group>
         </v-list>
@@ -177,8 +156,11 @@ import noticeApi from "@/api/notice.js";
 import scheduleApi from "@/api/schedule.js";
 import menuApi from "@/api/menu.js";
 import NoticeView from "./noticePage/NoticeView.vue";
+import NoticeListItem from "./noticePage/NoticeListItem.vue";
 import MenuView from "./menuPage/MenuView.vue";
+import MenuListItem from "./menuPage/MenuListItem.vue";
 import ScheduleView from "./schedulePage/ScheduleView.vue";
+import ScheduleListItem from "./schedulePage/ScheduleListItem.vue";
 
 export default {
   name: "NoticeMain",
@@ -186,6 +168,9 @@ export default {
     NoticeView,
     MenuView,
     ScheduleView,
+    NoticeListItem,
+    ScheduleListItem,
+    MenuListItem,
   },
   data() {
     return {
@@ -197,10 +182,7 @@ export default {
       scheduleView: false,
       menuView: false,
 
-      // 관계
-      identity: 0,
-      identity_str: "",
-
+      //목록 리스트
       noticeList: [],
       scheduleList: [],
       menuList: [],
@@ -400,4 +382,18 @@ export default {
 </script>
 
 <style>
+/* 스크롤바 너비 */
+#noticeListContainer::-webkit-scrollbar {
+  width: 3px;
+}
+
+/* 현재 스크롤의 위치바의 색 */
+#noticeListContainer::-webkit-scrollbar-thumb {
+  background-color:white;
+}
+
+/* 남는공간의 색 */
+#noticeListContainer::-webkit-scrollbar-track {
+  background-color:black;
+}
 </style>

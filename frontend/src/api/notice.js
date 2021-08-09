@@ -1,4 +1,4 @@
-import  { requestGet, requestPost, requestDelete } from '@/utils/request.js';
+import  { requestGet, requestPost, requestPut,requestDelete } from '@/utils/request.js';
 import SERVER from './drf.js';
 
 export const noticeApi = {
@@ -22,7 +22,7 @@ export const noticeApi = {
   },
 
   updateNotice: (data, headers) => {
-    return requestPost(SERVER.URL + SERVER.ROUTES.notice + `/${data.noticeType}` , data, headers);
+    return requestPut(SERVER.URL + SERVER.ROUTES.notice, data, headers);
   },
 
   deleteNotice: ( data,headers ) => {

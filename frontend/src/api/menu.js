@@ -1,4 +1,4 @@
-import  { requestGet, requestPost, requestDelete } from '@/utils/request.js';
+import  { requestGet, requestPost, requestPut, requestDelete } from '@/utils/request.js';
 import SERVER from './drf.js';
 
 export const menuApi = {
@@ -17,7 +17,7 @@ export const menuApi = {
   },
   
   updateMenu: (data, headers) => {
-    return requestPost(SERVER.URL + SERVER.ROUTES.menu + `/3`, data, headers);
+    return requestPut(SERVER.URL + SERVER.ROUTES.menu, data, headers);
   },
 
   deleteMenu: ( data,headers ) => {

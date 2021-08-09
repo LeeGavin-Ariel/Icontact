@@ -45,6 +45,7 @@ import scheduleApi from "@/api/schedule.js";
 import ScheduleDetail from "./ScheduleDetail.vue";
 import ScheduleCreate from "./ScheduleCreate.vue";
 import ScheduleUpdate from "./ScheduleUpdate.vue";
+import awss3 from "@/utils/awss3.js";
 export default {
   name: "ScheduleIndex",
   components: {
@@ -90,6 +91,9 @@ export default {
       let accessToken = sessionStorage.getItem("access-token");
       let refreshToken = sessionStorage.getItem("refresh-token");
       
+      let PhotoKey = this.scheduleDetail.scheduleImgUrl;
+      await awss3.deletePhoto([PhotoKey], "");
+
       let data = {
         scheduleType: 2,
         id: this.id,

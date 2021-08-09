@@ -17,6 +17,7 @@
 
       <p>오전 간식 사진 :</p>
       <v-file-input
+        id="amSnackFile"
         v-model="amSnackFile"
         accept="image/*"
         label="File input"
@@ -28,6 +29,7 @@
       </p>
       <p>점심 식사 사진 :</p>
       <v-file-input
+        id="lunchFile"
         v-model="lunchFile"
         accept="image/*"
         label="File input"
@@ -39,6 +41,7 @@
       </p>
       <p>오후 간식 사진 :</p>
       <v-file-input
+        id="pmSnackFile"
         v-model="pmSnackFile"
         accept="image/*"
         label="File input"
@@ -56,6 +59,7 @@
 
 <script>
 import menuApi from "@/api/menu.js";
+import awss3 from "@/utils/awss3.js";
 export default {
   name: "MenuCreate",
 
@@ -98,33 +102,38 @@ export default {
       this.$emit("cancelCreateMenu");
     },
 
-    // 일정 생성
+    // 식단 생성
     async createNewMenu() {
       if (this.lunchFile == "") {
         alert("입력하세요");
         return;
       }
 
+      console.log("식단생성")
       let accessToken = sessionStorage.getItem("access-token");
       let refreshToken = sessionStorage.getItem("refresh-token");
+      let amSnackImgUrl = await awss3.uploadPhoto("menu", "amSnackFile");
+      let lunchImgUrl = await awss3.uploadPhoto("menu", "lunchFile");
+      let pmSnackImgUrl = await awss3.uploadPhoto("menu", "pmSnackFile");
 
-      const formData = new FormData();
-      formData.append("imgs", this.amSnackFile);
-      formData.append("imgs", this.pmSnackFile);
-      formData.append("imgs", this.lunchFile);
-      formData.append("amSnack", this.amSnackName);
-      formData.append("pmSnack", this.pmSnackName);
-      formData.append("lunch", this.lunchName);
-      formData.append("menuType", 3);
-      formData.append("userId", this.$store.state.user.userId);
-      formData.append("classCode", this.$store.state.user.classCode);
+      let data = {
+        amSnackImgUrl: amSnackImgUrl[0],
+        lunchImgUrl: lunchImgUrl[0],
+        pmSnackImgUrl: pmSnackImgUrl[0],
+        amSnack: this.amSnackName,
+        pmSnack: this.pmSnackName,
+        lunch: this.lunchName,
+        noticeType: 3,
+        userId: this.$store.state.user.userId,
+        classCode: this.$store.state.user.classCode,
+      };
 
-      let result = await menuApi.createMenu(formData, {
+      let result = await menuApi.createMenu(data, {
         "access-token": accessToken,
         "refresh-token": refreshToken,
-        "Content-Type": "multipart/form-data",
+        // "Content-Type": "multipart/form-data",
       });
-      console.log('result');
+      console.log("result");
       console.log(result);
 
       this.$emit("createMenu");

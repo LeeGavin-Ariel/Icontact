@@ -25,23 +25,28 @@
       <input type="textarea" v-model="content" style="border: solid 1px" />
 
       <p>공지사항첨부사진 :</p>
+
+      <img
+        :src="
+          'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
+          scheduleInfo.scheduleImgUrl
+        "
+        alt="profile-image"
+      />
+      <hr />
       <v-file-input
+        id="scheduleFile"
         v-model="files"
         accept="image/*"
         label="File input"
       ></v-file-input>
-
-      <!-- <p>작성 일자 : </p>
-      <input type="number" v-model="createDate"> -->
-      <br /><br />
-      <p>첨부사진 :</p>
-      <!-- <v-file-input v-model="files" accept="image/*" label="File input"></v-file-input> -->
     </v-sheet>
   </div>
 </template>
 
 <script>
 import scheduleApi from "@/api/schedule.js";
+import awss3 from "@/utils/awss3.js";
 export default {
   name: "ScheduleUpdate",
 
@@ -67,7 +72,7 @@ export default {
       updateMode: false,
       title: this.scheduleInfo.title,
       content: this.scheduleInfo.content,
-      files: this.scheduleInfo.files,
+      schedulImgUrl: this.scheduleInfo.schedulImgUrl,
     };
   },
   watch: {
@@ -84,7 +89,6 @@ export default {
 
   methods: {
     init() {
-      console.log("scheduleInfo");
       console.log(this.scheduleInfo);
       this.title = this.scheduleInfo.title;
       this.content = this.scheduleInfo.content;
@@ -118,98 +122,34 @@ export default {
       this.updating = 0;
     },
 
-    // 글 작성 폼 띄우기
-    async createNewSchedule() {
-      // 글 작성 중인 상태가 아니라면 글 작성 중 상태로 바꿈.
-
-      if (this.updating) {
-        this.updating = false;
-      }
-
-      if (this.creating === 0) {
-        if (this.scheduleType === 1) {
-          this.symptom = "";
-          this.medicineType = "";
-          this.dosageVol = 0;
-          this.dosageCnt = 0;
-          this.dosageTime = "";
-          this.storage = "";
-          this.specialNote = "";
-        } else if (this.scheduleType === 2) {
-          this.rhDate = "";
-          this.rhTime = "";
-          this.guardian = "";
-          this.guardianTel = "";
-          this.emergency = "";
-          this.emergencyTel = "";
-        }
-        this.creating = 1;
-      }
-      // 글 작성 중인 상태라면 요청 보내기.
-      else if (this.creating === 1) {
-        let accessToken = sessionStorage.getItem("access-token");
-        let refreshToken = sessionStorage.getItem("refresh-token");
-        if (this.scheduleType === 1) {
-          let data = {
-            scheduleType: this.scheduleType,
-            userId: this.$store.state.user.userId,
-            symptom: this.symptom,
-            medicineType: this.medicineType,
-            dosageVol: this.dosageVol,
-            dosageCnt: this.dosageCnt,
-            dosageTime: this.dosageTime,
-            storage: this.storage,
-            specialNote: this.specialNote,
-          };
-          let result = await scheduleApi.createSchedule(data, {
-            "access-token": accessToken,
-            "refresh-token": refreshToken,
-          });
-          console.log(result);
-        } else if (this.scheduleType === 2) {
-          let data = {
-            scheduleType: this.scheduleType,
-            userId: this.$store.state.user.userId,
-            rhDate: this.rhDate,
-            rhTime: this.rhTime,
-            guardian: this.guardian,
-            guardianTel: this.guardianTel,
-            emergency: this.emergency,
-            emergencyTel: this.emergencyTel,
-          };
-          let result = await scheduleApi.createSchedule(data, {
-            "access-token": accessToken,
-            "refresh-token": refreshToken,
-          });
-          console.log(result);
-        }
-        this.creating = 0;
-        this.$emit("get-notebooklist", this.scheduleType);
-        // this.getSchedule()
-      }
-    },
-
     async updateSchedule() {
-      console.log("일정 업데이트 버튼 클릭11S");
       let accessToken = sessionStorage.getItem("access-token");
       let refreshToken = sessionStorage.getItem("refresh-token");
 
-      const formDataa = new FormData();
-      formDataa.append("img", this.files);
-      formDataa.append("scheduleType", 2);
-      formDataa.append("id", this.scheduleInfo.scheduleId);
-      formDataa.append("userId", this.$store.state.user.userId);
-      formDataa.append("title", this.title);
-      formDataa.append("content", this.content);
+      console.log("업데이트하자");
+      let photoKey = this.scheduleInfo.scheduleImgUrl;
+      let scheduleImgUrl = await awss3.updatePhoto(
+        "chedule",
+        photoKey,
+        "scheduleFile"
+      );
 
-      let result = await scheduleApi.updateSchedule(formDataa, {
+      let data = {
+        scheduleImgUrl: scheduleImgUrl[0],
+        noticeType: 2,
+        userId: this.$store.state.user.userId,
+        id: this.scheduleInfo.scheduleId,
+        title: this.title,
+        content: this.content,
+      };
+
+      let result = await scheduleApi.updateSchedule(data, {
         "access-token": accessToken,
         "refresh-token": refreshToken,
       });
 
       console.log("result");
       console.log(result);
-      this.updating = 0;
 
       this.$emit("updateSchedule");
       alert("공지사항이 수정되었습니다.");

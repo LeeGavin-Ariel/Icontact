@@ -15,6 +15,8 @@
       </p>
 
       <p>오전 간식 사진 :</p>
+        <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/'+ menuInfo.amSnackImgUrl" alt="profile-image">
+ 
       <!-- <v-file-input
         v-model="amSnackFile"
         accept="image/*"
@@ -26,6 +28,7 @@
          {{ this.menuInfo.lunch }}
       </p>
       <p>점심 식사 사진 :</p>
+      <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/'+ menuInfo.lunchImgUrl" alt="profile-image">
       <!-- <v-file-input
         v-model="lunchFile"
         accept="image/*"
@@ -37,6 +40,7 @@
         {{ this.menuInfo.pmSnack }}
       </p>
       <p>오후 간식 사진 :</p>
+      <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/'+ menuInfo.pmSnackImgUrl" alt="profile-image">
       <!-- <v-file-input
         v-model="pmSnackFile"
         accept="image/*"

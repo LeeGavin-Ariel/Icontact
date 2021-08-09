@@ -39,10 +39,6 @@ public class UserController {
         return joinService.join(joinDto);
     }
 
-    @GetMapping("/kinder/class")
-    public ResponseEntity<List<String[]>> classList(@RequestParam String kinderCode){
-        return joinService.classList(kinderCode);
-    }
 
     @PostMapping("/changepw")
     public ResponseEntity<List<String>> changePW(@RequestBody JoinDto joinDto) {

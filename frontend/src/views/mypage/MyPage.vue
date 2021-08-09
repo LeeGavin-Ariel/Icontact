@@ -220,6 +220,9 @@ export default {
           "access-token": sessionStorage.getItem('access-token')
         });
         alert("비밀번호가 변경되었습니다");
+        this.currentPassword = ''
+        this.changePassword = ''
+        this.changePasswordConfirm = ''
         this.isChanged = true
       } catch (e) {
         alert("비밀번호 변경에 실패하였습니다.");
@@ -283,4 +286,7 @@ export default {
 
 <style scoped>
 
+.modal {
+  z-index: 10000;
+}
 </style>

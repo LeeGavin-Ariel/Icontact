@@ -15,6 +15,7 @@ import Album from '@/views/funcs/Album'
 import Attendance from '@/views/funcs/Attendance'
 import Notice from '@/views/funcs/Notice'
 import Request from '@/views/funcs/Request'
+import ruru from '@/views/funcs/ruru'
 
 
 Vue.use(VueRouter)
@@ -108,6 +109,11 @@ const routes = [
     name: 'Request',
     component: Request
   },
+  {
+    path: '/ruru',
+    name: 'ruru',
+    component: ruru
+  },  
 ]
 
 const router = new VueRouter({
@@ -124,7 +130,7 @@ router.beforeEach((to, from, next) => {
   const authPages = [
     'MyPage', 
     'MainPage',
-    // 'Notebook',
+    'Notebook',
     'Chat',
     'Album',
     'Attendence',

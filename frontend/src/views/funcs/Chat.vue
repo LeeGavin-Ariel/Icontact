@@ -1,58 +1,45 @@
 <template>
-  <div class="app">
-
-    <div class="columns is-gapless">
-
-      <div class="column is-2">
-        <div class="aside">
-          <channel-list/>
-
-        </div>
-      </div>
-
-      <channel class="content column"/>
-
+<!-- <style="display: flex; height:100vh;" >
+ </div>  -->
+  <v-container fluid style="display:flex">
+    <div style="width:20vw;">
+      <Sidebar/>
     </div>
 
-  </div>
+    <chat-main/>
+  </v-container>
+
 </template>
 
 <script>
-
-import Channel from '@/components/chat/Channel.vue'
-import ChannelList from '@/components/chat/ChannelList.vue'
-import sendBird from '@/services/SendBird.js'
-import { mapState } from 'vuex'
+import Sidebar from "@/components/common/Sidebar.vue";
+import ChatMain from "@/components/chat/ChatMain.vue";
+import sendBird from "@/services/SendBird.js";
+import { mapState } from "vuex";
 
 // TODO: user channel or empty channel
 
 export default {
-  name: 'App',
+  name: "Chat",
 
   components: {
-    Channel,
-    ChannelList
+    Sidebar,
+    ChatMain,
   },
 
   computed: {
-    ...mapState([
-      'user',
-      'channels'
-    ])
+    ...mapState(["user", "channels"]),
   },
 
-  methods:{
-  
-  },
+  methods: {},
 
-  created () {
-
+  created() {
     //사용자가 페이지를 떠날때 발생하는 이벤트
     // 떠날때 채널을 나간다.
-    window.onbeforeunload = function() {
-      sendBird.exitChannel('vuejs')
-    }
-    
+    window.onbeforeunload = function () {
+      sendBird.exitChannel("vuejs");
+    };
+
     // console.log('this.$store.state.user.userId');
     // console.log(this.$store.state.user);
 
@@ -66,8 +53,10 @@ export default {
     //   this.message = error.message
     //   console.log(error);
     // })
-    
-  }
-
-}
+  },
+};
 </script>
+
+<style scoped lang="scss">
+  @import "@/assets/scss/index.scss";
+</style>

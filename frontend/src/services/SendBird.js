@@ -4,7 +4,7 @@ const SendBird = require('sendbird')
 
 //여기에 본인 app_id입력
 const sendBird = new SendBird({
-  appId: '7EA0909B-CEDE-4760-A88D-50F55CB2CCCE'
+  appId: '702BDEC1-CAED-42B4-897E-DFBD4B6DA1E9'
 })
 const ChannelHandler = new sendBird.ChannelHandler()
 
@@ -15,9 +15,9 @@ export default {
     console.log(userId)
     console.log(nickName)
 
-    let url = 'https://api-7EA0909B-CEDE-4760-A88D-50F55CB2CCCE.sendbird.com/v3/users';
+    let url = 'https://api-702BDEC1-CAED-42B4-897E-DFBD4B6DA1E9.sendbird.com/v3/users';
     let headers = {
-      'Api-Token':'0afcf744f724dbbca5607ed0e30e00d28929b7a4',
+      'Api-Token':'f9cf3243b0c3e22b4c4127db152ed31ab58e58ea',
     }
     let data = {
       "user_id": userId,

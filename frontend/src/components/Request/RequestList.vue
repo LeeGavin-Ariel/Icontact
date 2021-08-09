@@ -184,11 +184,13 @@ export default {
     // 글 작성, 수정, 삭제 이벤트 발생시 다시 목록 조회.
     initRequestList (requestType) {
       if (requestType === 1) {
+        this.id = 0
         this.dosageList = []
         this.dosagePageNum = 1
         this.getDosageList()
       }
       else if (requestType === 2) {
+        this.id = 0
         this.returnHomeList = []
         this.returnhomePageNum = 1
         this.getReturnHomeList()
@@ -237,11 +239,10 @@ export default {
       if (this.requestType !== 2) {
         
         this.requestType = 2
+        
         if (this.returnHomeList.length === 0) {
           this.getReturnHomeList()
         }
-        console.log("길이")
-        console.log(this.returnHomeList.length)
         if (this.returnHomeList.length !== 0) {
           this.id = this.returnHomeList[0].rhId
         }
@@ -292,8 +293,15 @@ export default {
       this.dosagePageNum += 1
 
       if (this.id === 0) {
-        this.id = this.dosageList[0].dosageId
+        if (this.dosageList.length !== 0) {
+          this.id = this.dosageList[0].dosageId
+        }
+      } else {
+        if (this.dosageList.length === 0) {
+          this.id = 0
+        }
       }
+
     },
 
     // 귀가 전체 글 조회
@@ -341,7 +349,13 @@ export default {
       this.returnhomePageNum += 1
       if (this.id === 0) {
         // 첫번째 글의 디테일 페이지 디폴트 값으로 올리기.
-        this.id = this.returnHomeList[0].rhId
+        if (this.returnHomeList.length !== 0) {
+          this.id = this.returnHomeList[0].rhId
+        }
+      } else {
+        if (this.returnHomeList.length === 0) {
+          this.id = 0
+        }
       }
     },
   },

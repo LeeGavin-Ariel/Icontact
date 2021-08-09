@@ -2,13 +2,13 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import router from '@/router/index.js'
 import userApi from '@/api/user.js';
-import createPersistedState from "vuex-persistedstate"
+// import createPersistedState from "vuex-persistedstate"
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  plugins: [
-        createPersistedState(),
-      ],
+  // plugins: [
+  //       createPersistedState(),
+  //     ],
   state: {
     user: null,
 
@@ -102,6 +102,7 @@ export default new Vuex.Store({
 
     async removeUser(context) {
       try{
+        // 로그아웃할때 유저 아이디 넘겨주기 (가빈누나부탁)
         await userApi.updateUser({
           userId : context.state.user.userId,
         },

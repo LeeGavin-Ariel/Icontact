@@ -6,13 +6,18 @@ export default {
     login: '/login',
     signup: '/user',
     sms: '/auth/sms',
-    searchClass:'/user/kinder/class',
+    searchClass:'/auth/kinder/class',
     changepw:'/user/changepw',
     getuserinf:'/user/info',
     changeProfileImg:'/user/profileImg',
     changePWAfterLogin:'/user/password',
     notebook: '/notebook',
     request: '/request',
-    getClassMember:'/user/class'
+    getClassMember:'/user/class',
+    notice: '/notice',
+    schedule: '/notice',
+    menu: '/notice',
+    attendance: '/attendance',
+    album: '/album',
   }
 }

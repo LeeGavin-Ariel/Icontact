@@ -2,12 +2,20 @@
   <div style="overflow-y:scroll;" class="col">
     <button v-if="$store.state.user.type === 2 && updating === 0" @click="createNotebook">연필</button>
     <button v-if="$store.state.user.type === 2 && updating === 1" @click="updateNotebook">연필</button>
-    <button v-if="$store.state.user.type === 2 && updating === 0" @click="updateNotebook">수정</button>
-    <button v-if="$store.state.user.type === 2" @click="deleteNotebook">삭제</button>
+    <button v-if="$store.state.user.type === 2 && updating === 0 && id" @click="updateNotebook">수정</button>
+    <button v-if="$store.state.user.type === 2 && id" @click="deleteNotebook">삭제</button>
+
+    <v-sheet
+      rounded="lg"
+      v-if="!id && !(creating || updating)"
+    >
+      등록된 알림장이 없습니다.
+    </v-sheet>
+
     <v-sheet
       min-height="100vh"
       rounded="lg"
-      v-if="!creating && !updating && notebookDetail"
+      v-if="!creating && !updating && notebookDetail && id"
     > 
       <p>{{notebookDetail}}</p>
       <p>작성 시간 : {{ notebookDetail.createDate }}</p>
@@ -95,18 +103,23 @@ export default {
   methods: {
 
     async getNotebookDetail() {
-      let accessToken = sessionStorage.getItem('access-token')
-      let refreshToken = sessionStorage.getItem('refresh-token')
-      let data = {
-        Id: this.id,
+      console.log('여기')
+      console.log(this.id)
+      if (this.id !== 0) {
+        let accessToken = sessionStorage.getItem('access-token')
+        let refreshToken = sessionStorage.getItem('refresh-token')
+        let data = {
+          Id: this.id,
+        }
+        let result = await notebookApi.getNotebookDetail(data, {
+          "access-token": accessToken,
+          "refresh-token": refreshToken,
+        });
+        this.notebookDetail = result
+        this.creating = 0
+        this.updating = 0
       }
-      let result = await notebookApi.getNotebookDetail(data, {
-        "access-token": accessToken,
-        "refresh-token": refreshToken,
-      });
-      this.notebookDetail = result
-      this.creating = 0
-      this.updating = 0
+      
     },
 
 

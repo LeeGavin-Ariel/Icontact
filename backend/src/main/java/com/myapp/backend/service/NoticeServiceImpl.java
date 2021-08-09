@@ -11,9 +11,7 @@ import com.myapp.backend.repository.MenuRepository;
 import com.myapp.backend.repository.NoticeRepository;
 import com.myapp.backend.repository.ScheduleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.util.List;
 
@@ -44,7 +42,7 @@ public class NoticeServiceImpl implements NoticeService {
 
     // 일반 공지글 등록
     @Override
-    public int noticeInsert(NoticeDto noticeDto, MultipartHttpServletRequest request) {
+    public int noticeInsert(NoticeDto noticeDto) {
         Notice notice = new Notice();
 
         notice.setTitle(noticeDto.getTitle());
@@ -52,7 +50,7 @@ public class NoticeServiceImpl implements NoticeService {
         notice.setUserId(noticeDto.getUserId());
         notice.setClassCode(noticeDto.getClassCode());
 
-        // 사진 업로드 로직 필요
+        notice.setNoticeImgUrl(noticeDto.getNoticeImgUrl());
 
         if(noticeRepository.save(notice) != null){
             return SUCCESS;
@@ -63,7 +61,7 @@ public class NoticeServiceImpl implements NoticeService {
 
     // 일정 등록
     @Override
-    public int scheduleInsert(NoticeDto noticeDto, MultipartHttpServletRequest request) {
+    public int scheduleInsert(NoticeDto noticeDto) {
 
         Schedule schedule = new Schedule();
 
@@ -71,8 +69,7 @@ public class NoticeServiceImpl implements NoticeService {
         schedule.setContent(noticeDto.getContent());
         schedule.setUserId(noticeDto.getUserId());
         schedule.setClassCode(noticeDto.getClassCode());
-
-        // 사진 업로드 로직 필요
+        schedule.setScheduleImgUrl(noticeDto.getScheduleImgUrl());
 
         if(scheduleRepository.save(schedule) != null){
             return SUCCESS;
@@ -82,17 +79,17 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public int menuInsert(NoticeDto noticeDto, MultipartHttpServletRequest request) {
-
+    public int menuInsert(NoticeDto noticeDto) {
         Menu menu = new Menu();
 
         menu.setAmSnack(noticeDto.getAmSnack());
+        menu.setAmSnackImgUrl(noticeDto.getAmSnackImgUrl());
         menu.setLunch(noticeDto.getLunch());
+        menu.setLunchImgUrl(noticeDto.getLunchImgUrl());
         menu.setPmSnack(noticeDto.getPmSnack());
+        menu.setPmSnackImgUrl(noticeDto.getPmSnackImgUrl());
         menu.setUserId(noticeDto.getUserId());
         menu.setClassCode(noticeDto.getClassCode());
-        
-        // 사진 업로드 로직 필요
 
         if(menuRepository.save(menu) != null){
             return SUCCESS;
@@ -102,13 +99,12 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public int noticeUpdate(NoticeDto noticeDto, MultipartHttpServletRequest request) {
+    public int noticeUpdate(NoticeDto noticeDto) {
         Notice notice = noticeRepository.findByNoticeId(noticeDto.getId());
         if(notice != null){
             notice.setTitle(noticeDto.getTitle());
             notice.setContent(noticeDto.getContent());
-
-            // 사진 첨부 수정에 관한 로직 필요
+            notice.setNoticeImgUrl(noticeDto.getNoticeImgUrl());
             
             if(noticeRepository.save(notice)!= null){
                 return SUCCESS;
@@ -118,13 +114,14 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public int scheduleUpdate(NoticeDto noticeDto, MultipartHttpServletRequest request) {
+    public int scheduleUpdate(NoticeDto noticeDto) {
         Schedule schedule = scheduleRepository.findByScheduleId(noticeDto.getId());
         if(schedule != null){
             schedule.setTitle(noticeDto.getTitle());
             schedule.setContent(noticeDto.getContent());
 
-            // 사진 첨부 수정에 관한 로직 필요
+            schedule.setScheduleImgUrl(noticeDto.getScheduleImgUrl());
+
 
             if(scheduleRepository.save(schedule) != null){
                 return SUCCESS;
@@ -134,14 +131,15 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public int menuUpdate(NoticeDto noticeDto, MultipartHttpServletRequest request) {
+    public int menuUpdate(NoticeDto noticeDto) {
         Menu menu = menuRepository.findByMenuId(noticeDto.getId());
         if(menu != null){
             menu.setAmSnack(noticeDto.getAmSnack());
+            menu.setAmSnackImgUrl(noticeDto.getAmSnackImgUrl());
             menu.setLunch(noticeDto.getLunch());
+            menu.setLunchImgUrl(noticeDto.getLunchImgUrl());
             menu.setPmSnack(noticeDto.getPmSnack());
-
-            // 사진 첨부 수정에 관한 로직 필요
+            menu.setPmSnackImgUrl(noticeDto.getPmSnackImgUrl());
 
             if(menuRepository.save(menu) != null){
                 return SUCCESS;
@@ -153,9 +151,6 @@ public class NoticeServiceImpl implements NoticeService {
     @Override
     public int noticeDelete(int id) {
         try{
-
-            // 사진 파일 삭제 로직 필요
-
             noticeRepository.deleteByNoticeId(id);
         } catch (Exception e){
             return FAIL;
@@ -167,9 +162,6 @@ public class NoticeServiceImpl implements NoticeService {
     @Override
     public int scheduleDelete(int id) {
         try{
-
-            // 사진 파일 삭제 로직 필요
-
             scheduleRepository.deleteByScheduleId(id);
         } catch (Exception e){
             return FAIL;
@@ -180,9 +172,6 @@ public class NoticeServiceImpl implements NoticeService {
     @Override
     public int menuDelete(int id) {
         try{
-
-            // 사진 파일 삭제 로직 필요
-
             menuRepository.deleteByMenuId(id);
         } catch (Exception e){
             return FAIL;

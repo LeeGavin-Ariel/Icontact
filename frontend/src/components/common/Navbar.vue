@@ -81,7 +81,7 @@ export default {
     logout() {
       if (confirm("정말 로그아웃하시겠습니까?")) {
         this.$store.dispatch('removeUser');
-        if (this.$route.path !== '/') this.$router.push('/');
+        if (this.$route.path !== 'Login') this.$router.push('Login');
       }
     },
     moveToMainPage() {

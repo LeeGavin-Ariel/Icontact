@@ -17,8 +17,6 @@
           v-model="content"
           style="border: solid 1px"
         />
-        <!-- <p>작성 일자 : </p>
-      <input type="number" v-model="createDate"> -->
         <p>공지사항첨부사진 :</p>
         <v-file-input
           id="noticeFile"
@@ -83,6 +81,7 @@ export default {
 
     // 공지 생성
     async createNewNotice() {
+      //입력안하면 반환
       if (this.title == "" || this.content == "") {
         alert("입력하세요");
         return;
@@ -91,14 +90,18 @@ export default {
       let accessToken = sessionStorage.getItem("access-token");
       let refreshToken = sessionStorage.getItem("refresh-token");
 
+      //이미지 업로드처리
       let noticeImgUrl = "";
       if (document.getElementById("noticeFile").files.length != 0) {
-        noticeImgUrl = await awss3.uploadPhoto("notice", "noticeFile");
+        // noticeImgUrl = await awss3.uploadPhoto("notice", "noticeFile").then(result=>noticeImgUrl=result);
+        await awss3
+          .uploadPhoto("notice", "noticeFile")
+          .then((result) => (noticeImgUrl = result[0]));
         console.log("파일있음");
-      }
+      } 
 
       let data = {
-        noticeImgUrl: noticeImgUrl[0],
+        noticeImgUrl: noticeImgUrl,
         noticeType: 1,
         userId: this.$store.state.user.userId,
         classCode: this.$store.state.user.classCode,

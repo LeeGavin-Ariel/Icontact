@@ -19,7 +19,9 @@
       <input type="number" v-model="createDate"> -->
       <br/><br/>
       <p>첨부사진 :</p>
+      <div v-if="scheduleInfo.scheduleImgUrl">
       <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/'+ scheduleInfo.scheduleImgUrl" alt="profile-image">
+      </div>
    </v-sheet>
   </div>
 </template>

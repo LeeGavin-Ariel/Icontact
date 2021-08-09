@@ -24,36 +24,43 @@
       </p>
 
       <p>오전 간식 사진 :</p>
-      <v-file-input
-        id="amSnackFile"
-        v-model="amSnackFile"
-        accept="image/*"
-        label="File input"
-      ></v-file-input>
 
+      <!-- <div v-if="menuInfo.amSnackImgUrl"> -->
+        <v-file-input
+          id="amSnackFile"
+          v-model="amSnackFile"
+          accept="image/*"
+          label="File input"
+        ></v-file-input>
+      <!-- </div> -->
       <p>
         점심 식사 :
         <input type="text" v-model="lunchName" style="border: solid 1px" />
       </p>
       <p>점심 식사 사진 :</p>
-      <v-file-input
-        id="lunchFile"
-        v-model="lunchFile"
-        accept="image/*"
-        label="File input"
-      ></v-file-input>
 
+      <!-- <div v-if="menuInfo.lunchImgUrl"> -->
+        <v-file-input
+          id="lunchFile"
+          v-model="lunchFile"
+          accept="image/*"
+          label="File input"
+        ></v-file-input>
+      <!-- </div> -->
       <p>
         오후 간식 :
         <input type="text" v-model="pmSnackName" style="border: solid 1px" />
       </p>
       <p>오후 간식 사진 :</p>
-      <v-file-input
-        id="pmSnackFile"
-        v-model="pmSnackFile"
-        accept="image/*"
-        label="File input"
-      ></v-file-input>
+<!-- 
+      <div v-if="menuInfo.pmSnackImgUrl"> -->
+        <v-file-input
+          id="pmSnackFile"
+          v-model="pmSnackFile"
+          accept="image/*"
+          label="File input"
+        ></v-file-input>
+      <!-- </div> -->
     </v-sheet>
   </div>
 </template>
@@ -163,7 +170,6 @@ export default {
       console.log(lunchImgUrl);
       console.log(pmSnackImgUrl);
 
-
       let data = {
         amSnackImgUrl: amSnackImgUrl,
         lunchImgUrl: lunchImgUrl,
@@ -187,7 +193,7 @@ export default {
       this.updating = 0;
 
       this.$emit("updateMenu");
-      alert("공지사항이 수정되었습니다.");
+      alert("식단이 수정되었습니다.");
     },
 
     async imgUpdate(photoKey, elId) {
@@ -217,7 +223,7 @@ export default {
         } else {
           console.log("첨부파일이없음");
           //첨부한 사진이 없으면 기존 사진 삭제? 놔두기? 일단 놔두기로
-          // awss3.deletePhoto([photoKey], "");
+          resultImgUrl = photoKey;
         }
       }
       console.log("resultImgUrl");

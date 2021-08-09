@@ -25,14 +25,16 @@
       <input type="textarea" v-model="content" style="border: solid 1px" />
 
       <p>공지사항첨부사진 :</p>
-      <img
-        :src="
-          'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
-          noticeInfo.noticeImgUrl
-        "
-        alt="profile-image"
-      />
-      <hr />
+      <div v-if="noticeInfo.noticeImgUrl">
+        <img
+          :src="
+            'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
+            noticeInfo.noticeImgUrl
+          "
+          alt="profile-image"
+        />
+        <hr />
+      </div>
       <v-file-input
         id="noticeFile"
         v-model="noticeImgUrl"
@@ -159,7 +161,7 @@ export default {
         } else {
           console.log("첨부파일이없음");
           //첨부한 사진이 없으면 기존 사진 삭제? 놔두기? 일단 놔두기로
-          // awss3.deletePhoto([photoKey], "");
+          noticeImgUrl = photoKey;
         }
       }
 

@@ -28,24 +28,12 @@
         >
         <div v-if="!kindergardenCode || kindergardenClasses.length === 0" style="text-align:left; color: red; font-size: 12px; margin-left: 19px">존재하지 않는 유치원 코드입니다.</div>
     
-
-        <v-select
-          v-model="classCode"
-          :items="kindergardenClasses"
-          label="반 선택"
-          dense
-        ></v-select>
-
-
-        <!-- 반 목록 선택 (드롭다운) -->
-        <!--  
-        <select name="classCode" id="classCode" v-model="classCode">
+        <select name="classCode" class="select-class-code" v-model="classCode">
           <option value="noValue">반 선택</option>
           <option v-for="[Class, idx] in kindergardenClasses" v-bind:key="idx" v-bind:value="idx">
             {{ Class }}
           </option>
         </select>
-        -->
         
 
         <!-- 회원가입 버튼 -->
@@ -58,6 +46,11 @@
           >
           회원가입
         </v-btn>
+        <button @click="$router.go(-1)"
+          class="backBtn"
+        >
+          뒤로 가기
+        </button>
       </div>
     </div>
   
@@ -98,10 +91,7 @@ export default {
         })
 
         //sendbird 유저에 추가 , 닉네임 잘 들어가는지 확인
-        const resultSendbird = await sendBird
-            .addUser(this.$store.state.sendUserId, this.$store.state.sendUserName + ' 선생님')        
-
-        this.$store.commit('SET_USER', resultSendbird);
+        await sendBird.addUser(this.$store.state.sendUserId, this.$store.state.sendUserName + ' 선생님')        
         await sendBird.login(this.$store.state.sendUserId);
 
         //같은반 유저 불러오기
@@ -129,12 +119,11 @@ export default {
               })(index);
           }
         });
-
-        alert("회원가입에 성공하여 로그인 페이지로 이동합니다 !!");
+        alert("회원가입에 성공하였습니다");
         this.$router.push({ name: 'Login' });
       }
       catch (e) {
-        alert('회원가입에 실패하였습니다.')
+        alert('회원가입에 실패하였습니다')
       }
     },
 
@@ -157,5 +146,59 @@ export default {
 </script>
 
 <style scoped>
-
+@font-face {
+  font-family: "TmoneyRoundWindExtraBold";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/TmoneyRoundWindExtraBold.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+button, h1 {
+  font-family: "TmoneyRoundWindExtraBold";
+}
+#bg {
+  background-color: #a8b1cf;
+  width: 100%;
+  height: 100vw;
+}
+h1 {
+  font-weight: 900;
+  letter-spacing: 2px;
+  font-size:48px;
+  color: #58679A;
+}
+.logo {
+  width:60px;
+  fill:white;
+  padding-right:10px;
+  display:inline-block;
+  vertical-align: middle;
+}
+.formInput {
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 1px 1px 1px 1px #58679a;
+  border-radius: 70px;
+  height: 36px;
+  width: 300px;
+  padding: 0px 0px 0px 15px;
+  margin: 3px 3px 3px 3px;
+}
+.backBtn{
+  border-radius: 4%;
+  width: 150px;
+  margin: 15px 3px 3px 3px;
+  padding: 0px 7px 0px 3px;
+  font-size: small;
+  letter-spacing: -1px;
+  color: #404c74;
+}
+.select-class-code {
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 1px 1px 1px 1px #58679A;
+  border-radius: 70px; 
+  height: 36px; 
+  width: 300px; 
+  padding:0px 0px 0px 15px;
+  margin: 3px 3px 6px 3px;
+}
 </style>

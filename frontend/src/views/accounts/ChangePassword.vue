@@ -127,5 +127,60 @@ export default {
 </script>
 
 <style scoped>
-
+@font-face {
+  font-family: "TmoneyRoundWindExtraBold";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/TmoneyRoundWindExtraBold.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+button, h1 {
+  font-family: "TmoneyRoundWindExtraBold";
+}
+#bg {
+  background-color: #a8b1cf;
+  width: 100%;
+  height: 100vw;
+}
+h1 {
+  font-weight: 900;
+  letter-spacing: 2px;
+  font-size:48px;
+  color: #58679A;
+  text-shadow:2px 2px 2px rgba(255, 255, 255, 0.7);
+}
+.logo {
+  width:60px;
+  fill:white;
+  padding-right:10px;
+  display:inline-block;
+  vertical-align: middle;
+}
+.formInput {
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 1px 1px 1px 1px #58679a;
+  border-radius: 70px;
+  height: 36px;
+  width: 300px;
+  padding: 0px 0px 0px 15px;
+  margin: 3px 3px 3px 3px;
+}
+.backBtn{
+  border-radius: 4%;
+  width: 150px;
+  margin: 15px 3px 3px 3px;
+  padding: 0px 7px 0px 3px;
+  font-size: small;
+  letter-spacing: -2px;
+  color: #404c74;
+}
+.select-class-code {
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 1px 1px 1px 1px #58679A;
+  border-radius: 70px; 
+  height: 36px; 
+  width: 300px; 
+  padding:0px 0px 0px 15px;
+  margin: 3px 3px 6px 3px;
+}
 </style>

@@ -58,7 +58,7 @@
               class="links__link"
               @click="$router.push({ name: 'Notebook' })"
             >
-              <img class="links__icon" src="@/assets/Notebook.png" alt="" />
+              <img class="links__icon" src="@/assets/flaticon/toys.png" alt="" />
               <span class="links__text">알림장</span>
             </button>
           </li>
@@ -67,7 +67,7 @@
               class="links__link"
               @click="$router.push({ name: 'Attendance' })"
             >
-              <img class="links__icon" src="@/assets/Attendance.png" alt="" />
+              <img class="links__icon" src="@/assets/flaticon/toys.png" alt="" />
               <span class="links__text">출석</span>
             </button>
           </li>

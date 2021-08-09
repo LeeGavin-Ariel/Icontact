@@ -129,7 +129,7 @@ export default {
           
           // let state = this.kid[i] ? 0 : 1
 
-
+          // 백엔드 처리 가능한 지에 따라 다르다...
           events.push({
             name: this.attendance[i].attend ? this.names[0] : this.names[1],
             start: this.attendance[i].date,

@@ -1,11 +1,8 @@
 <template>
   <v-app id="app">
     <Navbar
-    v-if="$store.state.user"
-    />
-    <!-- <Navbar
     v-if="$store.state.isLoggedIn"
-    /> -->
+    />
     <router-view/>
   </v-app>
 </template>
@@ -76,7 +73,6 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
   #app {
     height: 100vh;

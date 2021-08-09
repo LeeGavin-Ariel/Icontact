@@ -5,20 +5,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.util.Date;
-
+import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class NoteBookListDto {
+public class NoteBookListResultDto {
+    int pageCnt;
+    List<NoteBookListDto> result;
 
-    int noteId;
-    String title;
-    String writerId;
-    String writerName;
-    String targetId;
-    String targetName;
-    Date createDate;
-    int totalNum;
 }

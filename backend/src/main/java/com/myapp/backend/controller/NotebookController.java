@@ -3,9 +3,11 @@ package com.myapp.backend.controller;
 import com.myapp.backend.domain.dto.notebook.NoteBookCreateDto;
 import com.myapp.backend.domain.dto.notebook.NoteBookDetailDto;
 import com.myapp.backend.domain.dto.notebook.NoteBookListDto;
+import com.myapp.backend.domain.dto.notebook.NoteBookListResultDto;
 import com.myapp.backend.domain.entity.User;
 import com.myapp.backend.service.NotebookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,8 +25,8 @@ public class NotebookController {
 
     //신규 알림장 작성
     @PostMapping
-    public ResponseEntity createNotebook(@RequestParam(required = false) MultipartFile img, @ModelAttribute NoteBookCreateDto noteBookDto){
-        return notebookService.createNotebook(img, noteBookDto);
+    public ResponseEntity createNotebook(@RequestBody NoteBookCreateDto noteBookDto){
+        return notebookService.createNotebook(noteBookDto);
 
     }
 
@@ -38,6 +40,13 @@ public class NotebookController {
     @GetMapping("/teacher")
     public ResponseEntity<List<NoteBookListDto>> getTeacherNotebook(@RequestParam int pageNum, @RequestParam String userId){
         return notebookService.getListNotebook(pageNum, userId,2);
+    }
+
+    //이름으로 검색
+    @GetMapping("/search")
+    public ResponseEntity<NoteBookListResultDto> searchNotebook(@RequestParam int pageNum, @RequestParam String userId, @RequestParam String searchParam){
+        NoteBookListResultDto result = notebookService.searchNotebook(pageNum, userId, searchParam);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     //선생님 ID로 같은반 학부모들 조회
@@ -54,9 +63,9 @@ public class NotebookController {
 
     //글 ID로 수정
     @PostMapping("/{noteId}")
-    public ResponseEntity updateNotebook(@RequestParam(required = false) MultipartFile img, @PathVariable int noteId, @ModelAttribute NoteBookCreateDto noteBookDto){
+    public ResponseEntity updateNotebook(@PathVariable int noteId, @RequestBody NoteBookCreateDto noteBookDto){
         noteBookDto.setNoteId(noteId);
-        return notebookService.updateNotebook(img, noteBookDto);
+        return notebookService.updateNotebook(noteBookDto);
     }
 
     //글 ID로 삭제

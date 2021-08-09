@@ -1,8 +1,7 @@
 package com.myapp.backend.service;
 
-import com.myapp.backend.domain.dto.notebook.NoteBookCreateDto;
-import com.myapp.backend.domain.dto.notebook.NoteBookDetailDto;
-import com.myapp.backend.domain.dto.notebook.NoteBookListDto;
+import com.myapp.backend.dao.NotebookDao;
+import com.myapp.backend.domain.dto.notebook.*;
 import com.myapp.backend.domain.entity.Notebook;
 import com.myapp.backend.domain.entity.User;
 import com.myapp.backend.repository.NotebookRepository;
@@ -35,9 +34,12 @@ public class NotebookServiceImpl implements NotebookService{
     @Autowired
     NotebookRepository notebookRepository;
 
+    @Autowired
+    NotebookDao notebookDao;
+
     @Override
     @Transactional
-    public ResponseEntity createNotebook(MultipartFile img, NoteBookCreateDto noteBookDto){
+    public ResponseEntity createNotebook(NoteBookCreateDto noteBookDto){
         try {
             //DB 저장
             Notebook notebook = new Notebook();
@@ -45,31 +47,9 @@ public class NotebookServiceImpl implements NotebookService{
             notebook.setContent(noteBookDto.getContent());
             notebook.setWriterId(noteBookDto.getWriterId());
             notebook.setTargetId(noteBookDto.getTargetId());
+            notebook.setNoteImgUrl(noteBookDto.getImg());
 
             notebookRepository.save(notebook);
-            if(img!=null) {
-                //이미지 존재시 저장
-
-                String folderPath="../frontend/src/assets/nootbook/";
-                //경로 재고민 필요
-                Path dir = Paths.get(folderPath).toAbsolutePath().normalize();
-
-                Files.createDirectories(dir);
-
-                //noteId를 이미지 이름으로 사용한다
-                String fileName = StringUtils.cleanPath(
-                        notebook.getNoteId()+img.getOriginalFilename().substring( img.getOriginalFilename().lastIndexOf(".") )
-                );
-                Assert.state(!fileName.contains(".."), "Name of file cannot contain '..'");
-
-                Path targetPath = dir.resolve(fileName).normalize();
-
-                img.transferTo(targetPath);
-
-                notebook.setNoteImgUrl(folderPath+fileName);
-
-                notebookRepository.save(notebook);
-            }
 
             return new ResponseEntity(HttpStatus.OK);
 
@@ -130,6 +110,35 @@ public class NotebookServiceImpl implements NotebookService{
     }
 
     @Override
+    public NoteBookListResultDto searchNotebook(int pageNum, String userId, String searchParam) {
+
+        int type = userRepositoryJPA.findByUserId(userId).getType();
+        int pageCnt=4;
+
+        NoteBookParamDto notebookParamDto = new NoteBookParamDto(userId,searchParam, type, pageCnt*pageNum,4);
+
+        NoteBookListResultDto result =new NoteBookListResultDto();
+
+
+        List<NoteBookListDto>searchResult = notebookDao.searchNotebook(notebookParamDto);
+        int totalNum=0;
+
+        for (NoteBookListDto n : searchResult){
+            String writerName = userRepositoryJPA.findByUserId(n.getWriterId()).getUserName();
+            String targetName = userRepositoryJPA.findByUserId(n.getTargetId()).getUserName();
+            n.setWriterName(writerName);
+            n.setTargetName(targetName);
+            totalNum=n.getTotalNum();
+        }
+        result.setPageCnt((int) Math.ceil((double)totalNum/pageCnt));
+        result.setResult(searchResult);
+
+        return result;
+    }
+
+
+
+    @Override
     public ResponseEntity<NoteBookDetailDto> getDetailNotebook(int noteId){
 
         try {
@@ -164,40 +173,14 @@ public class NotebookServiceImpl implements NotebookService{
 
     @Override
     @Transactional
-    public ResponseEntity updateNotebook(MultipartFile img, NoteBookCreateDto noteBookDto){
+    public ResponseEntity updateNotebook(NoteBookCreateDto noteBookDto){
         try {
             Notebook notebook = notebookRepository.getById(noteBookDto.getNoteId());
+            System.out.println(noteBookDto);
             notebook.setTitle(noteBookDto.getTitle());
             notebook.setContent(noteBookDto.getContent());
             notebook.setTargetId(noteBookDto.getTargetId());
-
-            //기존 이미지 삭제
-            String imgPath = notebook.getNoteImgUrl();
-            if(!"".equals(imgPath)){
-                File file = new File(imgPath);
-                file.delete();
-                notebook.setNoteImgUrl("");
-            }
-            
-            if(img!=null) {
-                String folderPath="../frontend/src/assets/nootbook/";
-                //이미지 새로 저장
-                Path dir = Paths.get(folderPath).toAbsolutePath().normalize();
-
-                Files.createDirectories(dir);
-
-                String fileName = StringUtils.cleanPath(
-                        notebook.getNoteId()+img.getOriginalFilename().substring( img.getOriginalFilename().lastIndexOf(".") )
-                );
-
-                Assert.state(!fileName.contains(".."), "Name of file cannot contain '..'");
-
-                Path targetPath = dir.resolve(fileName).normalize();
-
-                img.transferTo(targetPath);
-
-                notebook.setNoteImgUrl(folderPath+fileName);
-            }
+            notebook.setNoteImgUrl(noteBookDto.getImg());
 
             notebookRepository.save(notebook);
 

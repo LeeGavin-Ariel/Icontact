@@ -16,6 +16,8 @@ import Attendance from '@/views/funcs/Attendance'
 import Notice from '@/views/funcs/Notice'
 import Request from '@/views/funcs/Request'
 import ruru from '@/views/funcs/ruru'
+import NotFound from '@/views/errorpage/NotFound'
+import ServerError from '@/views/errorpage/ServerError'
 
 
 Vue.use(VueRouter)
@@ -113,7 +115,25 @@ const routes = [
     path: '/ruru',
     name: 'ruru',
     component: ruru
-  },  
+  },
+  {
+    // 존재하지 않는 경로를 page not found 페이지로 이동
+    path: '*',
+    redirect: "/notfound"
+  },
+  // 404 Error Page
+  {
+    path: '/notfound',
+    name: 'NotFound',
+    component: NotFound
+  },
+  // 500 Error Page
+  {
+    path: '/servererror',
+    name: 'ServerError',
+    component: ServerError
+  },
+
 ]
 
 const router = new VueRouter({

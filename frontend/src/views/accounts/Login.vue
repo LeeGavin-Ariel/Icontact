@@ -184,15 +184,13 @@ export default {
 </script>
 
 <style scoped>
-@font-face {
-  font-family: "TmoneyRoundWindExtraBold";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/TmoneyRoundWindExtraBold.woff")
-    format("woff");
-  font-weight: normal;
-  font-style: normal;
+* {
+  font-family: 'NanumSquareRound';
+}
+h1, button { 
+  font-family: 'EliceDigitalBaeum_Bold';
 }
 button{
-  font-family: "TmoneyRoundWindExtraBold";  
   font-size: 0.8em;
   letter-spacing: -1px;
   color: #404c74;
@@ -208,7 +206,6 @@ h1 {
   color: #58679A;
 }
 p {
-  font-family:'Noto Sans KR', sans-serif;
   font-weight: 100;
   letter-spacing: 1px;
   font-size:14px;

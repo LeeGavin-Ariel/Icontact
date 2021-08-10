@@ -11,7 +11,7 @@
       <v-spacer></v-spacer>
 
       <!-- 호칭 -->
-      <p v-if="type == 2" style="margin-bottom:0px; margin-right: 0.8em">{{ className }} {{ userName }} 선생님</p>
+      <p v-if="type == 2" style="margin-bottom:0px; margin-right: 1em">{{ className }} {{ userName }} 선생님</p>
       <p v-if="type == 1">{{ className }} {{ userName }} 보호자님</p>
       
       <!-- 프로필 사진 : 드롭 다운 -->
@@ -24,7 +24,7 @@
             icon
             v-bind="attrs"
             v-on="on"
-          style="margin-right: 0.8em">
+          style="margin-right: 1.1em">
             <v-avatar size="40" class="scale">
               <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + $store.state.user.profileImg" >
             </v-avatar>
@@ -44,10 +44,8 @@
       </v-menu>
 
       <!-- 지도 아이콘 -->
-      <button>  
-        <v-avatar size="40" class="scale">
-          <img src="@/assets/flaticon/map.png">
-        </v-avatar>
+      <button class="scale">  
+          <img src="@/assets/flaticon/bus.png" style="height:3.2rem">
       </button>
 
     </nav>
@@ -102,10 +100,10 @@ export default {
 
 <style scoped>
 .navbar {
-  padding-left: 0.8em;
-  padding-right: 0.8em;
-  padding-top: 0.5em;
-  padding-bottom: 0.5em;
+  padding-left: 1em;
+  padding-right: 1em;
+  padding-top: 0.3em;
+  padding-bottom: 0.3em;
 }
 .scale {
   transform: scale(1);

@@ -184,15 +184,11 @@ export default {
 </script>
 
 <style scoped>
-@font-face {
-  font-family: "TmoneyRoundWindExtraBold";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/TmoneyRoundWindExtraBold.woff")
-    format("woff");
-  font-weight: normal;
-  font-style: normal;
+* {
+  font-family: 'NanumSquareRound';
 }
-button, h1 {
-  font-family: "TmoneyRoundWindExtraBold";
+h1, button { 
+  font-family: 'EliceDigitalBaeum_Bold';
 }
 #bg {
   background-color: #a8b1cf;
@@ -226,8 +222,8 @@ h1 {
   width: 150px;
   margin: 15px 3px 3px 3px;
   padding: 0px 7px 0px 3px;
-  font-size: small;
-  letter-spacing: -2px;
+  font-size: 0.8em;
+  letter-spacing: -1px;
   color: #404c74;
 }
 .select-class-code {
@@ -243,5 +239,11 @@ h1 {
   display: flex;
   flex-direction: row;
   width: 100%;
+}
+.flex { /*Flexbox for containers*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 </style>

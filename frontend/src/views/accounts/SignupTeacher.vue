@@ -1,14 +1,19 @@
 <template>
   <div id="bg">
+    <div style="position: absolute; top:24%; left: 50%; transform: translate(-50%, -50%); text-align:center;">
+      <img src="@/assets/flaticon/toys.png" class="logo" alt="" />
+      <h1>회원가입</h1>
+
+    </div>    
     <div class="inner-header flex flex-column">
       <!-- 로고 -->
-      <div>
+      <!-- <div>
         <br>
         <br>
         <img src="@/assets/flaticon/toys.png" class="logo" alt="">
         <h1>회원가입</h1>
         <br>
-      </div>
+      </div> -->
     
       <!-- 학부모 회원가입 폼 -->
       <div style="width: 300px;" >
@@ -28,7 +33,7 @@
         >
         <div v-if="!kindergardenCode || kindergardenClasses.length === 0" style="text-align:left; color: red; font-size: 12px; margin-left: 19px">존재하지 않는 유치원 코드입니다.</div>
     
-        <select name="classCode" class="select-class-code" v-model="classCode">
+        <select name="classCode" class="select-class-code" v-model="classCode" v-if="kindergardenCode && kindergardenClasses.length !== 0">
           <option value="noValue">반 선택</option>
           <option v-for="[Class, idx] in kindergardenClasses" v-bind:key="idx" v-bind:value="idx">
             {{ Class }}
@@ -146,15 +151,11 @@ export default {
 </script>
 
 <style scoped>
-@font-face {
-  font-family: "TmoneyRoundWindExtraBold";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/TmoneyRoundWindExtraBold.woff")
-    format("woff");
-  font-weight: normal;
-  font-style: normal;
+* {
+  font-family: 'NanumSquareRound';
 }
-button, h1 {
-  font-family: "TmoneyRoundWindExtraBold";
+h1, button { 
+  font-family: 'EliceDigitalBaeum_Bold';
 }
 #bg {
   background-color: #a8b1cf;
@@ -188,7 +189,7 @@ h1 {
   width: 150px;
   margin: 15px 3px 3px 3px;
   padding: 0px 7px 0px 3px;
-  font-size: small;
+  font-size: 0.8em;
   letter-spacing: -1px;
   color: #404c74;
 }
@@ -200,5 +201,11 @@ h1 {
   width: 300px; 
   padding:0px 0px 0px 15px;
   margin: 3px 3px 6px 3px;
+}
+.flex { /*Flexbox for containers*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 </style>

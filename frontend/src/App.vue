@@ -65,8 +65,19 @@ export default {
 </script>
 
 <style>
-  #app {
-    height: 100vh;
-    width: 100vw;
-  }
+#app {
+  height: 100vh;
+  width: 100vw;
+}
+@font-face {
+  font-family: 'EliceDigitalBaeum_Bold';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/EliceDigitalBaeum_Bold.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'NanumSquareRound';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NanumSquareRound.woff') format('woff');
+  font-weight: normal; 
+}
 </style>

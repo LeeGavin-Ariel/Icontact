@@ -1,14 +1,13 @@
 <template >
   <div id="bg">
-    <div class="inner-header flex flex-column">
+    <div style="position: absolute; top:24%; left: 50%; transform: translate(-50%, -50%); text-align:center;">
+      <img src="@/assets/flaticon/toys.png" class="logo" alt="" />
+      <h1>회원가입</h1>
+
+    </div>
       <!-- 로고 -->
-      <div>
-        <br />
-        <br />
-        <img src="@/assets/flaticon/toys.png" class="logo" alt="" />
-        <h1>회원가입</h1>
-        <br />
-      </div>
+    <div style="position: absolute; top:60%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
+      
 
       <!-- 회원가입 폼 -->
       <div style="width: 300px">
@@ -178,7 +177,9 @@
         뒤로 가기
       </button>
 
+
     </div>
+    
   </div>
 </template>
 
@@ -303,16 +304,12 @@ export default {
 </script>
 
 <style scoped>
-@font-face {
-  font-family: "TmoneyRoundWindExtraBold";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-07@1.0/TmoneyRoundWindExtraBold.woff")
-    format("woff");
-  font-weight: normal;
-  font-style: normal;
+* {
+  font-family: 'NanumSquareRound';
+  font-size: 0.95em;
 }
-button{
-  font-size: 0.8em;
-  font-family: "TmoneyRoundWindExtraBold";    
+h1, button { 
+  font-family: 'EliceDigitalBaeum_Bold';
 }
 #bg {
   background-color: #a8b1cf;
@@ -320,7 +317,6 @@ button{
   height: 100%;
 }
 h1 {
-  font-family: "TmoneyRoundWindExtraBold";  
   font-weight: 900;
   letter-spacing: 2px;
   font-size:48px;
@@ -342,6 +338,9 @@ h1 {
   padding: 0px 0px 0px 15px;
   margin: 3px 3px 3px 3px;
 }
+.formInput:hover {
+  background-color: rgba(170, 178, 204, 0.8)
+}
 .backBtn{
   border-radius: 4%;
   width: 150px;
@@ -349,6 +348,7 @@ h1 {
   padding: 0px 7px 0px 3px;
   letter-spacing: -1px;
   color: #404c74;
+  font-size: 0.8em;
 }
 .signupTypeBtn {
   border: 2px #58679A;
@@ -358,10 +358,9 @@ h1 {
   width: 150px; 
   margin: 30px 3px 3px 3px;
   padding: 0px 7px 0px 3px;  
-  letter-spacing: -2px;
-  font-family: "TmoneyRoundWindExtraBold";
+  letter-spacing: -1.2px;
   color: #404c74;
-
+  font-size: 0.8em;
 }
 .signupTypeBtn:hover {
   transition: 0.3s;
@@ -372,5 +371,10 @@ h1 {
   flex-direction: row;
   width: 100%;
 }
-
+.flex { /*Flexbox for containers*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
 </style>

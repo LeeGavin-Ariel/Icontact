@@ -12,6 +12,7 @@ import java.util.Date;
 public class ReturnhomeResultDto {
     private String userId;
     private String kidName;
+    private String profileImg;
     private int rhId;
     private String rhDate;
     private String rhTime;

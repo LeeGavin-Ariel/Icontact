@@ -1,14 +1,19 @@
 <template>
   <div id="bg">
+    <div style="position: absolute; top:24%; left: 50%; transform: translate(-50%, -50%); text-align:center;">
+      <img src="@/assets/flaticon/toys.png" class="logo" alt="" />
+      <h1>회원가입</h1>
+
+    </div>    
     <div class="inner-header flex flex-column">
       <!-- 로고 -->
-      <div>
+      <!-- <div>
         <br>
         <br>
         <img src="@/assets/flaticon/toys.png" class="logo" alt="">
         <h1>회원가입</h1>
         <br>
-      </div>
+      </div> -->
     
       <!-- 학부모 회원가입 폼 -->
       <div style="width: 300px;" >
@@ -28,23 +33,15 @@
         >
         <div v-if="!kindergardenCode || kindergardenClasses.length === 0" style="text-align:left; color: red; font-size: 12px; margin-left: 19px">존재하지 않는 유치원 코드입니다.</div>
     
-
-        <v-select
-          v-model="classCode"
-          :items="kindergardenClasses"
-          label="반 선택"
-          dense
-        ></v-select>
-
-
         <!-- 반 목록 선택 (드롭다운) -->
-        <!-- <select name="classCode" id="classCode" v-model="classCode">
+
+        <select name="classCode" class="select-class-code" v-model="classCode" v-if="kindergardenCode && kindergardenClasses.length !== 0">
           <option value="noValue">반 선택</option>
           <option v-for="[Class, idx] in kindergardenClasses" v-bind:key="idx" v-bind:value="idx">
             {{ Class }}
           </option>
-        </select> -->
-       
+        </select>
+
         
 
         <!-- 회원가입 버튼 -->
@@ -57,6 +54,11 @@
           >
           회원가입
         </v-btn>
+        <button @click="$router.go(-1)"
+          class="backBtn"
+        >
+          뒤로 가기
+        </button>
       </div>
     </div>
   
@@ -127,12 +129,11 @@ export default {
               })(index);
           }
         });
-
-        alert("회원가입에 성공하여 로그인 페이지로 이동합니다 !!");
+        alert("회원가입에 성공하였습니다");
         this.$router.push({ name: 'Login' });
       }
       catch (e) {
-        alert('회원가입에 실패하였습니다.')
+        alert('회원가입에 실패하였습니다')
       }
     },
 
@@ -155,5 +156,61 @@ export default {
 </script>
 
 <style scoped>
-
+* {
+  font-family: 'NanumSquareRound';
+}
+h1, button { 
+  font-family: 'EliceDigitalBaeum_Bold';
+}
+#bg {
+  background-color: #a8b1cf;
+  width: 100%;
+  height: 100%;
+}
+h1 {
+  font-weight: 900;
+  letter-spacing: 2px;
+  font-size:48px;
+  color: #58679A;
+}
+.logo {
+  width:60px;
+  fill:white;
+  padding-right:10px;
+  display:inline-block;
+  vertical-align: middle;
+}
+.formInput {
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 1px 1px 1px 1px #58679a;
+  border-radius: 70px;
+  height: 36px;
+  width: 300px;
+  padding: 0px 0px 0px 15px;
+  margin: 3px 3px 3px 3px;
+}
+.backBtn{
+  border-radius: 4%;
+  width: 150px;
+  margin: 15px 3px 3px 3px;
+  padding: 0px 7px 0px 3px;
+  font-size: 0.8em;
+  letter-spacing: -1px;
+  color: #404c74;
+}
+.select-class-code {
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 1px 1px 1px 1px #58679A;
+  border-radius: 70px; 
+  height: 36px; 
+  width: 300px; 
+  padding:0px 0px 0px 15px;
+  margin: 3px 3px 6px 3px;
+}
+.flex { /*Flexbox for containers*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
 </style>

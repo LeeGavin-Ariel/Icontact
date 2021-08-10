@@ -1,6 +1,6 @@
 <template>
   
-  <div style="background-color: #A8B1CF">
+  <div id="bg">
 
     <!--Content before waves-->
     <div class="inner-header flex flex-column">
@@ -49,7 +49,7 @@
           rounded 
           style="background-color: #58679A; color: white;"
           @click="login"
-          :disabled="!userId || !password || error.password || error.userid"
+          :disabled="!userId || !password || error.password !== false || error.userid !== false"
           >
             로그인
           </v-btn>    
@@ -137,13 +137,13 @@ export default {
       // Ryuhyunsun === ryuhyunsun
       if (this.userId != this.userId.toLowerCase() || this.userId.length < 8){
         this.error.userid = "아이디를 확인해주세요";
-      }else {
-        this.error.userid = false
+      } else {
+        this.error.userid = false;
       }
       if (!this.passwordSchema.validate(this.password) || this.password.length < 8){
         this.error.password = "비밀번호를 확인해주세요";
-      }else {
-        this.error.password = false
+      } else {
+        this.error.password = false;
       }
     },
     // 로그인
@@ -153,7 +153,6 @@ export default {
       
       try {
         const result = await authApi.login(credentials);
-        console.log('ok')
         if (result.accept === 2) {
           await this.$store.dispatch('setUser', {
             userId: result.userId,
@@ -176,11 +175,8 @@ export default {
           alert('승인되지 않은 계정입니다. 관리자에게 문의하세요.')
         }
       }catch (err){
-        if(err.response){
-          alert("아이디와 비밀번호를 확인하세요.");
-        }else{
-          alert('잘못된 접근입니다.');
-        }
+        console.log(err)
+        alert("아이디와 비밀번호를 확인하세요.");
       }
     },
   },
@@ -188,55 +184,49 @@ export default {
 </script>
 
 <style scoped>
-
-body{
-  background-color: #dee9ff;
+* {
+  font-family: 'NanumSquareRound';
 }
-
-.registration-form{
-padding: 50px 0;
+h1, button { 
+  font-family: 'EliceDigitalBaeum_Bold';
 }
-
-.registration-form form{
-  background-color: #fff;
-  max-width: 600px;
-  margin: auto;
-  padding: 50px 70px;
-  border-top-left-radius: 30px;
-  border-top-right-radius: 30px;
-  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.075);
+button{
+  font-size: 0.8em;
+  letter-spacing: -1px;
+  color: #404c74;
 }
-
-.registration-form .form-icon{
-text-align: center;
-  background-color: #FFF176;
-  border-radius: 50%;
-  font-size: 40px;
-  color: white;
-  width: 100px;
-  height: 100px;
-  margin: auto;
-  margin-bottom: 50px;
-  line-height: 100px;
+#bg {
+  background-color: #a8b1cf;
 }
-
-.registration-form .item{
-border-radius: 20px;
-  margin-bottom: 25px;
-  padding: 10px 20px;
+h1 {
+  font-family: "TmoneyRoundWindExtraBold";  
+  font-weight: 900;
+  letter-spacing: 2px;
+  font-size:48px;
+  color: #58679A;
 }
-
-.registration-form .create-account{
-  border-radius: 30px;
-  padding: 10px 20px;
-  font-size: 18px;
-  font-weight: bold;
-  background-color: #FFF176;
-  border: none;
-  color: white;
-  margin-top: 20px;
+p {
+  font-weight: 100;
+  letter-spacing: 1px;
+  font-size:14px;
+  color: #58679A;
 }
-
+.logo {
+  width:60px;
+  fill:white;
+  padding-right:10px;
+  display:inline-block;
+  vertical-align: middle;
+}
+.formInput {
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 1px 1px 1px 1px #58679a;
+  border-radius: 70px;
+  height: 36px;
+  width: 300px;
+  padding: 0px 0px 0px 15px;
+  margin: 3px 3px 3px 3px;
+}
 @media (max-width: 576px) {
   .registration-form form{
       padding: 50px 20px;
@@ -249,59 +239,6 @@ border-radius: 20px;
       line-height: 70px;
   }
 }
-.main_container {
-width:100%;
-height:100%;
-}
-.main_left_btn {
-width:60%;
-height:100%;
-background-color:rgb(250, 215, 73);
-float:left;
-}
-.main_right_btn {
-width:40%;
-height:100%;
-float:right;
-}
-
-
-
-
-
-
-
-body {
-  margin:0;
-  width: 60vw;
-}
-
-h1 {
-  font-family:'Noto Sans KR', sans-serif;
-  font-weight: 900;
-  letter-spacing: 2px;
-  font-size:48px;
-  color: #58679A;
-  text-shadow:2px 2px 2px rgba(255, 255, 255, 0.7);
-}
-p {
-  font-family:'Noto Sans KR', sans-serif;
-  font-weight: 100;
-  letter-spacing: 1px;
-  font-size:14px;
-  color: #58679A;
-  
-
-}
-
-.logo {
-  width:60px;
-  fill:white;
-  padding-right:10px;
-  display:inline-block;
-  vertical-align: middle;
-}
-
 .inner-header {
   height:85%;
   width:100%;
@@ -327,7 +264,6 @@ p {
 
 .content {
   position:relative;
-  height:20vh;
   text-align:center;
   background-color: white;
 }

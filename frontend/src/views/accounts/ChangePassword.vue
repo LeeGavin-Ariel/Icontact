@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="bg">
     <div class="inner-header flex flex-column">
       <!-- 로고 -->
       <div>
@@ -11,7 +11,7 @@
       </div>
     
     
-      <div style="width: 300px;" >
+      <div style="width: 300px;">
 
         <!-- 새 비밀번호 입력 -->
         <input
@@ -45,6 +45,11 @@
           >
           변경하기
         </v-btn>
+        <button @click="$router.go(-1)"
+          class="backBtn"
+        >
+          뒤로 가기
+        </button>        
       </div>
     </div>
   </div>
@@ -127,5 +132,52 @@ export default {
 </script>
 
 <style scoped>
-
+* {
+  font-family: 'NanumSquareRound';
+}
+h1, button { 
+  font-family: 'EliceDigitalBaeum_Bold';
+}
+#bg {
+  background-color: #a8b1cf;
+  width: 100%;
+  height: 100%;
+}
+h1 {
+  font-weight: 900;
+  letter-spacing: 2px;
+  font-size:48px;
+  color: #58679A;
+}
+.logo {
+  width:60px;
+  fill:white;
+  padding-right:10px;
+  display:inline-block;
+  vertical-align: middle;
+}
+.formInput {
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 1px 1px 1px 1px #58679a;
+  border-radius: 70px;
+  height: 36px;
+  width: 300px;
+  padding: 0px 0px 0px 15px;
+  margin: 3px 3px 3px 3px;
+}
+.backBtn{
+  border-radius: 4%;
+  width: 150px;
+  margin: 15px 3px 3px 3px;
+  padding: 0px 7px 0px 3px;
+  font-size: 0.8em;
+  letter-spacing: -1px;
+  color: #404c74;
+}
+.flex { /*Flexbox for containers*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
 </style>

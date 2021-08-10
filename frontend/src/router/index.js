@@ -15,7 +15,6 @@ import Album from '@/views/funcs/Album'
 import Attendance from '@/views/funcs/Attendance'
 import Notice from '@/views/funcs/Notice'
 import Request from '@/views/funcs/Request'
-import ruru from '@/views/funcs/ruru'
 import NotFound from '@/views/errorpage/NotFound'
 import ServerError from '@/views/errorpage/ServerError'
 
@@ -112,11 +111,6 @@ const routes = [
     component: Request
   },
   {
-    path: '/ruru',
-    name: 'ruru',
-    component: ruru
-  },
-  {
     // 존재하지 않는 경로를 page not found 페이지로 이동
     path: '*',
     redirect: "/notfound"
@@ -156,18 +150,23 @@ router.beforeEach((to, from, next) => {
     'Attendence',
     'Notice',
     'Request',
+    // 'MyPageMaster'
   ]
   //1-2. 로그아웃이 필요한 컴포넌트(로그인 상태가 아닌 경우에 방문해야 하는 컴포넌트)
-  // const publicPages = [
-  //   'Login', 
-  //   'Signup',
-  // ]
+  const publicPages = [
+    'Login', 
+    'Signup',
+    'SignupTeacher',
+    'SignupParent',
+    'ChangePasswordAuth',
+    'ChangePassword',
+  ]
 
   //2. 
   // 가려고 하는 곳(to)이 로그인이 필요한 곳인지 여부를 체크
   const authRequired = authPages.includes(to.name)
   // 가려고 하는 곳이 로그인이 필요하지 않은 곳은지 여부를 체크
-  // const authNotRequired = publicPages.includes(to.name)
+  const authNotRequired = publicPages.includes(to.name)
   // 로그인이 되어있는지 여부를 체크하자 -> true / false
   const isLoggedIn = sessionStorage.getItem('access-token') ? true : false
 
@@ -179,10 +178,10 @@ router.beforeEach((to, from, next) => {
     next({ name: 'Login' })
   //3-2. 만약 로그인이 필요하지 않은 컴포넌트인데 로그인이 되어있는 상태에서 강제로 가려고 하면?
   } 
-  // else if (authNotRequired && isLoggedIn) {
-  //   next({ name: 'MovieList' })
+  else if (authNotRequired && isLoggedIn) {
+    next({ name: 'Login' })
+  } 
   // //3-3. 전부 아니라면
-  // } 
   else {
     // 가던 길을 가자
     next()

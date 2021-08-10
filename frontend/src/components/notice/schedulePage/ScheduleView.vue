@@ -170,7 +170,7 @@ export default {
 
     async getScheduleDetail() {
       this.changeMode(false, false, true);
-      console.log("공지상세요청간다");
+      console.log("일정상세요청간다");
       let accessToken = sessionStorage.getItem("access-token");
       let refreshToken = sessionStorage.getItem("refresh-token");
       let data = {

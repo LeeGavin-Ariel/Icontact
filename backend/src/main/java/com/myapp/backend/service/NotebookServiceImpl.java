@@ -116,11 +116,12 @@ public class NotebookServiceImpl implements NotebookService{
         int pageCnt=4;
 
         NoteBookParamDto notebookParamDto = new NoteBookParamDto(userId,searchParam, type, pageCnt*pageNum,4);
-
+        System.out.println(notebookParamDto);
         NoteBookListResultDto result =new NoteBookListResultDto();
 
 
         List<NoteBookListDto>searchResult = notebookDao.searchNotebook(notebookParamDto);
+        System.out.println(searchResult);
         int totalNum=0;
 
         for (NoteBookListDto n : searchResult){
@@ -132,7 +133,7 @@ public class NotebookServiceImpl implements NotebookService{
         }
         result.setPageCnt((int) Math.ceil((double)totalNum/pageCnt));
         result.setResult(searchResult);
-
+        System.out.println(totalNum);
         return result;
     }
 
@@ -158,7 +159,7 @@ public class NotebookServiceImpl implements NotebookService{
             noteBookDetailDto.setTargetId(notebook.getTargetId());
             noteBookDetailDto.setTargetName(target.getUserName());
             noteBookDetailDto.setKidName(target.getKidName());
-            noteBookDetailDto.setNoteImgUrl(Paths.get(notebook.getNoteImgUrl()).toAbsolutePath().normalize().toString());
+            noteBookDetailDto.setNoteImgUrl(notebook.getNoteImgUrl());
 
             System.out.println(noteBookDetailDto.getNoteImgUrl());
             return new ResponseEntity<>(noteBookDetailDto, HttpStatus.OK);

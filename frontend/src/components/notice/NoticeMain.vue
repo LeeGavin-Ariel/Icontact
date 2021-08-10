@@ -205,19 +205,17 @@ export default {
       if (this.noticeType == 1) {
         this.noticeList = [];
         this.noticePageNum = 1;
-        this.setDetail(id);
         this.getNoticeList();
       } else if (this.noticeType == 2) {
         this.scheduleList = [];
         this.schedulePageNum = 1;
-        this.setDetail(id);
         this.getScheduleList();
       } else if (this.noticeType == 3) {
         this.menuList = [];
         this.menuPageNum = 1;
-        this.setDetail(id);
         this.getMenuList();
       }
+      this.setDetail(id);
     },
     // 글 작성, 수정, 삭제 이벤트 발생시 다시 목록 조회.
     initRequestList(noticeType, mode) {
@@ -276,24 +274,43 @@ export default {
       this.menuView = schedule;
       this.scheduleView = menu;
 
-      if (notice) this.noticeType = 1;
-      else if (schedule) this.noticeType = 2;
-      else if (menu) this.noticeType = 3;
+      if (notice) {
+        this.noticeType = 1;
+        console.log("this.noticeList[0].noticeId");
+        console.log(this.noticeList[0].noticeId);
+        
+      } else if (schedule) {
+        this.noticeType = 2;
+        console.log("this.scheduleList[0].scheduleId");
+        console.log(this.scheduleList[0].scheduleId);
+        // this.setDetail(this.scheduleList[0].scheduleId);
+      } else if (menu) {
+        this.noticeType = 3;
+        console.log("this.menuList[0].menuId");
+        console.log(this.menuList[0].menuId);
+        // this.setDetail(this.menuList[0].menuId);
+      }
+
+      console.log("ID");
+      console.log(this.id);
     },
 
     // 공지 탭 눌렀을때
-    showNotice() {
-      this.changeView(true, false, false);
+    async showNotice() {
+      await this.changeView(true, false, false);
+      await this.setDetail(this.noticeList[0].noticeId);
     },
 
     // 일정 탭 눌렀을때
-    showSchedule() {
-      this.changeView(false, true, false);
+    async showSchedule() {
+      await this.changeView(false, true, false);
+      await this.setDetail(this.scheduleList[0].scheduleId);
     },
 
     // 식단 탭 눌렀을때
-    showMenu() {
-      this.changeView(false, false, true);
+    async showMenu() {
+      await this.changeView(false, false, true);
+      await this.setDetail(this.menuList[0].menuId);
     },
 
     //공지사항 조회
@@ -311,11 +328,12 @@ export default {
         "refresh-token": refreshToken,
       });
 
-      console.log(result);
-
       this.noticePageCnt = result.pageCnt;
       this.noticeList.push(...result.noticeList);
       this.noticePageNum += 1;
+
+      console.log("공지사항리스트");
+      console.log(this.noticeList);
 
       if (this.id === 0) {
         this.id = this.noticeList[0].noticeId;
@@ -332,18 +350,17 @@ export default {
         pageNum: this.schedulePageNum,
       };
 
-      console.log("일정조회");
       let result = await scheduleApi.getSchedule(data, {
         "access-token": accessToken,
         "refresh-token": refreshToken,
       });
 
-      console.log(result);
-
       this.schedulePageCnt = result.pageCnt;
       this.scheduleList.push(...result.scheduleList);
       this.schedulePageNum += 1;
 
+      console.log("일정리스트");
+      console.log(this.scheduleList);
       if (this.id === 0) {
         this.id = this.scheduleList[0].scheduleId;
       }
@@ -358,29 +375,32 @@ export default {
         pageNum: this.menuPageNum,
       };
 
-      console.log("식단조회");
       let result = await menuApi.getMenu(data, {
         "access-token": accessToken,
         "refresh-token": refreshToken,
       });
 
-      console.log("result");
-      console.log(result);
-
       this.menuPageCnt = result.pageCnt;
       this.menuList.push(...result.menuList);
       this.menuPageNum += 1;
 
+      console.log("식단리스트");
+      console.log(this.menuList);
       if (this.id === 0) {
         this.id = this.menuList[0].menuId;
       }
     },
+
+    async init() {
+      console.log("노티스 메뉴 이닛");
+      await this.getNoticeList();
+      await this.getScheduleList();
+      await this.getMenuList();
+    },
   },
 
   created() {
-    this.getNoticeList();
-    this.getScheduleList();
-    this.getMenuList();
+    this.init();
   },
 };
 </script>

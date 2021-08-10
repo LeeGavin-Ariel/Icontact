@@ -2,12 +2,20 @@
   <v-list
     id="messagesScroll"
     :class="{ 'is-reverse is-user': isUser }"
-    class="message columns is-gapless overflow-y-auto"
-    v-scroll:#scroll-target="onScroll"
+    class="message columns is-gapless"
   >
+    <!-- class="message columns is-gapless overflow-y-auto"
+    v-scroll:#scroll-target="onScroll" -->
     <v-avatar>
-      <!-- <img :src="require('@/assets/profileImg/' + message._sender.userId + '.jpg')" alt="profile-image"> -->
+      <img        
+        :src="
+          'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
+          message.profileImg
+        "
+      />
     </v-avatar>
+    <!-- {{message._sender.nickname}} -->
+    <!-- {{message.profileImg}} {{message.senderId}}<br/>  {{message.message}}}} -->
 
     <v-card dense class="pl-1 pr-1 ml-3 mr-3">
       <v-card-subtitle>
@@ -45,6 +53,11 @@ import { mapState } from "vuex";
 export default {
   name: "Message",
 
+  data() {
+    return {
+    };
+  },
+
   components: {
     // UserThumbnail
   },
@@ -57,7 +70,7 @@ export default {
   },
 
   computed: {
-    ...mapState(["user", "locale"]),
+    ...mapState(["user", "locale", "channel"]),
 
     isUser() {
       return this.user.userId === this.message._sender.userId;
@@ -71,9 +84,11 @@ export default {
 
   mounted() {},
 
-  created(){
-    console.log("메시지 크리에이트");
-    console.log(this.message);
+  created() {
+    // console.log("메시지 크리에이트");
+    // console.log(this.message);
+    // console.log(this.message.profileImg);
+    // this.profileImg = this.message.profileImg;
   },
 };
 </script>

@@ -4,6 +4,12 @@
     <v-row no-gutters>
       <v-col align-self="center" class="" cols="2" style="border: solid 0px">
         <v-avatar>
+          <img
+            v-if="profileImg" :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + profileImg"/>
+          <img
+            v-else
+            :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/profileImg/noImg_1628231352109.png'"
+          />
           <!-- <img :src="require('@/assets/profileImg/' + opponentId + '.jpg')" alt="profile-image"> -->
           <!-- <img :src="coverUrl" alt="coverUrl" /> -->
         </v-avatar>
@@ -39,6 +45,7 @@
 
 <script>
 import sendBird from "@/services/SendBird.js";
+import chatApi from "@/api/chat.js";
 
 export default {
   name: "ChannelListItem",
@@ -49,7 +56,8 @@ export default {
       connectionStatus: "",
       // lastMessage:"",
       createdAt: "",
-      opponentId:"",
+      opponentId: "",
+      profileImg: "",
     };
   },
 
@@ -70,54 +78,52 @@ export default {
       type: Object,
     },
     members: [],
-    channel:{
-      type:Object,
+    channel: {
+      type: Object,
     },
   },
 
-  watch:{
-    channel(){
+  watch: {
+    channel() {
       this.setData();
-    }
+    },
   },
 
   methods: {
-    setData() {
-      console.log("this.members");
-      console.log(this.members);
+    async setData() {
 
       if (this.$store.state.user.userId == this.members[0].userId) {
-        console.log("0번");
-
         this.nickName = this.members[1].nickname;
         this.connectionStatus = this.members[1].connectionStatus;
         this.opponentId = this.members[1].userId;
       } else {
-        console.log("1번");
         this.nickName = this.members[0].nickname;
         this.connectionStatus = this.members[0].connectionStatus;
         this.opponentId = this.members[0].userId;
       }
 
-      console.log(this.nickName);
+      let result = await chatApi.getUserProfileImg(this.opponentId);
+      if(result==""){
+        this.profileImg = "profileImg/noImg_1628231352109.png";
+        
+      }else{
+        this.profileImg = result;
+      }
     },
 
     async openChannel(url) {
+      console.log('채널오픈');
       await sendBird
         .getChannel(url)
-        .then((channel) => {
-          this.$store.commit("SET_CHANNEL", channel);
+        .then(async (channel) => {
+          channel.myImg = await chatApi.getUserProfileImg(this.$store.state.user.userId);
+          channel.oppoImg = this.profileImg;
+          await this.$store.commit("SET_CHANNEL", channel);
           // 채널이 변경되면 computed 작동
-          console.log('채널을 가져왔어요');
-          console.log(channel);
-          console.log(this.$store.state.channel);
-          console.log(channel==this.$store.state.channel);
         })
         .catch((error) => {
           console.error(error);
         });
-
-
     },
 
     toStringByFormatting(source, delimiter = "/") {

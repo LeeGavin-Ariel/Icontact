@@ -19,5 +19,6 @@ export default {
     menu: '/notice',
     attendance: '/attendance',
     album: '/album',
+    chat: '/chat',
   }
 }

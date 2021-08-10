@@ -6,7 +6,7 @@
     v-scroll:#scroll-target="onScroll"
   >
     <v-avatar>
-      <img :src="require('@/assets/profileImg/' + message._sender.userId + '.jpg')" alt="profile-image">
+      <!-- <img :src="require('@/assets/profileImg/' + message._sender.userId + '.jpg')" alt="profile-image"> -->
     </v-avatar>
 
     <v-card dense class="pl-1 pr-1 ml-3 mr-3">

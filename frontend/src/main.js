@@ -8,10 +8,12 @@ import Vuesax from 'vuesax'
 import 'vue-awesome/icons'
 import Icon from 'vue-awesome/components/Icon'
 import 'vuesax/dist/vuesax.css' //Vuesax styles
+
+import VueGeolocationApi from 'vue-geolocation-api'
 Vue.use(Vuesax, {
   // options here
 })
-
+Vue.use(VueGeolocationApi)
 Vue.component('icon', Icon)
 
 import vScroll from 'vue-scroll'

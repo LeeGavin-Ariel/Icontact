@@ -16,6 +16,7 @@ import Attendance from '@/views/funcs/Attendance'
 import Notice from '@/views/funcs/Notice'
 import Request from '@/views/funcs/Request'
 import ruru from '@/views/funcs/ruru'
+import Geolocation from '@/views/GPS/Geolocation.vue'
 
 
 Vue.use(VueRouter)
@@ -113,7 +114,12 @@ const routes = [
     path: '/ruru',
     name: 'ruru',
     component: ruru
-  },  
+  },
+  {
+    path: '/gps',
+    name: 'gps',
+    component: Geolocation
+  }
 ]
 
 const router = new VueRouter({

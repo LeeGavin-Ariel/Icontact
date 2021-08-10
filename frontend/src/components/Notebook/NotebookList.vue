@@ -15,8 +15,8 @@
         type="text" 
         v-if="identity === 2" 
         @input="searchPerson=$event.target.value"
-        @keypress.enter="getSearchNotebookList">
-        <button @click="getSearchNotebookList" v-if="!searchFlag">검색</button>
+        @keypress.enter="search">
+        <button @click="search" v-if="!searchFlag">검색</button>
         <button @click="getNotebookList" v-if="searchFlag">초기화</button>
 
         <v-list two-line>
@@ -27,7 +27,7 @@
             <!-- 노트북 리스트 띄우기 -->
             <div style="overflow-y:scroll; height:80vh;" v-if="!searchFlag">
               <template v-for="(note, index) in notebookList">
-                <v-list-item :key="note.createDate" @click="setDetail(note.noteId)">
+                <v-list-item :key="note.noteId" @click="setDetail(note.noteId)">
                   <template >
                     <v-list-item-content >
                       <v-list-item-title v-text="note.title"></v-list-item-title>
@@ -65,7 +65,7 @@
 
             <div style="overflow-y:scroll; height:80vh;" v-if="searchFlag">
               <template v-for="(note, index) in searchedNotebookList">
-                <v-list-item :key="note.createDate" @click="setDetail(note.noteId)">
+                <v-list-item :key="note.noteId" @click="setDetail(note.noteId)">
                   <template >
                     <v-list-item-content >
                       <v-list-item-title v-text="note.title"></v-list-item-title>
@@ -96,9 +96,9 @@
               <!-- 조건문. 리스트의 길이가 0이거나, 다 불러온 경우에만 더보기 버튼 활성화. -->
               <button @click="getMoreSearchNotebooklist" v-if="searchedNotebookList.length > 0 && (searchPageNum < searchPageCnt)">더보기</button>
               <p v-else>불러올 글이 없습니다</p>
-              <p>리스트 길이 : {{notebookList.length}}</p>
-              <p>페이지 넘버 : {{pageNum}}</p>
-              <p>페이지 카운트 : {{pageCnt}}</p>
+              <p>리스트 길이 : {{searchedNotebookList.length}}</p>
+              <p>페이지 넘버 : {{searchPageNum}}</p>
+              <p>페이지 카운트 : {{searchPageCnt}}</p>
             </div>
           </v-list-item-group>
         </v-list>
@@ -156,6 +156,7 @@ export default {
   
   methods: {
     initNotebookList() {
+      this.searchFlag = 0
       this.notebookList = []
       this.pageNum = 0
       this.pageCnt = 0
@@ -169,18 +170,28 @@ export default {
     },
 
     getMoreSearchNotebooklist () {
-      if (this.pageNum <= this.pageCnt) {
+      if (this.searchPageNum <= this.searchPageCnt) {
         this.getSearchNotebookList()
       }
     },
 
+    search() {
+      this.searchPageNum = 0
+      this.searchedNotebookList = []
+      this.id = 0
+      this.searchPageCnt = 0
+      this.getSearchNotebookList()
+    },
 
     setDetail (Id) {
       this.id = Id
     },
 
     async getNotebookList() {
+      this.searchedNotebookList = []
       this.searchFlag = 0
+      this.searchPageNum = 0
+      this.searchPageCnt = 0
       console.log(this.id)
       let accessToken = sessionStorage.getItem('access-token')
       let refreshToken = sessionStorage.getItem('refresh-token')
@@ -202,6 +213,7 @@ export default {
         // 만약 반환받은 result 값이 없다면 pageCnt를 0으로 해줌.ㄴ
         this.pageCnt = 0
       }
+      console.log(result)
       this.notebookList.push(...result)
       this.pageNum += 1
 
@@ -221,6 +233,9 @@ export default {
 
     // 검색 관련
     async getSearchNotebookList () {
+      this.pageNum = 0
+      this.pageCnt = 0
+      this.notebookList = []
       this.searchFlag = 1
       console.log(this.searchPerson)
       let accessToken = sessionStorage.getItem('access-token')
@@ -234,20 +249,23 @@ export default {
         "access-token": accessToken,
         "refresh-token": refreshToken,
       })
-      console.log(result.result)
-      if (result.result.length !== 0) {
-        this.searchPageCnt = result.pageCnt
-        // 아니라면?
-      } else {
-        // 만약 반환받은 result 값이 없다면 pageCnt를 0으로 해줌.
-        this.searchPageCnt = 0
-      }
+      console.log(result)
+      this.searchPageCnt = result.pageCnt
+      // if (result.result.length !== 0) {
+      //   this.searchPageCnt = result.pageCnt
+      //   // 아니라면?
+      // } else {
+      //   // 만약 반환받은 result 값이 없다면 pageCnt를 0으로 해줌.
+      //   this.searchPageCnt = 0
+      // }
       this.searchedNotebookList.push(...result.result)
       this.searchPageNum += 1
       if (this.id === 0) {
         // 최상단 알림장 디테일 페이지 디폴트 값으로 설정
         if (this.searchedNotebookList.length !== 0) {
+          console.log('여기?')
           this.id = this.searchedNotebookList[0].noteId
+          console.log('여기??')
         }
       } else {
         if (this.searchedNotebookList.length === 0) {
@@ -256,6 +274,7 @@ export default {
           this.id = this.searchedNotebookList[0].noteId
         }
       }
+      console.log(this.searchPageCnt)
     },
   },
 

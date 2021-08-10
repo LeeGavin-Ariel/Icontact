@@ -20,13 +20,19 @@ public class GPSRoom {
     }
 
     public void handleActions(WebSocketSession session, GPSMessage gpsMessage, GPSService gpsService){
-
-        System.out.println("OK!");
-        if(gpsMessage.getType().equals("Update")){
+        //선생님 : ON으로 토글될 때
+        //학부모 : 페이지에 들어갈 때(created) Enter한다
+        if(gpsMessage.getType().equals("Enter")){
             sessions.add(session);
-            System.out.println("OK!");
         }
-        sendMessage(gpsMessage, gpsService);
+        //선생님 : 2초마다?
+        if(gpsMessage.getType().equals("Update")){
+            sendMessage(gpsMessage, gpsService);
+        }
+        if(gpsMessage.getType().equals("Delete")){
+            sendMessage(gpsMessage, gpsService);
+        }
+
     }
 
     public <T> void sendMessage(T message, GPSService gpsService){

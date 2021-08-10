@@ -24,15 +24,22 @@ public class WebSocketGPSHandler extends TextWebSocketHandler {
     protected void handleTextMessage(WebSocketSession session, TextMessage msg) throws Exception{
 
         String payload = msg.getPayload();
-        System.out.println(payload);
         log.info("payload {}", payload);
 //        TextMessage text = new TextMessage("Welcome!");
 //        session.sendMessage(text);
         GPSMessage gpsMessage = objectMapper.readValue(payload, GPSMessage.class);
 
         GPSRoom room = gpsService.findRoomById(gpsMessage.getCode());
-        System.out.println(room);
-        room.handleActions(session, gpsMessage, gpsService);
+
+        if(room==null){
+            gpsService.sendMessage(session, "현재 미운행중입니다");
+        }
+        else {
+            room.handleActions(session, gpsMessage, gpsService);
+            if (gpsMessage.getType().equals("Delete")) {
+                gpsService.deleteRoom(gpsMessage.getCode());
+            }
+        }
     }
 
 }

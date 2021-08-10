@@ -1,8 +1,17 @@
 <template>
   <div class="channel-users">
-    <h2>{{ opponent }}과의 대화</h2>
-    <p class="statusMsg" v-if="connect == 'offline' && teacher">
+    <h2>{{ opponentNickname }}과의 대화</h2>
+    <!-- <p class="statusMsg" v-if="connect == 'offline' && teacher">
       선생님은 현재 자리에 없습니다.
+    </p> -->
+    <p class="statusMsg" v-if="stateCode == 1 && teacher">
+      선생님은 현재 온라인 상태입니다.
+    </p>
+    <p class="statusMsg" v-else-if="stateCode == 2 && teacher">
+      선생님은 현재 자리비움 상태입니다.
+    </p>
+    <p class="statusMsg" v-else-if="stateCode == 3 && teacher">
+      선생님은 현재 오프라인 상태입니다.
     </p>
 
     <!-- <ul>
@@ -18,6 +27,7 @@
 <script>
 // import ChannelUser from '@/components/chat/ChannelUser'
 import sendBird from "@/services/SendBird.js";
+import chatApi from "@/api/chat.js";
 import { mapState } from "vuex";
 
 export default {
@@ -29,8 +39,10 @@ export default {
 
   data() {
     return {
-      opponent: "",
+      opponentNickname: "",
+      opponentId: "",
       connect: "",
+      stateCode: 0,
       teacher: false,
     };
   },
@@ -54,6 +66,13 @@ export default {
   },
 
   methods: {
+    async getOpponent(oppoId) {
+      console.log("확인할 id");
+      console.log(oppoId);
+      var result = await chatApi.getUserStatus(oppoId);
+      return result
+    },
+
     async init(channel) {
       await sendBird
         .getChannelUsers(channel)
@@ -82,7 +101,7 @@ export default {
 
       this.setData();
     },
-    setData() {
+    async setData() {
       console.log("this.channelUsers");
       console.log(this.channelUsers);
 
@@ -94,7 +113,8 @@ export default {
           this.teacher = true;
         } else this.teacher = false;
 
-        this.opponent = this.channelUsers[1].nickname;
+        this.opponentNickname = this.channelUsers[1].nickname;
+        this.opponentId = this.channelUsers[1].userId;
         this.connect = this.channelUsers[1].connectionStatus;
       } else {
         console.log("1번이 나");
@@ -104,16 +124,20 @@ export default {
           this.teacher = true;
         } else this.teacher = false;
         console.log(this.channelUsers[0]);
-        this.opponent = this.channelUsers[0].nickname;
+        this.opponentNickname = this.channelUsers[0].nickname;
+        this.opponentId = this.channelUsers[0].userId;
         this.connect = this.channelUsers[0].connectionStatus;
       }
 
-      console.log(this.opponent);
+      this.stateCode = await this.getOpponent(this.opponentId);
+
+      console.log('선생님 상태!!!');
+      console.log(this.stateCode);
+      console.log(this.opponentNickname);
     },
   },
 };
 </script>
 
 <style scoped>
-
 </style>

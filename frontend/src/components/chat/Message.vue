@@ -17,7 +17,7 @@
     <!-- {{message._sender.nickname}} -->
     <!-- {{message.profileImg}} {{message.senderId}}<br/>  {{message.message}}}} -->
 
-    <v-card dense class="pl-1 pr-1 ml-3 mr-3">
+    <v-card dense class="pr-1 ml-3 mr-3">
       <v-card-subtitle>
         <p>{{ message.message }}</p>
       </v-card-subtitle>

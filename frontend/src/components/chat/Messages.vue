@@ -143,6 +143,10 @@ export default {
           console.error(error);
         });
 
+      await sendBird.onMessageReceived(channel, (channel, message) => {
+        console.log("메시지를 받았습니다");
+        this.$store.dispatch('addMessage', message)
+      });
 
       this.$nextTick(() => {
         this.$el.addEventListener("scroll", this.handleScroll);

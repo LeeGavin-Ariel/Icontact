@@ -158,7 +158,7 @@ public class NotebookServiceImpl implements NotebookService{
             noteBookDetailDto.setTargetId(notebook.getTargetId());
             noteBookDetailDto.setTargetName(target.getUserName());
             noteBookDetailDto.setKidName(target.getKidName());
-            noteBookDetailDto.setNoteImgUrl(Paths.get(notebook.getNoteImgUrl()).toAbsolutePath().normalize().toString());
+            noteBookDetailDto.setNoteImgUrl(notebook.getNoteImgUrl());
 
             System.out.println(noteBookDetailDto.getNoteImgUrl());
             return new ResponseEntity<>(noteBookDetailDto, HttpStatus.OK);

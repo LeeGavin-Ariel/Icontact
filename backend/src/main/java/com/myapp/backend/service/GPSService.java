@@ -32,13 +32,11 @@ public class GPSService {
         return gpsRooms.get(roomId);
     }
 
-    public GPSRoom createRoom(String name){
-        String randomId = UUID.randomUUID().toString();
+    public GPSRoom createRoom(String code){
         GPSRoom gpsRoom = GPSRoom.builder()
-                .roomId(randomId)
-                .name(name)
+                .code(code)
                 .build();
-        gpsRooms.put(randomId, gpsRoom);
+        gpsRooms.put(code, gpsRoom);
         return gpsRoom;
     }
 

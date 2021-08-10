@@ -4,7 +4,5 @@ import lombok.Data;
 
 @Data
 public class GPSDto {
-    String name;
-
-
+    String code;
 }

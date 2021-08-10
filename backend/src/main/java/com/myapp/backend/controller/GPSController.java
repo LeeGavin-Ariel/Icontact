@@ -18,11 +18,9 @@ public class GPSController {
 
     @PostMapping
     public GPSRoom createRoom(@RequestBody GPSDto gpsDto){
-        System.out.println(gpsDto.getName());
-        return gpsService.createRoom(gpsDto.getName());
+        System.out.println( gpsDto.getCode());
+        return gpsService.createRoom(gpsDto.getCode());
 
     }
-
-
 
 }

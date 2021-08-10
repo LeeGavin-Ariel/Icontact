@@ -11,14 +11,12 @@ import java.util.Set;
 @Data
 public class GPSRoom {
 
-    private String roomId;
-    private String name;//== 유치원 code
+    private String code;//== 유치원 code
     private Set<WebSocketSession> sessions = new HashSet<>();
 
     @Builder
-    public GPSRoom(String roomId, String name){
-        this.roomId=roomId;
-        this.name=name;
+    public GPSRoom(String code){
+        this.code=code;
     }
 
     public void handleActions(WebSocketSession session, GPSMessage gpsMessage, GPSService gpsService){

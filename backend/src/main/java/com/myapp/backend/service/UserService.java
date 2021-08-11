@@ -102,4 +102,12 @@ public class UserService {
         List<User> userlist = userRepository.findByClassCode(classCode);
         return userlist;
     }
+
+    //상태코드 변경
+    public boolean changeStateCode(String userId, int stateCode) {
+        User findUser = userRepository.findByUserId(userId);
+        findUser.setStateCode(stateCode);
+        userRepository.save(findUser);
+        return true;
+    }
 }

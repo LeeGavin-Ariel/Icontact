@@ -5,12 +5,12 @@
     <div class="ml-5 mr-5 mt-5">
     <button class="writeBtn" v-if="identity === 1 && updating === 0 && creating === 0" @click="createNewRequest"><img src="@/assets/write.png" style="width:3.8rem"></button>
     <!-- 글 작성하고 저장시 -->
-    <button v-if="identity === 1 && updating === 0 && creating === 1" @click="createNewRequest">저장버튼<img src="@/assets/flaticon/toys.png" style="width:2rem"></button>
+    <!-- <button v-if="identity === 1 && updating === 0 && creating === 1" @click="createNewRequest">저장버튼<img src="@/assets/flaticon/toys.png" style="width:2rem"></button> -->
     <!-- 글 수정하고 저장시 -->
-    <button v-if="identity === 1 && updating === 1 && creating === 0 && id" @click="updateRequest" style="">수정 완료</button>
+    <!-- <button v-if="identity === 1 && updating === 1 && creating === 0 && id" @click="updateRequest" style="">수정 완료</button> -->
     <!-- 글 수정할 시 -->
-    <button v-if="identity === 1 && creating && id" @click="offCreateForm">글 작성 취소</button>
-    <button v-if="identity === 1 && updating && id" @click="offUpdateForm">글 작성 취소</button>
+    <!-- <button v-if="identity === 1 && creating && id" @click="offCreateForm">글 작성 취소</button> -->
+    <!-- <button v-if="identity === 1 && updating && id" @click="offUpdateForm">글 작성 취소</button> -->
     
     <v-sheet
       rounded="lg"
@@ -19,7 +19,7 @@
       등록된 요청이 없습니다.
     </v-sheet>
     
-    
+    <!-- 투약 요청 상세 -->
     <v-sheet
       rounded="lg"
       v-if="requestType === 1 && requestDetail && (!creating && !updating) && (id !== 0)"
@@ -27,8 +27,8 @@
       <div style="width:100%; height:15px; background-color:#a8b1cf" class="mt-3"></div>
       <div class="container" style="height:84.8vh">
         <div align="right" class="mt-2"> 
-          <button v-if="identity === 1 && updating === 0 && creating === 0 && id" @click="updateRequest" class="mr-2 text-deco">수정</button>
-          <button v-if="identity === 1 && updating === 0 && creating === 0 && id" @click="deleteRequest" class="ml-2 mr-2 text-deco">삭제</button>
+          <button v-if="identity === 1 && updating === 0 && creating === 0 && id" @click="updateRequest" class="mr-2 update-delete-btn">수정</button>
+          <button v-if="identity === 1 && updating === 0 && creating === 0 && id" @click="deleteRequest" class="ml-2 mr-2 update-delete-btn">삭제</button>
         </div>
         <div class="section-title">
         </div>
@@ -45,11 +45,15 @@
                   </tr>
                   <tr class="d-flex">
                     <td class="col-12 align-items-center mt-3">
-                      <strong style="font-size: 18px">투약내용</strong>
+                      <strong style="font-size: 18px">투약 요청 내용</strong>
                       <table class=" table mt-5 mb-5" style="border-radius:10px; background-color: rgba(156,156,156,0.1)">
                         <tr class="d-flex">
                           <th class="col-2">증상</th>
                           <td class="col-10">{{requestDetail.symptom}}</td>
+                        </tr>
+                        <tr class="d-flex">
+                          <th class="col-2">약 종류</th>
+                          <td class="col-10">{{requestDetail.medicineType}}</td>
                         </tr>
                         <tr class="d-flex">
                           <th class="col-2">투약 용량</th>
@@ -85,56 +89,223 @@
       </div>
     </v-sheet>
 
+    <!-- 투약요청 작성, 수정 -->
     <v-sheet
       rounded="lg"
       v-if="requestType === 1 && (creating || updating)"
     >
-      <p>증상 : </p>
-      <input type="text" v-model="symptom">
-      <p>약 종류 : </p>
-      <input type="text" v-model="medicineType">
-      <p>투약 용량 : </p>
-      <input type="number" v-model="dosageVol">
-      <p>투약 횟수 : </p>
-      <input type="number" v-model="dosageCnt">
-      <p>투약 시간 : </p>
-      <input type="text" v-model="dosageTime">
-      <p>보관 방법 : </p>
-      <input type="text" v-model="storage">
-      <p>특이 사항 : </p>
-      <input type="text" v-model="specialNote">
+      <div style="width:100%; height:15px; background-color:#a8b1cf" class="mt-3"></div>
+      <div class="container" style="height:84.8vh">
+        <div align="right" class="mt-2"> 
+        </div>
+        <div class="section-title">
+        </div>
+        <div align="center" class="mb-5">
+
+          <div class="col-lg-11">
+            <table class="table">
+              <tbody>
+                  <tr class="d-flex">
+                    <td class="col-12 align-items-center mt-3">
+                      <strong style="font-size: 18px">투약 요청 내용</strong>
+                      <table class=" table mt-5 mb-5" style="border-radius:10px;">
+                        <tr class="d-flex">
+                          <th class="col-2 mt-2">증상</th>
+                          <td class="col-10"><input type="text" class="formInput" v-model="symptom" placeholder="예) 기침, 몸살"></td>
+                        </tr>
+                        <tr class="d-flex">
+                          <th class="col-2 mt-2">약 종류</th>
+                          <td class="col-10"><input type="text" class="formInput" v-model="medicineType" placeholder="예) 물약, 가루약"></td>
+                        </tr>
+                        <tr class="d-flex">
+                          <th class="col-2 mt-2">투약 용량<span style="font-size:12px">1회</span></th>
+                          <td class="col-10"><input type="number" class="formInput" v-model="dosageVol"></td>
+                        </tr>
+                        <tr class="d-flex">
+                          <th class="col-2 mt-2">투약 횟수<span style="font-size:12px">1일</span></th>
+                          <td class="col-10"><input type="number" class="formInput" v-model="dosageCnt"></td>
+                        </tr>
+                        <tr class="d-flex">
+                          <th class="col-2 mt-2">투약 시간</th>
+                          <td class="col-10"><input type="text" class="formInput" v-model="dosageTime" placeholder="예) 오전/오후 00시 00분"></td>
+                        </tr>
+                        <tr class="d-flex">
+                          <th class="col-2 mt-2">보관 방법</th>
+                          <td class="col-10"><input type="text" class="formInput" v-model="storage" placeholder="예) 실온/냉장"></td>
+                        </tr>
+                        <tr class="d-flex">
+                          <th class="col-2 mt-2">특이사항</th>
+                          <td class="col-10"><input type="text" class="formInput" v-model="specialNote" placeholder="예) 가루약 넘기기를 힘들어해요"></td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- 학부모 동의 체크 박스 -->
+          <div class="d-flex justify-center">
+            <v-checkbox
+              style="margin: 0;"
+              v-model="checked"
+              label="금일 자녀의 투약을 선생님께 의뢰합니다."
+              color="mainColor1"
+              hide-details
+            >
+            </v-checkbox>
+          </div>
+
+          <!-- 새로운 글 작성 관련 버튼 -->
+          <button :disabled="!checked" v-if="identity === 1 && updating === 0 && creating === 1" @click="createNewRequest" class="mr-2 update-return-btn">저장</button>
+          <button v-if="identity === 1 && creating && id" @click="offCreateForm" class="ml-2 update-return-btn">취소</button>
+          
+          <!-- 수정 관련 버튼-->
+          <button :disabled="!checked" v-if="identity === 1 && updating === 1 && creating === 0 && id" @click="updateRequest" class="mr-2 update-return-btn">수정</button>
+          <button v-if="identity === 1 && updating && id" @click="offUpdateForm" class="ml-2 update-return-btn">취소</button>
+        
+        </div>
+      </div>
     </v-sheet>
 
+    <!-- 귀가 동의 상세 -->
     <v-sheet
       rounded="lg"
       v-if="requestType === 2 && requestDetail && (!creating && !updating) && (id !== 0)"
     >
-      <p>작성 시간 : {{requestDetail.createDate}}</p>
-      <p>작성자 : {{requestDetail.kidName}} 학부모님</p>
-      <p>귀가 날짜 : {{requestDetail.rhDate}}</p>
-      <p>귀가 시간 : {{requestDetail.rhTime}}</p>
-      <p>동행인 : {{requestDetail.guardian}}</p>
-      <p>동행인 전화번호 : {{requestDetail.guardianTel}}</p>
-      <p>긴급연락망 : {{requestDetail.emergency}}</p>
-      <p>긴급연락처 : {{requestDetail.emergencyTel}}</p>
+      <div style="width:100%; height:15px; background-color:#a8b1cf" class="mt-3"></div>
+      <div class="container" style="height:84.8vh">
+        <div align="right" class="mt-2"> 
+          <button v-if="identity === 1 && updating === 0 && creating === 0 && id" @click="updateRequest" class="mr-2 update-delete-btn">수정</button>
+          <button v-if="identity === 1 && updating === 0 && creating === 0 && id" @click="deleteRequest" class="ml-2 mr-2 update-delete-btn">삭제</button>
+        </div>
+        <div class="section-title">
+        </div>
+        <div align="center" class="mb-5">
+
+          <div class="col-lg-11">
+            <table class="table">
+              <tbody>
+                  <tr class="d-flex">
+                      <td class="col-12">
+                        <div style="font-size:35px"><strong>{{requestDetail.kidName}}</strong></div>
+                        <div class="mt-3 mb-2">금일 자녀의 귀가를 선생님께 의뢰합니다.</div>
+                      </td>
+                  </tr>
+                  <tr class="d-flex">
+                    <td class="col-12 align-items-center mt-3">
+                      <strong style="font-size: 18px">귀가 의뢰 내용</strong>
+                      <table class=" table mt-5 mb-5" style="border-radius:10px; background-color: rgba(156,156,156,0.1)">
+                        <tr class="d-flex">
+                          <th class="col-2">귀가 날짜</th>
+                          <td class="col-4">{{requestDetail.rhDate}}</td>
+                          <th class="col-2">귀가 시간</th>
+                          <td class="col-4">{{requestDetail.rhTime}}</td>
+                        </tr>
+                        <tr class="d-flex">
+                          <th class="col-2">동행자</th>
+                          <td class="col-10">{{requestDetail.guardian}}</td>
+                        </tr>
+                        <tr class="d-flex">
+                          <th class="col-2"><img src="@/assets/flaticon/tel.png" style="width:2rem;"></th>
+                          <td class="col-10">{{requestDetail.guardianTel}} </td>
+                        </tr>
+                        <tr class="d-flex">
+                          <th class="col-2">보호자</th>
+                          <td class="col-10">{{requestDetail.emergency}}</td>
+                        </tr>
+                        <tr class="d-flex">
+                          <th class="col-2"><img src="@/assets/flaticon/tel.png" style="width:2rem;"></th>
+                          <td class="col-10">{{requestDetail.emergencyTel}}</td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+              </tbody>
+            </table>
+            <div>
+              영유아의 귀가 시 위 동행자에게 인도하여 주세요.<br>
+              위 동행자 이외의 다른 사람에게 인계할때는 사전에 반드시 연락을 취하겠습니다.
+            </div>
+          </div>
+
+        </div>
+      </div>
     </v-sheet>
 
+    <!-- 귀가 동의 수정 작성 -->
     <v-sheet
       rounded="lg"
       v-if="requestType === 2 && (creating || updating)"
     >
-      <p>귀가 날짜 : </p>
-      <input type="text" v-model="rhDate">
-      <p>귀가 시간 : </p>
-      <input type="text" v-model="rhTime">
-      <p>동행인 : </p>
-      <input type="text" v-model="guardian">
-      <p>동행인 전화번호 : </p>
-      <input type="text" v-model="guardianTel">
-      <p>긴급연락망 : </p>
-      <input type="text" v-model="emergency">
-      <p>긴급연락처 : </p>
-      <input type="text" v-model="emergencyTel">
+      <div style="width:100%; height:15px; background-color:#a8b1cf" class="mt-3"></div>
+      <div class="container" style="height:84.8vh">
+        <div align="right" class="mt-2"> 
+        </div>
+        <div class="section-title">
+        </div>
+        <div align="center" class="mb-5">
+
+          <div class="col-lg-11">
+            <table class="table">
+              <tbody>
+                  <tr class="d-flex">
+                    <td class="col-12 align-items-center mt-3">
+                      <strong style="font-size: 18px">귀가 동의 내용</strong>
+                      <table class=" table mt-5 mb-5" style="border-radius:10px;">
+                        <tr class="d-flex">
+                          <th class="col-2 mt-2">귀가 날짜</th>
+                          <td class="col-10"><input type="text" class="formInput" v-model="rhDate" placeholder="예) 00월 00일"></td>
+                        </tr>
+                        <tr class="d-flex">
+                          <th class="col-2 mt-2">귀가 시간</th>
+                          <td class="col-10"><input type="text" class="formInput" v-model="rhTime" placeholder="예) 오후 00시 00분"></td>
+                        </tr>
+                        <tr class="d-flex">
+                          <th class="col-2 mt-2">동행자</th>
+                          <td class="col-10"><input type="text" class="formInput" v-model="guardian" placeholder="원아와의 관계"></td>
+                        </tr>
+                        <tr class="d-flex">
+                          <th class="col-2 mt-2">동행자 연락처</th>
+                          <td class="col-10"><input type="text" class="formInput" v-model="guardianTel" placeholder="전화번호"></td>
+                        </tr>
+                        <tr class="d-flex">
+                          <th class="col-2 mt-2">보호자</th>
+                          <td class="col-10"><input type="text" class="formInput" v-model="emergency" placeholder="원아와의 관계"></td>
+                        </tr>
+                        <tr class="d-flex">
+                          <th class="col-2 mt-2">보호자 연락처</th>
+                          <td class="col-10"><input type="text" class="formInput" v-model="emergencyTel" placeholder="전화번호"></td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- 학부모 동의 체크 박스 -->
+          <div class="d-flex justify-center">
+            <v-checkbox
+              style="margin: 0;"
+              v-model="checked"
+              label="금일 자녀의 귀가를 선생님께 의뢰합니다."
+              color="mainColor1"
+              hide-details
+            >
+            </v-checkbox>
+          </div>
+
+          <!-- 새로운 글 작성 관련 버튼 -->
+          <button :disabled="!checked" v-if="identity === 1 && updating === 0 && creating === 1" @click="createNewRequest" class="mr-2 update-return-btn">저장</button>
+          <button v-if="identity === 1 && creating && id" @click="offCreateForm" class="ml-2 update-return-btn">취소</button>
+          
+          <!-- 수정 관련 버튼-->
+          <button :disabled="!checked" v-if="identity === 1 && updating === 1 && creating === 0 && id" @click="updateRequest" class="mr-2 update-return-btn">수정</button>
+          <button v-if="identity === 1 && updating && id" @click="offUpdateForm" class="ml-2 update-return-btn">취소</button>
+        
+        </div>
+      </div>
     </v-sheet>
 
   </div>
@@ -164,6 +335,9 @@ export default {
     return {
       // 상세 내용을 저장할 변수
       requestDetail: null,
+
+      // 동의 체크박스
+      checked: false,
 
       // 투약 관련 변수
       symptom: '',
@@ -199,10 +373,12 @@ export default {
   methods: {
     offCreateForm() {
       this.creating = 0
+      this.checked = false;
     },
 
     offUpdateForm() {
       this.updating = 0
+      this.checked = false;
     },
 
     async getRequestDetail() {
@@ -239,6 +415,7 @@ export default {
 
       if (this.creating === 0) {
         if (this.requestType === 1) {
+          this.checked = false
           this.symptom = ''
           this.medicineType = ''
           this.dosageVol = 0
@@ -248,6 +425,7 @@ export default {
           this.specialNote = ''
         }
         else if (this.requestType === 2) {
+          this.checked = false
           this.rhDate = ''
           this.rhTime = ''
           this.guardian = ''
@@ -304,13 +482,14 @@ export default {
     },
 
     async updateRequest() {
-
+        
       if (this.creating === 1) {
         this.creating = 0
       }
 
       if (this.updating === 0 ) {
           if (this.requestType === 1) {
+          this.checked = true
           this.symptom = this.requestDetail.symptom
           this.medicineType = this.requestDetail.medicineType
           this.dosageVol = this.requestDetail.dosageVol
@@ -320,6 +499,7 @@ export default {
           this.specialNote = this.requestDetail.specialNote
         }
         else if (this.requestType === 2) {
+          this.checked = true
           this.rhDate = this.requestDetail.rhDate
           this.rhTime = this.requestDetail.rhTime
           this.guardian = this.requestDetail.guardian
@@ -416,33 +596,36 @@ export default {
   position: fixed;
   right: 60px;
   bottom: 50px;
+  width:3.8rem;
 }
-.request-container{
-  overflow-y:scroll; 
-  height:80vh; 
-}
-.request-container::-webkit-scrollbar {
-  width: 10px;
-  background-color: black;
-}
-.request-container::-webkit-scrollbar-thumb {
-  background-color: #2f3542;
-}
-.request-container::-webkit-scrollbar-track {
-  background-color: grey;
-}
-
-.text-deco{
+.update-delete-btn {
   font-size: 18px;
+  color: darkgrey;
 }
-/* 
-.letter-back{
-  background-image: url("../../assets/letter.png");
-  background-size: 100% 100%;
-} */
-
-.letter-back{
-  background-color:#fff1c8;
-  background-size: 100% 100%;
+.update-delete-btn:hover {
+  color: black;
+  transition: 0.3s;
+}
+.formInput {
+  background-color: rgba(156, 156, 156, 0.1);
+  border-radius: 5px;
+  height: 36px;
+  width: 90%;
+  padding: 0px 0px 0px 15px;
+  margin: 3px 3px 3px 3px;
+}
+.formInput:hover {
+  background-color: rgba(156, 156, 156, 0.2);
+  transition: 0.3s;
+}
+.update-return-btn {
+  background-color: rgba(168, 177, 207, 1);
+  border-radius: 70px;
+  height: 36px;
+  width: 70px;
+  margin: 20px 3px 3px 3px;
+  text-align: center;
+  color: rgba(256, 256, 256);
+  letter-spacing: -1px;
 }
 </style>

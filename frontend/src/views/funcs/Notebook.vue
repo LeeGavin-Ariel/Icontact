@@ -3,7 +3,7 @@
 
     
     <!-- 사이드바 -->
-    <div style="width:20vw;">
+    <div style="width:18vw;">
       <Sidebar/>
     </div>
   

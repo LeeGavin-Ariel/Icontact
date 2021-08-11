@@ -1,26 +1,23 @@
 <template>
-  <div id="bg">
-    <div class="inner-header flex flex-column">
-      <!-- 로고 -->
-      <div>
-        <br>
-        <br>
-        <img src="@/assets/flaticon/toys.png" class="logo" alt="">
-        <h1>회원가입</h1>
-        <br>
-      </div>
+  <div id="bg" >
+
+    <!-- 로고 -->
+    <div class="upperBox">
+      <img src="@/assets/icontact/children.png" class="logo" alt="children-image"/>
+      <h1>회원가입</h1>
+    </div>
     
-      <!-- 학부모 회원가입 폼 -->
-      <div style="width: 300px;" >
+    <!-- 회원 가입 폼 -->
+    <div class="lowerBox">
+      <div style="width: 300px">
+        
         <!-- 아이 이름 입력 -->
         <input
           class="formInput"
           type="text"
           id="kidName"
-          color="#58679A"
           v-model="kidName"
           placeholder="아이 이름"
-          style="text-align:left;"
         >
 
 
@@ -30,18 +27,16 @@
           type="text"
           oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
           id="kindergardenCode"
-          color="#58679A"
           v-model="kindergardenCode"
           @input="searchClass"
           maxlength="4"
           placeholder="유치원 코드"
-          style="text-align:left;"
         >
         <div v-if="!kindergardenCode || kindergardenClasses.length === 0" style="text-align:left; color: red; font-size: 12px; margin-left: 19px">존재하지 않는 유치원 코드입니다.</div>
     
 
         <!-- 반 목록 선택 (드롭다운) -->
-        <select name="classCode" class="select-class-code" v-model="classCode" v-if="kindergardenCode && kindergardenClasses.length !== 0">
+        <select name="classCode" class="selectBoxForClasscode" v-model="classCode" v-if="kindergardenCode && kindergardenClasses.length !== 0">
           <option value="noValue">반 선택</option>
           <option v-for="[Class, idx] in kindergardenClasses" v-bind:key="idx" v-bind:value="idx">
             {{ Class }}
@@ -55,17 +50,17 @@
           style="background-color: #58679A; color: white;"
           :disabled="classCode === 'noValue' || !kidName"
           @click="signup"
-          >
+        >
           회원가입
-          </v-btn>
-          <button @click="$router.go(-1)"
-            class="backBtn"
-          >
-            뒤로 가기
-          </button>
-
+        </v-btn>
+        <button @click="$router.go(-1)"
+          class="etcBtn"
+        >
+          뒤로 가기
+        </button>
       </div>
     </div>
+
   </div>
 </template>
 
@@ -159,14 +154,26 @@ export default {
 <style scoped>
 * {
   font-family: 'NanumSquareRound';
-}
-h1, button { 
-  font-family: 'EliceDigitalBaeum_Bold';
+    font-size: 0.95em;
 }
 #bg {
   background-color: #a8b1cf;
   width: 100%;
   height: 100%;
+}
+.upperBox{
+  position: absolute;
+  top: 28%;
+  left: 50%;
+  transform: translate(-50%, -50%); 
+  text-align:center;
+}
+.lowerBox{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
 }
 h1 {
   font-weight: 900;
@@ -175,32 +182,41 @@ h1 {
   color: #58679A;
 }
 .logo {
-  width:60px;
-  fill:white;
+  width: 10rem;
   padding-right:10px;
   display:inline-block;
   vertical-align: middle;
 }
+button{
+  letter-spacing: -1px;
+  color: #404c74;
+  font-weight: 600;
+}
 .formInput {
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(256, 256, 256, 0.7);
   box-shadow: 1px 1px 1px 1px #58679a;
   border-radius: 70px;
   height: 36px;
   width: 300px;
   padding: 0px 0px 0px 15px;
   margin: 3px 3px 3px 3px;
+  text-align: left;
 }
-.backBtn{
-  border-radius: 4%;
-  width: 150px;
-  margin: 15px 3px 3px 3px;
+.formInput:hover {
+  background-color: rgba(256, 256, 256, 1);
+  transition: 0.3s;
+}
+.etcBtn{
+  margin: 20px 3px 3px 3px;
   padding: 0px 7px 0px 3px;
-  font-size: 0.8em;
-  letter-spacing: -1px;
   color: #404c74;
 }
-.select-class-code {
-  background-color: rgba(255, 255, 255, 0.9);
+.etcBtn:hover {
+  color: rgba(256, 256, 256, 1);
+  transition: 0.3s;
+}
+.selectBoxForClasscode {
+  background-color: rgba(255, 255, 255, 0.7);
   box-shadow: 1px 1px 1px 1px #58679A;
   border-radius: 70px; 
   height: 36px; 

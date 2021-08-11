@@ -10,7 +10,7 @@
       <div>
         <br>
         <br>
-        <img src="@/assets/flaticon/toys.png" class="logo" alt="">
+        <img src="@/assets/icontact/children.png" class="logo" alt="">
         <h1>ICONTACT</h1>
         <br>
       </div>
@@ -58,8 +58,8 @@
       
       <hr>
       <div>
-        <button @click="$router.push({ name: 'Signup' })">회원가입</button> |
-        <button @click="$router.push({ name: 'ChangePasswordAuth' })">비밀번호 찾기</button>
+        <button class="etcBtn" @click="$router.push({ name: 'Signup' })">회원가입</button> |
+        <button class="etcBtn" @click="$router.push({ name: 'ChangePasswordAuth' })">비밀번호 찾기</button>
       </div>
     </div>
 
@@ -186,37 +186,33 @@ export default {
 <style scoped>
 * {
   font-family: 'NanumSquareRound';
-}
-h1, button { 
-  font-family: 'EliceDigitalBaeum_Bold';
-}
-button{
-  font-size: 0.8em;
-  letter-spacing: -1px;
-  color: #404c74;
+  font-size: 0.95em;
 }
 #bg {
   background-color: #a8b1cf;
 }
 h1 {
-  font-family: "TmoneyRoundWindExtraBold";  
   font-weight: 900;
   letter-spacing: 2px;
   font-size:48px;
   color: #58679A;
+}
+.logo {
+  width: 10rem;
+  padding-right:10px;
+  display:inline-block;
+  vertical-align: middle;
+}
+button{
+  letter-spacing: -1px;
+  color: #404c74;
+  font-weight: 600;
 }
 p {
   font-weight: 100;
   letter-spacing: 1px;
   font-size:14px;
   color: #58679A;
-}
-.logo {
-  width:60px;
-  fill:white;
-  padding-right:10px;
-  display:inline-block;
-  vertical-align: middle;
 }
 .formInput {
   background-color: rgba(255, 255, 255, 0.9);
@@ -226,6 +222,15 @@ p {
   width: 300px;
   padding: 0px 0px 0px 15px;
   margin: 3px 3px 3px 3px;
+}
+.formInput:hover {
+  background-color: rgba(256, 256, 256, 1);
+  transition: 0.3s;
+}
+.etcBtn{
+  margin: 3px 3px 3px 3px;
+  padding: 0px 7px 0px 3px;
+  color: #404c74;
 }
 @media (max-width: 576px) {
   .registration-form form{
@@ -246,7 +251,7 @@ p {
   padding: 0;
 }
 
-.flex { /*Flexbox for containers*/
+.flex { 
   display: flex;
   justify-content: center;
   align-items: center;
@@ -257,7 +262,7 @@ p {
   position:relative;
   width: 100%;
   height:10vh;
-  margin-bottom:0; /*Fix for safari gap*/
+  margin-bottom:0; 
   min-height:100px;
   max-height:150px;
 }
@@ -271,7 +276,7 @@ p {
 /* Animation */
 
 .parallax > use {
-  animation: move-forever 25s cubic-bezier(.55,.5,.45,.5)     infinite;
+  animation: move-forever 25s cubic-bezier(.55,.5,.45,.5) 
 }
 .parallax > use:nth-child(1) {
   animation-delay: -2s;
@@ -297,18 +302,6 @@ p {
     transform: translate3d(85px,0,0);
   }
 }
-/*Shrinking for mobile*/
-@media (max-width: 768px) {
-  .waves {
-    height:40px;
-    min-height:40px;
-  }
-  .content {
-    height:30vh;
-  }
-  h1 {
-    font-size:24px;
-  }
-}
+
 
 </style>

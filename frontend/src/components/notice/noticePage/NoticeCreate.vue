@@ -1,9 +1,65 @@
 <template>
   <div style="overflow-y: scroll" class="col">
     <!-- 디테일 -->
-
+    <v-sheet rounded="lg" v-if="createMode">
+      <div class="container">
+        <div class="notice-detail-title">
+          <input
+            type="text"
+            v-model="title"
+            style="border-bottom: solid 1px"
+            placeholder="제목을 입력하세요"
+          />
+        </div>
+        <div class="notice-detail-content-container">
+          <div class="notice-detail-content">
+            <textarea
+              rows="15"
+              style="width: 100%; height: 50%"
+              placeholder="내용을 입력하세요."
+              v-model="content"
+            >
+            </textarea>
+          </div>
+        </div>
+        <!-- <div class="notice-detail-date">날짜</div> -->
+        <div class="notice-detail-img">
+          <!-- <input id="customFile" type="file" /> -->
+          <v-file-input
+            style="width: 100%"
+            id="noticeFile"
+            v-model="files"
+            accept="image/*"
+            label="File input"
+          ></v-file-input>
+          <!-- <img
+            class="noticeImg"
+            :src="
+              'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
+              noticeInfo.noticeImgUrl
+            "
+            alt="profile-image"
+          /> -->
+        </div>
+        <div class="button">
+          <v-btn
+            class="mr-3"
+            color="primary"
+            fab
+            small
+            dark
+            @click="createNewNotice"
+          >
+            <v-icon>mdi-check </v-icon>
+          </v-btn>
+          <v-btn class="mr-3" color="red" fab small dark @click="offCreateForm">
+            <v-icon>mdi-window-close </v-icon>
+          </v-btn>
+        </div>
+      </div>
+    </v-sheet>
     <!-- 공지 작성페이지 <br /> -->
-    <v-row>
+    <!-- <v-row>
       <v-sheet rounded="lg" v-if="createMode">
         <br />
         <p>
@@ -40,7 +96,7 @@
       <v-btn class="mr-3" color="red" fab small dark @click="offCreateForm">
         <v-icon>mdi-window-close </v-icon>
       </v-btn>
-    </v-row>
+    </v-row> -->
   </div>
 </template>
 
@@ -83,6 +139,8 @@ export default {
     async createNewNotice() {
       //입력안하면 반환
       if (this.title == "" || this.content == "") {
+        console.log(this.title);
+        console.log(this.content);
         alert("입력하세요");
         return;
       }
@@ -98,7 +156,7 @@ export default {
           .uploadPhoto("notice", "noticeFile")
           .then((result) => (noticeImgUrl = result[0]));
         console.log("파일있음");
-      } 
+      }
 
       let data = {
         noticeImgUrl: noticeImgUrl,
@@ -124,4 +182,49 @@ export default {
 </script>
 
 <style scoped>
+.container {
+  display: flex;
+  /* flex-direction: column; */
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.notice-detail-title {
+  /* margin: 0.3rem 0px; */
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
+  width: 95%;
+  display: flex;
+  justify-content: center;
+  font-size: 2em;
+  border-bottom: #a8b1cf 0.1rem solid;
+}
+.notice-detail-date {
+  width: 95%;
+  display: flex;
+  justify-content: flex-end;
+  border-bottom: #a8b1cf 0.1rem solid;
+  padding-right: 0.5rem;
+  margin-bottom: 1rem;
+  /* position: relative; */
+  /* right: 0.5rem; */
+}
+.notice-detail-content-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.notice-detail-content {
+  width: 95%;
+  padding: 0px 0.5rem 0.5rem;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-around;
+  border-bottom: #a8b1cf 0.1rem solid;
+}
+.noticeImg {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+}
 </style>

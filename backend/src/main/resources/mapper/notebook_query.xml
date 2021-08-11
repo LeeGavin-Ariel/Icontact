@@ -19,8 +19,6 @@
             and notebook.writerId = #{userId}
             and notebook.targetId in (select userId from user where userName like CONCAT('%', CONCAT(#{searchParam},'%')))
             and notebook.targetId = u1.userId
-            ORDER BY noteId DESC
-            LIMIT #{limit}, #{offset}
             ) as cnt
         </if>
         <if test="type==1">
@@ -33,8 +31,6 @@
                 and notebook.targetId = #{userId}
                 and notebook.writerId in (select userId from user where userName like CONCAT('%', CONCAT(#{searchParam},'%')))
                 and notebook.writerId = u1.userId
-            ORDER BY noteId DESC
-            LIMIT #{limit}, #{offset}
             ) as cnt
         </if>
         WHERE u1.classCode = tmp.classCode

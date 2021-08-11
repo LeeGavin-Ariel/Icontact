@@ -33,11 +33,23 @@ public class GPSService {
     }
 
     public GPSRoom createRoom(String code){
+        if(gpsRooms.containsKey(code)){
+            System.out.println("test22");
+            System.out.println(gpsRooms.get(code).toString());
+            return gpsRooms.get(code);
+        }
         GPSRoom gpsRoom = GPSRoom.builder()
                 .code(code)
                 .build();
+        System.out.println(code);
         gpsRooms.put(code, gpsRoom);
         return gpsRoom;
+    }
+
+    public void deleteRoom(String code){
+        if(gpsRooms.containsKey(code)){
+            gpsRooms.remove(code);
+        }
     }
 
     public <T> void sendMessage(WebSocketSession session, T message){

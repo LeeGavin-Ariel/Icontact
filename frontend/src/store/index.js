@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import router from '@/router/index.js'
-import userApi from '@/api/user.js';
+// import userApi from '@/api/user.js';
 // import createPersistedState from "vuex-persistedstate"
 Vue.use(Vuex)
 
@@ -101,19 +101,11 @@ export default new Vuex.Store({
 
 
     async removeUser(context) {
-      try{
-        // 로그아웃할때 유저 아이디 넘겨주기 (가빈누나부탁)
-        await userApi.updateUser({
-          userId : context.state.user.userId,
-        },
-        {
-          "access-token": sessionStorage.getItem('access-token')
-        });
-      } catch (e) {
-        console.log(e)
-      }
+      console.log('로그아웃테스트')
+      console.log(context.state.user.userId)
       context.commit('REMOVE_USER');
       sessionStorage.clear();
+      
     },
 
     // 비밀번호 변경 - id 값 저장

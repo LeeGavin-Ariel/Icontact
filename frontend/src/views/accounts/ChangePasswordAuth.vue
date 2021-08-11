@@ -24,33 +24,33 @@
         >
     
         
-        <!-- 휴대폰 번호 입력 -->
+         <!-- 휴대폰 번호 입력 -->
         <div class="placement">
           <input
             class="formInput"
-            type="text"
             oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
             maxlength="11"
             color="#58679A"
             v-model="phoneNumber"
-            placeholder="비밀번호"
-            style="text-align:left; width:62%"
-          >
-          
-          
-          <div style="width: 30%; margin: 3px 0px;">
-            <v-btn 
-              block 
+            placeholder="휴대전화"
+            style="text-align: left; width: 200px"
+          />
+
+          <div style="width: 100px; margin: 3px 0px">
+            <v-btn
+              block
               rounded
-              style="background-color: #58679A; color: white; letter-spacing: -0.8px;"
+              style="
+                background-color: #58679a;
+                color: white;
+                letter-spacing: -0.8px;
+              "
               @click="requestAuthNumber"
-              >
-              인증번호 받기
+            >
+              인증
             </v-btn>
           </div>
         </div>
-
-        
 
         <!-- 인증 번호 입력 -->
         <div class="placement">
@@ -60,18 +60,22 @@
             maxlength="4"
             color="#58679A"
             v-model="authNumber"
-            placeholder="인증 번호"
-            style="text-align:left; width:62%"
-          >
-          <div style="width: 30%; margin: 3px 0px;">
-            <v-btn 
-              block 
-              rounded 
-              style="background-color: #58679A; color: white; letter-spacing: -0.8px;"
-              :disabled="!isAuth" 
+            placeholder="authNumber"
+            style="text-align: left; width: 200px"
+          />
+          <div style="width: 100px; margin: 3px 0px">
+            <v-btn
+              block
+              rounded
+              style="
+                background-color: #58679a;
+                color: white;
+                letter-spacing: -0.8px;
+              "
+              v-if="!isAuth"
               @click="checkAuthNumber"
-              >
-              인증번호 확인
+            >
+              인증 확인
             </v-btn>
           </div>
         </div>
@@ -80,10 +84,15 @@
           rounded
           style="background-color: #58679A; color: white; margin: 3px 0px;"
           @click="setSendUserIdForChangePW(userid)"
+          :disabled="!userid || !isAuth"
           >
-            <!-- :disabled="!userid || !isAuth" -->
           비밀번호 재설정
         </v-btn>
+        <button @click="$router.go(-1)"
+          class="backBtn"
+        >
+          뒤로 가기
+        </button>
 
       </div>
     </div>
@@ -175,4 +184,66 @@ export default {
 </script>
 
 <style scoped>
+* {
+  font-family: 'NanumSquareRound';
+}
+h1, button { 
+  font-family: 'EliceDigitalBaeum_Bold';
+}
+#bg {
+  background-color: #a8b1cf;
+  width: 100%;
+  height: 100%;
+}
+h1 {
+  font-weight: 900;
+  letter-spacing: 2px;
+  font-size:48px;
+  color: #58679A;
+}
+.logo {
+  width:60px;
+  fill:white;
+  padding-right:10px;
+  display:inline-block;
+  vertical-align: middle;
+}
+.formInput {
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 1px 1px 1px 1px #58679a;
+  border-radius: 70px;
+  height: 36px;
+  width: 300px;
+  padding: 0px 0px 0px 15px;
+  margin: 3px 3px 3px 3px;
+}
+.backBtn{
+  border-radius: 4%;
+  width: 150px;
+  margin: 15px 3px 3px 3px;
+  padding: 0px 7px 0px 3px;
+  font-size: 0.8em;
+  letter-spacing: -1px;
+  color: #404c74;
+}
+.select-class-code {
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 1px 1px 1px 1px #58679A;
+  border-radius: 70px; 
+  height: 36px; 
+  width: 300px; 
+  padding:0px 0px 0px 15px;
+  margin: 3px 3px 6px 3px;
+}
+.placement {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+.flex { /*Flexbox for containers*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
 </style>

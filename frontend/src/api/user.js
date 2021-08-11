@@ -7,6 +7,9 @@ export const userApi = {
     return requestPost(SERVER.URL + SERVER.ROUTES.signup, data);
   },
 
+  updateUser: (data) => {
+    return requestGet(SERVER.URL + SERVER.ROUTES.logout + `?userId=${data.userId}`);
+  },
 
   getUser: (userId, headers) => {
     // 이거 유알엘 어떻게 하냐.
@@ -21,7 +24,7 @@ export const userApi = {
 
   updateUserProfileImg: (data, headers) => {    
     console.log(data);
-    return requestPut(SERVER.URL + SERVER.ROUTES.changeProfileImg + `/${data.userId}?profileImg=${data.profileImg}`, headers);
+    return requestPut(SERVER.URL + SERVER.ROUTES.changeProfileImg + `/${data.userId}?profileImg=${data.profileImg}`, data, headers);
   },
 
 }

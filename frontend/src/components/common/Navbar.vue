@@ -1,66 +1,60 @@
 <template>
-    <div style="background-color: rgb(250, 215, 73);">
+  <div>
+    <nav class="navbar">
 
-      <nav
-      class="navbar bg-light"
-      style="background-color: rgb(230, 232, 240) padding-top; 0"
+      <!-- 로고 -->
+      <button @click="moveToMainPage">
+        <img src="@/assets/logo.png" style="height:1.8rem" alt="">
+      </button>
+      
+      <!-- 간격 조정 -->
+      <v-spacer></v-spacer>
+
+      <!-- 호칭 -->
+      <p v-if="type == 2" style="margin-bottom:0px; margin-right: 1em">{{ className }} {{ userName }} 선생님</p>
+      <p v-if="type == 1">{{ className }} {{ kidName }} 보호자님</p>
+      
+      <!-- 프로필 사진 : 드롭 다운 -->
+      <v-menu
+        left
+        bottom
       >
-        <button @click="moveToMainPage">
-          <img src="@/assets/icontact2.png" style="height:2.8rem" alt="">
-        </button>
-        <!-- <v-btn plain @click="moveToMainPage">
-          <v-icon>Icontact</v-icon>
-        </v-btn> -->
-        
-        <v-spacer></v-spacer>
-        <p v-if="type == 2" style="color: black; margin-bottom:0px; margin-right:20px">{{ className }} {{ userName }} 선생님</p>
-        <p v-if="type == 1">{{ className }} {{ userName }} 보호자님</p>
-        <v-menu
-          left
-          bottom
-        >
-          <template v-slot:activator="{ on, attrs }" >
-            <v-btn
-              icon
-              v-bind="attrs"
-              v-on="on"
-            style="margin-right:15px">
-              <v-avatar size="40">
-                <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + $store.state.user.profileImg">
-              </v-avatar>
-            </v-btn>
-          </template>
-          <v-list>
-            <v-list-item @click="$router.push({ name: 'MyPage', params: { userId: userId }})">
-              <v-list-item-title >마이페이지</v-list-item-title>
-            </v-list-item>
-            <v-list-item>
-              <v-list-item-title>알람끄기</v-list-item-title>
-            </v-list-item>
-            <v-list-item @click="logout">
-              <v-list-item-title >로그아웃</v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-
-
-        <v-btn icon>  
-          <v-badge
-            overlap
-            dot
-            color="pink"
-          >
-            <v-avatar size="40">
-              <v-img src="https://image.flaticon.com/icons/png/512/2645/2645883.png"></v-img>
+        <template v-slot:activator="{ on, attrs }" >
+          <v-btn
+            icon
+            v-bind="attrs"
+            v-on="on"
+          style="margin-right: 1.1em">
+            <v-avatar size="40" class="scale">
+              <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + $store.state.user.profileImg" >
             </v-avatar>
-          </v-badge>
-        </v-btn>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item @click="$router.push({ name: 'MyPage', params: { userId: userId }})">
+            <v-list-item-title >마이페이지</v-list-item-title>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-title>알람 끄기</v-list-item-title>
+          </v-list-item>
+          <v-list-item @click="logout">
+            <v-list-item-title >로그아웃</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
 
-      </nav>
-    </div>
+      <!-- 지도 아이콘 -->
+      <button class="scale">  
+          <img src="@/assets/flaticon/bus.png" style="height:3.2rem">
+      </button>
+
+    </nav>
+  </div>
 </template>
 
 <script>
+import SERVER from '@/api/drf.js';
+import axios from 'axios'
 export default {
   name: 'Navbar',
   data() {
@@ -69,6 +63,7 @@ export default {
       className: '',
       userName: '',
       userId: '',
+      kidName: '',
     }
   },
   methods: {
@@ -77,11 +72,18 @@ export default {
       this.className = this.$store.state.user.className
       this.userName = this.$store.state.user.userName
       this.userId = this.$store.state.user.userId
+      this.kidName = this.$store.state.user.kidName
     },
     logout() {
       if (confirm("정말 로그아웃하시겠습니까?")) {
-        this.$store.dispatch('removeUser');
-        if (this.$route.path !== '/') this.$router.push('/');
+        axios({
+          url: SERVER.URL + SERVER.ROUTES.logout + `?userId=${this.$store.state.user.userId}`,
+          method: "get",
+        })
+        .then(() => {
+          this.$store.dispatch('removeUser');
+          if (this.$route.path !== 'Login') this.$router.push('Login');
+        })
       }
     },
     moveToMainPage() {
@@ -107,5 +109,27 @@ export default {
 </script>
 
 <style scoped>
-
+.navbar {
+  padding-left: 1em;
+  padding-right: 1em;
+  padding-top: 0.3em;
+  padding-bottom: 0.3em;
+  background-color: aliceblue;
+}
+.scale {
+  transform: scale(1);
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -ms-transform: scale(1);
+  -o-transform: scale(1);
+  transition: all 0.3s ease-in-out;   /* 부드러운 모션을 위해 추가*/
+}
+.scale:hover {
+  transform: scale(1.2);
+  -webkit-transform: scale(1.2);
+  -moz-transform: scale(1.2);
+  -ms-transform: scale(1.2);
+  -o-transform: scale(1.2);
+}
+.img {width:325px; height:280px; overflow:hidden } 
 </style>

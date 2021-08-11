@@ -12,6 +12,10 @@ export const notebookApi = {
   getNotebook: (data, headers) => {
     return requestGet(SERVER.URL + SERVER.ROUTES.notebook + `/${data.type}` +`?userId=${data.userId}` + `&pageNum=${data.pageNum}`, headers);
   },
+
+  getSearchNotebook: (data, headers) => {
+    return requestGet(SERVER.URL + SERVER.ROUTES.notebook + '/search' +`?userId=${data.userId}` + `&pageNum=${data.pageNum}` + `&searchParam=${data.searchParam}`, headers);
+  },
   
   // 알림장 상세 조회(완료)
   getNotebookDetail: (data, headers) => {
@@ -20,16 +24,7 @@ export const notebookApi = {
 
   // 알림장 수정
   updateNotebook: (data, headers) => {
-    let cnt = 0
-    let noteId = ''
-    for(var item of data.entries()) {
-      cnt = 1
-      noteId = item[1]
-      if (cnt === 1) {
-        break
-      }
-    }
-    return requestPost(SERVER.URL + SERVER.ROUTES.notebook + `/${noteId}`, data, headers);
+    return requestPost(SERVER.URL + SERVER.ROUTES.notebook + `/${data.noteId}`, data, headers);
   },
 
   // 알림장 삭제(완료)

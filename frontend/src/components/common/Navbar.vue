@@ -11,7 +11,7 @@
 
       <!-- 호칭 -->
       <p v-if="type == 2" style="margin-bottom:0px; margin-right: 1em">{{ className }} {{ userName }} 선생님</p>
-      <p v-if="type == 1">{{ className }} {{ kidName }} 보호자님</p>
+      <p v-if="type == 1" style="margin-bottom:0px; margin-right: 1em">{{ className }} {{ kidName }} 보호자님</p>
       
       <!-- 프로필 사진 : 드롭 다운 -->
       <v-menu left bottom>

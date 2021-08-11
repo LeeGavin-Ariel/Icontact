@@ -1,7 +1,9 @@
 const URL = 'http://localhost:8080'
+const WS = 'ws://localhost:8080'
 
 export default {
   URL,
+  WS,
   ROUTES: {
     login: '/login',
     signup: '/user',

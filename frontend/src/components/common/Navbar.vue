@@ -69,7 +69,7 @@
         </v-btn>
 <!-- 학부모 버튼 -->
 <!-- Mypage를 GPS페이지로 변경해야한다 -->
-        <v-btn v-if="type == 1" icon @click="$router.push({ name: 'MyPage', params: { userId: userId }})">
+        <v-btn v-if="type == 1" icon @click="$router.push({ name: 'gps'})">
           <v-avatar size="40">
               <v-img src="https://image.flaticon.com/icons/png/512/234/234270.png"></v-img>
           </v-avatar>
@@ -82,6 +82,7 @@
 
 <script>
 import  { requestPost } from '@/utils/request.js';
+import SERVER from '@/api/drf.js';
 
 export default {
   name: 'Navbar',
@@ -95,7 +96,6 @@ export default {
       bus: 0,
 			latitude: '',
 			longitude: '',
-			textContent: '',
 			socket: null,
       kinderCode: '',
       interval: null,
@@ -128,7 +128,7 @@ export default {
       this.$store.dispatch('setBus', 1);
       this.bus = this.$store.state.bus;
 
-      this.socket = new WebSocket("ws://localhost:8080/ws/gps");
+      this.socket = new WebSocket(`${SERVER.WS}/ws/gps`);
 
       this.socket.onopen = async (e) => {
         await this.createRoom();
@@ -152,38 +152,35 @@ export default {
 
 
 		async createRoom() {
-			await requestPost('http://localhost:8080/gps', {name: 'test', code: this.kinderCode});
+			await requestPost(`${SERVER.URL}/gps`, {name: 'test', code: this.kinderCode});
 			console.log('방 생성');
       
       var mes = '{"type": "Enter", "code": "' +this.kinderCode+ '", "lat":"0", "lon":"0" }'
       console.log(mes);
       this.socket.send(mes);
 		},
+
 		deleteRoom() {
-			requestPost('http://localhost:8080/gps', {name: 'test', code: this.kinderCode});
-			console.log('방 생성');
+			requestPost(`${SERVER.URL}/gps`, {name: 'test', code: this.kinderCode});
+			console.log('방 닫음');
 		},
 
 		geofind() {
 			if(!("geolocation" in navigator)) {
-				this.textContent = 'Geolocation is not available.';
 				return;
 			}
-			this.textContent = 'Locating...'
 			// get position
 			navigator.geolocation.getCurrentPosition(pos => {
 				this.latitude = pos.coords.latitude;
 				this.longitude = pos.coords.longitude;
-				this.textContent = 'Your location data is ' + this.latitude + ', ' + this.longitude
-				console.log(this.textContent);
 			}, err => {
-				this.textContent = err.message;		
+				console.log(err);
 			});			
 		},
 		sendLatLng() {
 			var mes = `{
 				"type": "Update",
-				"code": "1111",
+				"code": "${this.kinderCode}",
 				"lat": "${this.latitude}",
 				"lon": "${this.longitude}"
 			}`
@@ -193,7 +190,7 @@ export default {
 		gps() {
 			this.interval = setInterval(() => {
 				this.geofind(); 
-				this.sendLatLng();}, 2000);
+				this.sendLatLng();}, 1000);
 		},
   },
   computed: {

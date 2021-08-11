@@ -96,7 +96,8 @@ public class NotebookServiceImpl implements NotebookService{
                         n.getTargetId(),
                         target.getUserName(),
                         n.getCreateDate(),
-                        totalCnt);
+                        totalCnt,
+                        n.getNoteImgUrl());
 
                 result.add(dto);
             }

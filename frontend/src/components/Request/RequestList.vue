@@ -28,7 +28,8 @@
                     
                     <!-- 리스트 내용 -->
                     <v-avatar size="70" class="profile-img mr-3">
-                      <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + request.profileImg"/>
+                      <!-- <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + request.profileImg"/> -->
+                      <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + profileImg"/>
                     </v-avatar>
                     <div>
                     <div class="request-kid-name"><strong>{{request.kidName}}</strong> 학부모님의 투약 요청</div>
@@ -93,8 +94,6 @@
     @get-notebooklist="initRequestList"
     />
 
-
-
   </div>
 </template>
 
@@ -129,6 +128,8 @@ export default {
       // 더보기 전체 페이지 수
       dosagePageCnt: 1 ,
       returnhomePageCnt: 1 ,
+
+      profileImg:this.$store.state.user.profileImg,
     }
   },
   methods: {
@@ -309,6 +310,7 @@ export default {
   },
 
   created() {
+    console.log(this.$store.state.user);
     // 페이지 들어오자마자 getRequest 실행 (default 투약요청)
     this.identity = this.$store.state.user.type
     if (this.identity === 1) {

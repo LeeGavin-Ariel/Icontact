@@ -1,6 +1,23 @@
 <template>
-  <v-container fluid>
-    <v-card
+  <div class="item" v-bind="$attrs" v-on="$listeners" elevation="10" >
+    <div class="notice-title">
+      <span style="30px">{{ noticeInfo.title }}</span>
+    </div>
+    <div class="notice-sub">
+      <div class="notice-content">{{noticeInfo.content}}</div>
+      <div class="notice-date">{{ createDate }}</div>
+    </div>
+  </div>
+    <!-- <div class="item" v-bind="$attrs" v-on="$listeners" elevation="10" >
+    <div class="notice-title">
+      <span style="30px">{{ noticeInfo.title }}</span>
+    </div>
+    <div class="notice-sub">
+      <div class="notice-content">{{noticeInfo.content}}</div>
+      <div class="notice-date">{{ createDate }}</div>
+    </div>
+  </div> -->
+  <!-- <v-card
       color="blue lighten-4 radius"
       dense
       outlined
@@ -20,8 +37,7 @@
           {{ createDate }}
         </v-col>
       </v-row>
-    </v-card>
-  </v-container>
+    </v-card> -->
 </template>
 
 <script>
@@ -50,5 +66,55 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.item {
+  background: white ;
+  /* border-bottom: solid 0.5px #a8b1cf; */
+  position: relative;
+  /* justify-content: space-between; */
+  /* align-self: center; */
+
+  width: 100%;
+  height: 5rem;
+  border-bottom: #a8b1cf 0.1rem solid;
+  margin-bottom: 0.1rem;
+  /* border-radius: 20px; */
+
+  display: flex;
+}
+.notice-title {
+  margin-top: 0.3rem;
+  margin-left: 2rem;
+  font-size: 1.8rem;
+  width: 100%;
+  display: block;
+  justify-self: flex-end;
+}
+.notice-sub {
+  /* top: 0.5em; */
+  /* height: 100%; */
+  padding: 0.2rem 2rem;
+  width: 100%;
+  display: flex;
+  position: absolute;
+  bottom: 0;
+  /* top: 2rem; */
+  /* 아이템을 어떻게 배치할지 */
+  justify-content: space-between;
+  /* align-items: flex-end; */
+  align-content: flex-end;
+}
+.notice-content {
+  /* margin-left: 0.5rem; */
+  width: 60%;
+  align-self: flex-end;
+}
+.notice-date {
+  display: inline-block;
+  /* background-color: red; */
+  /* display: inline-block; */
+
+  /* display: flex; */
+  align-self: flex-end;
+}
 </style>

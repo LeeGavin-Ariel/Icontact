@@ -4,7 +4,7 @@
       class="col-4 mx height:100vh"
       style="padding-bottom: 0px; border-right: 1px solid"
     >
-      <!-- 공지 사항 리스트 -->
+   
       <channel-list />
     </div>
     <v-col class="mx height:100vh">

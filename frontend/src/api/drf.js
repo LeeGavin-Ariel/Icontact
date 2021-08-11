@@ -4,6 +4,7 @@ export default {
   URL,
   ROUTES: {
     login: '/login',
+    logout: '/logout',
     signup: '/user',
     sms: '/auth/sms',
     searchClass:'/auth/kinder/class',

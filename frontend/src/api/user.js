@@ -7,6 +7,9 @@ export const userApi = {
     return requestPost(SERVER.URL + SERVER.ROUTES.signup, data);
   },
 
+  updateUser: (data) => {
+    return requestGet(SERVER.URL + SERVER.ROUTES.logout + `?userId=${data.userId}`);
+  },
 
   getUser: (userId, headers) => {
     // 이거 유알엘 어떻게 하냐.

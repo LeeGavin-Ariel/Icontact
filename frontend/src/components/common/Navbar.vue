@@ -12,7 +12,7 @@
 
       <!-- 호칭 -->
       <p v-if="type == 2" style="margin-bottom:0px; margin-right: 1em">{{ className }} {{ userName }} 선생님</p>
-      <p v-if="type == 1">{{ className }} {{ userName }} 보호자님</p>
+      <p v-if="type == 1">{{ className }} {{ kidName }} 보호자님</p>
       
       <!-- 프로필 사진 : 드롭 다운 -->
       <v-menu
@@ -53,6 +53,8 @@
 </template>
 
 <script>
+import SERVER from '@/api/drf.js';
+import axios from 'axios'
 export default {
   name: 'Navbar',
   data() {
@@ -61,6 +63,7 @@ export default {
       className: '',
       userName: '',
       userId: '',
+      kidName: '',
     }
   },
   methods: {
@@ -69,11 +72,18 @@ export default {
       this.className = this.$store.state.user.className
       this.userName = this.$store.state.user.userName
       this.userId = this.$store.state.user.userId
+      this.kidName = this.$store.state.user.kidName
     },
     logout() {
       if (confirm("정말 로그아웃하시겠습니까?")) {
-        this.$store.dispatch('removeUser');
-        if (this.$route.path !== 'Login') this.$router.push('Login');
+        axios({
+          url: SERVER.URL + SERVER.ROUTES.logout + `?userId=${this.$store.state.user.userId}`,
+          method: "get",
+        })
+        .then(() => {
+          this.$store.dispatch('removeUser');
+          if (this.$route.path !== 'Login') this.$router.push('Login');
+        })
       }
     },
     moveToMainPage() {
@@ -104,6 +114,7 @@ export default {
   padding-right: 1em;
   padding-top: 0.3em;
   padding-bottom: 0.3em;
+  background-color: aliceblue;
 }
 .scale {
   transform: scale(1);

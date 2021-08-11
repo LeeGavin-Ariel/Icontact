@@ -1,14 +1,20 @@
 <template>
   <div style="overflow-y:scroll;" class="col">
     <!-- 디테일 -->
-    <button v-if="identity === 1 && updating === 0" @click="createNewRequest">연필</button>
-    | 
-    <button v-if="identity === 1 && updating === 1 && id" @click="updateRequest">연필</button>
-    
-    <button v-if="identity === 1 && updating === 0 && id" @click="updateRequest">글 수정</button>
-      | 
-    <button v-if="identity === 1 && id" @click="deleteRequest">글 삭제</button>
+    <!-- 새 글 작성시 -->
+    <div class="ml-5 mr-5 mt-5">
+    <button class="writeBtn" v-if="identity === 1 && updating === 0 && creating === 0" @click="createNewRequest"><img src="@/assets/write.png" style="width:3.8rem"></button>
+    <!-- 글 작성하고 저장시 -->
+    <button v-if="identity === 1 && updating === 0 && creating === 1" @click="createNewRequest">저장버튼<img src="@/assets/flaticon/toys.png" style="width:2rem"></button>
+    <!-- 글 수정하고 저장시 -->
+    <button v-if="identity === 1 && updating === 1 && creating === 0 && id" @click="updateRequest" style="">수정 완료</button>
+    <!-- 글 수정할 시 -->
+    <div align="right"> 
+      <button v-if="identity === 1 && updating === 0 && creating === 0 && id" @click="updateRequest" class="ml-2 text-deco">글 수정</button> |
+      <button v-if="identity === 1 && updating === 0 && creating === 0 && id" @click="deleteRequest" class="mr-2 text-deco">글 삭제</button>
+    </div>
     <button v-if="identity === 1 && creating && id" @click="offCreateForm">글 작성 취소</button>
+    <button v-if="identity === 1 && updating && id" @click="offUpdateForm">글 작성 취소</button>
     
     <v-sheet
       rounded="lg"
@@ -22,11 +28,12 @@
       rounded="lg"
       v-if="requestType === 1 && requestDetail && (!creating && !updating) && (id !== 0)"
     >
-      {{requestDetail}}
+      <div style="width:100%; height:2px; background-color:rgba(156 ,156,156, 0.5)" class="mt-2"></div>
       <p>작성 시간 : {{requestDetail.createDate}}</p>
       <p>작성자 : {{requestDetail.kidName}} 학부모님</p>
       <p>투약 시간 : {{requestDetail.dosageTime}}</p>
       <p>투약 용량 : {{requestDetail.dosageVol}}</p>
+      <p>보관 방법 : {{requestDetail.storage}}</p>
       <p>특이사항 : {{requestDetail.specialNote}}</p>
       <p>증상 : {{requestDetail.symptom}}</p>
     </v-sheet>
@@ -55,7 +62,6 @@
       rounded="lg"
       v-if="requestType === 2 && requestDetail && (!creating && !updating) && (id !== 0)"
     >
-    {{requestDetail}}
       <p>작성 시간 : {{requestDetail.createDate}}</p>
       <p>작성자 : {{requestDetail.kidName}} 학부모님</p>
       <p>귀가 날짜 : {{requestDetail.rhDate}}</p>
@@ -84,10 +90,10 @@
       <input type="text" v-model="emergencyTel">
     </v-sheet>
 
-
+  </div>
   </div>
 
-</template>
+</template> 
 
 <script>
 import requestApi from '@/api/request.js';
@@ -144,9 +150,12 @@ export default {
 
 
   methods: {
-
     offCreateForm() {
       this.creating = 0
+    },
+
+    offUpdateForm() {
+      this.updating = 0
     },
 
     async getRequestDetail() {
@@ -168,7 +177,7 @@ export default {
       else if (this.requestType === 2){
         this.requestDetail = result.returnhome
       }
-      console.log(this.requestDetail)
+      //console.log(this.requestDetail)
       this.creating = 0
       this.updating = 0
     },
@@ -356,5 +365,13 @@ export default {
 </script>
 
 <style scoped>
+.writeBtn{
+  position: fixed;
+  right: 60px;
+  bottom: 50px;
+}
 
+.text-deco{
+  font-size: 18px;
+}
 </style>

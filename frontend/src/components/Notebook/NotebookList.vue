@@ -16,8 +16,8 @@
         v-if="identity === 2" 
         @input="searchPerson=$event.target.value"
         @keypress.enter="search">
-        <button @click="search" v-if="!searchFlag">검색</button>
-        <button @click="getNotebookList" v-if="searchFlag">초기화</button>
+        <button @click="search" v-if="!searchFlag && identity === 2">검색</button>
+        <button @click="getNotebookList" v-if="searchFlag && identity === 2">초기화</button>
 
         <v-list two-line>
           <v-list-item-group

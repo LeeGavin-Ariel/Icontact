@@ -173,6 +173,8 @@ router.beforeEach((to, from, next) => {
 
   //3. 
   //3-1. 만약 로그인이 필요한 컴포넌트인데 로그인이 안되어 있는 경우에 강제로 가려고 하면?
+  console.log('로그인되었나?')
+  console.log(isLoggedIn)
   if (authRequired && !isLoggedIn) {
     // 로그인을 할 수 있도록 (가드) -> Login 컴포넌트로 보내자
     next({ name: 'Login' })

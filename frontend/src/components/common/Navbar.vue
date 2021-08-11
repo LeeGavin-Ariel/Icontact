@@ -125,6 +125,8 @@ export default {
       this.userName = this.$store.state.user.userName
       this.userId = this.$store.state.user.userId
       this.kidName = this.$store.state.user.kidName
+      this.stateCode =  this.$store.state.user.stateCode
+      
     },
     logout() {
       if (confirm("정말 로그아웃하시겠습니까?")) {

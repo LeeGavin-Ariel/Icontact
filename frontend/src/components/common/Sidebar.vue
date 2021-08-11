@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <v-list>
+    <v-list shaped>
     <!-- <v-list style="background-color: #a8b1cf;">       -->
       <v-list-item
         v-for="item in items"
@@ -55,7 +55,7 @@ export default {
   font-weight: bolder;
 }
 .sidebar-item:hover{
-  background-color:rgba(168, 177,207, 0.5);
+  background-color:#fff1c8;
   transition: 0.3s;
 }
 </style>

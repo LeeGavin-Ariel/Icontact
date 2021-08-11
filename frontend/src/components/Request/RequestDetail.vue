@@ -1,5 +1,5 @@
 <template>
-  <div style="overflow-y:scroll;" class="col">
+  <div class="col">
     <!-- 디테일 -->
     <!-- 새 글 작성시 -->
     <div class="ml-5 mr-5 mt-5">
@@ -9,10 +9,6 @@
     <!-- 글 수정하고 저장시 -->
     <button v-if="identity === 1 && updating === 1 && creating === 0 && id" @click="updateRequest" style="">수정 완료</button>
     <!-- 글 수정할 시 -->
-    <div align="right"> 
-      <button v-if="identity === 1 && updating === 0 && creating === 0 && id" @click="updateRequest" class="ml-2 text-deco">글 수정</button> |
-      <button v-if="identity === 1 && updating === 0 && creating === 0 && id" @click="deleteRequest" class="mr-2 text-deco">글 삭제</button>
-    </div>
     <button v-if="identity === 1 && creating && id" @click="offCreateForm">글 작성 취소</button>
     <button v-if="identity === 1 && updating && id" @click="offUpdateForm">글 작성 취소</button>
     
@@ -28,14 +24,65 @@
       rounded="lg"
       v-if="requestType === 1 && requestDetail && (!creating && !updating) && (id !== 0)"
     >
-      <div style="width:100%; height:2px; background-color:rgba(156 ,156,156, 0.5)" class="mt-2"></div>
-      <p>작성 시간 : {{requestDetail.createDate}}</p>
-      <p>작성자 : {{requestDetail.kidName}} 학부모님</p>
-      <p>투약 시간 : {{requestDetail.dosageTime}}</p>
-      <p>투약 용량 : {{requestDetail.dosageVol}}</p>
-      <p>보관 방법 : {{requestDetail.storage}}</p>
-      <p>특이사항 : {{requestDetail.specialNote}}</p>
-      <p>증상 : {{requestDetail.symptom}}</p>
+      <div style="width:100%; height:15px; background-color:#a8b1cf" class="mt-3"></div>
+      <div class="container" style="height:84.8vh">
+        <div align="right" class="mt-2"> 
+          <button v-if="identity === 1 && updating === 0 && creating === 0 && id" @click="updateRequest" class="mr-2 text-deco">수정</button>
+          <button v-if="identity === 1 && updating === 0 && creating === 0 && id" @click="deleteRequest" class="ml-2 mr-2 text-deco">삭제</button>
+        </div>
+        <div class="section-title">
+        </div>
+        <div align="center" class="mb-5">
+
+          <div class="col-lg-11">
+            <table class="table">
+              <tbody>
+                  <tr class="d-flex">
+                      <td class="col-12">
+                        <div style="font-size:35px"><strong>{{requestDetail.kidName}}</strong></div>
+                        <div class="mt-3 mb-2">금일 자녀의 투약을 선생님께 의뢰합니다.</div>
+                      </td>
+                  </tr>
+                  <tr class="d-flex">
+                    <td class="col-12 align-items-center mt-3">
+                      <strong style="font-size: 18px">투약내용</strong>
+                      <table class=" table mt-5 mb-5" style="border-radius:10px; background-color: rgba(156,156,156,0.1)">
+                        <tr class="d-flex">
+                          <th class="col-2">증상</th>
+                          <td class="col-10">{{requestDetail.symptom}}</td>
+                        </tr>
+                        <tr class="d-flex">
+                          <th class="col-2">투약 용량</th>
+                          <td class="col-10">{{requestDetail.dosageVol}}</td>
+                        </tr>
+                        <tr class="d-flex">
+                          <th class="col-2">투약 횟수</th>
+                          <td class="col-10">{{requestDetail.dosageCnt}} 회</td>
+                        </tr>
+                        <tr class="d-flex">
+                          <th class="col-2">투약 시간</th>
+                          <td class="col-10">{{requestDetail.dosageTime}}</td>
+                        </tr>
+                        <tr class="d-flex">
+                          <th class="col-2">보관 방법</th>
+                          <td class="col-10">{{requestDetail.storage}}</td>
+                        </tr>
+                        <tr class="d-flex">
+                          <th class="col-2">특이사항</th>
+                          <td class="col-10">{{requestDetail.specialNote}}</td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+              </tbody>
+            </table>
+            <div>
+              투약으로 인한 책임은 의뢰자가 집니다.
+            </div>
+          </div>
+
+        </div>
+      </div>
     </v-sheet>
 
     <v-sheet
@@ -370,8 +417,32 @@ export default {
   right: 60px;
   bottom: 50px;
 }
+.request-container{
+  overflow-y:scroll; 
+  height:80vh; 
+}
+.request-container::-webkit-scrollbar {
+  width: 10px;
+  background-color: black;
+}
+.request-container::-webkit-scrollbar-thumb {
+  background-color: #2f3542;
+}
+.request-container::-webkit-scrollbar-track {
+  background-color: grey;
+}
 
 .text-deco{
   font-size: 18px;
+}
+/* 
+.letter-back{
+  background-image: url("../../assets/letter.png");
+  background-size: 100% 100%;
+} */
+
+.letter-back{
+  background-color:#fff1c8;
+  background-size: 100% 100%;
 }
 </style>

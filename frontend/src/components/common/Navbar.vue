@@ -114,7 +114,7 @@ export default {
   padding-right: 1em;
   padding-top: 0.3em;
   padding-bottom: 0.3em;
-  background-color: aliceblue;
+  background-color: #A8B1CF;
 }
 .scale {
   transform: scale(1);

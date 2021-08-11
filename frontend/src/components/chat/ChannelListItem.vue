@@ -25,9 +25,10 @@
             </v-card-subtitle>
           </v-col>
 
-          <v-col align-self="center">
-            <v-row>{{ connectionStatus }}</v-row>
-            <v-row>{{ getCreatedAt() }}</v-row>
+          <v-col align-self="end">
+            <!-- <v-row>{{ connectionStatus }}</v-row> -->
+            <!-- <v-row>{{ getCreatedAt() }}</v-row> -->
+            {{ getCreatedAt() }}
           </v-col>
           <!-- <v-col align-self="end"></v-col> -->
         </v-row>

@@ -31,13 +31,21 @@ public class ChatController {
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<String> retrieveUser(@PathVariable String userId) {
+    public ResponseEntity<String> retrieveUserProfileImg(@PathVariable String userId) {
         String findUser = userService.retrieveUser(userId).getProfileImg();
 
-        if (findUser !=null) {
+        if (findUser != null) {
             return new ResponseEntity<String>(findUser, HttpStatus.OK);
         }
         return new ResponseEntity<String>(HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("/stateCode/{userId}")
+    public ResponseEntity<Integer> retrieveUserStateCode(@PathVariable String userId) {
+        System.out.println("상태코드 확인");
+        int stateCode = userService.retrieveUser(userId).getStateCode();
+        System.out.println(stateCode);
+        return new ResponseEntity<Integer>(stateCode, HttpStatus.OK);
     }
 }
 

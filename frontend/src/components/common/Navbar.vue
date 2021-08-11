@@ -19,7 +19,17 @@
       <v-menu left bottom>
         <template v-slot:activator="{ on, attrs }">
           <v-btn icon v-bind="attrs" v-on="on" style="margin-right: 1.1em">
-            <v-avatar size="40" class="scale">
+            <v-badge v-if="type == 2" dot overlap :color="badgeColor">
+              <v-avatar size="40" class="scale">
+                <img
+                  :src="
+                    'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
+                    $store.state.user.profileImg
+                  "
+                />
+              </v-avatar>
+            </v-badge>
+            <v-avatar v-else-if="type == 1" size="40" class="scale">
               <img
                 :src="
                   'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
@@ -37,7 +47,7 @@
           >
             <v-list-item-title>마이페이지</v-list-item-title>
           </v-list-item>
-          <v-list-item @click="toggleAlarm">
+          <v-list-item @click="toggleAlarm" v-if="type == 2">
             <v-list-item-title v-if="stateCode == 1"
               >알람 끄기</v-list-item-title
             >
@@ -70,6 +80,7 @@ export default {
       userName: "",
       userId: "",
       stateCode: "",
+      badgeColor: "green",
     };
   },
   methods: {
@@ -96,10 +107,10 @@ export default {
           }
         )
         .then((result) => {
-          console.log('상태코드가 변경되었습니다');
           if (result) {
-            console.log('상태코드가 변경되었습니다2');
+            console.log("상태코드가 변경되었습니다");
             this.stateCode = this.stateCode == 1 ? 2 : 1;
+            this.badgeColor = this.badgeColor == "green" ? "red" : "green";
           }
         })
         .catch((e) => {

@@ -1,88 +1,90 @@
 <template>
-  <div>
-    <div>
-      <h4 class="text-center">{{ userName }}님</h4>
-      <div class="d-flex justify-content-center m-4">
-      <v-avatar
-        color="orange"
-        size="200px"
-      >
-        <img
-        :src="this.profileImg"
-        alt="user-profile-image" id='profileImg'>
-      </v-avatar>  
+  <div id='bg' style="display:flex; justify-content:center; height:100%; align-items: center; font-family: 'EliceDigitalBaeum_Bold';">
+    <div class="col-sm-8 col-md-5" style="height: 90%; background-color: rgba(256,256,256,0.7); border-style: solid;  border-color:#a8b1cf; border-radius: 40px;">
+      <div class="d-flex justify-content-center align-items-center m-4">
+        <div style="position:relative; ">
+          <v-avatar
+            color="orange"
+            size="200px"
+          >
+            <img
+            :src="this.profileImg"
+            alt="user-profile-image" id='profileImg'>
+          </v-avatar>
+          <button data-bs-toggle="modal" data-bs-target="#profileModal" style="width:15%; height:15%; position:absolute; bottom:0; right:5px">
+            <img src="@/assets/flaticon/pencil.png" style="width:100%; height:100%;" alt="" >
+          </button>
+        </div>
+        <!-- 사진 변경 버튼 -->
+      
       </div>
-      <div class="text-center d-grid gap-2 col-6 mx-auto border border-5 rounded-3 border-warning">내 정보
-        <div>ID : {{ userId }}</div>
-        <div>이름 : {{ userName }}</div>
-        <div v-if="type===1">아이 이름 : {{ kidName }}</div>
-        <div>원 : {{ kinderName }}</div>
-        <div>반 : {{ className }}</div>
+      <div class="col-sm-8 col-md-8 mx-auto text-center">
+        <h4 v-if="type===2">[{{className}}] {{ userName }} 선생님</h4>
+        <h4 v-else>[{{className}}반] {{ kidName }} 학부모님 </h4>
+        <!-- 비밀 번호 변경 버튼 -->
+        <button data-bs-toggle="modal" data-bs-target="#passwordModal">
+          비밀번호 변경
+        </button>
+      </div>
+      <div class="text-left d-grid gap-2 col-6 mx-auto">
+        <h4 style="margin-bottom:0;">내 정보</h4>
+        <hr style="color:#a8b1cf; height:3px; margin:5px;">
+        <h6>아이디 : {{ userId }}</h6>
+        <h6>이름 : {{ userName }}</h6>
+        <h6 v-if="type===1">아이 이름 : {{ kidName }}</h6>
+        <h6>유치원 명 : {{ kinderName }}</h6>
+        <h6>반 명 : {{ className }}</h6>
       </div>
 
-      <!-- 
-        1. 사진변경 시 requestPost
-        2. 비밀번호 변경시 requestPost
-        3. 처음 프로필 내용 불러올 때 requestGet
-      -->
+      
+      
+    </div>
 
-      <!-- 의상이 코드로 확인할 것. -->
-      <!-- get user 잘 되는지 확인 (get방식 요청 날리는 방법이 맞는지.) -->
-      <!-- 프로필 수정 요청 어떤것 날려야하는지. 반환값은 뭔지(url일듯) -->
+    <!-- 사진 변경 모달 -->
+    <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header" style="background-color:#a8b1cf;">  
+            <h5 class="modal-title" id="profileModalLabel">프로필 사진 변경</h5>
+            <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body d-flex justify-content-center">
 
 
-      <!-- 사진 변경 모달 -->
-      <button type="button" class="btn btn-primary d-grid gap-2 col-6 mx-auto" data-bs-toggle="modal" data-bs-target="#profileModal">
-        사진변경
-      </button>
-      <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="profileModalLabel">사진 변경</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
+          <!-- <input
+          type="file" 
+          name="photo" id="photo"
+          @change="onFileSelected"
+          accept="image/*"> -->
 
-              <form>
-                <input
-                type="file" 
-                name="photo" id="photo"
-                @change="onFileSelected"
-                accept="image/*">
-              </form>
-              
+          <div class="upload-btn-wrapper">
+            <div id="image_container" style="margin-bottom:10px"></div>
+            <button class="btn btnstyle">사진 선택</button>
+            <input type="file" name="myfile" id="photo" @change="onFileSelected"/>
+          </div>
+            
 
-              
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-              <button 
-              type="button"
-              class="btn btn-primary"
-              @click="pictureUpload"
-              data-bs-dismiss="modal"
-              :disabled="!changeImg"
-              >변경하기</button>
-            </div>
+            
+          </div>
+          <div class="modal-footer">
+            <button 
+            type="button"
+            class="btn"
+            style="background-color:#a8b1cf;"
+            @click="pictureUpload"
+            data-bs-dismiss="modal"
+            :disabled="!changeImg"
+            >변경하기</button>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- 개인정보 수정할때 비밀번호 변경 : 유저 이름, 비밀번호, 프로필이미지 변경 : 유저이름, profile 이미지.
-    이미지는 로컬에 저장하는걸로 (디폴트 이미지 포함)
-    이미지 자체를 데이터로 어떻게 넘기고 받을것인가.
-    멀티파트? 가빈 누나한테 물어보기. -->
-
-    <!-- 비밀번호 변경 모달 -->
-    <button type="button" class="btn btn-primary d-grid gap-2 col-6 mx-auto" data-bs-toggle="modal" data-bs-target="#passwordModal">
-      비밀번호 변경
-    </button>
+    <!-- 비밀번호 변경 모달 -->    
     <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
-          <div class="modal-header">
+          <div class="modal-header" style="background-color:#a8b1cf;">
             <h5 class="modal-title" id="passwordModalLabel">비밀번호 변경</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
@@ -90,50 +92,80 @@
             
             <!-- 현재 비밀번호 -->
             <div>
-              <label for="currentPassword">현재 비밀번호: </label>
-              <input type="password" 
+              <!-- <input type="password" 
               id="currentPassword" 
               v-model="currentPassword" 
               placeholder="비밀번호를 입력하세요">
-              <!-- 유효성 검사 통과 못하면 에러메시지 출력 -->
-              <div v-if="error.currentPassword">{{error.currentPassword}}</div>
+              <div v-if="error.currentPassword">{{error.currentPassword}}</div> -->
+              <input
+              class="formInput"
+              type="password"
+              color="#58679A"
+              v-model="currentPassword" 
+              placeholder="현재 비밀번호"
+              style="text-align:left; margin:3px 0;"
+              >
+              <div v-if="error.currentPassword" style="text-align:left; color: red; font-size: 12px; margin-left: 19px">{{error.currentPassword}}</div>
             </div>
+            
+            
+
+
 
             <!-- 변경할 비밀번호 -->
             <div>
-              <label for="changePassword">변경할 비밀번호: </label>
+              <!-- <label for="changePassword">변경할 비밀번호: </label>
               <input type="password" 
               id="changePassword" 
               v-model="changePassword" 
               placeholder="비밀번호를 입력하세요">
-              <!-- 유효성 검사 통과 못하면 에러메시지 출력 -->
-              <div v-if="error.changePassword">{{error.changePassword}}</div>
+              <div v-if="error.changePassword">{{error.changePassword}}</div> -->
+
+              <input
+              class="formInput"
+              type="password"
+              color="#58679A"
+              v-model="changePassword" 
+              placeholder="변경할 비밀번호"
+              style="text-align:left; margin:3px 0;"
+              >
+              <div v-if="error.changePassword" style="text-align:left; color: red; font-size: 12px; margin-left: 19px">{{error.changePassword}}</div>
             </div>
 
             <!-- 변경할 비밀번호 확인 -->
             <div>
-              <label for="changePasswordConfirm">변경할 비밀번호확인: </label>
+              <!-- <label for="changePasswordConfirm">변경할 비밀번호확인: </label>
               <input type="password" 
               id="changePasswordConfirm" 
               v-model="changePasswordConfirm" 
               placeholder="비밀번호 확인을 입력하세요">
-              <!-- 유효성 검사 통과 못하면 에러 메시지 출력 -->
-              <div v-if="error.changePasswordConfirm">{{error.changePasswordConfirm}}</div>
+              <div v-if="error.changePasswordConfirm">{{error.changePasswordConfirm}}</div> -->
+              <input
+              class="formInput"
+              type="password"
+              color="#58679A"
+              v-model="changePasswordConfirm" 
+              placeholder="변경할 비밀번호 확인"
+              style="text-align:left; margin:3px 0;"
+              >
+              <div v-if="error.changePasswordConfirm" style="text-align:left; color: red; font-size: 12px; margin-left: 19px">{{error.changePasswordConfirm}}</div>
             </div>
 
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
             <button 
             @click="savePassword"
+            style="background-color:#a8b1cf;"
             :disabled="!currentPassword || !changePassword || error.currentPassword || error.changePassword || !(changePassword==changePasswordConfirm)"
-            type="button" class="btn btn-primary" data-bs-dismiss="modal">변경하기</button>
+            type="button" class="btn" data-bs-dismiss="modal">변경하기</button>
           </div>
         </div>
       </div>
     </div>
 
 
+  <img v-if="window.width > 960" src="@/assets/notfound.png" style="width:20%; position:absolute; right:15px; bottom:15px;" alt="">
+  <img v-if="window.width > 960" src="@/assets/servererror.png" style="width:20%; position:absolute; left:15px; bottom:15px;" alt="">
 
   </div>
 </template>
@@ -169,6 +201,12 @@ export default {
       },
       isChanged: false,
       changeImg: '',
+
+      // 화면 크기
+      window: {
+        width: 0,
+        height: 0
+      }
     }
   },
   watch: {
@@ -182,7 +220,15 @@ export default {
       this.checkForm();
     }
   },
+  
+
   methods: {
+    // 화면 크기 관련
+    handleResize() {
+      this.window.width = window.innerWidth;
+      this.window.height = window.innerHeight;
+    },
+
 
     checkForm() {
       if (!this.passwordSchema.validate(this.currentPassword) || this.currentPassword.length < 8){
@@ -203,9 +249,24 @@ export default {
     },
 
     onFileSelected(event) {
-      this.changeImg = event.target.files[0]
-      console.log(event.target.files)
-      console.log(this.changeImg)
+      let item = document.querySelector("div#image_container")
+      if (item.firstChild) {
+        item.removeChild(item.firstChild)
+      }
+
+      let reader = new FileReader();
+      reader.onload = function(event) {
+        let img = document.createElement("img")
+        img.style.width = '120px'
+        img.style.height = '120px'
+        img.style.borderRadius = '70%'
+        img.setAttribute("src", event.target.result)
+        document.querySelector("div#image_container").appendChild(img)
+      }
+      if (event.target.files[0]) {
+        reader.readAsDataURL(event.target.files[0])
+        this.changeImg = event.target.files[0]
+      }
     },
 
     // userid, 변경된 password 날리기
@@ -280,13 +341,65 @@ export default {
       .digits()
       .has()
       .letters();
+
+    // 화면 크기변경시 최초 크기 설정
+    window.addEventListener('resize', this.handleResize);
+    this.handleResize();
+  },
+  // 화면 크기 변경시
+  destroyed() {
+    window.removeEventListener('resize', this.handleResize);
   },
 }
 </script>
 
 <style scoped>
+#bg {
+  background-color: #a8b1cf;
+  width: 100%;
+  height: 100%;
+}
 
 .modal {
   z-index: 10000;
+}
+
+
+
+
+.upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.btnstyle {
+  border: 2px solid gray;
+  color: gray;
+  background-color: white;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.upload-btn-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+
+
+
+.formInput {
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 1px 1px 1px 1px #58679a;
+  border-radius: 70px;
+  height: 36px;
+  width: 100%;
+  padding: 0px 0px 0px 15px;
+  margin: 3px 3px 3px 3px;
 }
 </style>

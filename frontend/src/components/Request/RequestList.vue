@@ -1,5 +1,5 @@
 <template>
-  <div class="row" style="width:82vw; margin:0;">
+  <div class="row letter-back"  style="width:82vw; margin:0;">
 
     <div
     class="mx-auto"
@@ -10,29 +10,29 @@
       <v-col class="mx-auto">
 
       <!-- 요청 사항 버튼 -->
-      <v-tabs color="mainColor1" class="mt-3 mb-5">
+      <v-tabs color="mainColor1" background-color="transparent" class="mt-3 mb-5">
         <v-tab  class="request-tab" @click="getDosage">투약 요청</v-tab>
         <v-tab class="request-tab" @click="getReturnHome">귀가 동의</v-tab>
         <v-tabs-slider color="#A8B1CF"></v-tabs-slider>
       </v-tabs>
 
       
-      <!-- 투약 요청 리스트 -->
-      <div v-if="requestType === 1" class="scrol list-col" style="overflow-y:scroll; height:80vh;">
+      <!-- 투약 요청 리스트(최종) -->
+      <div v-if="requestType === 1" class="content-container list-col" style="overflow-y:scroll; height:80vh;">
         
         <div class="d-flex flex-column align-items-stretch flex-shrink-0" style="width: 100%;">
           <template v-for="(request, index) in dosageList" >
             <div class="list-group list-group-flush scrollarea border-test" v-if="requestType === 1" :key="request.createDate" @click="setDetail(request.dosageId)" >
-                <div class="list-group-item list-group-item-action py-2 lh-tight" style="background-color:rgb(256, 256, 256, 0.5);">
+                <div class="list-group-item list-group-item-action py-2 lh-tight" style="background-color:rgb(256, 256, 256, 0.7);">
                   <div class="d-flex align-items-center justify-content-evenly" style="height: 10vh; width:100%">
                     
                     <!-- 리스트 내용 -->
                     <v-avatar size="70" class="profile-img mr-3">
                       <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + request.profileImg"/>
                     </v-avatar>
-                    <div class="">
-                      <div class="request-kid-name" style="font-size:20px; display:block; text-align:left; margin-bottom:4px;" ><strong>{{request.kidName}}</strong> 학부모님의 투약 요청</div>
-                      <div class="request-time" style="font-size:14px; text-align:right">{{request.createDate}}</div>
+                    <div>
+                    <div class="request-kid-name"><strong>{{request.kidName}}</strong> 학부모님의 투약 요청</div>
+                    <div class="request-time">{{request.createDate}}</div>
                     </div>
                   </div>
                 </div>
@@ -50,33 +50,38 @@
       </div>
 
 
-        <!-- 귀가 동의 리스트 띄우기 -->
-        <div v-if="requestType === 2" class="scroll" style="overflow-y:scroll; height:80vh;">
-          <div class="d-flex flex-column align-items-stretch flex-shrink-0 bg-white" style="width: 100%;">
-            <template v-for="(request, index) in returnHomeList" >
-              <div class="list-group list-group-flush border-bottom scrollarea" v-if="requestType === 2" :key="request.createDate" @click="setDetail(request.rhId)">
-                  <div class="list-group-item list-group-item-action py-3 lh-tight" >
-                    <div class="d-flex w-100 align-items-center justify-content-between" style="height: 8vh">
-                      <v-avatar size="60" class="profile-img">
-                        <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + request.profileImg"/>
-                      </v-avatar>
-                      <div id="request-kid-name">{{request.kidName}} 학부모님의 귀가 동의서</div>
-                      <small id="request-time">{{request.createDate}}</small>
+      <!-- 귀가 동의 리스트(최종) -->
+      <div v-if="requestType === 2" class="scrol list-col" style="overflow-y:scroll; height:80vh;">
+        
+        <div class="d-flex flex-column align-items-stretch flex-shrink-0" style="width: 100%;">
+          <template v-for="(request, index) in returnHomeList" >
+            <div class="list-group list-group-flush scrollarea border-test" v-if="requestType === 2" :key="request.createDate" @click="setDetail(request.rhId)">
+                <div class="list-group-item list-group-item-action py-2 lh-tight" style="background-color:rgb(256, 256, 256, 0.5);">
+                  <div class="d-flex align-items-center justify-content-evenly" style="height: 10vh; width:100%">
+                    
+                    <!-- 리스트 내용 -->
+                    <v-avatar size="70" class="profile-img mr-3">
+                      <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + request.profileImg"/>
+                    </v-avatar>
+                    <div>
+                      <div class="request-kid-name"><strong>{{request.kidName}}</strong> 학부모님의 귀가 동의</div>
+                      <div class="request-time">{{request.createDate}}</div>
                     </div>
                   </div>
-              </div>
-              <div
-                  v-if="index < returnHomeList.length - 1"
-                  :key="index"
-              ></div>
-            </template>
-            <button @click="getMoreReturnhomeList" v-if="returnHomeList.length > 0 && (returnhomePageNum <= returnhomePageCnt)">더보기</button>
-          </div>
-        </div>
-            
+                </div>
+            </div>
+            <div
+              v-if="index < returnHomeList.length - 1"
+              :key="index"
+            ></div>
+          </template>
           
-
+          <!-- 더보기 버튼 -->
+          <button @click="getMoreReturnhomeList" v-if="returnHomeList.length > 0 && (returnhomePageNum <= returnhomePageCnt)">더보기</button>
         
+        </div>
+      </div>
+          
       </v-col>
     </div>
     
@@ -323,13 +328,30 @@ export default {
 
 .request-kid-name {
   font-size:22px;
+  display:block;
+  text-align:left; 
+  margin-bottom:4px;
 }
-.scroll{
+.request-time {
+  font-size:14px;
+  text-align:right;
+}
+.content-container{
   overflow-y:scroll; 
   height:80vh; 
 }
+.content-container::-webkit-scrollbar {
+  width: 7px;
+  background-color: rgba(233,234,239, 0.5);
+}
+.content-container::-webkit-scrollbar-thumb {
+  background-color: rgba(102,122,188, 0.7)
+}
+.content-container::-webkit-scrollbar-track {
+  background-color: rgba(233,234,239, 0.5);
+}
 .profile-img {
-  box-shadow: 0px 0px 2px 1px rgba(141, 141, 141, 0.5);
+  box-shadow: 0px 0px 2px 2px rgba(168, 177, 207, 0.7);
 }
 .moreBtn{
   color: rgb(156, 156, 156);
@@ -339,7 +361,7 @@ export default {
   
 }
 .list-col{
-  background-color: #fff1c8;
+  background-color: rgba(256, 256, 256, 0.7)
 }
 .request-tab {
   font-size: 16px;
@@ -348,7 +370,11 @@ export default {
 }
 
 .border-test{
-  border-bottom: solid 0.5px #ffdf7e;
+  border-bottom: solid 0.5px #a8b1cf;
 }
 
+.letter-back{
+  background-color:rgba(102,122,188, 0.1);
+  background-size: 100% 100%;
+}
 </style>

@@ -27,6 +27,7 @@
     "vue": "^2.6.11",
     "vue-awesome": "^3.0.0",
     "vue-awesome-swiper": "^4.1.1",
+    "vue-geolocation-api": "^0.1.21",
     "vue-icon": "^2.2.0",
     "vue-infinite-loading": "^2.4.5",
     "vue-resource": "^1.5.1",

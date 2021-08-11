@@ -34,6 +34,8 @@ public class GPSService {
 
     public GPSRoom createRoom(String code){
         if(gpsRooms.containsKey(code)){
+            System.out.println("test22");
+            System.out.println(gpsRooms.get(code).toString());
             return gpsRooms.get(code);
         }
         GPSRoom gpsRoom = GPSRoom.builder()

@@ -32,7 +32,7 @@ public class WebSocketGPSHandler extends TextWebSocketHandler {
         GPSRoom room = gpsService.findRoomById(gpsMessage.getCode());
 
         if(room==null){
-            gpsService.sendMessage(session, "현재 미운행중입니다");
+            gpsService.sendMessage(session, "{\"msg\":\"현재 미운행중입니다\"}");
         }
         else {
             room.handleActions(session, gpsMessage, gpsService);

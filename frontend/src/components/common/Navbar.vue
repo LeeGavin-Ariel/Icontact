@@ -43,17 +43,37 @@
           </v-list>
         </v-menu>
 
-
-        <v-btn icon>  
+<!-- 선생님 버튼 -->
+        <v-btn v-if="type == 2 && bus==1" icon  @click="gpsOff">  
           <v-badge
             overlap
             dot
             color="pink"
           >
             <v-avatar size="40">
-              <v-img src="https://image.flaticon.com/icons/png/512/2645/2645883.png"></v-img>
+              <v-img src="https://image.flaticon.com/icons/png/512/2891/2891045.png"></v-img>
             </v-avatar>
           </v-badge>
+        </v-btn>
+        <!-- 버스 미운행 -->
+        <v-btn v-if="type == 2  && bus==0" icon @click="gpsOn">  
+          <v-badge
+            overlap
+            dot
+            color=""
+          >
+            <v-avatar size="40">
+              <v-img src="https://image.flaticon.com/icons/png/512/2891/2891045.png"></v-img>
+            </v-avatar>
+          </v-badge>
+        </v-btn>
+<!-- 학부모 버튼 -->
+<!-- Mypage를 GPS페이지로 변경해야한다 -->
+        <v-btn v-if="type == 1" icon @click="$router.push({ name: 'MyPage', params: { userId: userId }})">
+          <v-avatar size="40">
+              <v-img src="https://image.flaticon.com/icons/png/512/234/234270.png"></v-img>
+          </v-avatar>
+
         </v-btn>
 
       </nav>
@@ -61,6 +81,8 @@
 </template>
 
 <script>
+import  { requestPost } from '@/utils/request.js';
+
 export default {
   name: 'Navbar',
   data() {
@@ -69,7 +91,18 @@ export default {
       className: '',
       userName: '',
       userId: '',
+
+      bus: 0,
+			latitude: '',
+			longitude: '',
+			textContent: '',
+			socket: null,
+      kinderCode: '',
+      interval: null,
     }
+  },
+  created(){
+
   },
   methods: {
     setInfo() {
@@ -77,6 +110,7 @@ export default {
       this.className = this.$store.state.user.className
       this.userName = this.$store.state.user.userName
       this.userId = this.$store.state.user.userId
+      this.kinderCode = this.$store.state.user.kinderCode
     },
     logout() {
       if (confirm("정말 로그아웃하시겠습니까?")) {
@@ -89,6 +123,78 @@ export default {
         this.$router.push({ name: 'MainPage' })
       }
     },
+
+    gpsOn(){
+      this.$store.dispatch('setBus', 1);
+      this.bus = this.$store.state.bus;
+
+      this.socket = new WebSocket("ws://localhost:8080/ws/gps");
+
+      this.socket.onopen = async (e) => {
+        await this.createRoom();
+        console.log(e);
+        console.log('연결 성공');
+      }
+
+      this.socket.onmessage = ({data}) => {
+        console.log(data);
+      }
+      this.gps();
+    },
+    gpsOff(){
+      this.$store.dispatch('setBus', 0);
+      this.bus = this.$store.state.bus;
+      var mes = '{"type": "Delete", "code": "' +this.kinderCode+ '", "lat":"0", "lon":"0" }'
+      console.log(mes);
+      this.socket.send(mes);
+      clearInterval(this.interval);
+    },
+
+
+		async createRoom() {
+			await requestPost('http://localhost:8080/gps', {name: 'test', code: this.kinderCode});
+			console.log('방 생성');
+      
+      var mes = '{"type": "Enter", "code": "' +this.kinderCode+ '", "lat":"0", "lon":"0" }'
+      console.log(mes);
+      this.socket.send(mes);
+		},
+		deleteRoom() {
+			requestPost('http://localhost:8080/gps', {name: 'test', code: this.kinderCode});
+			console.log('방 생성');
+		},
+
+		geofind() {
+			if(!("geolocation" in navigator)) {
+				this.textContent = 'Geolocation is not available.';
+				return;
+			}
+			this.textContent = 'Locating...'
+			// get position
+			navigator.geolocation.getCurrentPosition(pos => {
+				this.latitude = pos.coords.latitude;
+				this.longitude = pos.coords.longitude;
+				this.textContent = 'Your location data is ' + this.latitude + ', ' + this.longitude
+				console.log(this.textContent);
+			}, err => {
+				this.textContent = err.message;		
+			});			
+		},
+		sendLatLng() {
+			var mes = `{
+				"type": "Update",
+				"code": "1111",
+				"lat": "${this.latitude}",
+				"lon": "${this.longitude}"
+			}`
+			this.socket.send(mes);
+			console.log(mes);		
+		},
+		gps() {
+			this.interval = setInterval(() => {
+				this.geofind(); 
+				this.sendLatLng();}, 2000);
+		},
   },
   computed: {
     checkLogin() {

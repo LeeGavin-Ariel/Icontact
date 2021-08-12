@@ -68,6 +68,7 @@ export default {
 #app {
   height: 100vh;
   width: 100vw;
+  background-color: white;
 }
 @font-face {
   font-family: 'EliceDigitalBaeum_Bold';

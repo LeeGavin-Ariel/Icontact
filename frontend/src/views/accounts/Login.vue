@@ -10,7 +10,7 @@
       <div>
         <br>
         <br>
-        <img src="@/assets/flaticon/toys.png" class="logo" alt="">
+        <img src="@/assets/icontact/children.png" class="logo" alt="">
         <h1>ICONTACT</h1>
         <br>
       </div>
@@ -58,8 +58,8 @@
       
       <hr>
       <div>
-        <button @click="$router.push({ name: 'Signup' })">회원가입</button> |
-        <button @click="$router.push({ name: 'ChangePasswordAuth' })">비밀번호 찾기</button>
+        <button class="etcBtn" @click="$router.push({ name: 'Signup' })">회원가입</button> |
+        <button class="etcBtn" @click="$router.push({ name: 'ChangePasswordAuth' })">비밀번호 찾기</button>
       </div>
     </div>
 
@@ -83,7 +83,7 @@
 
     <!--하단 내용-->
     <div class="content flex">
-      <p>ICONTACT | 2021 | Web for Kindergarden</p>
+      <p class="m-0">ICONTACT | 2021 | Web for Kindergarden</p>
     </div>
 
   </div>
@@ -186,37 +186,33 @@ export default {
 <style scoped>
 * {
   font-family: 'NanumSquareRound';
-}
-h1, button { 
-  font-family: 'EliceDigitalBaeum_Bold';
-}
-button{
-  font-size: 0.8em;
-  letter-spacing: -1px;
-  color: #404c74;
+  font-size: 0.95em;
 }
 #bg {
   background-color: #a8b1cf;
 }
 h1 {
-  font-family: "TmoneyRoundWindExtraBold";  
   font-weight: 900;
   letter-spacing: 2px;
   font-size:48px;
   color: #58679A;
+}
+.logo {
+  width: 10rem;
+  padding-right:10px;
+  display:inline-block;
+  vertical-align: middle;
+}
+button{
+  letter-spacing: -1px;
+  color: #404c74;
+  font-weight: 600;
 }
 p {
   font-weight: 100;
   letter-spacing: 1px;
   font-size:14px;
   color: #58679A;
-}
-.logo {
-  width:60px;
-  fill:white;
-  padding-right:10px;
-  display:inline-block;
-  vertical-align: middle;
 }
 .formInput {
   background-color: rgba(255, 255, 255, 0.9);
@@ -226,6 +222,15 @@ p {
   width: 300px;
   padding: 0px 0px 0px 15px;
   margin: 3px 3px 3px 3px;
+}
+.formInput:hover {
+  background-color: rgba(256, 256, 256, 1);
+  transition: 0.3s;
+}
+.etcBtn{
+  margin: 3px 3px 3px 3px;
+  padding: 0px 7px 0px 3px;
+  color: #404c74;
 }
 @media (max-width: 576px) {
   .registration-form form{
@@ -240,7 +245,7 @@ p {
   }
 }
 .inner-header {
-  height:85%;
+  height:83vh;
   width:100%;
   margin: 0;
   padding: 0;
@@ -310,5 +315,4 @@ p {
     font-size:24px;
   }
 }
-
 </style>

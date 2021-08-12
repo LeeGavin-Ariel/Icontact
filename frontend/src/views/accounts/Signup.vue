@@ -1,24 +1,23 @@
 <template >
-  <div id="bg">
-    <div style="position: absolute; top:24%; left: 50%; transform: translate(-50%, -50%); text-align:center;">
-      <img src="@/assets/flaticon/toys.png" class="logo" alt="" />
+  <div id="bg" >
+
+    <!-- 로고 -->
+    <div class="upperBox">
+      <img src="@/assets/icontact/children.png" class="logo" alt="children-image"/>
       <h1>회원가입</h1>
-
     </div>
-      <!-- 로고 -->
-    <div style="position: absolute; top:60%; left: 50%; transform: translate(-50%, -50%); text-align: center;">
-      
 
-      <!-- 회원가입 폼 -->
+
+    <!-- 회원 가입 폼 -->
+    <div class="lowerBox">
       <div style="width: 300px">
+
         <!-- 아이디 입력 -->
         <input
           class="formInput"
           type="text"
-          color="#58679A"
           v-model="userid"
           placeholder="아이디"
-          style="text-align: left"
         />
         <div
           v-if="error.userid"
@@ -36,10 +35,8 @@
         <input
           class="formInput"
           type="password"
-          color="#58679A"
           v-model="password"
           placeholder="비밀번호"
-          style="text-align: left"
         />
         <div
           v-if="error.password"
@@ -57,10 +54,8 @@
         <input
           class="formInput"
           type="password"
-          color="#58679A"
           v-model="passwordConfirm"
           placeholder="비밀번호 확인"
-          style="text-align: left"
         />
         <div
           v-if="error.passwordConfirm"
@@ -77,10 +72,8 @@
         <!-- 이름 입력 -->
         <input
           class="formInput"
-          color="#58679A"
           v-model="username"
           placeholder="이름"
-          style="text-align: left"
         />
 
         <!-- 휴대폰 번호 입력 -->
@@ -89,20 +82,18 @@
             class="formInput"
             oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
             maxlength="11"
-            color="#58679A"
             v-model="phoneNumber"
             placeholder="휴대전화"
-            style="text-align: left; width: 200px"
           />
 
           <div style="width: 100px; margin: 3px 0px">
             <v-btn
               block
               rounded
+              :disabled="!phoneNumber"
               style="
                 background-color: #58679a;
                 color: white;
-                letter-spacing: -0.8px;
               "
               @click="requestAuthNumber"
             >
@@ -117,10 +108,8 @@
             class="formInput"
             oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
             maxlength="4"
-            color="#58679A"
             v-model="authNumber"
-            placeholder="authNumber"
-            style="text-align: left; width: 200px"
+            placeholder="인증번호"
           />
           <div style="width: 100px; margin: 3px 0px">
             <v-btn
@@ -129,7 +118,6 @@
               style="
                 background-color: #58679a;
                 color: white;
-                letter-spacing: -0.8px;
               "
               v-if="!isAuth"
               @click="checkAuthNumber"
@@ -139,9 +127,6 @@
           </div>
         </div>
 
-        <!-- 선생 학부모 모두 isAuth 인증 완료되어야만 이라는 조건 추가해야 함  -->
-        <!-- :disabled="!userid || !password || !passwordConfirm || !username || !phoneNumber || error.userid || error.password || error.passwordConfirm || !isAuth"  -->
-      
       </div>
 
       <!-- 선생님/학부모 유형 선택 버튼 -->
@@ -155,6 +140,7 @@
             src="@/assets/flaticon/teacher.png"
             class="logo"
             alt="signup-as-a-teacher"
+            style="padding: 0; width: 3.3rem"
           />선생님으로 가입
         </button>
         
@@ -167,19 +153,19 @@
             src="@/assets/flaticon/parents.png"
             class="logo"
             alt="signup-as-parents"
+            style="padding: 0; margin-right: 5px; width: 3.3rem"
           />학부모로 가입
         </button>
       </div>
+
       <!-- 뒤로가기 버튼 -->
       <button @click="$router.go(-1)"
-        class="backBtn"
+        class="etcBtn"
       >
         뒤로 가기
       </button>
 
-
     </div>
-    
   </div>
 </template>
 
@@ -308,13 +294,24 @@ export default {
   font-family: 'NanumSquareRound';
   font-size: 0.95em;
 }
-h1, button { 
-  font-family: 'EliceDigitalBaeum_Bold';
-}
 #bg {
   background-color: #a8b1cf;
   width: 100%;
   height: 100%;
+}
+.upperBox{
+  position: absolute;
+  top: 28%;
+  left: 50%;
+  transform: translate(-50%, -50%); 
+  text-align:center;
+}
+.lowerBox{
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
 }
 h1 {
   font-weight: 900;
@@ -323,32 +320,38 @@ h1 {
   color: #58679A;
 }
 .logo {
-  width:60px;
-  fill:white;
+  width: 10rem;
   padding-right:10px;
   display:inline-block;
   vertical-align: middle;
 }
+button{
+  letter-spacing: -1px;
+  color: #404c74;
+  font-weight: 600;
+}
 .formInput {
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(256, 256, 256, 0.7);
   box-shadow: 1px 1px 1px 1px #58679a;
   border-radius: 70px;
   height: 36px;
   width: 300px;
   padding: 0px 0px 0px 15px;
   margin: 3px 3px 3px 3px;
+  text-align: left;
 }
 .formInput:hover {
-  background-color: rgba(170, 178, 204, 0.8)
+  background-color: rgba(256, 256, 256, 1);
+  transition: 0.3s;
 }
-.backBtn{
-  border-radius: 4%;
-  width: 150px;
-  margin: 15px 3px 3px 3px;
+.etcBtn{
+  margin: 20px 3px 3px 3px;
   padding: 0px 7px 0px 3px;
-  letter-spacing: -1px;
   color: #404c74;
-  font-size: 0.8em;
+}
+.etcBtn:hover {
+  color: rgba(256, 256, 256, 1);
+  transition: 0.3s;
 }
 .signupTypeBtn {
   border: 2px #58679A;
@@ -356,25 +359,14 @@ h1 {
   border-radius: 4%;
   height: 70px; 
   width: 150px; 
-  margin: 30px 3px 3px 3px;
-  padding: 0px 7px 0px 3px;  
-  letter-spacing: -1.2px;
+  margin: 10px 3px 3px 3px;
   color: #404c74;
-  font-size: 0.8em;
-}
-.signupTypeBtn:hover {
-  transition: 0.3s;
-  background-color: rgba(255, 255, 255, 0.7);
 }
 .placement {
   display: flex;
   flex-direction: row;
   width: 100%;
 }
-.flex { /*Flexbox for containers*/
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
+
+
 </style>

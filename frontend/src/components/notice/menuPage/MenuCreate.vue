@@ -2,15 +2,89 @@
   <div style="overflow-y: scroll" class="col">
     <!-- 디테일 -->
 
-    식단 작성페이지 <br />
-
     <v-sheet rounded="lg" v-if="createMode">
-      <br />
-      <!-- <p>
-        제목 : <input type="text" v-model="title" style="border: solid 1px" />
-      </p> -->
+      <div
+        style="width: 100%; height: 15px; background-color: #a8b1cf"
+        class="mt-3"
+      ></div>
+      <div class="container">
+        <div class="notice-detail-title">
+          식단 작성
+          <!-- <input
+            type="text"
+            v-model="title"
+            style="text-align: center"
+            placeholder="제목을 입력하세요"
+          /> -->
+          <!-- style="border-bottom: solid 1px" -->
+        </div>
+        <div class="item-wrapper">
+          <div class="item">
+            <div class="item-menuType">
+              오전 간식
+              <input
+                type="text"
+                v-model="amSnackName"
+              />
+            </div>
+            <!-- <div class="item-menuName">자장면</div> -->
+            <div class="item-img">
+              <v-file-input
+                id="amSnackFile"
+                v-model="amSnackFile"
+                accept="image/*"
+                label="File input"
+              ></v-file-input>
+            </div>
+          </div>
+          <div class="item">
+            <div class="item-menuType">
+              점심 식사 
+              <input
+                type="text"
+                v-model="lunchName"
+              />
+            </div>
+            <!-- <div class="item-menuName">자장면</div> -->
+            <div class="item-img">
+              <v-file-input
+                id="lunchFile"
+                v-model="lunchFile"
+                accept="image/*"
+                label="File input"
+              ></v-file-input>
+            </div>
+          </div>
+          <div class="item">
+            <div class="item-menuType">
+              오후 간식
+              <input
+                type="text"
+                v-model="pmSnackName"
+              />
+            </div>
+            <!-- <div class="item-menuName">자장면</div> -->
+            <div class="item-img">
+              <v-file-input
+                id="pmSnackFile"
+                v-model="pmSnackFile"
+                accept="image/*"
+                label="File input"
+              ></v-file-input>
+            </div>
+          </div>
+        </div>
+        <div>
+          <button @click="createNewMenu" class="mr-2 update-return-btn">
+            저장
+          </button>
+          <button @click="offCreateForm" class="ml-2 update-return-btn">
+            취소
+          </button>
+        </div>
+      </div>
 
-      <p>
+      <!-- <p>
         오전 간식 :
         <input type="text" v-model="amSnackName" style="border: solid 1px" />
       </p>
@@ -45,15 +119,8 @@
         v-model="pmSnackFile"
         accept="image/*"
         label="File input"
-      ></v-file-input>
+      ></v-file-input> -->
     </v-sheet>
-
-    <v-btn color="primary" fab small dark @click="createNewMenu">
-      <v-icon>mdi-check </v-icon>
-    </v-btn>
-    <v-btn color="red" fab small dark @click="offCreateForm">
-      <v-icon>mdi-window-close </v-icon>
-    </v-btn>
   </div>
 </template>
 
@@ -123,7 +190,6 @@ export default {
       console.log(lunchImgUrl);
       console.log(pmSnackImgUrl);
 
-
       let data = {
         amSnackImgUrl: amSnackImgUrl,
         lunchImgUrl: lunchImgUrl,
@@ -162,4 +228,79 @@ export default {
 </script>
 
 <style scoped>
+.container {
+  display: flex;
+  /* flex-direction: column; */
+  height: 84.6vh;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: flex-start;
+}
+
+.notice-detail-title {
+  /* margin: 0.3rem 0px; */
+  /* padding-bottom: 0.5rem; */
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  padding: 0px 0.5rem;
+  width: 95%;
+  display: flex;
+  justify-content: flex-start;
+  font-size: 1.3em;
+  /* border-bottom: #a8b1cf 0.1rem solid; */
+  /* text-align: left; */
+  /* border-radius: ; */
+}
+
+.item-wrapper {
+  width: 95%;
+  padding: 2rem 1rem 2rem 2rem;
+  margin-bottom: 1rem;
+  /* display: flex; */
+  /* align-items: center; */
+  /* background:rgba(156, 156, 156, 0.1); */
+  background:white;
+  border-radius: 10px;
+  border-top: #a8b1cf 0.1rem solid;
+  border-bottom: #a8b1cf 0.1rem solid;
+
+}
+
+.item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.item-menuType {
+  font-size: 15px;
+  font-family: "NanumSquareRound";
+  font-weight: bold;
+  display: inline-block;
+}
+.item-menuType input{
+  margin-left: 2rem;
+  padding-left: 0.5rem;
+  background: rgba(156, 156, 156, 0.1);
+  height: 2rem;
+  /* border: 0 solid none; */
+  border-radius: 5px;
+}
+.item-img {
+  margin-left: 2rem;
+  display: inline-block;
+  width: 10vw;
+  /* display: flex; */
+  /* padding: 0px; */
+}
+
+.update-return-btn {
+  background-color: rgba(168, 177, 207, 1);
+  border-radius: 70px;
+  height: 36px;
+  width: 70px;
+  margin: 20px 3px 3px 3px;
+  text-align: center;
+  color: rgba(256, 256, 256);
+  letter-spacing: -1px;
+}
 </style>

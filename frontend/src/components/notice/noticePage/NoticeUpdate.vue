@@ -2,19 +2,11 @@
   <div style="overflow-y: scroll" class="col">
     <!-- 디테일 -->
 
-    <!-- <v-tabs color="mainColor1" background-color="transparent" class="mt-3 mb-1">
-      <v-tab class="notice-tab" @click="updateNotice">글 수정하기</v-tab>
-      <v-tab class="notice-tab" @click="offUpdateForm">글 수정 취소</v-tab>
-      <v-tabs-slider color="#A8B1CF"></v-tabs-slider>
-    </v-tabs>  -->
-
-    <!-- |
-    <button @click="updateNotice">글 수정하기</button>
-
-    |
-    <button @click="offUpdateForm">글 수정 취소</button> -->
-
     <v-sheet rounded="lg">
+      <div
+        style="width: 100%; height: 15px; background-color: #a8b1cf"
+        class="mt-3"
+      ></div>
       <div class="container">
         <div class="notice-detail-title">
           <input type="text" v-model="title" placeholder="제목을 입력하세요" />
@@ -33,23 +25,34 @@
         <!-- <div class="notice-detail-date">날짜</div> -->
         <div class="notice-detail-img">
           <!-- <input id="customFile" type="file" /> -->
-          <img
+          <!-- <img
             class="noticeImg"
             :src="
               'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
               noticeInfo.noticeImgUrl
             "
             alt="profile-image"
-          />
+          /> -->
+          <!-- {{noticeInfo.noticeImgUrl}} -->
           <v-file-input
             style="width: 100%"
             id="noticeFile"
-            v-model="noticeImgUrl"
+            v-model="noticeInfo.noticeImgUrl"
             accept="image/*"
             label="File input"
           ></v-file-input>
         </div>
-        <!-- <div class="button">
+        <!-- 수정 관련 버튼-->
+        <div class="btn-wrapper">
+          <button @click="updateNotice" class="mr-2 update-return-btn">
+            수정
+          </button>
+          <button @click="offUpdateForm" class="ml-2 update-return-btn">
+            취소
+          </button>
+        </div>
+      </div>
+      <!-- <div class="button">
           <v-btn
             class="mr-3"
             color="primary"
@@ -63,8 +66,8 @@
           <v-btn class="mr-3" color="red" fab small dark @click="offCreateForm">
             <v-icon>mdi-window-close </v-icon>
           </v-btn>
-        </div> -->
-      </div>
+        </div> 
+      </div>-->
 
       <!-- 공지 수정 페이지
       {{ noticeDetail }}
@@ -134,9 +137,9 @@ export default {
         this.getNoticeDetail();
       }
     },
-    updateStart(){
+    updateStart() {
       this.updateNotice();
-    }
+    },
   },
 
   created() {
@@ -273,11 +276,11 @@ export default {
   /* margin: 0.3rem 0px; */
   /* padding-bottom: 0.5rem;
   margin-bottom: 0.5rem; */
-  width: 60%;
+  width: 98%;
   display: inline-block;
   justify-content: center;
   text-align: center;
-  /* font-size: 2em; */
+  font-size: 1.5rem;
   /* border-bottom: #a8b1cf 0.1rem solid; */
 }
 .notice-detail-date {
@@ -304,11 +307,15 @@ export default {
   border-bottom: #a8b1cf 0.1rem solid;
 }
 .notice-detail-content textarea {
+  width: 100%;
   padding-left: 0.5em;
+}
+.notice-detail-img {
+  width: 100%;
 }
 .noticeImg {
   width: 100%;
-  height: 200px;
+  height: 150px;
   display: flex;
   justify-content: center;
 }
@@ -316,5 +323,27 @@ export default {
   font-size: 20px;
   font-family: "NanumSquareRound";
   font-weight: 900;
+}
+input,
+textarea {
+  background-color: rgba(156, 156, 156, 0.1);
+}
+
+.btn-wrapper {
+  /* align-content: flex-end; */
+  /* justify-content: flex-end; */
+  width: 100%;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+.update-return-btn {
+  background-color: rgba(168, 177, 207, 1);
+  border-radius: 70px;
+  height: 36px;
+  width: 70px;
+  margin: 20px 3px 3px 3px;
+  text-align: center;
+  color: rgba(256, 256, 256);
+  letter-spacing: -1px;
 }
 </style>

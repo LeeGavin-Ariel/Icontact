@@ -421,8 +421,4 @@ export default {
   color: black;
   
 }
-/*부드러운 스크롤 효과*/
-html {
-  scroll-behavior: smooth;
-}
 </style>

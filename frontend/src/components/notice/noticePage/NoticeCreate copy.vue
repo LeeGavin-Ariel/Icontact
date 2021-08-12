@@ -2,22 +2,21 @@
   <div style="overflow-y: scroll" class="col">
     <!-- 디테일 -->
     <v-sheet rounded="lg" v-if="createMode">
-      <div style="width:100%; height:15px; background-color:#a8b1cf" class="mt-3"></div>
       <div class="container">
         <div class="notice-detail-title">
           <input
             type="text"
             v-model="title"
-            style="text-align: center"
+            style="text-align:center"
             placeholder="제목을 입력하세요"
           />
-          <!-- style="border-bottom: solid 1px" -->
+            <!-- style="border-bottom: solid 1px" -->
         </div>
         <div class="notice-detail-content-container">
           <div class="notice-detail-content">
             <textarea
-              rows="20"
-              style="width: 100%"
+              rows="12"
+              style="width: 100%;"
               placeholder="내용을 입력하세요."
               v-model="content"
             >
@@ -34,21 +33,71 @@
             accept="image/*"
             label="File input"
           ></v-file-input>
+          <!-- <img
+            class="noticeImg"
+            :src="
+              'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
+              noticeInfo.noticeImgUrl
+            "
+            alt="profile-image"
+          /> -->
         </div>
-        <button
-          @click="createNewNotice"
-          class="mr-2 update-return-btn"
-        >
-          저장
-        </button>
-        <button
-          @click="offCreateForm"
-          class="ml-2 update-return-btn"
-        >
-          취소
-        </button>
+        <!-- <div class="button">
+          <v-btn
+            class="mr-3"
+            color="primary"
+            fab
+            small
+            dark
+            @click="createNewNotice"
+          >
+            <v-icon>mdi-check </v-icon>
+          </v-btn>
+          <v-btn class="mr-3" color="red" fab small dark @click="offCreateForm">
+            <v-icon>mdi-window-close </v-icon>
+          </v-btn>
+        </div> -->
       </div>
     </v-sheet>
+    <!-- 공지 작성페이지 <br /> -->
+    <!-- <v-row>
+      <v-sheet rounded="lg" v-if="createMode">
+        <br />
+        <p>
+          제목 : <input type="text" v-model="title" style="border: solid 1px" />
+        </p>
+
+        <p>내용</p>
+        <input
+          id=""
+          type="textarea"
+          v-model="content"
+          style="border: solid 1px"
+        />
+        <p>공지사항첨부사진 :</p>
+        <v-file-input
+          id="noticeFile"
+          v-model="files"
+          accept="image/*"
+          label="File input"
+        ></v-file-input>
+      </v-sheet>
+    </v-row>
+    <v-row justify="end">
+      <v-btn
+        class="mr-3"
+        color="primary"
+        fab
+        small
+        dark
+        @click="createNewNotice"
+      >
+        <v-icon>mdi-check </v-icon>
+      </v-btn>
+      <v-btn class="mr-3" color="red" fab small dark @click="offCreateForm">
+        <v-icon>mdi-window-close </v-icon>
+      </v-btn>
+    </v-row> -->
   </div>
 </template>
 
@@ -134,7 +183,7 @@ export default {
       console.log("result");
       console.log(result);
 
-      alert("새 공지가 등록되었습니다.");
+      alert('새 공지가 등록되었습니다.');
       this.$emit("createNotice");
     },
   },
@@ -145,26 +194,18 @@ export default {
 .container {
   display: flex;
   /* flex-direction: column; */
-  height: 84.6vh;
   flex-wrap: wrap;
   justify-content: center;
-  align-content: flex-start;
 }
 .notice-detail-title {
   /* margin: 0.3rem 0px; */
   padding-bottom: 0.5rem;
-  margin-top: 2.5rem;
   margin-bottom: 0.5rem;
   width: 95%;
   display: flex;
   justify-content: center;
-  /* font-size: 1.5em; */
+  font-size: 2em;
   border-bottom: #a8b1cf 0.1rem solid;
-  /* border-radius: ; */
-}
-.notice-detail-title input{
-  width: 100%;
-  height: 36px;
 }
 .notice-detail-date {
   width: 95%;
@@ -192,7 +233,7 @@ export default {
 .notice-detail-content textarea {
   padding-left: 0.5em;
 }
-.notice-detail-img {
+.notice-detail-img{
   width: 100%;
   display: flex;
   justify-content: left;
@@ -203,18 +244,7 @@ export default {
   /* display: flex; */
   /* justify-content: left; */
 }
-input,
-textarea {
-  background-color: rgba(156, 156, 156, 0.1);
-}
-.update-return-btn {
-  background-color: rgba(168, 177, 207, 1);
-  border-radius: 70px;
-  height: 36px;
-  width: 70px;
-  margin: 20px 3px 3px 3px;
-  text-align: center;
-  color: rgba(256, 256, 256);
-  letter-spacing: -1px;
+input, textarea{
+  background-color: rgba(156,156,156,0.1)
 }
 </style>

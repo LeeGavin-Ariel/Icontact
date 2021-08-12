@@ -3,12 +3,26 @@
     <!-- 디테일 -->
 
     <!-- 공지 상세페이지 <br /> -->
-    <v-sheet rounded="lg" v-if="createMode && this.noticeInfo">
-      <div class="container">
+    <v-sheet rounded="lg" v-if="createMode && this.noticeInfo" >
+      <div
+        style="width: 100%; height: 15px; background-color: #a8b1cf"
+        class="mt-3"
+      ></div>
+      <div class="container" style="overflow-y: scroll">
+        <div class="btn-wrapper" v-if="this.$store.state.user.type == 2">
+          <button @click="showUpdateNoticeForm" class="mr-2 update-delete-btn">
+            수정
+          </button>
+          <button @click="deleteNotice" class="ml-2 mr-2 update-delete-btn">
+            삭제
+          </button>
+        </div>
         <div class="notice-detail-title">{{ this.noticeInfo.title }}</div>
+        <!-- <div class="notice-detail-writer">{{this.noticeInfo.userName}}선생님 </div> -->
         <div class="notice-detail-date">{{ this.noticeInfo.createDate }}</div>
-        <div class="notice-detail-img" v-if="noticeInfo.noticeImgUrl">
+        <div class="notice-detail-img">
           <img
+            v-if="noticeInfo.noticeImgUrl"
             class="noticeImg"
             :src="
               'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
@@ -22,32 +36,11 @@
           <div
             class="notice-detail-content"
             v-html="contentReplace(this.noticeInfo.content)"
-          >
-            <!-- {{ this.noticeInfo.content }}<br /><br />언어에 따라 명사의 앞 뒤에
-            놓여지는 말이다.<br /><br />
-            이어지는 명사의 배경(수, 성 격 등)에 따라 변화 할 수도 있다. 지시사
-            등과 함께 한정하는 품사를 구성할 수도 있다 (영어 등). 한편, 지시사와
-            관사는 별도의 위치를 차지할 수 있다. 예를 들어, 카나 어에서 관사는
-            명사의 앞에, 지시사는 명사 뒤에 놓이고 동시에 사용할 수 있다.<br />
-            종종 접어이며, 또한 바로 뒤에 오는 단어의 발음에 따라 변화할 수
-            있다. 예를 들어, 다음 단어의 어두가 모음일 때 다음이 자음일 때 비해
-            모음을 생략하고 자음을 보충하는 일이 자주 발생한다. 영어 관사는
-            다음이 자음일 때 생략된 발음을 한다.<br /><br />(an에서 n이 생략되어
-            발음) 일부 언어에서는 전치사와 인접할 때 전치사와 결합하여 축약형이
-            될 수도 있다. 프랑스어에서는 축약형을 가진 조합 시에는 반드시
-            축약형을 사용한다.<br />
-            (예 : de + le → du ) 이러한 현상을 독일어에서는 의미의 차이로
-            구분한다.<br /><br />
-            (예 : 보통 von + dem → vom 하지만 지시사인 경우 von dem처럼 한다)
-            이처럼 언어에 따라 형태가 달라진다. 또한, 로망스어군의 원류인
-            라틴어에는 관사가 없으며, 러시아어와 많은슬라브어, 그리고
-            페르시아어처럼 인도유럽어족에 속하는 언어도 관사가 없는 것도있다. -->
-          </div>
+          ></div>
           <!-- <div v-html="contentReplace(this.noticeInfo.content)">
           </div> -->
         </div>
       </div>
-
     </v-sheet>
   </div>
 </template>
@@ -88,6 +81,14 @@ export default {
   },
 
   methods: {
+    showUpdateNoticeForm() {
+      console.log("오픈업데이트폼");
+      this.$emit("showUpdateNoticeForm");
+    },
+    deleteNotice() {
+      console.log("삭제");
+      this.$emit("deleteNotice");
+    },
     contentReplace(content) {
       // 줄바꿈
       return content.replace(/(?:\r\n|\r|\n)/g, "<br />");
@@ -114,9 +115,25 @@ export default {
 <style scoped>
 .container {
   display: flex;
+  height: 84.6vh;
   /* flex-direction: column; */
   flex-wrap: wrap;
   justify-content: center;
+  align-content: flex-start;
+}
+/* 스크롤바 너비 */
+.container::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* 현재 스크롤의 위치바의 색 */
+.container::-webkit-scrollbar-thumb {
+  background-color: black;
+}
+
+/* 남는공간의 색 */
+.container::-webkit-scrollbar-track {
+  background-color: white;
 }
 .notice-detail-title {
   /* margin: 0.3rem 0px; */
@@ -127,6 +144,16 @@ export default {
   justify-content: center;
   font-size: 2em;
   border-bottom: #a8b1cf 0.1rem solid;
+}
+.notice-detail-writer {
+  width: 95%;
+  /* display: ; */
+  /* justify-content: flex-end; */
+  /* border-bottom: #a8b1cf 0.1rem solid; */
+  /* padding-right: 0.5rem; */
+  /* margin-bottom: 1rem; */
+  /* position: relative; */
+  /* right: 0.5rem; */
 }
 .notice-detail-date {
   width: 95%;
@@ -145,6 +172,7 @@ export default {
 }
 .notice-detail-content {
   width: 95%;
+  min-height: 5rem;
   padding: 0px 0.5rem 0.5rem;
   margin-bottom: 1rem;
   display: flex;
@@ -156,5 +184,23 @@ export default {
   height: 200px;
   display: flex;
   justify-content: center;
+  margin-bottom: 2rem;
+}
+.btn-wrapper {
+  /* align-content: flex-end; */
+  /* justify-content: flex-end; */
+  width: 100%;
+  text-align: right;
+  margin-bottom: 1rem;
+}
+.update-delete-btn {
+  /* justify-content: flex-end; */
+  /* display: inline; */
+  font-size: 18px;
+  color: darkgrey;
+}
+.update-delete-btn:hover {
+  color: black;
+  transition: 0.3s;
 }
 </style>

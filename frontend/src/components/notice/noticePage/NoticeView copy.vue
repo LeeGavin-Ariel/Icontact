@@ -18,6 +18,71 @@
       </v-btn>
     </v-fab-transition>
 
+    <v-tabs
+      v-if="detailMode & (this.$store.state.user.type == 2)"
+      color="mainColor1"
+      background-color="transparent"
+      class="mt-3 mb-1"
+    >
+      <!-- v-if="detailMode & (this.$store.state.user.type == 2)"
+        v-if="detailMode & (this.$store.state.user.type == 2)" -->
+      <v-tab class="notice-detail-tab" @click="showUpdateNoticeForm"
+        >글 수정</v-tab
+      >
+      <v-tab class="notice-detail-tab" @click="deleteNotice">글 삭제</v-tab>
+      <v-tabs-slider color="#A8B1CF"></v-tabs-slider>
+    </v-tabs>
+    <v-tabs
+      v-if="updateMode & (this.$store.state.user.type == 2)"
+      color="mainColor1"
+      background-color="transparent"
+      class="mt-3 mb-1"
+    >
+      <v-tab class="notice-update-tab" @click="propUpdateNotice"
+        >글 수정하기</v-tab
+      >
+      <v-tab class="notice-update-tab" @click="cancelUpdateNotice"
+        >수정 취소</v-tab
+      >
+      <v-tabs-slider color="#A8B1CF"></v-tabs-slider>
+    </v-tabs>
+
+    <v-tabs
+      v-if="createMode & (this.$store.state.user.type == 2)"
+      color="mainColor1"
+      background-color="transparent"
+      class="mt-3 mb-1"
+    >
+      <v-tab class="notice-create-tab" @click="propCreateNotice"
+        >작성 완료</v-tab
+      >
+      <v-tab class="notice-create-tab" @click="cancelCreateNotice"
+        >작성 취소</v-tab
+      >
+      <v-tabs-slider color="#A8B1CF"></v-tabs-slider>
+    </v-tabs>
+
+    <!-- 학부모일 경우 리스트와 높이 맞추기용-->
+    <div v-if="this.$store.state.user.type == 1" style="height:4em"></div>
+
+    <!-- <v-tabs v-if="this.$store.state.user.type == 1"> </v-tabs> -->
+    <!-- <button
+      v-if="detailMode & (this.$store.state.user.type == 2)"
+      @click="showUpdateNoticeForm"
+    >
+      |글 수정
+    </button>
+
+    <button
+      v-if="detailMode & (this.$store.state.user.type == 2)"
+      @click="deleteNotice"
+    >
+      |글 삭제
+    </button> -->
+
+    <!-- <button @click="offCreateForm">글 작성 취소</button> -->
+
+    <!-- <notice-detail v-if="detailMode"/> -->
     <notice-create
       v-if="this.createMode"
       :createStart="createStart"
@@ -31,10 +96,7 @@
       @cancelUpdateNotice="cancelUpdateNotice"
       @updateNotice="updateNotice"
     />
-    <notice-detail v-if="this.detailMode" :noticeInfo="this.noticeDetail" 
-    @showUpdateNoticeForm="showUpdateNoticeForm"
-    @deleteNotice="deleteNotice"
-    />
+    <notice-detail v-if="this.detailMode" :noticeInfo="this.noticeDetail" />
   </div>
 </template>
 

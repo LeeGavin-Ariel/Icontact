@@ -51,14 +51,20 @@ export default {
 			console.log(data);			
 			var jsonData = JSON.parse(data);	
 			
-			if(jsonData.lat!= "0" && jsonData.lat != "undefined" && jsonData.lat != undefined) {
-				this.latitude = jsonData.lat;
-				this.longitude = jsonData.lon;
-				console.log(typeof(this.latitude));
-				this.path.push(new kakao.maps.LatLng(this.latitude, this.longitude));
-				polyline.setPath(this.path);
+			if(jsonData.lat != "" &&jsonData.lat !="0" && jsonData.lat != "undefined" && jsonData.lat != undefined) {
+				if(Math.abs(this.latitude-jsonData.lat)< 0.00005 || 
+					Math.abs(this.longitude-jsonData.lon)< 0.00005){
+					console.log("do not update");
+				}
+				else{
+					this.latitude = jsonData.lat;
+					this.longitude = jsonData.lon;
+					console.log(typeof(this.latitude));
+					this.path.push(new kakao.maps.LatLng(this.latitude, this.longitude));
+					polyline.setPath(this.path);
 
-				map.setCenter(new kakao.maps.LatLng(this.latitude, this.longitude));
+					map.setCenter(new kakao.maps.LatLng(this.latitude, this.longitude));
+				}
 			}
 		}
 	},
@@ -76,8 +82,8 @@ export default {
 			polyline = new kakao.maps.Polyline({
 				map: map,
 				strokeWeight: 5,
-				strokeColor: '#000000',
-				strokeOpacity: 0.8,
+				strokeColor: '#8181F7',
+				strokeOpacity: 0.4,
 			});
 			polyline.setMap(map);
 		},

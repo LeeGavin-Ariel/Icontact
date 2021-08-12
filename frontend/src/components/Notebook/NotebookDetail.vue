@@ -172,12 +172,12 @@ export default {
         let accessToken = sessionStorage.getItem('access-token')
         let refreshToken = sessionStorage.getItem('refresh-token')
 
-
+        console.log(formData);
         let data = formData
         await notebookApi.createNotebook(data, {
           "access-token": accessToken,
           "refresh-token": refreshToken,
-          'Content-Type': 'multipart/form-data'
+          // 'Content-Type': 'multipart/form-data'
         });
         // 뭘로 날라오는 지 확인
 

@@ -33,26 +33,11 @@ export default {
 				"lat": "0",
 				"lon": "0"
 			}`)
-		}	
-
-		this.socket.onmessage = ({data}) => {
-			console.log(data);			
-			var jsonData = JSON.parse(data);
-			
-			this.latitude = jsonData.lat;
-			this.longitude = jsonData.lon;
-			
-			if(this.latitude != "0" && this.latitude != "undefined") {
-				console.log(typeof(this.latitude));
-				this.path.push(new kakao.maps.LatLng(this.latitude, this.longitude));
-				polyline.setPath(this.path);
-
-				map.setCenter(new kakao.maps.LatLng(this.latitude, this.longitude));
-			}
 		}
+		
 	},
 	mounted() {
-		if (window.kakao && window.kakao.maps) {
+	if (window.kakao && window.kakao.maps) {
       this.initMap()
     } else {
       const script = document.createElement('script')
@@ -60,6 +45,21 @@ export default {
       script.src = 'http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=ab9dd868c1a1477aa0a4ef31fe1bd8e0'
       document.head.appendChild(script)
     }
+
+		this.socket.onmessage = ({data}) => {
+			console.log(data);			
+			var jsonData = JSON.parse(data);	
+			
+			if(jsonData.lat!= "0" && jsonData.lat != "undefined" && jsonData.lat != undefined) {
+				this.latitude = jsonData.lat;
+				this.longitude = jsonData.lon;
+				console.log(typeof(this.latitude));
+				this.path.push(new kakao.maps.LatLng(this.latitude, this.longitude));
+				polyline.setPath(this.path);
+
+				map.setCenter(new kakao.maps.LatLng(this.latitude, this.longitude));
+			}
+		}
 	},
 	methods: {
 		initMap() {

@@ -114,8 +114,13 @@ export default {
     },
     logout() {
       if (confirm("정말 로그아웃하시겠습니까?")) {
-        this.$store.dispatch('removeUser');
-        if (this.$route.path !== '/') this.$router.push('/');
+        if(this.bus == 1){
+          alert("버스 위치 정보가 활성화 중입니다.");
+        }
+        else{
+          this.$store.dispatch('removeUser');
+          if (this.$route.path !== '/') this.$router.push('/');
+        }  
       }
     },
     moveToMainPage() {

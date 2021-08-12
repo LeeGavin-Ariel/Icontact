@@ -1,5 +1,5 @@
-const URL = 'http://localhost:8080'
-const WS = 'ws://localhost:8080'
+const URL = 'http://i5a304.p.ssafy.io/'
+const WS = 'ws://i5a304.p.ssafy.io/'
 
 export default {
   URL,

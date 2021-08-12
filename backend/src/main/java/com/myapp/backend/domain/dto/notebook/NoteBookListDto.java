@@ -5,8 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.util.Date;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,7 +17,7 @@ public class NoteBookListDto {
     String writerName;
     String targetId;
     String targetName;
-    Date createDate;
+    String createDate;
     int totalNum;
-    String noteImgUrl;
+    String profileImg;
 }

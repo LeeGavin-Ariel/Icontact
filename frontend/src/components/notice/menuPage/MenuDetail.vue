@@ -16,53 +16,55 @@
             삭제
           </button>
         </div>
-        <div class="menu-detail-title">{{ this.menuInfo.title }}</div>
+        <!-- <div class="menu-detail-title">{{ this.menuInfo.title }}</div> -->
         <!-- <div class="menu-detail-writer">{{this.noticeInfo.userName}}선생님 </div> -->
-        <div class="menu-detail-date">{{ this.menuInfo.createDate }}</div>
-        <div class="item">
-          <div class="item-type">오전 간식</div>
-          <div class="item-img">
-            <img
-              v-if="menuInfo.amSnackImgUrl"
-              class="noticeImg"
-              :src="
-                'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
-                menuInfo.amSnackImgUrl
-              "
-              alt="profile-image"
-            />
+        <div class="menu-detail-date">{{ this.menuInfo.createDate.substr(0,11) }} 식단</div>
+        <div class="item-wrapper">
+          <div class="item">
+            <div class="item-type">오전 간식</div>
+            <div class="item-img">
+              <img
+                v-if="menuInfo.amSnackImgUrl"
+                class="noticeImg"
+                :src="
+                  'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
+                  menuInfo.amSnackImgUrl
+                "
+                alt="profile-image"
+              />
+            </div>
+            <div class="item-name">{{ this.menuInfo.amSnack }}</div>
           </div>
-          <div class="item-name">{{ this.menuInfo.amSnack }}</div>
-        </div>
-        <div class="item">
-          <div class="item-type">점심 식사</div>
-          <div class="item-img">
-            <img
-              v-if="menuInfo.lunchImgUrl"
-              class="noticeImg"
-              :src="
-                'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
-                menuInfo.lunchImgUrl
-              "
-              alt="profile-image"
-            />
+          <div class="item">
+            <div class="item-type">점심 식사</div>
+            <div class="item-img">
+              <img
+                v-if="menuInfo.lunchImgUrl"
+                class="noticeImg"
+                :src="
+                  'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
+                  menuInfo.lunchImgUrl
+                "
+                alt="profile-image"
+              />
+            </div>
+            <div class="item-name">{{ this.menuInfo.lunch }}</div>
           </div>
-          <div class="item-name">{{ this.menuInfo.lunch }}</div>
-        </div>
-        <div class="item">
-          <div class="item-type">오후 간식</div>
-          <div class="item-img">
-            <img
-              v-if="menuInfo.pmSnackImgUrl"
-              class="noticeImg"
-              :src="
-                'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
-                menuInfo.pmSnackImgUrl
-              "
-              alt="profile-image"
-            />
+          <div class="item">
+            <div class="item-type">오후 간식</div>
+            <div class="item-img">
+              <img
+                v-if="menuInfo.pmSnackImgUrl"
+                class="noticeImg"
+                :src="
+                  'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
+                  menuInfo.pmSnackImgUrl
+                "
+                alt="profile-image"
+              />
+            </div>
+            <div class="item-name">{{ this.menuInfo.pmSnack }}</div>
           </div>
-          <div class="item-name">{{ this.menuInfo.pmSnack }}</div>
         </div>
         <!-- <div class="menu-detail-img">
           <p>
@@ -248,10 +250,13 @@ export default {
 .menu-detail-date {
   width: 95%;
   display: flex;
-  justify-content: flex-end;
-  border-bottom: #a8b1cf 0.1rem solid;
-  padding-right: 0.5rem;
+  justify-content: flex-start;
+  /* border-bottom: #a8b1cf 0.1rem solid; */
+  padding-left: 1rem;
   margin-bottom: 1rem;
+  font-size: 1.3em;
+  font-family: "NanumSquareRound";
+  font-weight: bold;
   /* position: relative; */
   /* right: 0.5rem; */
 }
@@ -268,13 +273,6 @@ export default {
   display: flex;
   justify-content: left;
   border-bottom: #a8b1cf 0.1rem solid;
-}
-.noticeImg {
-  width: 100%;
-  height: 200px;
-  display: flex;
-  justify-content: center;
-  margin-bottom: 2rem;
 }
 .btn-wrapper {
   /* align-content: flex-end; */
@@ -293,6 +291,20 @@ export default {
   color: black;
   transition: 0.3s;
 }
+.item-wrapper {
+  width: 95%;
+  height: 60vh;
+  padding: 2rem 0rem 2rem 0rem;
+  /* margin-bottom: 1rem; */
+  /* display: flex; */
+  /* align-items: center; */
+  /* background:rgba(156, 156, 156, 0.1); */
+  background:white;
+  display: flex;
+  border-radius: 5px;
+  border-top: #a8b1cf 0.1rem solid;
+  border-bottom: #a8b1cf 0.1rem solid;
+}
 .item {
   width: 33%;
   display: flex;
@@ -301,15 +313,34 @@ export default {
   align-items: center;
 }
 .item-type {
+  width: 90%;
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
   font-size: 20px;
+  font-weight: bold;
   font-family: "NanumSquareRound";
-  display: flex;
-}
-.item-name {
-  display: flex;
+  display: inline-block;
+  text-align: center;
+  border-bottom: #a8b1cf 0.1rem solid;
 }
 .item-img {
   width: 90%;
+  height: 250px;
   display: flex;
+  border-bottom: #a8b1cf 0.1rem solid;
+}
+.item-img img {
+    width: 100%;
+  /* height: 200px; */
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+  height: 95%;
+}
+.item-name {
+  margin-top: 1rem;
+  width: 80%;
+  text-align: center;
+  display: inline-block;
 }
 </style>

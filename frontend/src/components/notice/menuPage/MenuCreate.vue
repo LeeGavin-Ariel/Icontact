@@ -247,6 +247,8 @@ export default {
   display: flex;
   justify-content: flex-start;
   font-size: 1.3em;
+  font-family: "NanumSquareRound";
+  font-weight: bold;
   /* border-bottom: #a8b1cf 0.1rem solid; */
   /* text-align: left; */
   /* border-radius: ; */
@@ -260,7 +262,7 @@ export default {
   /* align-items: center; */
   /* background:rgba(156, 156, 156, 0.1); */
   background:white;
-  border-radius: 10px;
+  border-radius: 5px;
   border-top: #a8b1cf 0.1rem solid;
   border-bottom: #a8b1cf 0.1rem solid;
 

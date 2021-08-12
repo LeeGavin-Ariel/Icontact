@@ -3,21 +3,25 @@
     <nav class="navbar">
       <!-- 로고 -->
       <button @click="moveToMainPage">
-        <img src="@/assets/logo.png" style="height: 1.8rem" alt="" />
+        <img src="@/assets/logo.png" style="height: 1.8rem" alt="logo-image" />
       </button>
 
       <!-- 간격 조정 -->
       <v-spacer></v-spacer>
 
       <!-- 호칭 -->
-      <p v-if="type == 2" style="margin-bottom:0px; margin-right: 1em">{{ className }} {{ userName }} 선생님</p>
-      <p v-if="type == 1" style="margin-bottom:0px; margin-right: 1em">{{ className }} {{ kidName }} 보호자님</p>
-      
+      <p v-if="type == 2" style="margin-bottom: 0px; margin-right: 1.2em">
+        {{ className }} {{ userName }} 선생님
+      </p>
+      <p v-if="type == 1" style="margin-bottom: 0px; margin-right: 1.2em">
+        {{ className }} {{ kidName }} 보호자님
+      </p>
+
       <!-- 프로필 사진 : 드롭 다운 -->
       <v-menu left bottom>
         <template v-slot:activator="{ on, attrs }">
-          <v-btn icon v-bind="attrs" v-on="on" style="margin-right: 1.1em">
-            <v-badge v-if="type == 2" dot overlap :color="badgeColor">
+          <v-btn icon v-bind="attrs" v-on="on" style="margin-right: 1.3em">
+            <v-badge v-if="type == 2" dot overlap bottom :color="badgeColor">
               <v-avatar size="40" class="scale">
                 <img
                   :src="
@@ -68,22 +72,23 @@
 </template>
 
 <script>
-import SERVER from '@/api/drf.js';
-import axios from 'axios'
+import SERVER from "@/api/drf.js";
+import axios from "axios";
 import userApi from "@/api/user.js";
 export default {
   name: "Navbar",
   data() {
     return {
       type: 0,
-      className: '',
-      userName: '',
-      userId: '',
-      kidName: '',
+      className: "",
+      userName: "",
+      userId: "",
+      kidName: "",
       stateCode: "",
       badgeColor: "green",
     };
   },
+
   methods: {
     async toggleAlarm() {
       await this.updateStateCode();
@@ -120,22 +125,24 @@ export default {
     },
 
     setInfo() {
-      this.type = this.$store.state.user.type
-      this.className = this.$store.state.user.className
-      this.userName = this.$store.state.user.userName
-      this.userId = this.$store.state.user.userId
-      this.kidName = this.$store.state.user.kidName
+      this.type = this.$store.state.user.type;
+      this.className = this.$store.state.user.className;
+      this.userName = this.$store.state.user.userName;
+      this.userId = this.$store.state.user.userId;
+      this.kidName = this.$store.state.user.kidName;
     },
     logout() {
       if (confirm("정말 로그아웃하시겠습니까?")) {
         axios({
-          url: SERVER.URL + SERVER.ROUTES.logout + `?userId=${this.$store.state.user.userId}`,
+          url:
+            SERVER.URL +
+            SERVER.ROUTES.logout +
+            `?userId=${this.$store.state.user.userId}`,
           method: "get",
-        })
-        .then(() => {
-          this.$store.dispatch('removeUser');
-          if (this.$route.path !== 'Login') this.$router.push('Login');
-        })
+        }).then(() => {
+          this.$store.dispatch("removeUser");
+          if (this.$route.path !== "Login") this.$router.push("Login");
+        });
       }
     },
     moveToMainPage() {
@@ -161,12 +168,18 @@ export default {
 </script>
 
 <style scoped>
+* {
+  font-family: "NanumSquareRound";
+  font-size: 0.95em;
+  letter-spacing: -0.5px;
+  color: rgba(40, 40, 40, 0.8);
+}
 .navbar {
-  padding-left: 1em;
-  padding-right: 1em;
+  background-color: rgba(102, 122, 188, 0.23);
+  padding-left: 1.5em;
+  padding-right: 1.5em;
   padding-top: 0.3em;
   padding-bottom: 0.3em;
-  background-color: #A8B1CF;
 }
 .scale {
   transform: scale(1);
@@ -174,7 +187,7 @@ export default {
   -moz-transform: scale(1);
   -ms-transform: scale(1);
   -o-transform: scale(1);
-  transition: all 0.3s ease-in-out; /* 부드러운 모션을 위해 추가*/
+  transition: all 0.3s ease-in-out;
 }
 .scale:hover {
   transform: scale(1.2);

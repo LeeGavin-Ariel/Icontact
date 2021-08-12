@@ -83,7 +83,7 @@
 
     <!--하단 내용-->
     <div class="content flex">
-      <p>ICONTACT | 2021 | Web for Kindergarden</p>
+      <p class="m-0">ICONTACT | 2021 | Web for Kindergarden</p>
     </div>
 
   </div>
@@ -245,13 +245,13 @@ p {
   }
 }
 .inner-header {
-  height:85%;
+  height:83vh;
   width:100%;
   margin: 0;
   padding: 0;
 }
 
-.flex { 
+.flex { /*Flexbox for containers*/
   display: flex;
   justify-content: center;
   align-items: center;
@@ -262,7 +262,7 @@ p {
   position:relative;
   width: 100%;
   height:10vh;
-  margin-bottom:0; 
+  margin-bottom:0; /*Fix for safari gap*/
   min-height:100px;
   max-height:150px;
 }
@@ -276,7 +276,7 @@ p {
 /* Animation */
 
 .parallax > use {
-  animation: move-forever 25s cubic-bezier(.55,.5,.45,.5) 
+  animation: move-forever 25s cubic-bezier(.55,.5,.45,.5)     infinite;
 }
 .parallax > use:nth-child(1) {
   animation-delay: -2s;
@@ -302,6 +302,17 @@ p {
     transform: translate3d(85px,0,0);
   }
 }
-
-
+/*Shrinking for mobile*/
+@media (max-width: 768px) {
+  .waves {
+    height:40px;
+    min-height:40px;
+  }
+  .content {
+    height:30vh;
+  }
+  h1 {
+    font-size:24px;
+  }
+}
 </style>

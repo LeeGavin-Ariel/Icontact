@@ -24,18 +24,24 @@
           <template v-for="(request, index) in dosageList" >
             <div class="list-group list-group-flush scrollarea border-bottom" :class="{selected : idx == index}" v-if="requestType === 1" :key="request.createDate" @click="setDetail(request.dosageId, index)" >
                 <div class="list-group-item list-group-item-action py-2 lh-tight" style="background-color:rgb(256, 256, 256, 0.7);">
-                  <div class="d-flex align-items-center justify-content-evenly" style="height: 9vh; width:100%">
-                    
-                    <!-- 리스트 내용 -->
-                    <v-avatar size="60" class="profile-img mr-3">
-                      <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + request.profileImg"/>
-                    </v-avatar>
-                    <div>
-                    <div class="request-kid-name"><strong>{{request.kidName}}</strong> 학부모님의 투약 요청</div>
-                    <div class="request-time">{{request.createDate}}</div>
+                  <div class="d-flex align-items-center" style="height: 9vh; width:100%">
+
+                    <div align="center" class="col-3">
+                      <v-avatar size="50" class="profile-img mb-2">
+                        <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + request.profileImg"/>
+                      </v-avatar>
+                      <div class="request-kid-name">{{request.kidName}} 학부모님</div>
                     </div>
-                    <img src="@/assets/flaticon/letter.png" style="width: 1.8rem">
+                    <div class="col-7">
+                      <div class="request-title mb-1">투약 요청</div>
+                      <div class="request-time mt-1" align="right">{{request.createDate}}</div>
+                    </div>
+                    <div class="col-2" align="center">
+                      <img  src="@/assets/flaticon/letter.png" style="width: 1.8rem">  
+                    </div>
+
                   </div>
+                  
                 </div>
             </div>
             <div
@@ -58,17 +64,22 @@
           <template v-for="(request, index) in returnHomeList" >
             <div class="list-group list-group-flush scrollarea border-bottom" :class="{selected : idx == index}" v-if="requestType === 2" :key="request.createDate" @click="setDetail(request.rhId, index)">
                 <div class="list-group-item list-group-item-action py-2 lh-tight" style="background-color:rgb(256, 256, 256, 0.7);">
-                  <div class="d-flex align-items-center justify-content-evenly" style="height: 9vh; width:100%">
-                    
-                    <!-- 리스트 내용 -->
-                    <v-avatar size="60" class="profile-img mr-3">
-                      <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + request.profileImg"/>
-                    </v-avatar>
-                    <div>
-                      <div class="request-kid-name"><strong>{{request.kidName}}</strong> 학부모님의 귀가 동의</div>
-                      <div class="request-time">{{request.createDate}}</div>
+                  <div class="d-flex align-items-center" style="height: 9vh; width:100%">
+
+                    <div align="center" class="col-3">
+                      <v-avatar size="50" class="profile-img mb-2">
+                        <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + request.profileImg"/>
+                      </v-avatar>
+                      <div class="request-kid-name">{{request.kidName}} 학부모님</div>
                     </div>
-                    <img src="@/assets/flaticon/letter.png" style="width: 1.8rem">
+                    <div class="col-7" style="width:60%">
+                      <div class="request-title mb-1">귀가 동의</div>
+                      <div class="request-time mt-1" align="right">{{request.createDate}}</div>
+                    </div>
+                    <div class="col-2" align="center">
+                      <img  src="@/assets/flaticon/letter.png" style="width: 1.8rem">  
+                    </div>
+
                   </div>
                 </div>
             </div>
@@ -339,14 +350,18 @@ export default {
 <style scoped>
 
 .request-kid-name {
-  font-size:22px;
+  font-size:15px;
   display:block;
-  text-align:left; 
-  margin-bottom:4px;
+  font-weight: 900;
+  /* text-align:left;  */
+  /* margin-bottom:4px; */
 }
 .request-time {
-  font-size:14px;
-  text-align:right;
+  font-size:13px;
+  /* text-align:right; */
+}
+.request-title{
+  font-size:20px;
 }
 /* 스크롤 */
 .content-container{

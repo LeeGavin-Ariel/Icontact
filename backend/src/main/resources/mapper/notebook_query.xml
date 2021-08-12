@@ -17,12 +17,12 @@
             WHERE u1.classCode = tmp.classCode
             and u1.type != tmp.type
             and notebook.writerId = #{userId}
-            and notebook.targetId in (select userId from user where userName like CONCAT('%', CONCAT(#{searchParam},'%')))
+            and notebook.targetId in (select userId from user where kidName like CONCAT('%', CONCAT(#{searchParam},'%')))
             and notebook.targetId = u1.userId
             ) as cnt
         </if>
         <if test="type==1">
-            (SELECT count(*) as totalNum
+            , (SELECT count(*) as totalNum
             FROM user as u1,
             (select classCode, type from user where userId = #{userId}) as tmp,
             notebook
@@ -37,7 +37,7 @@
         and u1.type != tmp.type
         <if test="type==2">
             and notebook.writerId = #{userId}
-            and notebook.targetId in (select userId from user where userName like CONCAT('%', CONCAT(#{searchParam},'%')))
+            and notebook.targetId in (select userId from user where kidName like CONCAT('%', CONCAT(#{searchParam},'%')))
             and notebook.targetId = u1.userId
         </if>
         <if test="type==1">

@@ -1,107 +1,109 @@
 <template>
-  <div class="row" style="width:80vw; margin:0;">
+  <div class="row letter-back" style="width:82vw; margin:0;">
 
     <div
-    class="col-5 mx-auto"
-    style="padding-bottom: 0px;"
+    class="mx-auto"
+    style="padding-bottom: 0px; width: 38%;"
     >
       <!-- 노트북 리스트 -->
-      <v-col
-        class="mx-auto"
-      >
+      <v-col class="mx-auto">
 
-        <!-- 여기가 그 검색창 들어갈 부분 (선생님만) -->
-        <input 
-        type="text" 
-        v-if="identity === 2" 
-        @input="searchPerson=$event.target.value"
-        @keypress.enter="search">
-        <button @click="search" v-if="!searchFlag && identity === 2">검색</button>
-        <button @click="getNotebookList" v-if="searchFlag && identity === 2">초기화</button>
+        <!-- 검색  -->
+        <div align="center">
+          <input 
+          type="text" 
+          class="searchInput mb-1"
+          placeholder="이름으로 검색"
+          @input="searchPerson=$event.target.value"
+          @keypress.enter="search">
+          <button class="searchBtn" @click="search">검색</button>
+          <button class="searchBtn" @click="getNotebookList">전체보기</button>
+        </div>
 
-        <v-list two-line>
-          <v-list-item-group
-            active-class="pink--text"
-          >
+        <!-- 알림장 리스트 -->
+        <div v-if="!searchFlag" class="content-container list-col mt-5" style="overflow-y:scroll; height:80vh;" >
+          <div class="d-flex flex-column align-items-stretch flex-shrink-0" style="width: 100%;">
+            <template v-for="(note, index) in notebookList">
+              <div class="list-group list-group-flush scrollarea border-bottom" :class="{selected : idx == index}" :key="note.createDate" @click="setDetail(note.noteId, index)">
+                  <div class="list-group-item list-group-item-action py-2 lh-tight" style="background-color:rgb(256, 256, 256, 0.7);">
+                    <div class="d-flex align-items-center" style="height: 9vh; width:100%">
+                      
+                      <!-- 리스트 내용 -->
+                      <div align="center" class="col-3">
+                          <v-avatar size="50" class="profile-img mb-2">
+                            <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + note.profileImg"/>
+                          </v-avatar>
+                          <!-- 학부모일 경우 -->
+                          <div v-if="$store.state.user.type === 1" class="note-list-name">{{note.writerName}} 선생님</div>
+                          <!-- 선생님일 경우 -->
+                          <div v-if="$store.state.user.type === 2" class="note-list-name">{{note.targetName}} 학부모님</div>
+                      </div>
+                      <div class="col-7">
+                        <div class="note-title mb-1">{{note.title}}</div>
+                        <div class="note-time mt-1" align="right">{{note.createDate}}</div>
+                      </div>
+                      <div class="col-2" align="center">
+                        <img src="@/assets/flaticon/alarm.png" style="width: 1.6rem">
+                      </div>
 
-            <!-- 노트북 리스트 띄우기 -->
-            <div style="overflow-y:scroll; height:80vh;" v-if="!searchFlag">
-              <template v-for="(note, index) in notebookList">
-                <v-list-item :key="note.noteId" @click="setDetail(note.noteId)">
-                  <template >
-                    <v-list-item-content >
-                      <v-list-item-title v-text="note.title"></v-list-item-title>
+                    </div>
+                  </div>
+              </div>
+              <div
+                v-if="index < notebookList.length - 1"
+                :key="index"
+              ></div>
+            </template>
+            
+            <!-- 더보기 버튼 -->
+            <button class="mt-2 more-btn" @click="getMoreNotebooklist" v-if="notebookList.length > 0 && (pageNum < pageCnt)">더보기</button>
+          
+          </div>
+        </div>
 
-                      <v-list-item-subtitle
-                        class="text--primary"
-                        v-text="note.headline"
-                      >
-                      </v-list-item-subtitle>
+        <!-- 알림장 검색 리스트 -->
+        <div v-if="searchFlag" class="content-container list-col mt-5" style="overflow-y:scroll; height:80vh;" >
+        
+          <div class="d-flex flex-column align-items-stretch flex-shrink-0" style="width: 100%;">
+            <template v-for="(note, index) in searchedNotebookList">
+              <div class="list-group list-group-flush scrollarea border-bottom" :class="{selected : idx == index}" :key="note.noteId" @click="setDetail(note.noteId, index)">
+                  <div class="list-group-item list-group-item-action py-2 lh-tight" style="background-color:rgb(256, 256, 256, 0.7);">
+                    <div class="d-flex align-items-center" style="height: 9vh; width:100%">
+                      
+                      <!-- 리스트 내용 -->
+                      <div align="center" class="col-3">
+                          <v-avatar size="50" class="profile-img mb-2">
+                            <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + note.profileImg"/>
+                          </v-avatar>
+                          <!-- 학부모일 경우 -->
+                          <div v-if="$store.state.user.type === 1" class="note-list-name">{{note.writerName}} 선생님</div>
+                          <!-- 선생님일 경우 -->
+                          <div v-if="$store.state.user.type === 2" class="note-list-name">{{note.targetName}} 학부모님</div>
+                      </div>
+                      <div class="col-7">
+                        <div class="note-title mb-1">{{note.title}}</div>
+                        <div class="note-time mt-1" align="right">{{note.createDate}}</div>
+                      </div>
+                      <div class="col-2">
+                        <img src="@/assets/flaticon/alarm.png" style="width: 1.6rem">
+                      </div>
 
-                      <v-list-item-subtitle v-text="note.targetName"></v-list-item-subtitle>
-                    </v-list-item-content>
 
-                    <v-list-item-action>
-                      <v-list-item-action-text v-text="note.targetId"></v-list-item-action-text>
+                    </div>
+                  </div>
+              </div>
+              <div
+                v-if="index < searchedNotebookList.length - 1"
+                :key="index"
+              ></div>
+            </template>
+            
+            <!-- 더보기 버튼 -->
+            <button class="mt-2 more-btn" @click="getMoreSearchNotebooklist" v-if="searchedNotebookList.length > 0 && (searchPageNum < searchPageCnt)">더보기</button>
+          
+          </div>
+        </div>
 
-                    </v-list-item-action>
-                  </template>
-                </v-list-item>
-
-                <v-divider
-                  v-if="index < notebookList.length - 1"
-                  :key="index"
-                ></v-divider>
-
-              </template>
-
-              <!-- 조건문. 리스트의 길이가 0이거나, 다 불러온 경우에만 더보기 버튼 활성화. -->
-              <button @click="getMoreNotebooklist" v-if="notebookList.length > 0 && (pageNum < pageCnt)">더보기</button>
-              <p v-else>불러올 글이 없습니다</p>
-              <p>리스트 길이 : {{notebookList.length}}</p>
-              <p>페이지 넘버 : {{pageNum}}</p>
-              <p>페이지 카운트 : {{pageCnt}}</p>
-            </div>
-
-            <div style="overflow-y:scroll; height:80vh;" v-if="searchFlag">
-              <template v-for="(note, index) in searchedNotebookList">
-                <v-list-item :key="note.noteId" @click="setDetail(note.noteId)">
-                  <template >
-                    <v-list-item-content >
-                      <v-list-item-title v-text="note.title"></v-list-item-title>
-
-                      <v-list-item-subtitle
-                        class="text--primary"
-                        v-text="note.headline"
-                      >
-                      </v-list-item-subtitle>
-
-                      <v-list-item-subtitle v-text="note.targetName"></v-list-item-subtitle>
-                    </v-list-item-content>
-
-                    <v-list-item-action>
-                      <v-list-item-action-text v-text="note.targetId"></v-list-item-action-text>
-
-                    </v-list-item-action>
-                  </template>
-                </v-list-item>
-
-                <v-divider
-                  v-if="index < searchedNotebookList.length - 1"
-                  :key="index"
-                ></v-divider>
-
-              </template>
-
-              <!-- 조건문. 리스트의 길이가 0이거나, 다 불러온 경우에만 더보기 버튼 활성화. -->
-              <button @click="getMoreSearchNotebooklist" v-if="searchedNotebookList.length > 0 && (searchPageNum < searchPageCnt)">더보기</button>
-              <p v-else>불러올 글이 없습니다</p>
-              <p>리스트 길이 : {{searchedNotebookList.length}}</p>
-              <p>페이지 넘버 : {{searchPageNum}}</p>
-              <p>페이지 카운트 : {{searchPageCnt}}</p>
-            </div>
-          </v-list-item-group>
-        </v-list>
       </v-col>
     </div>
     
@@ -131,6 +133,7 @@ export default {
     return {
       // 디테일 값 얻어오기 위한 글의 아이디값
       id:0,
+      idx: 0,
 
       // 관계
       identity: 0,
@@ -156,8 +159,10 @@ export default {
   
   methods: {
     initNotebookList() {
+      this.id = 0
       this.searchFlag = 0
       this.notebookList = []
+      this.searchedNotebookList = []
       this.pageNum = 0
       this.pageCnt = 0
       this.getNotebookList()
@@ -183,8 +188,9 @@ export default {
       this.getSearchNotebookList()
     },
 
-    setDetail (Id) {
+    setDetail (Id, index) {
       this.id = Id
+      this.idx = index;
     },
 
     async getNotebookList() {
@@ -320,7 +326,81 @@ export default {
 </script>
 
 <style scoped>
+.searchInput{
+  background-color: rgba(256, 256, 256, 0.7);
+  border-radius: 20px;
+  height: 36px;
+  width: 60%;
+  padding: 0px 0px 0px 15px;
+  margin: 3px 3px 3px 3px;
+}
+.searchBtn{
+  background-color: rgba(168, 177, 207, 1);
+  border-radius: 70px;
+  height: 36px;
+  width: 15%;
+  margin: 20px 3px 3px 3px;
+  text-align: center;
+  color: rgba(256, 256, 256);
+  letter-spacing: -1px;
+}
 
+.note-list-name {
+  font-size:15px;
+  display:block;
+  font-weight: 900;
+}
+.note-time {
+  font-size:13px;
+}
+.note-title{
+  font-size:20px;
+}
+
+/* 스크롤 */
+.content-container{
+  overflow-y:scroll; 
+  height:80vh; 
+}
+.content-container::-webkit-scrollbar {
+  width: 7px;
+  background-color: rgba(233,234,239, 0.5);
+  border-radius: 5px;
+}
+.content-container::-webkit-scrollbar-thumb {
+  background-color: #a8b1cf;
+  border-radius: 5px;
+}
+.content-container::-webkit-scrollbar-track {
+  background-color: rgba(233,234,239, 0.5);
+  border-radius: 5px;
+}
+
+.profile-img {
+  box-shadow: 0px 0px 2px 2px rgba(168, 177, 207, 0.7);
+}
+.more-btn{
+  color: rgb(156, 156, 156);
+}
+.more-btn:hover {
+  color: black;
+  
+}
+.list-col{
+  background-color: rgba(256, 256, 256, 0.7)
+}
+
+.border-bottom{
+  border-bottom: solid 0.5px #a8b1cf;
+}
+
+.letter-back{
+  background-color:rgba(102,122,188, 0.1);
+  background-size: 100% 100%;
+}
+.selected {
+  background-color: #58679A;
+}
 </style>
 
 

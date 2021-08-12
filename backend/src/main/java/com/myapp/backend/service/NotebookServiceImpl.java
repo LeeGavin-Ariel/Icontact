@@ -13,15 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +29,9 @@ public class NotebookServiceImpl implements NotebookService{
 
     @Autowired
     NotebookDao notebookDao;
+
+
+    int pageCnt=7;
 
     @Override
     @Transactional
@@ -68,7 +64,6 @@ public class NotebookServiceImpl implements NotebookService{
 
             //type==1이면 부모입장, 수신자 고정/작성자 변경
             //type==2면 선생입장, 작성자 고정/수신자 변경
-            int pageCnt=4;
             Pageable page = PageRequest.of(pageNum, pageCnt);
 
             if(type==1){
@@ -88,16 +83,16 @@ public class NotebookServiceImpl implements NotebookService{
             for (Notebook n : pages) {
                 if(type==1)writer = userRepositoryJPA.findByUserId(n.getWriterId());
                 else target = userRepositoryJPA.findByUserId(n.getTargetId());
-
+                String date =n.getCreateDate().toString();
                 NoteBookListDto dto = new NoteBookListDto(n.getNoteId(),
                         n.getTitle(),
                         n.getWriterId(),
                         writer.getUserName(),
                         n.getTargetId(),
-                        target.getUserName(),
-                        n.getCreateDate(),
+                        target.getKidName(),
+                        date.substring(0, date.length()-2),
                         totalCnt,
-                        n.getNoteImgUrl());
+                        type==1?writer.getProfileImg():target.getProfileImg());
 
                 result.add(dto);
             }
@@ -114,27 +109,22 @@ public class NotebookServiceImpl implements NotebookService{
     public NoteBookListResultDto searchNotebook(int pageNum, String userId, String searchParam) {
 
         int type = userRepositoryJPA.findByUserId(userId).getType();
-        int pageCnt=4;
 
-        NoteBookParamDto notebookParamDto = new NoteBookParamDto(userId,searchParam, type, pageCnt*pageNum,4);
-        System.out.println(notebookParamDto);
+        NoteBookParamDto notebookParamDto = new NoteBookParamDto(userId,searchParam, type, pageCnt*pageNum,7);
         NoteBookListResultDto result =new NoteBookListResultDto();
 
-
         List<NoteBookListDto>searchResult = notebookDao.searchNotebook(notebookParamDto);
-        System.out.println(searchResult);
         int totalNum=0;
 
         for (NoteBookListDto n : searchResult){
             String writerName = userRepositoryJPA.findByUserId(n.getWriterId()).getUserName();
-            String targetName = userRepositoryJPA.findByUserId(n.getTargetId()).getUserName();
+            String targetName = userRepositoryJPA.findByUserId(n.getTargetId()).getKidName();
             n.setWriterName(writerName);
             n.setTargetName(targetName);
             totalNum=n.getTotalNum();
         }
         result.setPageCnt((int) Math.ceil((double)totalNum/pageCnt));
         result.setResult(searchResult);
-        System.out.println(totalNum);
         return result;
     }
 
@@ -151,10 +141,12 @@ public class NotebookServiceImpl implements NotebookService{
 
             //반환값만들기
 
+            String date = notebook.getCreateDate().toString();
+
             noteBookDetailDto.setNoteId(notebook.getNoteId());
             noteBookDetailDto.setTitle(notebook.getTitle());
             noteBookDetailDto.setContent(notebook.getContent());
-            noteBookDetailDto.setCreateDate(notebook.getCreateDate());
+            noteBookDetailDto.setCreateDate(date.substring(0, date.length()-2));
             noteBookDetailDto.setWriterId(notebook.getWriterId());
             noteBookDetailDto.setWriterName(userRepositoryJPA.findByUserId(notebook.getWriterId()).getUserName());
             noteBookDetailDto.setTargetId(notebook.getTargetId());
@@ -162,7 +154,6 @@ public class NotebookServiceImpl implements NotebookService{
             noteBookDetailDto.setKidName(target.getKidName());
             noteBookDetailDto.setNoteImgUrl(notebook.getNoteImgUrl());
 
-            System.out.println(noteBookDetailDto.getNoteImgUrl());
             return new ResponseEntity<>(noteBookDetailDto, HttpStatus.OK);
 
 
@@ -178,7 +169,6 @@ public class NotebookServiceImpl implements NotebookService{
     public ResponseEntity updateNotebook(NoteBookCreateDto noteBookDto){
         try {
             Notebook notebook = notebookRepository.getById(noteBookDto.getNoteId());
-            System.out.println(noteBookDto);
             notebook.setTitle(noteBookDto.getTitle());
             notebook.setContent(noteBookDto.getContent());
             notebook.setTargetId(noteBookDto.getTargetId());

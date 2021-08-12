@@ -1,5 +1,5 @@
 <template>
-  <div class="servererror-container">
+  <div class="servererror-container" align="center">
     <div class="flex flex-column mt-5">
 
       <img class="servererror-img mt-5 mb-5" src="@/assets/servererror.png">

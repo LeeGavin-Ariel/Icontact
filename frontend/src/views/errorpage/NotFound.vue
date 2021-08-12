@@ -1,6 +1,6 @@
 <template>
-  <div class="notfound-container">
-    <div class="flex flex-column mt-5">
+  <div class="notfound-container" align="center">
+    <div class="flex-column mt-5 ">
     
       <img class="notfound-img mt-5 mb-5" src="@/assets/notfound.png">
 
@@ -36,12 +36,6 @@ export default {
 }
 </script>
 <style scoped>
-@font-face {
-    font-family: 'NanumSquareRound';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NanumSquareRound.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
 *{
   font-family:'NanumSquareRound';
 }

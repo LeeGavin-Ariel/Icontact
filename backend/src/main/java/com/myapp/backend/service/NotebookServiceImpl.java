@@ -141,10 +141,12 @@ public class NotebookServiceImpl implements NotebookService{
 
             //반환값만들기
 
+            String date = notebook.getCreateDate().toString();
+
             noteBookDetailDto.setNoteId(notebook.getNoteId());
             noteBookDetailDto.setTitle(notebook.getTitle());
             noteBookDetailDto.setContent(notebook.getContent());
-            noteBookDetailDto.setCreateDate(notebook.getCreateDate());
+            noteBookDetailDto.setCreateDate(date.substring(0, date.length()-2));
             noteBookDetailDto.setWriterId(notebook.getWriterId());
             noteBookDetailDto.setWriterName(userRepositoryJPA.findByUserId(notebook.getWriterId()).getUserName());
             noteBookDetailDto.setTargetId(notebook.getTargetId());

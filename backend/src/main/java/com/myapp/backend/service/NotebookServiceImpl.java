@@ -110,7 +110,7 @@ public class NotebookServiceImpl implements NotebookService{
 
         int type = userRepositoryJPA.findByUserId(userId).getType();
 
-        NoteBookParamDto notebookParamDto = new NoteBookParamDto(userId,searchParam, type, pageCnt*pageNum,4);
+        NoteBookParamDto notebookParamDto = new NoteBookParamDto(userId,searchParam, type, pageCnt*pageNum,7);
         NoteBookListResultDto result =new NoteBookListResultDto();
 
         List<NoteBookListDto>searchResult = notebookDao.searchNotebook(notebookParamDto);

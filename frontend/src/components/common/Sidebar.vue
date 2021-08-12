@@ -1,19 +1,22 @@
 <template>
   <div>
-    <v-list>
 
+    <v-list shaped>
+    <!-- <v-list style="background-color: #a8b1cf;">       -->
       <v-list-item
         v-for="item in items"
         :key="item.title"
-        active-class="primary"
-        class="py-1"
+        active-class="blue"
+        class="py-3 sidebar-item"
       >
         <v-list-item-content>
-          <v-list-item-title @click="movePage(item.route)">{{ item.title }}</v-list-item-title>
-
+        <!-- <v-list-item-title @click="movePage(item.route)"><img src="item.imgUrl" style="height:2rem; margin-right:0.7rem">{{ item.title }}</v-list-item-title> -->
+        <v-list-item-title @click="movePage(item.route)"><img :src="require('@/assets/funcs/' + item.imgUrl + '.png')" style="height:1.8rem;" class="ml-3 mr-5"><span class="title-text">{{ item.title }}</span></v-list-item-title>
+        
         </v-list-item-content>
       </v-list-item>
     </v-list>
+
   </div>
 </template>
 
@@ -23,12 +26,12 @@ export default {
   data() {
     return {
       items: [
-        { title: "알림장", route: "Notebook" },
-        { title: "채팅", route: "Chat" },
-        { title: "앨범", route: "Album" },
-        { title: "출석부", route: "Attendance" },
-        { title: "공지사항", route: "Notice" },
-        { title: "요청사항", route: "Request" },
+        { title: "알림장", route: "Notebook", imgUrl:"note" },
+        { title: "채팅", route: "Chat", imgUrl:"chat" },
+        { title: "앨범", route: "Album", imgUrl:"album" },
+        { title: "출석부", route: "Attendance",imgUrl:"attendance" },
+        { title: "공지사항", route: "Notice", imgUrl:"album" },
+        { title: "요청사항", route: "Request", imgUrl:"request" },
       ],
     }
   },
@@ -42,5 +45,17 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+* {
+  font-family: 'NanumSquareRound';
+  font-size: 1.02em;
+  letter-spacing: 3.5px;
+}
+.sidebar-item{
+  font-weight: bolder;
+}
+.sidebar-item:hover{
+  background-color:#fff1c8;
+  transition: 0.3s;
+}
 </style>

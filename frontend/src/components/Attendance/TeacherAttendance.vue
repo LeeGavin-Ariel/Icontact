@@ -1,104 +1,74 @@
 <template>
-  <div>
-    {{date}}
-    {{kids}}
+  <div style="font-family: 'NanumSquareRound'; width:100%; background-color: rgba(240, 241, 247); ">
     <!-- vuetify menus 참고 -->
-    <template>
-      <div class="text-center">
-        <v-menu
-          v-model="menu"
-          :close-on-content-click="false"
-          :nudge-width="100"
-          offset-y
-          nudge-top
-          
-        >
-          <template v-slot:activator="{ on, attrs }">
-            <!-- <button style="float: right; margin-top:1.5rem;">
-              <img src="@/assets/flaticon/calendar.png" style="height: 2.5rem; width: 2.5rem; margin:0.5rem;" alt="">
-            </button> -->
-            <v-btn
-              color="indigo"
-              dark
-              v-bind="attrs"
-              v-on="on"
-            >
-              날짜변경
-            </v-btn>
-          </template>
-
-          <v-card style="overflow:hidden">
-            <template>
-              <v-row>
-                <v-col
-                  class="my-2 px-1"
-                  cols="12"
-                  sm="6"
-                >
-                  <v-date-picker
-                    v-model="date"
-                    no-title
-                    @contextmenu:year="contextMenu"
-                    @mouseenter:month="mouseEnter"
-                    @mouseleave:month="mouseLeave"
-                  ></v-date-picker>
-                </v-col>
-              </v-row>
-            </template>
-
-            <!-- <v-card-actions>
-              <v-spacer></v-spacer>
-
-              <v-btn text @click="menu = false">Cancel</v-btn>
-              <v-btn color="primary" text @click="menu = false">Save</v-btn>
-            </v-card-actions> -->
-          </v-card>
-        </v-menu>
-      </div>
-    </template>
-
-
-    <div style="height:4vh; width:96%;">
-      <div>
-        <div id="circle"></div>
-        <p class="d-inline">결석</p>
-        <div id="circle2"></div>
-        <p class="d-inline">출석</p>
-      </div>
-      <!-- <button style="float: right; margin-top:1.5rem;"><img src="@/assets/flaticon/calendar.png" style="height: 2.5rem; width: 2.5rem; margin:0.5rem;" alt=""></button> -->
-    </div>
-    
-    
-    <div class="container d-flex justify-content-center" style="height:80vh; margin:2.5rem; overflow-y:scroll; border: solid rgba(169,177,204, 0.7); border-radius: 8px;">
-      <v-row>
-
-        <!-- v-for="kid in kids" -->
-        <!-- :key="kid.userId" -->
-        <v-col
-          v-for="(kid,index) in kids"
-          :key="kid.userId"
-          cols="2"
-        >
-        <!--  -->
-          <v-card
-            class="mx-auto"
-            max-width="200"
-            max-height="300"
-            outlined
+      <div class="mx-auto d-flex" style="width:57vw; margin-top:3%; margin-bottom:10px">
+        <div class="d-flex align-items-end" style="width:50%;">
+          <div id="circle" class="d-inline-block me-1" style="margin-bottom:0.4rem"></div>
+          <p class="d-inline my-0 me-2">결석</p>
+          <div id="circle2" class="d-inline-block me-1" style="margin-bottom:0.4rem"></div>
+          <p class="d-inline m-0">출석</p>
+        </div>
+        <template>
+          <div class="text-right d-flex justify-content-end align-items-end" style="width:50%; display: inline; ">
+            <p style="font-weight: 800; display:inline; margin-right:1rem; margin-bottom:0">{{date.substr(0,4)}}년 {{date[5] + date[6]}}월 {{date[8]+date[9]}}일</p>
             
-          >
-          <!-- 여기 테두리 주기, 아이 사진으로 넣기 반복문에 들어오는 아이의 키값을 아이의 아이디 값으로 설정. -->
-            <v-img
-              src="@/assets/1.jpeg"
-              height="200px"
-              @click="setKid(index)"
-              :class="{ attend: (kid.attend===1), notattend: (kid.attend===0) }"
-            ></v-img>
-            <!-- 여기 아이 이름 넣어주기. -->
-          </v-card>
-          <p style="text-align:center;">{{kid.kidName}}</p>
-        </v-col>
-      </v-row>
+            <v-menu
+              v-model="menu"
+              :close-on-content-click="false"
+              :nudge-width="100"
+              offset-y
+              nudge-top
+              
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <button v-bind="attrs" v-on="on">
+                  <img src="@/assets/flaticon/calendar.png" style="width:2rem" alt="">
+                </button>
+              </template>
+            
+              
+              
+
+
+
+
+
+              <v-card style="overflow:hidden">
+                <template>
+                  <v-row>
+                    <v-col
+                      class="my-2 px-1"
+                      cols="12"
+                      sm="6"
+                    >
+                      <v-date-picker
+                        v-model="date"
+                        no-title
+                        @contextmenu:year="contextMenu"
+                        @mouseenter:month="mouseEnter"
+                        @mouseleave:month="mouseLeave"
+                      ></v-date-picker>
+                    </v-col>
+                  </v-row>
+                </template>
+              </v-card>
+            </v-menu>
+            
+          </div>
+        </template>
+      </div>
+
+    <div class="container d-flex flex-wrap justify-content-center content-container" style="height:75vh; width:57vw; margin:0 auto; border-radius: 8px; background-color:white;">
+      <div class="row row-cols-5">
+        <div v-for="(kid, index) in kids" :key="kid.userId" class="d-flex flex-column align-items-center">
+          <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + kid.profileImg" 
+          style="width:91%; height:18vh ;margin-top:1rem; margin-bottom:0.4rem;" 
+          :class="{ attend: (kid.attend===1), notattend: (kid.attend===0) }"
+          @click="setKid(index)">
+          <p class="m-0" style="text-align:center; width:91%;">{{kid.kidName}}</p>
+          
+        </div>
+      </div>
     </div>
     
 
@@ -138,7 +108,6 @@ export default {
   name:"TeacherAttendance",
   data () {
     return {
-      
       // 출석 관련. kids 목록을 전부 다 받으면 될 듯
       // 1. kid의 이미지 url (profileImg)
       // 2. kid의 이름. (kidName)
@@ -242,33 +211,51 @@ export default {
 }
 </script>
 
-<style>
-  #circle {
-    background-color:#8ca3a3;
-    width:20px;
-    height:20px;
-    border-radius:75px;
-  }
+<style scoped>
 
-  #circle2 {
-    background-color:#eeea0a;
-    width:20px;
-    height:20px;
-    border-radius:75px;
-  }
+#circle {
+  background-color:#ffc1c2;
+  width:10px;
+  height:10px;
+  border-radius:75px;
+}
 
-  .attend {
-    border-style: solid;
-    border-color: #eeea0a;
-    border-width: 12px;
-    margin: auto 0;
-  }
+#circle2 {
+  background-color:#a1c8ff;
+  width:10px;
+  height:10px;
+  border-radius:75px;
+}
 
-  .notattend {
-    border-style: solid;
-    border-color: #8ca3a3;
-    border-width: 12px;
-    margin: auto 0;
-  }
+.attend {
+  border-style: solid;
+  border-color:#a1c8ff;
+  border-width: 8px;
+  margin: auto 0;
+}
+
+.notattend {
+  border-style: solid;
+  border-color: #ffc1c2;
+  border-width: 8px;
+  margin: auto 0;
+}
+.content-container{
+  overflow-y:scroll; 
+  height:80vh; 
+}
+.content-container::-webkit-scrollbar {
+  width: 7px;
+  background-color: rgba(233,234,239, 0.5);
+  border-radius: 5px;
+}
+.content-container::-webkit-scrollbar-thumb {
+  background-color: #a8b1cf;
+  border-radius: 5px;
+}
+.content-container::-webkit-scrollbar-track {
+  background-color: rgba(233,234,239, 0.5);
+  border-radius: 5px;
+}
 
 </style>

@@ -30,7 +30,7 @@ export default {
         { title: "채팅", route: "Chat", imgUrl:"chat" },
         { title: "앨범", route: "Album", imgUrl:"album" },
         { title: "출석부", route: "Attendance",imgUrl:"attendance" },
-        { title: "공지사항", route: "Notice", imgUrl:"album" },
+        { title: "공지사항", route: "Notice", imgUrl:"notice" },
         { title: "요청사항", route: "Request", imgUrl:"request" },
       ],
     }

@@ -3,18 +3,18 @@
     <nav class="navbar">
       <!-- 로고 -->
       <button @click="moveToMainPage">
-        <img src="@/assets/logo.png" style="height: 1.8rem" alt="logo-image" />
+        <img src="@/assets/icontact/dark_log.png" style="height: 2.1rem" alt="logo-image" />
       </button>
 
       <!-- 간격 조정 -->
       <v-spacer></v-spacer>
 
       <!-- 호칭 -->
-      <p v-if="type == 2" style="margin-bottom: 0px; margin-right: 1.2em">
-        {{ className }} {{ userName }} 선생님
+      <p v-if="type == 2" class="userName">
+        {{ className }}반 {{ userName }} 선생님
       </p>
-      <p v-if="type == 1" style="margin-bottom: 0px; margin-right: 1.2em">
-        {{ className }} {{ kidName }} 보호자님
+      <p v-if="type == 1" class="userName">
+        {{ className }}반 {{ kidName }} 보호자님
       </p>
 
       <!-- 프로필 사진 : 드롭 다운 -->
@@ -172,7 +172,6 @@ export default {
 <style scoped>
 * {
   font-family: "NanumSquareRound";
-  font-size: 0.95em;
   letter-spacing: -0.5px;
   color: rgba(40, 40, 40, 0.8);
 }
@@ -202,5 +201,11 @@ export default {
   width: 325px;
   height: 280px;
   overflow: hidden;
+}
+.userName {
+  margin-bottom: 0px;
+  margin-right: 1.2em;
+  font-weight: 800;
+  font-size: 1rem;
 }
 </style>

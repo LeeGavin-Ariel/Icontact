@@ -1,55 +1,96 @@
 <template>
-  <div id='bg' style="display:flex; justify-content:center; height:100%; align-items: center; font-family: 'EliceDigitalBaeum_Bold';">
-    <div class="col-sm-8 col-md-5" style="height: 90%; background-color: rgba(256,256,256,0.7); border-style: solid;  border-color:#a8b1cf; border-radius: 40px;">
+  <div id='bg'>
+
+    <!-- 마이페이지 -->
+    <div class="mypage-body col-sm-8 col-md-5 p-0">
+
+      <!-- 마이페이지 타이틀-->
+      <div class="mypage-title">
+        <div class="ml-2" style="font-size: 24px">마이페이지</div>
+      </div>
+      
+      <!-- 비밀번호 변경 버튼 -->
+      <div align="right" class="mr-3 mt-2">
+        <button data-bs-toggle="modal" data-bs-target="#passwordModal" class="pwdBtn">
+          비밀번호 변경
+        </button>
+      </div>
+
+      <!-- 프로필 이미지 변경 -->
       <div class="d-flex justify-content-center align-items-center m-4">
-        <div style="position:relative; ">
+        
+        <!-- 프로필 이미지 변경 -->
+        <div class="pt-5" style="position:relative; ">
           <v-avatar
-            color="orange"
             size="200px"
           >
             <img
             :src="this.profileImg"
-            alt="user-profile-image" id='profileImg'>
+            alt="user-profile-image"
+            id='profileImg'>
           </v-avatar>
+          
+          <!-- 사진 변경 버튼 -->
           <button data-bs-toggle="modal" data-bs-target="#profileModal" style="width:15%; height:15%; position:absolute; bottom:0; right:5px">
             <img src="@/assets/flaticon/pencil.png" style="width:100%; height:100%;" alt="" >
           </button>
+        
         </div>
-        <!-- 사진 변경 버튼 -->
-      
       </div>
-      <div class="col-sm-8 col-md-8 mx-auto text-center">
-        <h4 v-if="type===2">[{{className}}] {{ userName }} 선생님</h4>
-        <h4 v-else>[{{className}}반] {{ kidName }} 학부모님 </h4>
+
+      <!-- 호칭 -->
+      <div class="col-sm-8 col-md-8 mx-auto text-center userName">
+        <p v-if="type===2">[{{className}}반] {{ userName }} 선생님</p>
+        <p v-else>[{{className}}] {{ kidName }} 학부모님 </p>
         <!-- 비밀 번호 변경 버튼 -->
-        <button data-bs-toggle="modal" data-bs-target="#passwordModal">
+        <!-- <button data-bs-toggle="modal" data-bs-target="#passwordModal">
           비밀번호 변경
-        </button>
-      </div>
-      <div class="text-left d-grid gap-2 col-6 mx-auto">
-        <h4 style="margin-bottom:0;">내 정보</h4>
-        <hr style="color:#a8b1cf; height:3px; margin:5px;">
-        <h6>아이디 : {{ userId }}</h6>
-        <h6>이름 : {{ userName }}</h6>
-        <h6 v-if="type===1">아이 이름 : {{ kidName }}</h6>
-        <h6>유치원 명 : {{ kinderName }}</h6>
-        <h6>반 명 : {{ className }}</h6>
+        </button> -->
       </div>
 
-      
-      
+
+      <!-- 내 정보 -->
+      <div class="d-grid gap-2 col-8 mx-auto" align="center">
+        <!-- <hr style="color:#a8b1cf; height:3px; margin:5px;"> -->
+        <div>
+        <table class="table table-borderless col-8" >
+          <tr>
+            <th class="col-6">아이디</th>
+            <td class="col-6">{{ userId }}</td>
+          </tr>
+          <tr>
+            <th class="col-6">이름</th>
+            <td class="col-6">{{ userName }}</td>
+          </tr>
+          <tr v-if="type===1">
+            <th class="col-4">아이 이름</th>
+            <td class="col-6">{{ kidName }}</td>
+          </tr>
+          <tr>
+            <th class="col-6">유치원 명</th>
+            <td class="col-6">{{ kinderName }}</td>
+          </tr>
+          <tr>
+            <th class="col-6">반 명</th>
+            <td class="col-6">{{ className }}</td>
+          </tr>
+        </table>
+        </div>
+      </div>
+  
     </div>
-
+    <!-- 마이페이지 끝 -->
+    
+    
     <!-- 사진 변경 모달 -->
     <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header" style="background-color:#a8b1cf;">  
-            <h5 class="modal-title" id="profileModalLabel">프로필 사진 변경</h5>
+            <h5 class="modal-title" id="profileModalLabel" style="color: rgb(256,256,256);">프로필 사진 변경</h5>
             <button type="button" class="btn-close m-0" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body d-flex justify-content-center">
-
 
           <!-- <input
           type="file" 
@@ -70,7 +111,7 @@
             <button 
             type="button"
             class="btn"
-            style="background-color:#a8b1cf;"
+            style="background-color:#a8b1cf; border-radius:40px;"
             @click="pictureUpload"
             data-bs-dismiss="modal"
             :disabled="!changeImg"
@@ -79,7 +120,8 @@
         </div>
       </div>
     </div>
-
+  
+    
     <!-- 비밀번호 변경 모달 -->    
     <div class="modal fade" id="passwordModal" tabindex="-1" aria-labelledby="passwordModalLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -164,8 +206,8 @@
     </div>
 
 
-  <img v-if="window.width > 960" src="@/assets/notfound.png" style="width:20%; position:absolute; right:15px; bottom:15px;" alt="">
-  <img v-if="window.width > 960" src="@/assets/servererror.png" style="width:20%; position:absolute; left:15px; bottom:15px;" alt="">
+  <!-- <img v-if="window.width > 960" src="@/assets/notfound.png" style="width:20%; position:absolute; right:15px; bottom:15px;" alt=""> -->
+  <img v-if="window.width > 960" src="@/assets/icontact/children.png" style="width:15%; position:absolute; right:23rem; bottom:3.2rem;" alt="">
 
   </div>
 </template>
@@ -355,18 +397,35 @@ export default {
 
 <style scoped>
 #bg {
-  background-color: #a8b1cf;
+  background-color: rgba(102,122,188, 0.1);
   width: 100%;
   height: 100%;
+  display:flex;
+  justify-content:center;
+  align-items: center;
 }
-
+* {
+  font-family: 'NanumSquareRound';
+}
+button:hover {
+  color: rgba(0,0,0,0.4);
+  transition:0.3s;
+}
+.mypage-body {
+  background-color:rgba(256,256,256,0.7); 
+  height: 85%;
+  border-radius: 8px;
+}
+.mypage-title{
+  color: rgba(256,256,256,0.9);
+  background-color: #a8b1cf;
+  border-radius: 5px 5px 0px 0px;
+  height: 35px;
+  font-weight: 500;
+}
 .modal {
   z-index: 10000;
 }
-
-
-
-
 .upload-btn-wrapper {
   position: relative;
   overflow: hidden;
@@ -374,15 +433,14 @@ export default {
 }
 
 .btnstyle {
-  border: 2px solid gray;
+  border: 2px solid rgb(196, 196, 196);
   color: gray;
   background-color: white;
   padding: 8px 20px;
-  border-radius: 8px;
+  border-radius: 10px;
   font-size: 20px;
   font-weight: bold;
 }
-
 .upload-btn-wrapper input[type=file] {
   font-size: 100px;
   position: absolute;
@@ -390,9 +448,6 @@ export default {
   top: 0;
   opacity: 0;
 }
-
-
-
 .formInput {
   background-color: rgba(255, 255, 255, 0.9);
   box-shadow: 1px 1px 1px 1px #58679a;
@@ -401,5 +456,15 @@ export default {
   width: 100%;
   padding: 0px 0px 0px 15px;
   margin: 3px 3px 3px 3px;
+}
+.pwdBtn{
+  font-size:18px;
+}
+.userName{
+  font-size: 26px;
+  font-weight: 800;
+}
+table{
+  font-size: 18px;
 }
 </style>

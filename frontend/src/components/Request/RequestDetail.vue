@@ -25,12 +25,10 @@
       v-if="requestType === 1 && requestDetail && (!creating && !updating) && (id !== 0)"
     >
       <div style="width:100%; height:15px; background-color:#a8b1cf" class="mt-3"></div>
-      <div class="container" style="height:84.8vh">
+      <div class="container content-container" style="height:84.8vh">
         <div align="right" class="mt-2"> 
           <button v-if="identity === 1 && updating === 0 && creating === 0 && id" @click="updateRequest" class="mr-2 update-delete-btn">수정</button>
           <button v-if="identity === 1 && updating === 0 && creating === 0 && id" @click="deleteRequest" class="ml-2 mr-2 update-delete-btn">삭제</button>
-        </div>
-        <div class="section-title">
         </div>
         <div align="center" class="mb-5">
 
@@ -95,10 +93,8 @@
       v-if="requestType === 1 && (creating || updating)"
     >
       <div style="width:100%; height:15px; background-color:#a8b1cf" class="mt-3"></div>
-      <div class="container" style="height:84.8vh">
+      <div class="container content-container" style="height:84.8vh">
         <div align="right" class="mt-2"> 
-        </div>
-        <div class="section-title">
         </div>
         <div align="center" class="mb-5">
 
@@ -174,12 +170,10 @@
       v-if="requestType === 2 && requestDetail && (!creating && !updating) && (id !== 0)"
     >
       <div style="width:100%; height:15px; background-color:#a8b1cf" class="mt-3"></div>
-      <div class="container" style="height:84.8vh">
+      <div class="container content-container" style="height:84.8vh">
         <div align="right" class="mt-2"> 
           <button v-if="identity === 1 && updating === 0 && creating === 0 && id" @click="updateRequest" class="mr-2 update-delete-btn">수정</button>
           <button v-if="identity === 1 && updating === 0 && creating === 0 && id" @click="deleteRequest" class="ml-2 mr-2 update-delete-btn">삭제</button>
-        </div>
-        <div class="section-title">
         </div>
         <div align="center" class="mb-5">
 
@@ -239,10 +233,8 @@
       v-if="requestType === 2 && (creating || updating)"
     >
       <div style="width:100%; height:15px; background-color:#a8b1cf" class="mt-3"></div>
-      <div class="container" style="height:84.8vh">
+      <div class="container content-container" style="height:84.8vh">
         <div align="right" class="mt-2"> 
-        </div>
-        <div class="section-title">
         </div>
         <div align="center" class="mb-5">
 
@@ -627,5 +619,23 @@ export default {
   text-align: center;
   color: rgba(256, 256, 256);
   letter-spacing: -1px;
+}
+/* 스크롤 */
+.content-container{
+  overflow-y:scroll; 
+  height:80vh; 
+}
+.content-container::-webkit-scrollbar {
+  width: 7px;
+  background-color: rgba(233,234,239, 0.5);
+  border-radius: 1px;
+}
+.content-container::-webkit-scrollbar-thumb {
+  background-color: #a8b1cf;
+  border-radius: 1px;
+}
+.content-container::-webkit-scrollbar-track {
+  background-color: rgba(233,234,239, 0.5);
+  border-radius: 1px;
 }
 </style>

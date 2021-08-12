@@ -10,8 +10,7 @@
       <div>
         <br>
         <br>
-        <img src="@/assets/icontact/children.png" class="logo" alt="">
-        <h1>ICONTACT</h1>
+        <img src="@/assets/icontact/light_log.png" style="width:20rem; margin:1.5rem;" alt="logo-image">
         <br>
       </div>
       
@@ -196,12 +195,6 @@ h1 {
   letter-spacing: 2px;
   font-size:48px;
   color: #58679A;
-}
-.logo {
-  width: 10rem;
-  padding-right:10px;
-  display:inline-block;
-  vertical-align: middle;
 }
 button{
   letter-spacing: -1px;

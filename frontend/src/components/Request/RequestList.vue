@@ -27,9 +27,9 @@
                   <div class="d-flex align-items-center" style="height: 9vh; width:100%">
 
                     <div align="center" class="col-3">
-                      <v-avatar size="50" class="profile-img mb-2">
-                        <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + request.profileImg"/>
-                      </v-avatar>
+                      <div class="mb-2">
+                        <img class="profile-img" :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + request.profileImg"/>
+                      </div>
                       <div class="request-kid-name">{{request.kidName}} 학부모님</div>
                     </div>
                     <div class="col-7">
@@ -67,9 +67,9 @@
                   <div class="d-flex align-items-center" style="height: 9vh; width:100%">
 
                     <div align="center" class="col-3">
-                      <v-avatar size="50" class="profile-img mb-2">
-                        <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + request.profileImg"/>
-                      </v-avatar>
+                      <div class="mb-2">
+                        <img class="profile-img" :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + request.profileImg"/>
+                      </div>
                       <div class="request-kid-name">{{request.kidName}} 학부모님</div>
                     </div>
                     <div class="col-7" style="width:60%">
@@ -350,7 +350,7 @@ export default {
 <style scoped>
 
 .request-kid-name {
-  font-size:15px;
+  font-size:0.8rem;
   display:block;
   font-weight: 900;
   /* text-align:left;  */
@@ -383,6 +383,8 @@ export default {
 }
 
 .profile-img {
+  width: 50%;
+  border-radius: 100%;
   box-shadow: 0px 0px 2px 2px rgba(168, 177, 207, 0.7);
 }
 .more-btn{

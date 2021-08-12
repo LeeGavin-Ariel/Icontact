@@ -21,7 +21,7 @@
         </div>
 
         <!-- 알림장 리스트 -->
-        <div v-if="!searchFlag" class="content-container list-col mt-5" style="overflow-y:scroll; height:80vh;" >
+        <div v-if="!searchFlag" class="content-container list-col mt-5" style="height:80vh;" >
           <div class="d-flex flex-column align-items-stretch flex-shrink-0" style="width: 100%;">
             <template v-for="(note, index) in notebookList">
               <div class="list-group list-group-flush scrollarea border-bottom" :class="{selected : idx == index}" :key="note.createDate" @click="setDetail(note.noteId, index)">
@@ -30,9 +30,9 @@
                       
                       <!-- 리스트 내용 -->
                       <div align="center" class="col-3">
-                          <v-avatar size="50" class="profile-img mb-2">
-                            <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + note.profileImg"/>
-                          </v-avatar>
+                          <div class="mb-2">
+                            <img class="profile-img" :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + note.profileImg"/>
+                          </div>
                           <!-- 학부모일 경우 -->
                           <div v-if="$store.state.user.type === 1" class="note-list-name">{{note.writerName}} 선생님</div>
                           <!-- 선생님일 경우 -->
@@ -72,9 +72,9 @@
                       
                       <!-- 리스트 내용 -->
                       <div align="center" class="col-3">
-                          <v-avatar size="50" class="profile-img mb-2">
+                          <div class="profile-img mb-2">
                             <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + note.profileImg"/>
-                          </v-avatar>
+                          </div>
                           <!-- 학부모일 경우 -->
                           <div v-if="$store.state.user.type === 1" class="note-list-name">{{note.writerName}} 선생님</div>
                           <!-- 선생님일 경우 -->
@@ -181,6 +181,7 @@ export default {
     },
 
     search() {
+      this.idx = 0
       this.searchPageNum = 0
       this.searchedNotebookList = []
       this.id = 0
@@ -195,6 +196,7 @@ export default {
 
     async getNotebookList() {
       this.searchedNotebookList = []
+      this.idx = 0
       this.searchFlag = 0
       this.searchPageNum = 0
       this.searchPageCnt = 0
@@ -241,6 +243,7 @@ export default {
     async getSearchNotebookList () {
       this.pageNum = 0
       this.pageCnt = 0
+      this.idx = 0
       this.notebookList = []
       this.searchFlag = 1
       console.log(this.searchPerson)
@@ -346,7 +349,7 @@ export default {
 }
 
 .note-list-name {
-  font-size:15px;
+  font-size:0.8rem;
   display:block;
   font-weight: 900;
 }
@@ -377,6 +380,8 @@ export default {
 }
 
 .profile-img {
+  width: 50%;
+  border-radius: 100%;
   box-shadow: 0px 0px 2px 2px rgba(168, 177, 207, 0.7);
 }
 .more-btn{

@@ -21,10 +21,17 @@ export const userApi = {
   updateUserPassword: (data, headers) => {
     return requestPut(SERVER.URL + SERVER.ROUTES.changePWAfterLogin + `/${data.userId}`, data, headers);
   },
+  
 
   updateUserProfileImg: (data, headers) => {    
     console.log(data);
     return requestPut(SERVER.URL + SERVER.ROUTES.changeProfileImg + `/${data.userId}?profileImg=${data.profileImg}`, data, headers);
+  },
+  
+  updateUserStateCode: (data, headers) => {
+    console.log('업데이트 상태코드');
+    console.log(data);
+    return requestPut(SERVER.URL + SERVER.ROUTES.changeStateCode + `/${data.userId}?stateCode=${data.stateCode}`, data, headers);
   },
 
 }

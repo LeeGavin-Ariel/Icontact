@@ -12,6 +12,7 @@ export default {
     getuserinf:'/user/info',
     changeProfileImg:'/user/profileImg',
     changePWAfterLogin:'/user/password',
+    changeStateCode:'/user/stateCode',
     notebook: '/notebook',
     request: '/request',
     getClassMember:'/user/class',

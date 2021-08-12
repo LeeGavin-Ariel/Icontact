@@ -4,14 +4,14 @@
     <v-list shaped>
     <!-- <v-list style="background-color: #a8b1cf;">       -->
       <v-list-item
-        v-for="item in items"
+        v-for="(item) in items"
         :key="item.title"
         active-class="blue"
         class="py-3 sidebar-item"
       >
-        <v-list-item-content>
+        <v-list-item-content @click="movePage(item.route)">
         <!-- <v-list-item-title @click="movePage(item.route)"><img src="item.imgUrl" style="height:2rem; margin-right:0.7rem">{{ item.title }}</v-list-item-title> -->
-        <v-list-item-title @click="movePage(item.route)"><img :src="require('@/assets/funcs/' + item.imgUrl + '.png')" style="height:1.8rem;" class="ml-3 mr-5"><sapn class="title-text">{{ item.title }}</sapn></v-list-item-title>
+        <v-list-item-title ><img :src="require('@/assets/funcs/' + item.imgUrl + '.png')" style="height:1.8rem;" class="ml-3 mr-5"><span class="title-text">{{ item.title }}</span></v-list-item-title>
         
         </v-list-item-content>
       </v-list-item>
@@ -41,7 +41,10 @@ export default {
         this.$router.push({ name: page })
       }
     }
-  }  
+  },
+  // created() {
+  //   this.idx = 0;
+  // }  
 }
 </script>
 

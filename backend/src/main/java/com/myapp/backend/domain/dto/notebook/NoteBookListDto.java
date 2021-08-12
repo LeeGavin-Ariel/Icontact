@@ -21,4 +21,5 @@ public class NoteBookListDto {
     String targetName;
     Date createDate;
     int totalNum;
+    String noteImgUrl;
 }

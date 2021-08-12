@@ -6,10 +6,10 @@
     style="padding-bottom: 0px; width: 38%;"
     >
 
-      <!-- 요청 사항 리스트 -->
+      <!-- 요청사항 리스트 -->
       <v-col class="mx-auto">
 
-      <!-- 요청 사항 버튼 -->
+      <!-- 요청사항 버튼 -->
       <v-tabs color="mainColor1" background-color="transparent" class="mt-3 mb-5">
         <v-tab  class="request-tab" @click="getDosage">투약 요청</v-tab>
         <v-tab class="request-tab" @click="getReturnHome">귀가 동의</v-tab>
@@ -17,24 +17,24 @@
       </v-tabs>
 
       
-      <!-- 투약 요청 리스트(최종) -->
+      <!-- 투약 요청 리스트 -->
       <div v-if="requestType === 1" class="content-container list-col" style="overflow-y:scroll; height:80vh;">
         
         <div class="d-flex flex-column align-items-stretch flex-shrink-0" style="width: 100%;">
           <template v-for="(request, index) in dosageList" >
-            <div class="list-group list-group-flush scrollarea border-test" v-if="requestType === 1" :key="request.createDate" @click="setDetail(request.dosageId)" >
+            <div class="list-group list-group-flush scrollarea border-bottom" :class="{selected : idx == index}" v-if="requestType === 1" :key="request.createDate" @click="setDetail(request.dosageId, index)" >
                 <div class="list-group-item list-group-item-action py-2 lh-tight" style="background-color:rgb(256, 256, 256, 0.7);">
-                  <div class="d-flex align-items-center justify-content-evenly" style="height: 10vh; width:100%">
+                  <div class="d-flex align-items-center justify-content-evenly" style="height: 9vh; width:100%">
                     
                     <!-- 리스트 내용 -->
-                    <v-avatar size="70" class="profile-img mr-3">
-                      <!-- <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + request.profileImg"/> -->
-                      <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + profileImg"/>
+                    <v-avatar size="60" class="profile-img mr-3">
+                      <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + request.profileImg"/>
                     </v-avatar>
                     <div>
                     <div class="request-kid-name"><strong>{{request.kidName}}</strong> 학부모님의 투약 요청</div>
                     <div class="request-time">{{request.createDate}}</div>
                     </div>
+                    <img src="@/assets/flaticon/letter.png" style="width: 1.8rem">
                   </div>
                 </div>
             </div>
@@ -45,29 +45,30 @@
           </template>
           
           <!-- 더보기 버튼 -->
-          <button class="mt-2 moreBtn" @click="getMoreDosageList" v-if="dosageList.length > 0 && (dosagePageNum <= dosagePageCnt)">더보기</button>
+          <button class="mt-2 more-btn" @click="getMoreDosageList" v-if="dosageList.length > 0 && (dosagePageNum <= dosagePageCnt)">더보기</button>
         
         </div>
       </div>
 
 
-      <!-- 귀가 동의 리스트(최종) -->
-      <div v-if="requestType === 2" class="scrol list-col" style="overflow-y:scroll; height:80vh;">
+      <!-- 귀가 동의 리스트 -->
+      <div v-if="requestType === 2" class="content-container list-col" style="overflow-y:scroll; height:80vh;">
         
         <div class="d-flex flex-column align-items-stretch flex-shrink-0" style="width: 100%;">
           <template v-for="(request, index) in returnHomeList" >
-            <div class="list-group list-group-flush scrollarea border-test" v-if="requestType === 2" :key="request.createDate" @click="setDetail(request.rhId)">
-                <div class="list-group-item list-group-item-action py-2 lh-tight" style="background-color:rgb(256, 256, 256, 0.5);">
-                  <div class="d-flex align-items-center justify-content-evenly" style="height: 10vh; width:100%">
+            <div class="list-group list-group-flush scrollarea border-bottom" :class="{selected : idx == index}" v-if="requestType === 2" :key="request.createDate" @click="setDetail(request.rhId, index)">
+                <div class="list-group-item list-group-item-action py-2 lh-tight" style="background-color:rgb(256, 256, 256, 0.7);">
+                  <div class="d-flex align-items-center justify-content-evenly" style="height: 9vh; width:100%">
                     
                     <!-- 리스트 내용 -->
-                    <v-avatar size="70" class="profile-img mr-3">
+                    <v-avatar size="60" class="profile-img mr-3">
                       <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + request.profileImg"/>
                     </v-avatar>
                     <div>
                       <div class="request-kid-name"><strong>{{request.kidName}}</strong> 학부모님의 귀가 동의</div>
                       <div class="request-time">{{request.createDate}}</div>
                     </div>
+                    <img src="@/assets/flaticon/letter.png" style="width: 1.8rem">
                   </div>
                 </div>
             </div>
@@ -78,15 +79,15 @@
           </template>
           
           <!-- 더보기 버튼 -->
-          <button @click="getMoreReturnhomeList" v-if="returnHomeList.length > 0 && (returnhomePageNum <= returnhomePageCnt)">더보기</button>
+          <button class="mt-2 more-btn" @click="getMoreReturnhomeList" v-if="returnHomeList.length > 0 && (returnhomePageNum <= returnhomePageCnt)">더보기</button>
         
         </div>
-      </div>
-          
+      </div>    
       </v-col>
+
     </div>
     
-
+    <!-- 디테일 컴포넌트 -->
     <RequestDetail
     :identity="identity"
     :requestType="requestType"
@@ -110,7 +111,7 @@ export default {
     return {
       // 디테일 값을 얻어 오기 위한 글의 아이디값
       id: 0,
-
+      idx: 0,
       // 관계
       identity : 0,
       identity_str : '',
@@ -132,6 +133,15 @@ export default {
       profileImg:this.$store.state.user.profileImg,
     }
   },
+  watch: {
+    'id' : function() {
+      console.log('아이디값 변경!')
+      if (this.id !== 0) {
+        console.log('1')
+      }
+    }
+  },
+
   methods: {
     // 글 작성, 수정, 삭제 이벤트 발생시 다시 목록 조회.
     initRequestList (requestType) {
@@ -160,16 +170,18 @@ export default {
         this.getReturnHomeList()
       }
     },
-
+    
 
     // 글을 클릭했을때 id값 저장
-    setDetail(id) {
+    setDetail(id, index) {
       this.id = id
+      this.idx = index;
     },
 
 
     // 투약 탭 눌렀을때
     getDosage() {
+      this.idx = 0;
       this.creating = 0
       if (this.requestType !== 1) {
 
@@ -184,6 +196,7 @@ export default {
     },
     // 귀가 탭 눌렀을때
     async getReturnHome() {
+      this.idx = 0;
       this.creating = 0
       if (this.requestType !== 2) {
         this.requestType = 2
@@ -338,6 +351,7 @@ export default {
   font-size:14px;
   text-align:right;
 }
+/* 스크롤 */
 .content-container{
   overflow-y:scroll; 
   height:80vh; 
@@ -345,20 +359,24 @@ export default {
 .content-container::-webkit-scrollbar {
   width: 7px;
   background-color: rgba(233,234,239, 0.5);
+  border-radius: 5px;
 }
 .content-container::-webkit-scrollbar-thumb {
-  background-color: rgba(102,122,188, 0.7)
+  background-color: #a8b1cf;
+  border-radius: 5px;
 }
 .content-container::-webkit-scrollbar-track {
   background-color: rgba(233,234,239, 0.5);
+  border-radius: 5px;
 }
+
 .profile-img {
   box-shadow: 0px 0px 2px 2px rgba(168, 177, 207, 0.7);
 }
-.moreBtn{
+.more-btn{
   color: rgb(156, 156, 156);
 }
-.moreBtn:hover {
+.more-btn:hover {
   color: black;
   
 }
@@ -366,17 +384,20 @@ export default {
   background-color: rgba(256, 256, 256, 0.7)
 }
 .request-tab {
-  font-size: 16px;
   font-family: 'NanumSquareRound';
+  font-size: 16px;
   font-weight: 900;
 }
 
-.border-test{
+.border-bottom{
   border-bottom: solid 0.5px #a8b1cf;
 }
 
 .letter-back{
   background-color:rgba(102,122,188, 0.1);
   background-size: 100% 100%;
+}
+.selected {
+  background-color: #58679A;
 }
 </style>

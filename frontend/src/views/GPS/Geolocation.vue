@@ -6,9 +6,6 @@
 <script>
 import SERVER from '@/api/drf.js';
 
-var map = null;
-var polyline = null;
-
 export default {
 	name: 'Geolocation',
 	data () {
@@ -17,7 +14,11 @@ export default {
 			longitude: 126.57061988235415,
 			textContent: '',
 			path: [],
-			socket: null
+			socket: null,
+
+			map: null,
+			polyline: null,
+			marker: null,
 		}
 	},
 	created() {
@@ -54,11 +55,26 @@ export default {
 			if(jsonData.lat!= "0" && jsonData.lat != "undefined" && jsonData.lat != undefined) {
 				this.latitude = jsonData.lat;
 				this.longitude = jsonData.lon;
-				console.log(typeof(this.latitude));
-				this.path.push(new kakao.maps.LatLng(this.latitude, this.longitude));
-				polyline.setPath(this.path);
+				
+				var curLatLng = new kakao.maps.LatLng(this.latitude, this.longitude);
 
-				map.setCenter(new kakao.maps.LatLng(this.latitude, this.longitude));
+				// Update polyline
+				this.path.push(curLatLng);
+				this.polyline.setPath(this.path);
+
+				// Update marker
+				if(this.marker != null){
+					this.marker.setMap(null);
+				}
+				this.marker = new kakao.maps.Marker({
+					map: this.map,
+					position: curLatLng,
+					image: new kakao.maps.MarkerImage(require('@/assets/flaticon/busicon.png'), 
+					new kakao.maps.Size(48, 51), 
+					new kakao.maps.Point(24, 51))
+				})
+				
+				this.map.panTo(curLatLng);
 			}
 		}
 	},
@@ -71,15 +87,15 @@ export default {
 				};
 
 			// 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
-			map = new kakao.maps.Map(mapContainer, mapOption); 
+			this.map = new kakao.maps.Map(mapContainer, mapOption); 
 
-			polyline = new kakao.maps.Polyline({
-				map: map,
+			this.polyline = new kakao.maps.Polyline({
+				map: this.map,
 				strokeWeight: 5,
 				strokeColor: '#000000',
 				strokeOpacity: 0.8,
 			});
-			polyline.setMap(map);
+			this.polyline.setMap(this.map);
 		},
 	}
 }

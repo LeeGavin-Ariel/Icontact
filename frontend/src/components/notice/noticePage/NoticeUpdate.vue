@@ -2,29 +2,28 @@
   <div style="overflow-y: scroll" class="col">
     <!-- 디테일 -->
 
-    |
+    <!-- <v-tabs color="mainColor1" background-color="transparent" class="mt-3 mb-1">
+      <v-tab class="notice-tab" @click="updateNotice">글 수정하기</v-tab>
+      <v-tab class="notice-tab" @click="offUpdateForm">글 수정 취소</v-tab>
+      <v-tabs-slider color="#A8B1CF"></v-tabs-slider>
+    </v-tabs>  -->
+
+    <!-- |
     <button @click="updateNotice">글 수정하기</button>
 
     |
-    <!-- <button @click="deleteNotice">글 삭제</button>-->
-    |
-    <button @click="offUpdateForm">글 수정 취소</button>
+    <button @click="offUpdateForm">글 수정 취소</button> -->
 
     <v-sheet rounded="lg">
       <div class="container">
         <div class="notice-detail-title">
-          <input
-            type="text"
-            v-model="title"
-            style="border-bottom: solid 1px"
-            placeholder="제목을 입력하세요"
-          />
+          <input type="text" v-model="title" placeholder="제목을 입력하세요" />
         </div>
         <div class="notice-detail-content-container">
           <div class="notice-detail-content">
             <textarea
-              rows="15"
-              style="width: 100%; height: 50%"
+              rows="12"
+              style="width: 100%"
               placeholder="내용을 입력하세요."
               v-model="content"
             >
@@ -114,6 +113,7 @@ export default {
       id: Number,
     },
     noticeInfo: {},
+    updateStart: Boolean,
   },
 
   data() {
@@ -134,6 +134,9 @@ export default {
         this.getNoticeDetail();
       }
     },
+    updateStart(){
+      this.updateNotice();
+    }
   },
 
   created() {
@@ -265,6 +268,18 @@ export default {
   font-size: 2em;
   border-bottom: #a8b1cf 0.1rem solid;
 }
+
+.notice-detail-title input {
+  /* margin: 0.3rem 0px; */
+  /* padding-bottom: 0.5rem;
+  margin-bottom: 0.5rem; */
+  width: 60%;
+  display: inline-block;
+  justify-content: center;
+  text-align: center;
+  /* font-size: 2em; */
+  /* border-bottom: #a8b1cf 0.1rem solid; */
+}
 .notice-detail-date {
   width: 95%;
   display: flex;
@@ -288,10 +303,18 @@ export default {
   justify-content: space-around;
   border-bottom: #a8b1cf 0.1rem solid;
 }
+.notice-detail-content textarea {
+  padding-left: 0.5em;
+}
 .noticeImg {
   width: 100%;
   height: 200px;
   display: flex;
   justify-content: center;
+}
+.notice-tab {
+  font-size: 20px;
+  font-family: "NanumSquareRound";
+  font-weight: 900;
 }
 </style>

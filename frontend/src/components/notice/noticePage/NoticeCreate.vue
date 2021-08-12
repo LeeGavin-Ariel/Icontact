@@ -7,15 +7,16 @@
           <input
             type="text"
             v-model="title"
-            style="border-bottom: solid 1px"
+            style="text-align:center"
             placeholder="제목을 입력하세요"
           />
+            <!-- style="border-bottom: solid 1px" -->
         </div>
         <div class="notice-detail-content-container">
           <div class="notice-detail-content">
             <textarea
-              rows="15"
-              style="width: 100%; height: 50%"
+              rows="12"
+              style="width: 100%;"
               placeholder="내용을 입력하세요."
               v-model="content"
             >
@@ -41,7 +42,7 @@
             alt="profile-image"
           /> -->
         </div>
-        <div class="button">
+        <!-- <div class="button">
           <v-btn
             class="mr-3"
             color="primary"
@@ -55,7 +56,7 @@
           <v-btn class="mr-3" color="red" fab small dark @click="offCreateForm">
             <v-icon>mdi-window-close </v-icon>
           </v-btn>
-        </div>
+        </div> -->
       </div>
     </v-sheet>
     <!-- 공지 작성페이지 <br /> -->
@@ -116,6 +117,7 @@ export default {
     id: {
       id: Number,
     },
+    createStart: Boolean,
   },
 
   data() {
@@ -128,6 +130,12 @@ export default {
       content: "",
       files: null,
     };
+  },
+
+  watch: {
+    createStart() {
+      this.createNewNotice();
+    },
   },
 
   methods: {
@@ -175,6 +183,7 @@ export default {
       console.log("result");
       console.log(result);
 
+      alert('새 공지가 등록되었습니다.');
       this.$emit("createNotice");
     },
   },
@@ -221,10 +230,15 @@ export default {
   justify-content: space-around;
   border-bottom: #a8b1cf 0.1rem solid;
 }
-.noticeImg {
+.notice-detail-img{
   width: 100%;
-  height: 200px;
   display: flex;
-  justify-content: center;
+  justify-content: left;
+}
+.noticeImg {
+  width: 50%;
+  height: 200px;
+  /* display: flex; */
+  /* justify-content: left; */
 }
 </style>

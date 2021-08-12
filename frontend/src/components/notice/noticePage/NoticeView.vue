@@ -1,12 +1,12 @@
 <template>
   <div style="overflow-y: scroll" class="col">
-    <v-spacer></v-spacer>
+    <!-- <div style="margin-top:2.5rem;"></div> -->
     <!-- <v-btn @click="showCreateNoticeForm">새 글</v-btn> -->
     <v-fab-transition>
       <v-btn
-        color="red"
+        color="black"
         fab
-        small
+        large
         dark
         bottom
         left
@@ -18,7 +18,55 @@
       </v-btn>
     </v-fab-transition>
 
-    <button
+    <v-tabs
+      v-if="detailMode & (this.$store.state.user.type == 2)"
+      color="mainColor1"
+      background-color="transparent"
+      class="mt-3 mb-1"
+    >
+      <!-- v-if="detailMode & (this.$store.state.user.type == 2)"
+        v-if="detailMode & (this.$store.state.user.type == 2)" -->
+      <v-tab class="notice-detail-tab" @click="showUpdateNoticeForm"
+        >글 수정</v-tab
+      >
+      <v-tab class="notice-detail-tab" @click="deleteNotice">글 삭제</v-tab>
+      <v-tabs-slider color="#A8B1CF"></v-tabs-slider>
+    </v-tabs>
+    <v-tabs
+      v-if="updateMode & (this.$store.state.user.type == 2)"
+      color="mainColor1"
+      background-color="transparent"
+      class="mt-3 mb-1"
+    >
+      <v-tab class="notice-update-tab" @click="propUpdateNotice"
+        >글 수정하기</v-tab
+      >
+      <v-tab class="notice-update-tab" @click="cancelUpdateNotice"
+        >수정 취소</v-tab
+      >
+      <v-tabs-slider color="#A8B1CF"></v-tabs-slider>
+    </v-tabs>
+
+    <v-tabs
+      v-if="createMode & (this.$store.state.user.type == 2)"
+      color="mainColor1"
+      background-color="transparent"
+      class="mt-3 mb-1"
+    >
+      <v-tab class="notice-create-tab" @click="propCreateNotice"
+        >작성 완료</v-tab
+      >
+      <v-tab class="notice-create-tab" @click="cancelCreateNotice"
+        >작성 취소</v-tab
+      >
+      <v-tabs-slider color="#A8B1CF"></v-tabs-slider>
+    </v-tabs>
+
+    <!-- 학부모일 경우 리스트와 높이 맞추기용-->
+    <div v-if="this.$store.state.user.type == 1" style="height:4em"></div>
+
+    <!-- <v-tabs v-if="this.$store.state.user.type == 1"> </v-tabs> -->
+    <!-- <button
       v-if="detailMode & (this.$store.state.user.type == 2)"
       @click="showUpdateNoticeForm"
     >
@@ -30,19 +78,21 @@
       @click="deleteNotice"
     >
       |글 삭제
-    </button>
+    </button> -->
 
     <!-- <button @click="offCreateForm">글 작성 취소</button> -->
 
     <!-- <notice-detail v-if="detailMode"/> -->
     <notice-create
       v-if="this.createMode"
+      :createStart="createStart"
       @cancelCreateNotice="cancelCreateNotice"
       @createNotice="createNotice"
     />
     <notice-update
       v-if="this.updateMode"
       :noticeInfo="this.noticeDetail"
+      :updateStart="updateStart"
       @cancelUpdateNotice="cancelUpdateNotice"
       @updateNotice="updateNotice"
     />
@@ -83,6 +133,8 @@ export default {
       createMode: false,
       detailMode: false,
       updateMode: false,
+      updateStart: false,
+      createStart: false,
     };
   },
   watch: {
@@ -95,8 +147,19 @@ export default {
   },
 
   methods: {
+    propUpdateNotice() {
+      this.updateStart = !this.updateStart;
+    },
+    propCreateNotice() {
+      this.createStart = !this.createStart;
+    },
     //공지 삭제
     async deleteNotice() {
+      if (!confirm("정말 삭제하시겠습니까?")) {
+        console.log("삭제안함.");
+        return;
+      }
+
       let accessToken = sessionStorage.getItem("access-token");
       let refreshToken = sessionStorage.getItem("refresh-token");
 
@@ -116,6 +179,7 @@ export default {
       console.log(result);
 
       this.$emit("deleteNotice");
+      alert("삭제되었습니다.");
     },
 
     //공지 업데이트 완료
@@ -191,5 +255,20 @@ export default {
   position: fixed;
   right: 60px;
   bottom: 50px;
+}
+.notice-detail-tab {
+  font-size: 20px;
+  font-family: "NanumSquareRound";
+  font-weight: 900;
+}
+.notice-update-tab {
+  font-size: 20px;
+  font-family: "NanumSquareRound";
+  font-weight: 900;
+}
+.notice-create-tab {
+  font-size: 20px;
+  font-family: "NanumSquareRound";
+  font-weight: 900;
 }
 </style>

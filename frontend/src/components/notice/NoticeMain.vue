@@ -31,14 +31,16 @@
             />
           </template>
 
-          <v-btn
+          <button class="mt-2 moreBtn" @click="getMoreNoticeList">더보기</button>
+        
+          <!-- <v-btn
             class="showMoreBtn"
             outlined
             color="indigo"
             @click="getMoreNoticeList"
           >
             더보기
-          </v-btn>
+          </v-btn> -->
         </div>
 
         <!-- 일정 리스트 띄우기-->
@@ -411,5 +413,12 @@ export default {
 }
 .showMoreBtn{
   margin-top: 1rem;
+}
+.moreBtn{
+  color: rgb(156, 156, 156);
+}
+.moreBtn:hover {
+  color: black;
+  
 }
 </style>

@@ -1,5 +1,8 @@
 <template>
   <div class="item" v-bind="$attrs" v-on="$listeners" elevation="10" >
+    <!-- <div class="notice-img">
+      <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + noticeInfo.noticeImgUrl"/>
+    </div> -->
     <div class="notice-title">
       <span style="30px">{{ noticeInfo.title }}</span>
     </div>

@@ -184,6 +184,8 @@ export default {
 }
 #bg {
   background-color: rgba(102,122,188, 0.1);
+  display: flex;
+  align-items: center;
   width: 100%;
   height: 100%;
 }
@@ -193,7 +195,6 @@ p {
 }
 .wrapper{
   position: relative;
-  top: 8%;
   width: 90%;
   margin: 0 auto;
   max-width: 60rem;

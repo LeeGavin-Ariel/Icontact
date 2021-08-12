@@ -52,29 +52,35 @@ export default {
 			console.log(data);			
 			var jsonData = JSON.parse(data);	
 			
-			if(jsonData.lat!= "0" && jsonData.lat != "undefined" && jsonData.lat != undefined) {
-				this.latitude = jsonData.lat;
-				this.longitude = jsonData.lon;
-				
-				var curLatLng = new kakao.maps.LatLng(this.latitude, this.longitude);
-
-				// Update polyline
-				this.path.push(curLatLng);
-				this.polyline.setPath(this.path);
-
-				// Update marker
-				if(this.marker != null){
-					this.marker.setMap(null);
+			if(jsonData.lat != "" &&jsonData.lat !="0" && jsonData.lat != "undefined" && jsonData.lat != undefined) {
+				if(Math.abs(this.latitude-jsonData.lat)< 0.00005 || 
+					Math.abs(this.longitude-jsonData.lon)< 0.00005){
+					console.log("do not update");
 				}
-				this.marker = new kakao.maps.Marker({
-					map: this.map,
-					position: curLatLng,
-					image: new kakao.maps.MarkerImage(require('@/assets/flaticon/busicon.png'), 
-					new kakao.maps.Size(48, 51), 
-					new kakao.maps.Point(24, 51))
-				})
-				
-				this.map.panTo(curLatLng);
+				else{
+					this.latitude = jsonData.lat;
+					this.longitude = jsonData.lon;
+					
+					var curLatLng = new kakao.maps.LatLng(this.latitude, this.longitude);
+
+					// Update polyline
+					this.path.push(curLatLng);
+					this.polyline.setPath(this.path);
+
+					// Update marker
+					if(this.marker != null){
+						this.marker.setMap(null);
+					}
+					this.marker = new kakao.maps.Marker({
+						map: this.map,
+						position: curLatLng,
+						image: new kakao.maps.MarkerImage(require('@/assets/flaticon/busicon.png'), 
+						new kakao.maps.Size(48, 51), 
+						new kakao.maps.Point(24, 51))
+					})
+					
+					this.map.panTo(curLatLng);
+				}
 			}
 		}
 	},
@@ -92,8 +98,8 @@ export default {
 			this.polyline = new kakao.maps.Polyline({
 				map: this.map,
 				strokeWeight: 5,
-				strokeColor: '#000000',
-				strokeOpacity: 0.8,
+				strokeColor: '#8181F7',
+				strokeOpacity: 0.4,
 			});
 			this.polyline.setMap(this.map);
 		},

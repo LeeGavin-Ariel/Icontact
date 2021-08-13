@@ -1,8 +1,8 @@
 <template>
-  <div style="display: flex; height:100vh;" >
+  <div id="bg"  >
 
     <!-- 사이드바 -->
-    <div style="width:20vw;">
+    <div style="width:18vw;">
       <Sidebar/>
     </div>
   
@@ -25,6 +25,11 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+#bg {
+  background-color: white;
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
 </style>

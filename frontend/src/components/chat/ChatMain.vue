@@ -1,10 +1,10 @@
 <template>
-  <div class="row mt-5 mb-5" style="width: 100vw; margin: 0">
+  <div class="row letter-back" style="margin: 0">
     <div
-      class="col-4 mx height:100vh"
-      style="padding-bottom: 0px; border-right: 1px solid"
+      class="mx-auto"
+      style="padding-bottom: 0px; width: 38%;"
     >
-      <!-- 공지 사항 리스트 -->
+   
       <channel-list />
     </div>
     <v-col class="mx height:100vh">
@@ -45,5 +45,9 @@ export default {
 /* 남는공간의 색 */
 #noticeListContainer::-webkit-scrollbar-track {
   background-color: black;
+}
+.letter-back{
+  background-color:rgba(102,122,188, 0.1);
+  background-size: 100% 100%;
 }
 </style>

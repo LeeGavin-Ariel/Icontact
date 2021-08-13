@@ -84,7 +84,7 @@ public class NoticeController {
         CommonNoticeResultDto commonNoticeResultDto = new CommonNoticeResultDto();
 
         int noticeType = noticeParamDto.getNoticeType();
-        int limit = 2;
+        int limit = 7;
         noticeParamDto.setLimit(limit);
 
         noticeParamDto.setOffset((noticeParamDto.getPageNum() - 1) * limit);

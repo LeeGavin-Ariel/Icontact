@@ -5,14 +5,18 @@ import com.myapp.backend.domain.entity.Attend;
 import com.myapp.backend.domain.entity.User;
 import com.myapp.backend.repository.AttendRepository;
 import com.myapp.backend.repository.UserRepository;
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.StringTokenizer;
 
 @Service
 public class AttendServiceImpl implements AttendService{
@@ -43,6 +47,7 @@ public class AttendServiceImpl implements AttendService{
     @Override
     public List<AttendDto> attendParents(String userId, Date date) {
 
+
         SimpleDateFormat f = new SimpleDateFormat("yyyy-MM");
         SimpleDateFormat f2 = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -57,10 +62,17 @@ public class AttendServiceImpl implements AttendService{
                     f2.parse(year+"-"+(month+1)+"-01"));
 
             for (Attend u : attendList){
+                StringTokenizer st = new StringTokenizer(u.getDate().toString(), "-");
+                LocalDate localDate = LocalDate.of(Integer.parseInt(st.nextToken())
+                        ,Integer.parseInt(st.nextToken())
+                        ,Integer.parseInt(st.nextToken()));
+
+                int day = localDate.getDayOfWeek().getValue();
+
                 AttendDto temp = new AttendDto();
                 temp.setUserId(u.getUserId());
                 temp.setDate(u.getDate());
-                temp.setAttend(u.getAttend());
+                temp.setAttend(((day==6)||(day==7)) ? 9 : u.getAttend());
                 result.add( temp );
             }
 
@@ -77,6 +89,14 @@ public class AttendServiceImpl implements AttendService{
 
         List<AttendDto> result=new ArrayList<>();
         try{
+            LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+            int day = localDate.getDayOfWeek().getValue();
+            //주말
+            if(day==6||day==7){
+                return result;
+            }
+
             String classCode = userRepository.findByUserId(userId).getClassCode();
             List<User> userList = userRepository.findByClassCodeStartsWith(classCode);
             for (User u : userList){

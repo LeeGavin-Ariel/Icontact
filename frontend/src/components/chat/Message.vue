@@ -111,6 +111,7 @@ export default {
 }
 .item {
   display: flex;
+  margin: 0.2rem 0rem;
 
   .user {
     padding: 0rem 0.5rem 0.3rem 0.5rem;

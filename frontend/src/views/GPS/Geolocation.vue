@@ -1,6 +1,7 @@
 <template>
-	<div id="map" class="map"></div>
-	
+	<div id="bg">
+		<div id="map" class="map"></div>
+	</div>	
 </template>
 
 <script>
@@ -39,21 +40,40 @@ export default {
 	},
 	mounted() {
 	if (window.kakao && window.kakao.maps) {
-      this.initMap()
-		}
-    // } else {
-    //   const script = document.createElement('script')
-    //   script.onload = () => kakao.maps.load(this.initMap);
-    //   script.src = 'http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=ab9dd868c1a1477aa0a4ef31fe1bd8e0'
-    //   document.head.appendChild(script)
-    // }
+    this.initMap()
+	}
 
 		this.socket.onmessage = ({data}) => {
-			console.log(data);			
 			var jsonData = JSON.parse(data);	
+			console.log(jsonData);
+			console.log(jsonData.type);
+			if(jsonData.type === "not running"){				
+				this.$fire({
+					html: `<a href="javascript:void(0);"></a><p style="font-size: 30px; font-family: 'NanumSquareRound';">현재 등하원 버스는 미운행 중입니다.</p>`,
+					imageUrl: require('@/assets/flaticon/not_running.png'),
+					imageWidth: 225,
+					imageHeight: 185,
+					confirmButtonColor: '#c7cce0',
+					focusConfirm: false
+				}).then(r => {
+					console.log(r.value);
+					this.$router.push({ name: 'MainPage' });
+				});				
+			}else if(jsonData.type === "Delete"){
+				this.$fire({
+					html: `<p style="font-size: 30px; font-family: 'NanumSquareRound';">등하원 버스 운행이 종료되었습니다.</p>`,
+					imageUrl: require('@/assets/flaticon/Delete.png'),
+					imageWidth: 225,
+					imageHeight: 185,
+					confirmButtonColor: '#c7cce0'
+				}).then(r => {
+					console.log(r.value);
+					this.$router.push({ name: 'MainPage' });
+				});
+			}
 			
 			if(jsonData.lat != "" &&jsonData.lat !="0" && jsonData.lat != "undefined" && jsonData.lat != undefined) {
-				if(Math.abs(this.latitude-jsonData.lat)< 0.00005 || 
+				if(Math.abs(this.latitude-jsonData.lat)< 0.00005 &&
 					Math.abs(this.longitude-jsonData.lon)< 0.00005){
 					console.log("do not update");
 				}
@@ -75,8 +95,8 @@ export default {
 						map: this.map,
 						position: curLatLng,
 						image: new kakao.maps.MarkerImage(require('@/assets/flaticon/busicon.png'), 
-						new kakao.maps.Size(48, 51), 
-						new kakao.maps.Point(24, 51))
+						new kakao.maps.Size(52, 56), 
+						new kakao.maps.Point(26, 42))
 					})
 					
 					this.map.panTo(curLatLng);
@@ -89,7 +109,7 @@ export default {
 			var mapContainer = document.getElementById('map'),
 				mapOption = { 
 					center: new kakao.maps.LatLng(this.latitude, this.longitude),
-					level: 3
+					level: 2
 				};
 
 			// 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
@@ -97,9 +117,9 @@ export default {
 
 			this.polyline = new kakao.maps.Polyline({
 				map: this.map,
-				strokeWeight: 5,
-				strokeColor: '#8181F7',
-				strokeOpacity: 0.4,
+				strokeWeight: 7,
+				strokeColor: '#F64A5F',
+				strokeOpacity: 0.7
 			});
 			this.polyline.setMap(this.map);
 		},
@@ -109,8 +129,14 @@ export default {
 
 <style scoped>
 	#map{
-    width: 100%;
-    height: 800px;
-		margin-top: 100px;
-  }
+    width: auto;
+		height: 80%;
+    margin: 5%;
+	}
+
+	#bg {
+		background-color: rgba(102,122,188, 0.1);		
+		width: 100%;
+		height: 100%;
+	}
 </style>

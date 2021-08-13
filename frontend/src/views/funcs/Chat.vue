@@ -1,6 +1,6 @@
 <template>
   <div style="display: flex; height: 100vh;">
-    <div style="width: 20vw">
+    <div style="width: 18vw">
       <Sidebar />
     </div>
 

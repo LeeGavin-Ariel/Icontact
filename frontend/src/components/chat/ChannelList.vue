@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid>
+  <v-container fluid >
     <v-text-field
       label="유저명으로 검색"
       dense
@@ -189,4 +189,5 @@ export default {
 .overflow-y-auto::-webkit-scrollbar-track {
   background-color: white;
 }
+
 </style>

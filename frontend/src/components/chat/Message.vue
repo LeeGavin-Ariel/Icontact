@@ -121,7 +121,7 @@ export default {
   }
   .text {
     display: inline;
-    width: auto;
+    // width: auto;
     // height: 2rem;
     background: white;
     // background: rgba(209, 219, 255, 0.5);

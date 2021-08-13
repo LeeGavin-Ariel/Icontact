@@ -1,26 +1,21 @@
 <template>
   <div class="channel-users">
-    <h2>{{ opponentNickname }}과의 대화</h2>
+    <div class="room">{{ opponentNickname }}과의 대화</div>
+    <!-- <h2>{{ opponentNickname }}과의 대화</h2> -->
     <!-- <p class="statusMsg" v-if="connect == 'offline' && teacher">
       선생님은 현재 자리에 없습니다.
     </p> -->
-    <p class="statusMsg" v-if="stateCode == 1 && teacher">
-      선생님은 현재 온라인 상태입니다.
-    </p>
-    <p class="statusMsg" v-else-if="stateCode == 2 && teacher">
-      선생님은 현재 자리비움 상태입니다.
-    </p>
-    <p class="statusMsg" v-else-if="stateCode == 3 && teacher">
-      선생님은 현재 오프라인 상태입니다.
-    </p>
-
-    <!-- <ul>
-      <channel-user
-        v-for="(user, index) in channelUsers"
-        :key="index"
-        :profile-url="user.profileUrl"
-        :user-id="user.userId"/>
-    </ul> -->
+    <div class="status-wrapper">
+      <div class="status-msg" v-if="stateCode == 1 && teacher">
+        {{ opponentNickname }}은 현재 온라인 🟢
+      </div>
+      <div class="status-msg" v-else-if="stateCode == 2 && teacher">
+        {{ opponentNickname }}은 현재 자리비움 🟠
+      </div>
+      <div class="status-msg" v-else-if="stateCode == 3 && teacher">
+        {{ opponentNickname }}은 현재 오프라인 🔴
+      </div>
+    </div>
   </div>
 </template>
 
@@ -70,7 +65,7 @@ export default {
       console.log("확인할 id");
       console.log(oppoId);
       var result = await chatApi.getUserStatus(oppoId);
-      return result
+      return result;
     },
 
     async init(channel) {
@@ -131,7 +126,7 @@ export default {
 
       this.stateCode = await this.getOpponent(this.opponentId);
 
-      console.log('선생님 상태!!!');
+      console.log("선생님 상태!!!");
       console.log(this.stateCode);
       console.log(this.opponentNickname);
     },
@@ -139,5 +134,25 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+.channel-users {
+  display: flex;
+  // align-content: flex-end;
+  align-items: flex-end;
+  justify-content: space-between;
+  .room {
+    font-size: 2rem;
+  }
+  .status-wrapper {
+    display: flex;
+    // align-content: flex-end;
+    // align-items: flex-start;
+    align-self: flex-end;
+    // align-items: flex-end;
+    .status-msg {
+      align-self: flex-end;
+      // margin: 0px;
+    }
+  }
+}
 </style>

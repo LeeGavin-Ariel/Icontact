@@ -6,24 +6,35 @@
   >
     <!-- class="message columns is-gapless overflow-y-auto"
     v-scroll:#scroll-target="onScroll" -->
-    <v-avatar>
-      <img        
-        :src="
-          'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
-          message.profileImg
-        "
-      />
-    </v-avatar>
+
     <!-- {{message._sender.nickname}} -->
     <!-- {{message.profileImg}} {{message.senderId}}<br/>  {{message.message}}}} -->
 
-    <v-card dense class="pr-1 ml-3 mr-3">
+    <div class="item" :class="{ 'is-reverse is-user': isUser }">
+      <v-avatar class="profile">
+        <img
+          :src="
+            'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
+            message.profileImg
+          "
+        />
+      </v-avatar>
+      <div class="content">
+        <div class="user">{{ message._sender.nickname }}</div>
+        <div class="text-date">
+          <div class="text">{{ message.message }}</div>
+          <div class="date">{{ date }}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <v-card dense class="pr-1 ml-3 mr-3">
       <v-card-subtitle>
         <p>{{ message.message }}</p>
-      </v-card-subtitle>
-      <!-- <span>{{ message._sender.userId }}</span> -->
-    </v-card>
-    <div class="date">{{ date }}</div>
+      </v-card-subtitle> -->
+    <!-- <span>{{ message._sender.userId }}</span> -->
+    <!-- </v-card>
+    <div class="date">{{ date }}</div> -->
 
     <!-- <div class="column is-1">
       <user-thumbnail
@@ -54,8 +65,7 @@ export default {
   name: "Message",
 
   data() {
-    return {
-    };
+    return {};
   },
 
   components: {
@@ -93,10 +103,76 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-@import "../../assets/scss/index.scss";
-
+// @import "../../assets/scss/index.scss";
+#messagesScroll {
+  background: none;
+}
 .date {
   display: flex;
   align-items: flex-end;
+}
+.item {
+  display: flex;
+  margin: 0.5rem 0rem;
+
+  .user {
+    padding: 0rem 0.5rem 0.3rem 0.5rem;
+  }
+  .text {
+    display: inline;
+    width: auto;
+    // height: 2rem;
+    background: white;
+    // background: rgba(209, 219, 255, 0.5);
+    // background: #fffbdb;
+    margin-left: 0.5rem;
+    padding: 0.5rem 1rem 0.3rem 1rem;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    align-self: flex-end;
+    // align-content: flex-end;
+  }
+  .content {
+    text-align: left;
+    align-self: flex-start;
+  }
+  .text-date{
+    display: flex;
+  }
+  .date {
+    padding: 0rem 0.3rem;
+    font-size: 0.6rem;
+    font-family: inherit;
+    // position: relative;
+  }
+}
+.is-user {
+  flex-direction: row-reverse;
+  .content {
+    text-align: right;
+    align-self: flex-end;
+  }
+  .text-date{
+    flex-direction: row-reverse;
+  }
+  .user {
+    display: none;
+  }
+  .item .text {
+    background: rgb(209, 219, 255, 0.5);
+    // background: rgba(102, 122, 188, 0.23);
+    // background: #fffbdb;
+    // background: #FEF7D1;
+    // background: yellow;
+    // background: rgba(255, 255, 0, 0.8);
+    margin-left: 0rem;
+    margin-right: 0.5rem;
+    justify-items: self-end;
+    // text-align: right;
+    // justify-content: flex-end;
+  }
+  .profile {
+    margin: 0rem 1rem 0rem 0rem;
+  }
 }
 </style>

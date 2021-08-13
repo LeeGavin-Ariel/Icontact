@@ -217,8 +217,11 @@ export default {
   },
 };
 </script>
-<style scoped lang="scss">
-@import "../../assets/scss/index.scss";
+<style scoped>
+/* @import "../../assets/scss/index.scss"; */
+.messages{
+  background: none;
+}
 
 #messagesScroll::-webkit-scrollbar {
   width: 3px;
@@ -232,5 +235,10 @@ export default {
 /* 남는공간의 색 */
 #messagesScroll::-webkit-scrollbar-track {
   background-color: white;
+}
+
+ul{
+  padding: 0px;
+  margin: 0px;
 }
 </style>

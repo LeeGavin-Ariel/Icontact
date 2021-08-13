@@ -1,8 +1,8 @@
 <template>
-  <div class="row letter-back" style="width: 100vw; margin: 0">
+  <div class="row letter-back" style="margin: 0">
     <div
-      class="col-4 mx height:100vh"
-      style="padding-bottom: 0px; border-right: 1px solid"
+      class="mx-auto"
+      style="padding-bottom: 0px; width: 38%;"
     >
       <!-- 공지 사항 리스트 -->
       <channel-list />

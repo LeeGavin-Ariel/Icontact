@@ -170,6 +170,8 @@ export default {
         // 혹은 리턴받은 배열 길이 만큼 진행.
         let attend = 0
         for (let i = 0; i < this.attendance.length; i++) {
+          if (this.attendance[i].attend === 9) continue
+          
           // const allDay = this.rnd(0, 3) === 0
 
           // const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000
@@ -206,9 +208,6 @@ export default {
         this.attendCnt = attend
         this.notattendCnt = this.totalDay - attend
         this.events = events
-        
-
-
       },
 
 

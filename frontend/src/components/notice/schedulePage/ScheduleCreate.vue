@@ -8,38 +8,29 @@
         class="mt-3"
       ></div>
       <div class="container">
+        <div class="notice-detail-top">
+          <div class="notice-type">일정 작성</div>
+        </div>
+        <!-- <div class="notice-top">일정 작성</div> -->
         <div class="notice-detail-title">
           <input type="text" v-model="title" placeholder="제목을 입력하세요" />
         </div>
         <div class="notice-detail-content-container">
-          <div class="notice-detail-content">
-            <textarea
-              rows="12"
+          <textarea
+            rows="10"
+            placeholder="내용을 입력하세요."
+            v-model="content"
+          >
+          </textarea>
+          <div class="notice-detail-img">
+            <v-file-input
               style="width: 100%"
-              placeholder="내용을 입력하세요."
-              v-model="content"
-            >
-            </textarea>
+              id="scheduleFile"
+              v-model="files"
+              accept="image/*"
+              label="File input"
+            ></v-file-input>
           </div>
-        </div>
-        <div class="notice-detail-img">
-          <!-- <input id="customFile" type="file" /> -->
-          <!-- <img
-            class="noticeImg"
-            :src="
-              'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
-              noticeInfo.noticeImgUrl
-            "
-            alt="profile-image"
-          /> -->
-          <!-- {{noticeInfo.noticeImgUrl}} -->
-          <v-file-input
-            style="width: 100%"
-            id="scheduleFile"
-            v-model="files"
-            accept="image/*"
-            label="File input"
-          ></v-file-input>
         </div>
         <!-- 수정 관련 버튼-->
         <div class="btn-wrapper">
@@ -159,6 +150,20 @@ export default {
   flex-wrap: wrap;
   justify-content: center;
 }
+.notice-detail-top {
+  width: 95%;
+  display: flex;
+  justify-content: space-between;
+  /* padding-left: 1rem; */
+  margin-bottom: 1rem;
+  font-size: 1.2em;
+  font-family: "NanumSquareRound";
+  font-weight: bold;
+}
+.notice-type {
+  width: 100%;
+  display: inline-block;
+}
 .notice-detail-title {
   /* margin: 0.3rem 0px; */
   padding-bottom: 0.5rem;
@@ -167,7 +172,7 @@ export default {
   display: flex;
   justify-content: center;
   font-size: 2em;
-  border-bottom: #a8b1cf 0.1rem solid;
+  /* border-bottom: #a8b1cf 0.1rem solid; */
 }
 
 .notice-detail-title input {
@@ -192,20 +197,22 @@ export default {
   /* right: 0.5rem; */
 }
 .notice-detail-content-container {
-  width: 100%;
+  width: 95%;
+  min-height: 50vh;
   display: flex;
   justify-content: center;
-}
-.notice-detail-content {
-  width: 95%;
-  padding: 0px 0.5rem 0.5rem;
-  margin-bottom: 1rem;
-  display: flex;
-  justify-content: space-around;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  border-radius: 5px;
+  border-top: #a8b1cf 0.1rem solid;
   border-bottom: #a8b1cf 0.1rem solid;
 }
-.notice-detail-content textarea {
-  width: 100%;
+
+.notice-detail-content-container textarea {
+  width: 98%;
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 5px;
   padding-left: 0.5em;
 }
 .notice-detail-img {
@@ -216,6 +223,17 @@ export default {
   height: 150px;
   display: flex;
   justify-content: center;
+}
+.notice-top {
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  padding: 0px 0.5rem;
+  width: 95%;
+  display: flex;
+  justify-content: flex-start;
+  font-size: 1.3em;
+  font-family: "NanumSquareRound";
+  font-weight: bold;
 }
 .notice-tab {
   font-size: 20px;

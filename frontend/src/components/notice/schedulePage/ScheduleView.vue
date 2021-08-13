@@ -1,5 +1,5 @@
 <template>
-  <div style="overflow-y: scroll" class="col">
+  <div class="col">
     <v-spacer></v-spacer>
 
     <v-fab-transition>

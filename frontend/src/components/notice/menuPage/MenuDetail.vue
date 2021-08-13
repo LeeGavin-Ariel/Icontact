@@ -8,17 +8,20 @@
         class="mt-3"
       ></div>
       <div class="container" style="overflow-y: scroll">
-        <div class="btn-wrapper" v-if="this.$store.state.user.type == 2">
-          <button @click="showUpdateMenuForm" class="mr-2 update-delete-btn">
-            수정
-          </button>
-          <button @click="deleteMenu" class="ml-2 mr-2 update-delete-btn">
-            삭제
-          </button>
+        <div class="notice-detail-top">
+          <div class="notice-type">식단</div>
+          <div class="btn-wrapper" v-if="this.$store.state.user.type == 2">
+            <button @click="showUpdateMenuForm" class="mr-2 update-delete-btn">
+              수정
+            </button>
+            <button @click="deleteMenu" class="ml-2 mr-2 update-delete-btn">
+              삭제
+            </button>
+          </div>
         </div>
-        <!-- <div class="menu-detail-title">{{ this.menuInfo.title }}</div> -->
-        <!-- <div class="menu-detail-writer">{{this.noticeInfo.userName}}선생님 </div> -->
-        <div class="menu-detail-date">{{ this.menuInfo.createDate.substr(0,11) }} 식단</div>
+        <div class="menu-detail-title">
+          {{ this.menuInfo.createDate.substr(0, 11) }} 식단
+        </div>
         <div class="item-wrapper">
           <div class="item">
             <div class="item-type">오전 간식</div>
@@ -66,82 +69,10 @@
             <div class="item-name">{{ this.menuInfo.pmSnack }}</div>
           </div>
         </div>
-        <!-- <div class="menu-detail-img">
-          <p>
-            오전 간식 :
-            {{ this.menuInfo.amSnack }}
-          </p>
-          <img
-            v-if="menuInfo.amSnackImgUrl"
-            class="noticeImg"
-            :src="
-              'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
-              menuInfo.amSnackImgUrl
-            "
-            alt="profile-image"
-          />
+        <div class="menu-detail-date">
+          작성일 : {{ this.menuInfo.createDate }}
         </div>
-        <div class="menu-detail-img">
-          <p>
-            점심 식사 :
-            {{ this.menuInfo.lunch }}
-          </p>
-          <img
-            v-if="menuInfo.lunchImgUrl"
-            class="noticeImg"
-            :src="
-              'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
-              menuInfo.lunchImgUrl
-            "
-            alt="profile-image"
-          />
-        </div>
-        <div class="menu-detail-img">
-          <p>
-            오후 간식 :
-            {{ this.menuInfo.pmSnack }}
-          </p>
-          <img
-            v-if="menuInfo.pmSnackImgUrl"
-            class="noticeImg"
-            :src="
-              'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
-              menuInfo.pmSnackImgUrl
-            "
-            alt="profile-image"
-          />
-        </div> -->
       </div>
-      <!-- <p>
-        오전 간식 :
-        {{ this.menuInfo.amSnack }}
-      </p>
-
-      <p>오전 간식 사진 :</p>
-      <div v-if="menuInfo.amSnackImgUrl">
-        <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/'+ menuInfo.amSnackImgUrl" alt="profile-image">
-      </div>
- 
-
-      <p>
-        점심 식사 :
-         {{ this.menuInfo.lunch }}
-      </p>
-      <p>점심 식사 사진 :</p>
-      <div v-if="menuInfo.lunchImgUrl">
-      <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/'+ menuInfo.lunchImgUrl" alt="profile-image">
-      </div>
-  
-
-      <p>
-        오후 간식 :
-        {{ this.menuInfo.pmSnack }}
-      </p>
-      <p>오후 간식 사진 :</p>
-      <div v-if="menuInfo.pmSnackImgUrl">
-      <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/'+ menuInfo.pmSnackImgUrl" alt="profile-image">
-      </div>
-    -->
     </v-sheet>
   </div>
 </template>
@@ -213,6 +144,20 @@ export default {
   justify-content: center;
   align-content: flex-start;
 }
+.notice-detail-top {
+  width: 95%;
+  display: flex;
+  justify-content: space-between;
+  /* padding-left: 1rem; */
+  /* margin-bottom: 1rem; */
+  font-size: 1.2em;
+  font-family: "NanumSquareRound";
+  font-weight: bold;
+}
+.notice-type {
+  width: 100%;
+  display: inline-block;
+}
 /* 스크롤바 너비 */
 .container::-webkit-scrollbar {
   width: 5px;
@@ -228,14 +173,14 @@ export default {
   background-color: white;
 }
 .menu-detail-title {
-  /* margin: 0.3rem 0px; */
   padding-bottom: 0.5rem;
-  margin-bottom: 0.5rem;
+  /* margin-bottom: 0.5rem; */
   width: 95%;
   display: flex;
   justify-content: center;
-  font-size: 2em;
-  border-bottom: #a8b1cf 0.1rem solid;
+  font-size: 1.5em;
+  font-family: "NanumSquareRound";
+  font-weight: 900;
 }
 .menu-detail-writer {
   width: 95%;
@@ -250,13 +195,11 @@ export default {
 .menu-detail-date {
   width: 95%;
   display: flex;
-  justify-content: flex-start;
+  justify-content: flex-end;
   /* border-bottom: #a8b1cf 0.1rem solid; */
-  padding-left: 1rem;
-  margin-bottom: 1rem;
-  font-size: 1.3em;
-  font-family: "NanumSquareRound";
-  font-weight: bold;
+  padding-right: 0.5rem;
+  font-size: 0.8rem;
+  /* margin-bottom: 1rem; */
   /* position: relative; */
   /* right: 0.5rem; */
 }
@@ -299,7 +242,7 @@ export default {
   /* display: flex; */
   /* align-items: center; */
   /* background:rgba(156, 156, 156, 0.1); */
-  background:white;
+  background: white;
   display: flex;
   border-radius: 5px;
   border-top: #a8b1cf 0.1rem solid;
@@ -330,7 +273,7 @@ export default {
   border-bottom: #a8b1cf 0.1rem solid;
 }
 .item-img img {
-    width: 100%;
+  width: 100%;
   /* height: 200px; */
   display: flex;
   justify-content: center;

@@ -8,36 +8,44 @@
         class="mt-3"
       ></div>
       <div class="container" style="overflow-y: scroll">
-        <div class="btn-wrapper" v-if="this.$store.state.user.type == 2">
-          <button @click="showUpdateScheduleForm" class="mr-2 update-delete-btn">
-            수정
-          </button>
-          <button @click="deleteSchedule" class="ml-2 mr-2 update-delete-btn">
-            삭제
-          </button>
+        <div class="notice-detail-top">
+          <div class="notice-type">일정</div>
+          <div class="btn-wrapper" v-if="this.$store.state.user.type == 2">
+            <button
+              @click="showUpdateScheduleForm"
+              class="mr-2 update-delete-btn"
+            >
+              수정
+            </button>
+            <button @click="deleteSchedule" class="ml-2 mr-2 update-delete-btn">
+              삭제
+            </button>
+          </div>
         </div>
         <div class="notice-detail-title">{{ this.scheduleInfo.title }}</div>
         <!-- <div class="notice-detail-writer">{{this.noticeInfo.userName}}선생님 </div> -->
-        <div class="notice-detail-date">{{ this.scheduleInfo.createDate }}</div>
-        <div class="notice-detail-img">
-          <img
-            v-if="scheduleInfo.scheduleImgUrl"
-            class="noticeImg"
-            :src="
-              'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
-              scheduleInfo.scheduleImgUrl
-            "
-            alt="profile-image"
-          />
-        </div>
+
         <div class="notice-detail-content-container">
-          <!-- <div class="notice-detail-content"> -->
+          <div class="notice-detail-img" v-if="scheduleInfo.scheduleImgUrl">
+            <img
+              v-if="scheduleInfo.scheduleImgUrl"
+              class="noticeImg"
+              :src="
+                'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
+                scheduleInfo.scheduleImgUrl
+              "
+              alt="profile-image"
+            />
+          </div>
           <div
             class="notice-detail-content"
             v-html="contentReplace(this.scheduleInfo.content)"
           ></div>
           <!-- <div v-html="contentReplace(this.noticeInfo.content)">
           </div> -->
+        </div>
+        <div class="notice-detail-date">
+          작성일 : {{ this.scheduleInfo.createDate }}
         </div>
       </div>
     </v-sheet>
@@ -152,63 +160,92 @@ export default {
 .container::-webkit-scrollbar-track {
   background-color: white;
 }
-.notice-detail-title {
-  /* margin: 0.3rem 0px; */
-  padding-bottom: 0.5rem;
-  margin-bottom: 0.5rem;
+
+.notice-detail-top {
   width: 95%;
   display: flex;
-  justify-content: center;
-  font-size: 1vw;
-  border-bottom: #a8b1cf 0.1rem solid;
-}
-.notice-detail-writer {
-  width: 95%;
-  /* display: ; */
-  /* justify-content: flex-end; */
-  /* border-bottom: #a8b1cf 0.1rem solid; */
-  /* padding-right: 0.5rem; */
-  /* margin-bottom: 1rem; */
-  /* position: relative; */
-  /* right: 0.5rem; */
-}
-.notice-detail-date {
-  width: 95%;
-  display: flex;
-  justify-content: flex-end;
-  border-bottom: #a8b1cf 0.1rem solid;
-  padding-right: 0.5rem;
+  justify-content: space-between;
+  /* padding-left: 1rem; */
   margin-bottom: 1rem;
-  /* position: relative; */
-  /* right: 0.5rem; */
+  font-size: 1.2em;
+  font-family: "NanumSquareRound";
+  font-weight: bold;
 }
-.notice-detail-content-container {
+.notice-type{
   width: 100%;
+  display: inline-block;
+}
+
+.notice-detail-title {
+  padding-bottom: 0.5rem;
+  /* margin-bottom: 0.5rem; */
+  width: 95%;
   display: flex;
   justify-content: center;
+  font-size: 1.5em;
+  font-family: "NanumSquareRound";
+  font-weight: 900;
+  /* border-bottom: #a8b1cf 0.1rem solid; */
 }
-.notice-detail-content {
+
+.notice-detail-content-container {
   width: 95%;
-  min-height: 5rem;
-  padding: 0px 0.5rem 0.5rem;
+  min-height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  border-radius: 5px;
+  border-top: #a8b1cf 0.1rem solid;
+  border-bottom: #a8b1cf 0.1rem solid;
+}
+
+.notice-detail-content {
+  width: 100%;
+  /* min-height: 15rem; */
+  padding: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  /* justify-content: left; */
+  /* border-radius: 5px;
+  border-top: #a8b1cf 0.1rem solid;
+  border-bottom: #a8b1cf 0.1rem solid; */
+}
+
+.notice-detail-img {
+  width: 40%;
+  min-height: 15rem;
+  padding: 1rem;
   margin-bottom: 1rem;
   display: flex;
   justify-content: left;
-  border-bottom: #a8b1cf 0.1rem solid;
 }
 .noticeImg {
   width: 100%;
   height: 200px;
   display: flex;
   justify-content: center;
-  margin-bottom: 2rem;
+  /* margin-bottom: 2rem; */
 }
+
+.notice-detail-date {
+  width: 95%;
+  display: flex;
+  justify-content: flex-end;
+  /* border-bottom: #a8b1cf 0.1rem solid; */
+  padding-right: 0.5rem;
+  font-size: 0.8rem;
+  /* margin-bottom: 1rem; */
+  /* position: relative; */
+  /* right: 0.5rem; */
+}
+
 .btn-wrapper {
   /* align-content: flex-end; */
   /* justify-content: flex-end; */
   width: 100%;
   text-align: right;
-  margin-bottom: 1rem;
+  /* margin-bottom: 1rem; */
 }
 .update-delete-btn {
   /* justify-content: flex-end; */

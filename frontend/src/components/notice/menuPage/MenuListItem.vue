@@ -8,7 +8,7 @@
        <div class="d-flex flex-row">
           <div class="col-10">
             <div class="notice-title">{{ menuTitle(createDate) }}</div>
-            <div class="notice-user mt-2">[{{ menuInfo.userName }}] 선생님</div>
+            <div class="notice-user mt-2">{{ menuInfo.userName }} 선생님</div>
           </div>
           <div class="col-2 justify-content-center align-items-center">
             <img  src="@/assets/flaticon/menu.png" style="width: 100%; height:100%">  

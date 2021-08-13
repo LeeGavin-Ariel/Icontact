@@ -28,11 +28,12 @@
               v-model="amSnackName"
             />
             <v-file-input
+            class="file-input"
               id="amSnackFile"
               v-model="amSnackFile"
               accept="image/*"
-              label="File input"
             ></v-file-input>
+              <!-- :label="amSnackFile" -->
           </div>
           <div class="item">
             <div class="item-type">점심 식사</div>
@@ -49,11 +50,12 @@
             </div>
             <input type="text" v-model="lunchName"  />
             <v-file-input
+            class="file-input"
               id="lunchFile"
               v-model="lunchFile"
               accept="image/*"
-              label="File input"
             ></v-file-input>
+              <!-- label="File Name" -->
           </div>
           <div class="item">
             <div class="item-type">오전 간식</div>
@@ -73,11 +75,12 @@
               v-model="pmSnackName"
             />
             <v-file-input
+            class="file-input"
               id="pmSnackFile"
               v-model="pmSnackFile"
               accept="image/*"
-              label="File input"
             ></v-file-input>
+              <!-- :label="pmSnackFile" -->
           </div>
         </div>
         <!-- <div class="menu-detail-img">
@@ -246,12 +249,14 @@ export default {
 
   methods: {
     init() {
-      this.amSnackFile = this.menuInfo.amSnackFile;
-      this.pmSnackFile = this.menuInfo.pmSnackFile;
-      this.lunchFile = this.menuInfo.lunchFile;
+      this.amSnackFile = this.menuInfo.amSnackImgUrl;
+      this.pmSnackFile = this.menuInfo.pmSnackImgUrl;
+      this.lunchFile = this.menuInfo.lunchImgUrl;
       this.amSnackName = this.menuInfo.amSnack;
       this.pmSnackName = this.menuInfo.pmSnack;
       this.lunchName = this.menuInfo.lunch;
+      console.log('amSnackFile');
+      console.log(this.amSnackFile);
     },
 
     offUpdateForm() {
@@ -501,6 +506,20 @@ export default {
   height: 2rem;
   border-radius: 5px;
 }
+.file-input {
+  /* margin-top: 1rem; */
+  width: 100%;
+  /* padding: 0px;
+  margin: 0px; */
+  display: flex;
+  /* text-align: center; */
+  /* display: inline-block; */
+  /* border: none; */
+  /* background: rgba(156, 156, 156, 0.1); */
+  /* height: 2rem; */
+  /* border-radius: 5px; */
+}
+
 .item-img {
   width: 90%;
   height: 250px;

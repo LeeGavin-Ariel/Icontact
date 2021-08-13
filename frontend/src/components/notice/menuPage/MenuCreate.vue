@@ -10,13 +10,6 @@
       <div class="container">
         <div class="notice-detail-title">
           식단 작성
-          <!-- <input
-            type="text"
-            v-model="title"
-            style="text-align: center"
-            placeholder="제목을 입력하세요"
-          /> -->
-          <!-- style="border-bottom: solid 1px" -->
         </div>
         <div class="item-wrapper">
           <div class="item">

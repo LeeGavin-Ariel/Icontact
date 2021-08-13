@@ -44,17 +44,17 @@
         <v-list>
           <v-list-item
             @click="
-              $router.push({ name: 'MyPage', params: { userId: userId } })
+              moveToMyPage
             "
           >
             <v-list-item-title>마이페이지</v-list-item-title>
           </v-list-item>
           <v-list-item @click="toggleAlarm" v-if="type == 2">
             <v-list-item-title v-if="stateCode == 1"
-              >알람 끄기</v-list-item-title
+              >자리 비움</v-list-item-title
             >
             <v-list-item-title v-if="stateCode == 2"
-              >알람 켜기</v-list-item-title
+              >온라인</v-list-item-title
             >
           </v-list-item>
           <v-list-item @click="logout">
@@ -85,7 +85,7 @@ export default {
       userId: "",
       kidName: "",
       stateCode: "",
-      badgeColor: "green",
+      badgeColor: "",
     };
   },
 
@@ -115,8 +115,8 @@ export default {
         .then((result) => {
           if (result) {
             console.log("상태코드가 변경되었습니다");
-            this.stateCode = this.stateCode == 1 ? 2 : 1;
-            this.badgeColor = this.badgeColor == "green" ? "red" : "green";
+            this.$store.state.user.stateCode = this.stateCode = this.$store.state.user.stateCode == 1 ? 2 : 1;
+            this.badgeColor = this.$store.state.user.stateCode == 2 ? "red" : "green";
           }
         })
         .catch((e) => {
@@ -131,6 +131,7 @@ export default {
       this.userId = this.$store.state.user.userId
       this.kidName = this.$store.state.user.kidName
       this.stateCode =  this.$store.state.user.stateCode
+      this.badgeColor = this.$store.state.user.stateCode == 2 ? "red" : "green"
       
     },
     logout() {
@@ -143,7 +144,7 @@ export default {
           method: "get",
         }).then(() => {
           this.$store.dispatch("removeUser");
-          if (this.$route.path !== "Login") this.$router.push("Login");
+          if (this.$route.path !== "Login") this.$router.push({ name: "Login" });
         });
       }
     },
@@ -152,6 +153,9 @@ export default {
         this.$router.push({ name: "MainPage" });
       }
     },
+    moveToMyPage() {
+      this.$router.push({ name: "MyPage", params: {userId : this.userId}}).catch(()=>{})
+    }
   },
   computed: {
     checkLogin() {

@@ -389,7 +389,6 @@ export default {
 }
 .more-btn:hover {
   color: black;
-  
 }
 .list-col{
   background-color: rgba(256, 256, 256, 0.7)

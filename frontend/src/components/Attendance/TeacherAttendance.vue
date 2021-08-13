@@ -1,5 +1,5 @@
 <template>
-  <div style="font-family: 'NanumSquareRound'; width:100%; background-color: rgba(240, 241, 247); ">
+  <div style="font-family: 'NanumSquareRound'; width:82vw; background-color: rgba(240, 241, 247); ">
     <!-- vuetify menus 참고 -->
       <div class="mx-auto d-flex" style="width:57vw; margin-top:3%; margin-bottom:10px">
         <div class="d-flex align-items-end" style="width:50%;">
@@ -60,44 +60,18 @@
 
     <div class="container d-flex flex-wrap justify-content-center content-container" style="height:75vh; width:57vw; margin:0 auto; border-radius: 8px; background-color:white;">
       <div class="row row-cols-5">
-        <div v-for="(kid, index) in kids" :key="kid.userId" class="d-flex flex-column align-items-center">
-          <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + kid.profileImg" 
-          style="width:91%; height:18vh ;margin-top:1rem; margin-bottom:0.4rem;" 
-          :class="{ attend: (kid.attend===1), notattend: (kid.attend===0) }"
-          @click="setKid(index)">
-          <p class="m-0" style="text-align:center; width:91%;">{{kid.kidName}}</p>
-          
+        <div v-for="(kid, index) in kids" :key="kid.userId" cols="3">
+          <div class="thumbnailWrap d-flex flex-column align-items-center">
+            <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + kid.profileImg" 
+            style="width:91%; height:18vh ;margin-top:1rem; margin-bottom:0.4rem; " 
+            :class="{ attend: (kid.attend===1), notattend: (kid.attend===0) }"
+            class="thumbnailImg"
+            @click="setKid(index)">
+            <p class="m-0 mt-1" style="text-align:center; width:91%; font-weight: 600;">{{kid.kidName}}</p>
+          </div>
         </div>
       </div>
     </div>
-    
-
-
-    
-
-
-
-    <!-- 달력 -->
-    <!-- <template>
-      <v-row>
-        <v-col
-          class="my-2 px-1"
-          cols="12"
-          sm="6"
-        >
-          <v-date-picker
-            v-model="date"
-            no-title
-            @contextmenu:year="contextMenu"
-            @dblclick:date="dblClick"
-            @mouseenter:month="mouseEnter"
-            @mouseleave:month="mouseLeave"
-          ></v-date-picker>
-        </v-col>
-      </v-row>
-    </template> -->
-
-
   </div>
 </template>
 
@@ -258,4 +232,24 @@ export default {
   border-radius: 5px;
 }
 
+
+/* 썸네일 */
+.thumbnailImg {
+  width:100%;
+  height:15vh;
+  margin-top:1rem;
+  margin-bottom:0.4rem;
+  transition-duration: 1s;
+  object-fit: cover;
+  cursor: pointer;
+}
+.thumbnailImg:hover {
+  transition: 0.4s;
+  transform: scale(1.06, 1.06);
+  transition-duration: 0.5s;
+}
+
+.thumbnailWrap {
+  overflow: hidden;
+}
 </style>

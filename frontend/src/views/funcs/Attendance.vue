@@ -9,9 +9,11 @@
 
     <!-- 관계에 따라 컴포넌트 분리 -->
     <ParentAttendance
+    style="width:82vw;"
     v-if="identity === 1"
     />
     <TeacherAttendance
+    style="width:82vw;"
     v-if="identity === 2"
     />
 

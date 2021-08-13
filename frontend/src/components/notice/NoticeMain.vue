@@ -20,24 +20,24 @@
           class="content-container list-col mt-5"
           style="height: 80vh"
         >
+            <!-- v-if="noticeList.length > 0" -->
           <div
-            v-if="noitceList"
             class="d-flex flex-column align-items-stretch flex-shrink-0"
             style="width: 100%"
           >
             <template v-for="notice in noticeList">
+                <!-- :class="{ selected: idx == index }" -->
               <notice-list-item
-                :class="{ selected: idx == index }"
                 :key="notice.createDate"
                 :noticeInfo="notice"
-                @click="setDetail(notice.noticeId)"
+                @click="setNoticeDetail(notice.noticeId)"
               />
             </template>
             <button class="mt-2 moreBtn" @click="getMoreNoticeList">
               더보기
             </button>
           </div>
-          <div v-else>없음</div>
+          <!-- <div v-else>없음</div> -->
         </div>
 
         <!-- 일정 리스트-->
@@ -54,7 +54,7 @@
               <schedule-list-item
                 :key="schedule.createDate"
                 :scheduleInfo="schedule"
-                @click="setDetail(schedule.scheduleId)"
+                @click="setScheduleDetail(schedule.scheduleId)"
               />
             </template>
 
@@ -78,7 +78,7 @@
               <menu-list-item
                 :key="menu.createDate"
                 :menuInfo="menu"
-                @click="setDetail(menu.menuId)"
+                @click="setMenuDetail(menu.menuId)"
               />
             </template>
 
@@ -95,21 +95,21 @@
 
     <notice-view
       v-if="this.noticeType == 1"
-      :id="id"
+      :id="noticeId"
       @createNotice="initRequestList(1, 'create')"
       @updateNotice="afterUpdate"
       @deleteNotice="initRequestList(1, 'delete')"
     />
     <schedule-view
       v-if="this.noticeType == 2"
-      :id="id"
+      :id="scheduleId"
       @createSchedule="initRequestList(2, 'create')"
       @updateSchedule="afterUpdate"
       @deleteSchedule="initRequestList(2, 'delete')"
     />
     <menu-view
       v-if="this.noticeType == 3"
-      :id="id"
+      :id="menuId"
       @createMenu="initRequestList(3, 'create')"
       @updateMenu="afterUpdate"
       @deleteMenu="initRequestList(3, 'delete')"
@@ -141,7 +141,9 @@ export default {
   data() {
     return {
       // 디테일 값을 얻어 오기 위한 글의 아이디값
-      id: 0,
+      noticeId: 0,
+      scheduleId: 0,
+      menuId: 0,
 
       noticeType: 1,
       noticeView: true,
@@ -178,29 +180,31 @@ export default {
         this.menuPageNum = 1;
         this.getMenuList();
       }
-      this.setDetail(id);
+      this.setNoticeDetail(id);
+      this.setScheduleDetail(id);
+      this.setMenuDetail(id);
     },
     // 글 작성, 수정, 삭제 이벤트 발생시 다시 목록 조회.
     initRequestList(noticeType, mode) {
       if (noticeType === 1) {
         this.noticeList = [];
         this.noticePageNum = 1;
-        this.id = 0;
-        if (mode == "update") this.setDetail(this.id);
+        // this.noticeId = 0;
+        if (mode == "update") this.setNoticeDetail(this.noticeId);
 
         this.getNoticeList();
       } else if (noticeType === 2) {
         this.scheduleList = [];
         this.schedulePageNum = 1;
         this.getScheduleList();
-        this.id = 0;
-        if (mode == "update") this.setDetail(this.id);
+        // this.ScheduleId = 0;
+        if (mode == "update") this.setScheduleDetail(this.ScheduleId);
       } else if (noticeType === 3) {
         this.menuList = [];
         this.menuPageNum = 1;
         this.getMenuList();
-        this.id = 0;
-        if (mode == "update") this.setDetail(this.id);
+        // this.MenuId = 0;
+        if (mode == "update") this.setMenuDetail(this.MenuId);
       }
     },
 
@@ -226,21 +230,28 @@ export default {
     },
 
     // 글을 클릭했을때 id값 저장
-    setDetail(id) {
-      this.id = id;
+    setNoticeDetail(id) {
+      console.log('공지 클릭',id);
+      this.noticeId = id;
+    },
+    setScheduleDetail(id) {
+      this.scheduleId = id;
+    },
+    setMenuDetail(id) {
+      this.menuId = id;
     },
 
     // 공지 일정 식단 페이지를 변경하는 함수
     changeView(notice, schedule, menu) {
-      this.id = 0;
+      // this.id = 0;
       this.noticeView = notice;
       this.menuView = schedule;
       this.scheduleView = menu;
 
       if (notice) {
         this.noticeType = 1;
-        // console.log("this.noticeList[0].noticeId");
-        // console.log(this.noticeList[0].noticeId);
+        console.log("this.noticeList[0].noticeId");
+        console.log(this.noticeList[0].noticeId);
       } else if (schedule) {
         this.noticeType = 2;
         console.log("this.scheduleList[0].scheduleId");
@@ -254,30 +265,37 @@ export default {
       }
 
       console.log("ID");
-      console.log(this.id);
+      // console.log(this.id);
     },
 
     // 공지 탭 눌렀을때
     async showNotice() {
+      this.scheduleId = 0;
+      this.menuId = 0;
       await this.changeView(true, false, false);
       if (this.noticeList[0] != null) {
-        await this.setDetail(this.noticeList[0].noticeId);
+        console.log('공지탭누름');
+        await this.setNoticeDetail(this.noticeList[0].noticeId);
       }
     },
 
     // 일정 탭 눌렀을때
     async showSchedule() {
+      this.noticeId = 0;
+      this.menuId = 0;
       await this.changeView(false, true, false);
       if (this.scheduleList[0] != null) {
-        await this.setDetail(this.scheduleList[0].scheduleId);
+        await this.setScheduleDetail(this.scheduleList[0].scheduleId);
       }
     },
 
     // 식단 탭 눌렀을때
     async showMenu() {
+      this.noticeId = 0;
+      this.scheduleId = 0;
       await this.changeView(false, false, true);
       if (this.menuList[0] != null) {
-        await this.setDetail(this.menuList[0].menuId);
+        await this.setMenuDetail(this.menuList[0].menuId);
       }
     },
 
@@ -301,10 +319,18 @@ export default {
       this.noticePageNum += 1;
 
       console.log("공지사항리스트");
+      console.log(this.noticeList.length === 0);
+      console.log(this.noticeList.length);
       console.log(this.noticeList);
 
-      if (this.id === 0 && this.noticeList.length > 0) {
-        this.id = this.noticeList[0].noticeId;
+      if (this.noticeList.length === 0) {
+        this.noticeList = [];
+        return;
+      }
+
+      if (this.noticeId === 0) {
+        console.log("공지id변경");
+        // this.noticeId = this.noticeList[0].noticeId;
       }
     },
 
@@ -329,8 +355,8 @@ export default {
 
       console.log("일정리스트");
       console.log(this.scheduleList);
-      if (this.id === 0 && this.scheduleList.length > 0) {
-        this.id = this.scheduleList[0].scheduleId;
+      if (this.scheduleId === 0 && this.scheduleList.length > 0) {
+        // this.scheduleId = this.scheduleList[0].scheduleId;
       }
     },
     //식단 조회
@@ -354,8 +380,8 @@ export default {
 
       console.log("식단리스트");
       console.log(this.menuList);
-      if (this.id === 0 && this.menuList.length > 0) {
-        this.id = this.menuList[0].menuId;
+      if (this.menuId === 0 && this.menuList.length > 0) {
+        // this.menuId = this.menuList[0].menuId;
       }
     },
 
@@ -364,6 +390,7 @@ export default {
       await this.getNoticeList();
       await this.getScheduleList();
       await this.getMenuList();
+      this.showNotice();
     },
   },
 

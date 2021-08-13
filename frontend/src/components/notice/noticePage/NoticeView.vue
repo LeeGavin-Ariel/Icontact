@@ -79,7 +79,7 @@ export default {
   },
   watch: {
     id: function () {
-      if (this.id !== 0 && this.noticeDetail != null) {
+      if (this.id !== 0) {
         console.log("아이디가 변했어요오오" + this.id);
         this.getNoticeDetail();
       }

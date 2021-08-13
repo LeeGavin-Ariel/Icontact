@@ -1,19 +1,22 @@
 <template>
-  <div class="channel-users">
-    <div class="room">{{ opponentNickname }}과의 대화</div>
+  <div class="justify-content-between channel-users " style="background-color:#d4daee; border-radius: 5px 5px 0px 0px;">
+    <div class="room" style="font-size: 1.7rem; font-weight: 600; ">{{ opponentNickname }}</div>
     <!-- <h2>{{ opponentNickname }}과의 대화</h2> -->
     <!-- <p class="statusMsg" v-if="connect == 'offline' && teacher">
       선생님은 현재 자리에 없습니다.
     </p> -->
     <div class="status-wrapper">
       <div class="status-msg" v-if="stateCode == 1 && teacher">
-        {{ opponentNickname }}은 현재 온라인 🟢
+        온라인
+        <img src="@/assets/flaticon/on.png" style="width:1rem">
       </div>
       <div class="status-msg" v-else-if="stateCode == 2 && teacher">
-        {{ opponentNickname }}은 현재 자리비움 🟠
+        현재 자리비움 상태로 답장이 늦어질 수 있습니다.
+        <img src="@/assets/flaticon/stop.png" style="width:1rem">
       </div>
       <div class="status-msg" v-else-if="stateCode == 3 && teacher">
-        {{ opponentNickname }}은 현재 오프라인 🔴
+        오프라인
+        <img src="@/assets/flaticon/off.png" style="width:1rem">
       </div>
     </div>
   </div>
@@ -135,24 +138,25 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.channel-users {
-  display: flex;
-  // align-content: flex-end;
-  align-items: flex-end;
-  justify-content: space-between;
-  .room {
-    font-size: 2rem;
-  }
-  .status-wrapper {
-    display: flex;
-    // align-content: flex-end;
-    // align-items: flex-start;
-    align-self: flex-end;
-    // align-items: flex-end;
-    .status-msg {
-      align-self: flex-end;
-      // margin: 0px;
-    }
-  }
-}
+// .channel-users {
+//   display: flex;
+//   // align-content: flex-end;
+//   align-items: flex-end;
+//   justify-content: space-between;
+//   .room {
+//     font-size: 1.7rem;
+//     font-weight: 600;
+//   }
+//   .status-wrapper {
+//     display: flex;
+//     // align-content: flex-end;
+//     // align-items: flex-start;
+//     align-self: flex-end;
+//     // align-items: flex-end;
+//     .status-msg {
+//       align-self: flex-end;
+//       // margin: 0px;
+//     }
+//   }
+// }
 </style>

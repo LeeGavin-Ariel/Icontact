@@ -98,20 +98,19 @@
           @change="onFileSelected"
           accept="image/*"> -->
 
-          <div class="upload-btn-wrapper">
-            <div id="image_container" style="margin-bottom:10px"></div>
-            <button class="btn btnstyle">사진 선택</button>
-            <input type="file" name="myfile" id="photo" @change="onFileSelected"/>
+          <div>
+            <div id="image_container" style="height: 125px;"></div>
           </div>
             
 
             
           </div>
           <div class="modal-footer">
+            <label for="photo" class="btn btnstyle">사진 선택</label>
+            <input type="file" name="myfile" id="photo" style="display:none " @change="onFileSelected"/>
             <button 
             type="button"
-            class="btn"
-            style="background-color:#a8b1cf; border-radius:40px;"
+            class="btn btnstyle"
             @click="pictureUpload"
             data-bs-dismiss="modal"
             :disabled="!changeImg"
@@ -435,28 +434,26 @@ button:hover {
 .modal {
   z-index: 10000;
 }
-.upload-btn-wrapper {
+/* .upload-btn-wrapper {
   position: relative;
   overflow: hidden;
   display: inline-block;
-}
+} */
 
 .btnstyle {
-  border: 2px solid rgb(196, 196, 196);
-  color: gray;
-  background-color: white;
-  padding: 8px 20px;
+  color: rgb(40, 40, 40);
   border-radius: 10px;
-  font-size: 20px;
-  font-weight: bold;
+  font-size: 16px;
+  background-color:#bfc4d6; 
+  border-radius:40px;
 }
-.upload-btn-wrapper input[type=file] {
+/* .upload-btn-wrapper input[type=file] {
   font-size: 100px;
   position: absolute;
   left: 0;
   top: 0;
   opacity: 0;
-}
+} */
 .formInput {
   background-color: rgba(255, 255, 255, 0.9);
   box-shadow: 1px 1px 1px 1px #58679a;

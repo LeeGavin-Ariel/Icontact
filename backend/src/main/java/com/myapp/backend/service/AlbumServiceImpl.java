@@ -92,7 +92,7 @@ public class AlbumServiceImpl implements AlbumService{
     @Override
     public AlbumResultDto albumThumbnail(String classCode, int pageNum){
         AlbumResultDto result=new AlbumResultDto();
-        int pageCnt=12;
+        int pageCnt=15;
         Pageable page = PageRequest.of(pageNum, pageCnt);
         Page<Album> pages = albumRepository.findByClassCodeOrderByAlbumIdDesc(classCode, page);
         result.setPageCnt(pages.getTotalPages());

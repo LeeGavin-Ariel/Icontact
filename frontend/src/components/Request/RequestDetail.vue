@@ -3,7 +3,7 @@
     <!-- 디테일 -->
     <!-- 새 글 작성시 -->
     <div class="ml-5 mr-5 mt-5">
-    <button class="writeBtn" v-if="identity === 1 && updating === 0 && creating === 0" @click="createNewRequest"><img src="@/assets/write.png" style="width:3.8rem"></button>
+    <button class="writeBtn" v-if="identity === 1 && updating === 0 && creating === 0" @click="createNewRequest"><img src="@/assets/flaticon/write.png" style="width:3.8rem"></button>
     <!-- 글 작성하고 저장시 -->
     <!-- <button v-if="identity === 1 && updating === 0 && creating === 1" @click="createNewRequest">저장버튼<img src="@/assets/flaticon/toys.png" style="width:2rem"></button> -->
     <!-- 글 수정하고 저장시 -->

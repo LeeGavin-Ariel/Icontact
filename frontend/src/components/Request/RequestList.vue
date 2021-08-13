@@ -34,7 +34,7 @@
                     </div>
                     <div class="col-7">
                       <div class="request-title mb-1">투약 요청</div>
-                      <div class="request-time mt-1" align="right">{{request.createDate}}</div>
+                      <div class="request-time mt-1" align="right">{{dateform(request.createDate)}}</div>
                     </div>
                     <div class="col-2" align="center">
                       <img  src="@/assets/flaticon/letter.png" style="width: 1.8rem">  
@@ -74,7 +74,7 @@
                     </div>
                     <div class="col-7" style="width:60%">
                       <div class="request-title mb-1">귀가 동의</div>
-                      <div class="request-time mt-1" align="right">{{request.createDate}}</div>
+                      <div class="request-time mt-1" align="right">{{dateform(request.createDate)}}</div>
                     </div>
                     <div class="col-2" align="center">
                       <img  src="@/assets/flaticon/letter.png" style="width: 1.8rem">  
@@ -154,6 +154,11 @@ export default {
   },
 
   methods: {
+    dateform(content) {
+      var dateform = ''
+      dateform = content.substr(0, 4) + "년 "+content.substr(5,2)+"월 "+content.substr(8,2)+"일";
+      return  dateform;
+    },
     // 글 작성, 수정, 삭제 이벤트 발생시 다시 목록 조회.
     initRequestList (requestType) {
       if (requestType === 1) {

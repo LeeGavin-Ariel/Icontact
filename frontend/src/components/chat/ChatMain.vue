@@ -8,7 +8,7 @@
       <channel-list />
     </div>
     <v-col class="mx height:100vh">
-      <channel />
+      <channel style="width: 97.5%;"/>
     </v-col>
   </div>
 </template>

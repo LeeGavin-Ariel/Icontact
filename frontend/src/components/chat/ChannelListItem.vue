@@ -18,7 +18,7 @@
         </div>
         <div class="col-9">
           <div class="chat-list-name mb-1">{{ nickName }}</div>
-          <div class="chat-last">{{ getLastMessage() }}</div>
+          <div class="chat-last">{{ trimMsg(getLastMessage()) }}</div>
           <div class="chat-time" align="right">{{ getCreatedAt() }}</div>
         </div>
         
@@ -97,7 +97,12 @@ export default {
         this.profileImg = result;
       }
     },
-
+    trimMsg(msg) {
+      if (msg.length > 20) {
+        msg = msg.substr(0, 20) + "...";
+      }
+      return msg;
+    },
     async openChannel(url) {
       console.log('채널오픈');
       await sendBird

@@ -10,7 +10,7 @@
 
             <div class="notice-sub justify-content-between mt-2">
               <div class="notice-user">{{scheduleInfo.userName }} 선생님</div>
-              <div class="notice-date">{{ createDate }}</div>
+              <div class="notice-date">{{ dateform(scheduleInfo.createDate) }}</div>
             </div>
 
           </div>
@@ -37,6 +37,11 @@ export default {
   },
 
   methods: {
+    dateform(content) {
+      var dateform = ''
+      dateform = content.substr(0, 4) + "년 "+content.substr(5,2)+"월 "+content.substr(8,2)+"일";
+      return  dateform;
+    },
     refineDate() {
       this.createDate = this.scheduleInfo.createDate.substr(0, 11);
     },

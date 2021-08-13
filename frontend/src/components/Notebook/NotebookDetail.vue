@@ -2,7 +2,7 @@
   <div class="col">
     <!-- 새 글을 작성하는 버튼 -->
     <div class="ml-5 mr-5 mt-5">
-    <button class="writeBtn" v-if="$store.state.user.type === 2 && updating === 0 && creating === 0" @click="createNotebook"><img src="@/assets/write.png" style="width:3.8rem"></button>
+    <button class="writeBtn" v-if="$store.state.user.type === 2 && updating === 0 && creating === 0" @click="createNotebook"><img src="@/assets/flaticon/write.png" style="width:3.8rem"></button>
     <!-- 새 글을 작성하고, 저장하는 버튼 -->
     <!-- <button v-if="$store.state.user.type === 2 && updating === 0 && creating === 1" @click="createNotebook">연필</button> -->
     <!-- 글 작성(수정,새글) 취소 버튼 -->
@@ -107,7 +107,7 @@
                         <tr class="d-flex">
                           <td class="col-4">
                             <select name="targetId" id="targetId" v-model="targetId" class="select-form">
-                              <option value="none" selected>원아 선택</option>
+                              <option value="" selected>원아 선택</option>
                               <option v-for="parent in parentList" :key="parent.userId" :value="parent.userId">
                                 {{ parent.kidName }} 학부모님
                               </option>
@@ -124,7 +124,14 @@
                         </tr>
                         <tr class="d-flex">
                           <td class="col-12 mb-0">
-                            <input type="file" id="notebookimgfile" @change="onFileSelected">
+                            <!-- 파일 첨부-->
+                            <v-file-input
+                              id="notebookimgfile"
+                              filled
+                              prepend-icon="mdi-camera"
+                              dense
+                              @change="onFileSelected"
+                            ></v-file-input>                            
                           </td>
                         </tr>
                       </table>

@@ -15,59 +15,79 @@
         </v-tabs>
 
         <!-- 공지사항 리스트 -->
-        <div v-if="noticeType === 1" class="content-container list-col mt-5" style="height:80vh;" >
-          <div class="d-flex flex-column align-items-stretch flex-shrink-0" style="width: 100%;">
-
+        <div
+          v-if="noticeType === 1"
+          class="content-container list-col mt-5"
+          style="height: 80vh"
+        >
+          <div
+            v-if="noitceList"
+            class="d-flex flex-column align-items-stretch flex-shrink-0"
+            style="width: 100%"
+          >
             <template v-for="notice in noticeList">
               <notice-list-item
-                :class="{selected : idx == index}"
+                :class="{ selected: idx == index }"
                 :key="notice.createDate"
                 :noticeInfo="notice"
                 @click="setDetail(notice.noticeId)"
               />
             </template>
-
-            <button class="mt-2 moreBtn" @click="getMoreNoticeList">더보기</button>
+            <button class="mt-2 moreBtn" @click="getMoreNoticeList">
+              더보기
+            </button>
           </div>
+          <div v-else>없음</div>
         </div>
 
         <!-- 일정 리스트-->
-        <div v-if="noticeType === 2" class="content-container list-col mt-5" style="height:80vh;" >
-          <div class="d-flex flex-column align-items-stretch flex-shrink-0" style="width: 100%;">
-
+        <div
+          v-if="noticeType === 2"
+          class="content-container list-col mt-5"
+          style="height: 80vh"
+        >
+          <div
+            class="d-flex flex-column align-items-stretch flex-shrink-0"
+            style="width: 100%"
+          >
             <template v-for="schedule in scheduleList">
               <schedule-list-item
-              :key="schedule.createDate"
-              :scheduleInfo="schedule"
-              @click="setDetail(schedule.scheduleId)"
-            />
-            </template>
-
-            <button class="mt-2 moreBtn" @click="getMoreScheduleList">더보기</button>
-          </div>
-        </div>
-
-       
-
-        <!-- 식단 리스트 -->
-        <div v-if="noticeType === 3" class="content-container list-col mt-5" style="height:80vh;" >
-          <div class="d-flex flex-column align-items-stretch flex-shrink-0" style="width: 100%;">
-
-            <template v-for="menu in menuList">
-              <menu-list-item
-              :key="menu.createDate"
-              :menuInfo="menu"
-              @click="setDetail(menu.menuId)"
+                :key="schedule.createDate"
+                :scheduleInfo="schedule"
+                @click="setDetail(schedule.scheduleId)"
               />
             </template>
 
-            <button class="mt-2 moreBtn" @click="getMoreMenuList">더보기</button>
+            <button class="mt-2 moreBtn" @click="getMoreScheduleList">
+              더보기
+            </button>
           </div>
         </div>
 
+        <!-- 식단 리스트 -->
+        <div
+          v-if="noticeType === 3"
+          class="content-container list-col mt-5"
+          style="height: 80vh"
+        >
+          <div
+            class="d-flex flex-column align-items-stretch flex-shrink-0"
+            style="width: 100%"
+          >
+            <template v-for="menu in menuList">
+              <menu-list-item
+                :key="menu.createDate"
+                :menuInfo="menu"
+                @click="setDetail(menu.menuId)"
+              />
+            </template>
 
-        
-        
+            <button class="mt-2 moreBtn" @click="getMoreMenuList">
+              더보기
+            </button>
+          </div>
+        </div>
+
         <!-- </v-list-item-group>
         </v-list> -->
       </v-col>
@@ -219,8 +239,8 @@ export default {
 
       if (notice) {
         this.noticeType = 1;
-        console.log("this.noticeList[0].noticeId");
-        console.log(this.noticeList[0].noticeId);
+        // console.log("this.noticeList[0].noticeId");
+        // console.log(this.noticeList[0].noticeId);
       } else if (schedule) {
         this.noticeType = 2;
         console.log("this.scheduleList[0].scheduleId");
@@ -240,19 +260,25 @@ export default {
     // 공지 탭 눌렀을때
     async showNotice() {
       await this.changeView(true, false, false);
-      await this.setDetail(this.noticeList[0].noticeId);
+      if (this.noticeList[0] != null) {
+        await this.setDetail(this.noticeList[0].noticeId);
+      }
     },
 
     // 일정 탭 눌렀을때
     async showSchedule() {
       await this.changeView(false, true, false);
-      await this.setDetail(this.scheduleList[0].scheduleId);
+      if (this.scheduleList[0] != null) {
+        await this.setDetail(this.scheduleList[0].scheduleId);
+      }
     },
 
     // 식단 탭 눌렀을때
     async showMenu() {
       await this.changeView(false, false, true);
-      await this.setDetail(this.menuList[0].menuId);
+      if (this.menuList[0] != null) {
+        await this.setDetail(this.menuList[0].menuId);
+      }
     },
 
     //공지사항 조회
@@ -277,7 +303,7 @@ export default {
       console.log("공지사항리스트");
       console.log(this.noticeList);
 
-      if (this.id === 0) {
+      if (this.id === 0 && this.noticeList.length > 0) {
         this.id = this.noticeList[0].noticeId;
       }
     },
@@ -303,7 +329,7 @@ export default {
 
       console.log("일정리스트");
       console.log(this.scheduleList);
-      if (this.id === 0) {
+      if (this.id === 0 && this.scheduleList.length > 0) {
         this.id = this.scheduleList[0].scheduleId;
       }
     },
@@ -328,7 +354,7 @@ export default {
 
       console.log("식단리스트");
       console.log(this.menuList);
-      if (this.id === 0) {
+      if (this.id === 0 && this.menuList.length > 0) {
         this.id = this.menuList[0].menuId;
       }
     },
@@ -349,13 +375,13 @@ export default {
 
 <style scoped>
 /* 스크롤 */
-.content-container{
-  overflow-y:scroll; 
-  height:80vh; 
+.content-container {
+  overflow-y: scroll;
+  height: 80vh;
 }
 .content-container::-webkit-scrollbar {
   width: 7px;
-  background-color: rgba(233,234,239, 0.5);
+  background-color: rgba(233, 234, 239, 0.5);
   border-radius: 5px;
 }
 .content-container::-webkit-scrollbar-thumb {
@@ -363,11 +389,11 @@ export default {
   border-radius: 5px;
 }
 .content-container::-webkit-scrollbar-track {
-  background-color: rgba(233,234,239, 0.5);
+  background-color: rgba(233, 234, 239, 0.5);
   border-radius: 5px;
 }
-.list-col{
-  background-color: rgba(256, 256, 256, 0.7)
+.list-col {
+  background-color: rgba(256, 256, 256, 0.7);
 }
 
 .notice-tab {
@@ -380,15 +406,14 @@ export default {
   background-color: rgba(102, 122, 188, 0.1);
   background-size: 100% 100%;
 }
-.showMoreBtn{
+.showMoreBtn {
   margin-top: 1rem;
 }
-.moreBtn{
+.moreBtn {
   color: rgb(156, 156, 156);
 }
 .moreBtn:hover {
   color: black;
-  
 }
 /*부드러운 스크롤 효과*/
 html {

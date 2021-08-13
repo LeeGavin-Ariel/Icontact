@@ -31,9 +31,11 @@
       @cancelUpdateNotice="cancelUpdateNotice"
       @updateNotice="updateNotice"
     />
-    <notice-detail v-if="this.detailMode" :noticeInfo="this.noticeDetail" 
-    @showUpdateNoticeForm="showUpdateNoticeForm"
-    @deleteNotice="deleteNotice"
+    <notice-detail
+      v-if="this.detailMode"
+      :noticeInfo="this.noticeDetail"
+      @showUpdateNoticeForm="showUpdateNoticeForm"
+      @deleteNotice="deleteNotice"
     />
   </div>
 </template>
@@ -77,8 +79,8 @@ export default {
   },
   watch: {
     id: function () {
-      if (this.id !== 0) {
-        console.log("아이디가 변했어요" + this.id);
+      if (this.id !== 0 && this.noticeDetail != null) {
+        console.log("아이디가 변했어요오오" + this.id);
         this.getNoticeDetail();
       }
     },

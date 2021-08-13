@@ -136,8 +136,15 @@ export default {
     text-align: left;
     align-self: flex-start;
   }
-  .text-date{
+  .text-date {
     display: flex;
+    .text {
+      max-width: 20vw;
+      // white-space:normal;
+      word-break: break-all;
+      text-align: left;
+      // height: auto;
+    }
   }
   .date {
     padding: 0rem 0.3rem;
@@ -152,8 +159,13 @@ export default {
     text-align: right;
     align-self: flex-end;
   }
-  .text-date{
+  .text-date {
     flex-direction: row-reverse;
+    .text {
+      max-width: 20vw;
+      word-break: break-all;
+      text-align: left;
+    }
   }
   .user {
     display: none;

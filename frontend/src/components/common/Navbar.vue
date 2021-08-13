@@ -51,10 +51,10 @@
           </v-list-item>
           <v-list-item @click="toggleAlarm" v-if="type == 2">
             <v-list-item-title v-if="stateCode == 1"
-              >알람 끄기</v-list-item-title
+              >자리 비움</v-list-item-title
             >
             <v-list-item-title v-if="stateCode == 2"
-              >알람 켜기</v-list-item-title
+              >온라인</v-list-item-title
             >
           </v-list-item>
           <v-list-item @click="logout">

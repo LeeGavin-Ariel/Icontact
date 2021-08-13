@@ -4,6 +4,7 @@
       v-model="message"
       placeholder="메시지를 입력하세요"
       @keyup.enter="send(message)"
+      
     />
     <div class="send-btn" @click="send(message)">
       <icon name="paper-plane" />
@@ -39,6 +40,10 @@ export default {
   },
 
   methods: {
+    shift(){
+      console.log('쉬프트 누름');
+      // document.onke
+    },
     async send(message) {
       if (!message) return;
       console.log("tesetsdafsdfasdf");

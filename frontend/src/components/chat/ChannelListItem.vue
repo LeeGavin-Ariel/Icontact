@@ -100,10 +100,13 @@ export default {
     },
 
     async openChannel(url) {
-      console.log('채널오픈');
+      console.log('채널을 선택했다');
+      console.log(url);
       await sendBird
         .getChannel(url)
         .then(async (channel) => {
+          console.log('채널받기 성공');
+          console.log(channel);
           channel.myImg = await chatApi.getUserProfileImg(this.$store.state.user.userId);
           channel.oppoImg = this.profileImg;
           await this.$store.commit("SET_CHANNEL", channel);

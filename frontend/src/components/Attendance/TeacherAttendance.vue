@@ -1,5 +1,5 @@
 <template>
-  <div style="font-family: 'NanumSquareRound'; width:100%; background-color: rgba(240, 241, 247); ">
+  <div style="font-family: 'NanumSquareRound'; width:82vw; background-color: rgba(240, 241, 247); ">
     <!-- vuetify menus 참고 -->
       <div class="mx-auto d-flex" style="width:57vw; margin-top:3%; margin-bottom:10px">
         <div class="d-flex align-items-end" style="width:50%;">
@@ -70,34 +70,6 @@
         </div>
       </div>
     </div>
-    
-
-
-    
-
-
-
-    <!-- 달력 -->
-    <!-- <template>
-      <v-row>
-        <v-col
-          class="my-2 px-1"
-          cols="12"
-          sm="6"
-        >
-          <v-date-picker
-            v-model="date"
-            no-title
-            @contextmenu:year="contextMenu"
-            @dblclick:date="dblClick"
-            @mouseenter:month="mouseEnter"
-            @mouseleave:month="mouseLeave"
-          ></v-date-picker>
-        </v-col>
-      </v-row>
-    </template> -->
-
-
   </div>
 </template>
 

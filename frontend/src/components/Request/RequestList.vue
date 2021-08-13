@@ -1,5 +1,5 @@
 <template>
-  <div class="row letter-back"  style="width:82vw; margin:0;">
+  <div class="row bg"  style="width:82vw; margin:0;">
 
     <div
     class="mx-auto"
@@ -407,7 +407,7 @@ export default {
   border-bottom: solid 0.5px #a8b1cf;
 }
 
-.letter-back{
+.bg{
   background-color:rgba(102,122,188, 0.1);
   background-size: 100% 100%;
 }

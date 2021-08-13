@@ -1,5 +1,5 @@
 <template>
-  <div style="background-color: rgba(240, 241, 247); width:100%; font-family: 'NanumSquareRound';">
+  <div style="background-color: rgba(240, 241, 247); font-family: 'NanumSquareRound';">
     <div class="container d-flex justify-content-center mt-10" style="height:90%;">
       
       <template style="border-radius: 10px; background-color:white;">

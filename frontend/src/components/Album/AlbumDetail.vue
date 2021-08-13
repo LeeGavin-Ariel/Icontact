@@ -9,7 +9,24 @@
   </div>
 
     <!-- 모달 박스 -->
-    <div class="modalBox" v-if="visible">
+    <div class="modalBox flex-column" v-if="visible">
+      <div style="width:100%; display:flex; justify-content: flex-end;">
+        <!-- 삭제 버튼 -->
+        <button style="margin-right:1.3rem; margin-bottom:1.3rem;" v-if="user.type === 2">
+          <img @click="deleteAlbum" class="modalBtn" src="@/assets/flaticon/trash.png" alt="close-icon">
+        </button>
+        <!-- 다운로드 버튼 -->
+        <button style="margin-right:1.3rem; margin-bottom:1.3rem;"> 
+          <a :href="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + downloadUrl" download>
+            <img class="modalBtn"  src="@/assets/flaticon/download.png" alt="close-icon">
+          </a>
+        </button >
+        <!-- 닫기 버튼 -->
+        <button style="margin-right:1.3rem; margin-bottom:1.2rem;">
+          <img @click="$emit('updateVisible', !visible)" class="modalBtn" src="@/assets/flaticon/close1.png" alt="close-icon">
+        </button>
+        
+      </div>
       
       <!-- 슬라이더 -->
       <div
@@ -18,7 +35,7 @@
         <swiper class="swiper gallery-top" :options="swiperOptionTop" ref="swiperTop">
           <!-- <swiper-slide class="slide-1"></swiper-slide> -->
           <swiper-slide v-for="image in images" :key="image.photoId">
-            <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/'+ image.photoId" style="width:100%; height: 100%" alt="">
+            <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/'+ image.photoId" style="height:100%; object-fit: cover" alt="">
           </swiper-slide>
 
           <div class="swiper-button-next swiper-button-white" slot="button-next"></div>
@@ -27,67 +44,21 @@
         <!-- swiper2 Thumbs -->
         <swiper class="swiper gallery-thumbs" :options="swiperOptionThumbs" ref="swiperThumbs">
           <swiper-slide v-for="image in images" :key="image.photoId">
-            <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/'+ image.photoId" style="width:100%; height: 100%" alt="">
+            <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/'+ image.photoId" style="width:100%; height: 100%; object-fit: cover;" alt="">
           </swiper-slide>
         </swiper>
       </div>
 
-      <!-- 다운로드 버튼 -->
-      <button
-        class="modalBtn"
-      > <a :href="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + downloadUrl" download>
-          <img id="downloadBtn" src="@/assets/flaticon/download.png" alt="close-icon">
-        </a>
-      </button>
-      <!-- 삭제 버튼 -->
-      <button
-        class="modalBtn"
-        @click="deleteAlbum"
-      >
-        <img id="deleteBtn" src="@/assets/flaticon/trash.png" alt="close-icon">
-      </button>      
-      <!-- 닫기 버튼 -->
-      <!-- <button
-        class="modalBtn"
-        @click="$emit('updateVisible', !visible)"
-
-      >
-        <img id="closeBtn" src="@/assets/flaticon/close1.png" alt="close-icon">
-      </button>
-
-      <v-btn
-        class="ma-2 modalBtn"
-        text
-        icon
-        color="blue lighten-2"
-      >
-        <img id="closeBtn" src="@/assets/flaticon/close1.png" alt="close-icon">
-      </v-btn> -->
-
-      <v-btn
-        class="ma-2 "
-        small
-        icon
-        color="mainColor lighten-2"
-        style="position: absolute; top: 0; left: 0;"     
-      >
-        <img src="@/assets/flaticon/trash.png" alt="close-icon" style="height:1rem; width:1rem;">
-      </v-btn>
       
-      <v-btn
-        class="ma-2 "
-        small
-        icon
-        color="red lighten-2"
-        style="position: absolute; top: 0; left: 3rem;"     
-      >
-        <img src="@/assets/flaticon/download.png" alt="close-icon" style="height:1rem; width:1rem;">
-      </v-btn>             
+
+
+        
     </div>
 </div>  
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
 import 'swiper/css/swiper.css'
 import albumApi from '@/api/album.js';
@@ -117,7 +88,7 @@ export default {
       photoKeyList:[],
 
       swiperOptionTop: {
-        loop: true,
+        loop: false,
         loopedSlides: 5, // looped slides should be the same
         spaceBetween: 10,
         navigation: {
@@ -135,6 +106,12 @@ export default {
         slideToClickedSlide: true
       }
     }
+  },
+  computed: {
+    // 배열안에 ['videos']로 쓴 경우는 이름을 바꿀 수 없음 
+    ...mapState({
+      'user': 'user',
+    })
   },
   methods: {
     async getAlbumDetail() {
@@ -203,41 +180,32 @@ export default {
 }
  
 .modalBox {
-  position: absolute;
-  top: 8vh; left: 10vw; 
-  background-color: rgba(255, 255, 255, 0.93);
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+
+  background-color: rgba(240, 241, 247);
   display: flex; justify-content: center;
   align-items: center;
   border-radius: 4px;
-  width: 80vw;
-  height: 89vh;
+  width: 70vw;
+  height: 80vh;
 }
 
 .modalBtn {
-  position: absolute;
-  height: 0.8rem;
-  width: 0.8rem;
-  top: 0.4rem; right: 1rem;
-}
+  height: 1.1rem;
+  width: 1.1rem;
 
-#downloadBtn {
-  position: absolute;
-  top: 0.4rem; right: 5rem;
 }
-#deleteBtn {
-  position: absolute;
-  top: 0.4rem; right: 3rem;
-}
-#closeBtn {
-  position: absolute;
-  top: 0.4rem; right: 1rem;
-}
-
 .modalSlide {
   height: 90%;
   width: 100%;
 }
-
 // 슬라이더 관련
 .thumb-example {
   height: 480px;

@@ -24,7 +24,7 @@
     <div class="container d-flex flex-wrap justify-content-center content-container align-content-between" style="height:75vh; width:57vw; margin:0 auto; border-radius: 8px; background-color:white;">
       <div class="row row-cols-5">
         <div v-for="album in albumList" :key="album.albumId" cols="3">
-          <div claa="thumbnailWrap">
+          <div class="thumbnailWrap">
             <img 
               :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + album.thumbnailUrl"
   

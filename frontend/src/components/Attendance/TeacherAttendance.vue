@@ -60,13 +60,15 @@
 
     <div class="container d-flex flex-wrap justify-content-center content-container" style="height:75vh; width:57vw; margin:0 auto; border-radius: 8px; background-color:white;">
       <div class="row row-cols-5">
-        <div v-for="(kid, index) in kids" :key="kid.userId" class="d-flex flex-column align-items-center">
-          <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + kid.profileImg" 
-          style="width:91%; height:18vh ;margin-top:1rem; margin-bottom:0.4rem;" 
-          :class="{ attend: (kid.attend===1), notattend: (kid.attend===0) }"
-          @click="setKid(index)">
-          <p class="m-0" style="text-align:center; width:91%;">{{kid.kidName}}</p>
-          
+        <div v-for="(kid, index) in kids" :key="kid.userId" cols="3">
+          <div class="thumbnailWrap d-flex flex-column align-items-center">
+            <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + kid.profileImg" 
+            style="width:91%; height:18vh ;margin-top:1rem; margin-bottom:0.4rem; " 
+            :class="{ attend: (kid.attend===1), notattend: (kid.attend===0) }"
+            class="thumbnailImg"
+            @click="setKid(index)">
+            <p class="m-0 mt-1" style="text-align:center; width:91%; font-weight: 600;">{{kid.kidName}}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -230,4 +232,24 @@ export default {
   border-radius: 5px;
 }
 
+
+/* 썸네일 */
+.thumbnailImg {
+  width:100%;
+  height:15vh;
+  margin-top:1rem;
+  margin-bottom:0.4rem;
+  transition-duration: 1s;
+  object-fit: cover;
+  cursor: pointer;
+}
+.thumbnailImg:hover {
+  transition: 0.4s;
+  transform: scale(1.06, 1.06);
+  transition-duration: 0.5s;
+}
+
+.thumbnailWrap {
+  overflow: hidden;
+}
 </style>

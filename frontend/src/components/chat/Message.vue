@@ -21,9 +21,11 @@
       </v-avatar>
       <div class="content">
         <div class="user">{{ message._sender.nickname }}</div>
-        <div class="text">{{ message.message }}</div>
+        <div class="text-date">
+          <div class="text">{{ message.message }}</div>
+          <div class="date">{{ date }}</div>
+        </div>
       </div>
-      <div class="date">{{ date }}</div>
     </div>
 
     <!-- <v-card dense class="pr-1 ml-3 mr-3">
@@ -111,7 +113,7 @@ export default {
 }
 .item {
   display: flex;
-  margin: 0.2rem 0rem;
+  margin: 0.5rem 0rem;
 
   .user {
     padding: 0rem 0.5rem 0.3rem 0.5rem;
@@ -130,10 +132,18 @@ export default {
     align-self: flex-end;
     // align-content: flex-end;
   }
+  .content {
+    text-align: left;
+    align-self: flex-start;
+  }
+  .text-date{
+    display: flex;
+  }
   .date {
     padding: 0rem 0.3rem;
     font-size: 0.6rem;
     font-family: inherit;
+    // position: relative;
   }
 }
 .is-user {
@@ -142,7 +152,10 @@ export default {
     text-align: right;
     align-self: flex-end;
   }
-  .user{
+  .text-date{
+    flex-direction: row-reverse;
+  }
+  .user {
     display: none;
   }
   .item .text {

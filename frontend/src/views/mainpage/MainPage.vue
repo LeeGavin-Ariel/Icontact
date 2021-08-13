@@ -6,7 +6,7 @@
         <!-- 알림장 -->
         <div class="col-4" ontouchstart="this.classList.toggle('hover');">
           <div class="container" @click="$router.push({ name: 'Notebook' })">
-            <div class="front" style="background-image: url(https://i.pinimg.com/564x/43/89/c8/4389c82649e8503bc9ecea9c6d88dc48.jpg)">
+            <div class="front note-image">
               <div class="inner">
                 <p>알림장</p>
                 <span>Notebook</span>
@@ -30,7 +30,7 @@
         <!-- 채팅 -->
         <div class="col-4" ontouchstart="this.classList.toggle('hover');">
           <div class="container" @click="$router.push({ name: 'Chat' })">
-            <div class="front" style="background-image: url(https://i.pinimg.com/564x/36/7a/5e/367a5e3464a16f6413efffb77f377beb.jpg)">
+            <div class="front chat-image">
               <div class="inner">
                 <p>채팅</p>
                 <span>Chat</span>
@@ -54,7 +54,7 @@
         <!-- 앨범 -->
         <div class="col-4" ontouchstart="this.classList.toggle('hover');">
           <div class="container" @click="$router.push({ name: 'Album' })">
-            <div class="front" style="background-image: url(https://i.pinimg.com/564x/0f/a8/19/0fa819101ad9c4fc68c0116fd8996eee.jpg)">
+            <div class="front album-image">
               <div class="inner">
                 <p>앨범</p>
                 <span>Album</span>
@@ -78,7 +78,7 @@
         <!-- 출석 -->
         <div class="col-4" ontouchstart="this.classList.toggle('hover');">
           <div class="container" @click="$router.push({ name: 'Attendance' })">
-            <div class="front" style="background-image: url(https://i.pinimg.com/564x/48/77/37/487737d3e7756cd2c601652cc96edbcc.jpg)">
+            <div class="front attendance-image">
               <div class="inner">
                 <p>출석</p>
                 <span>Attendance</span>
@@ -102,7 +102,7 @@
         <!-- 공지 -->
         <div class="col-4" ontouchstart="this.classList.toggle('hover');">
           <div class="container" @click="$router.push({ name: 'Notice' })">
-            <div class="front" style="background-image: url(https://i.pinimg.com/564x/24/4b/4a/244b4a61bcaf23734ba4199bc2e1ef1a.jpg)">
+            <div class="front notice-image">
               <div class="inner">
                 <p>공지</p>
                 <span>Notice</span>
@@ -126,7 +126,7 @@
         <!-- 요청 -->
         <div class="col-4" ontouchstart="this.classList.toggle('hover');">
           <div class="container" @click="$router.push({ name: 'Request' })">
-            <div class="front" style="background-image: url(https://i.pinimg.com/564x/90/e3/e7/90e3e7378f15a1c3854898934e7a8acf.jpg)">
+            <div class="front request-image">
               <div class="inner">
                 <p>요청</p>
                 <span>Request</span>
@@ -368,4 +368,23 @@ p {
     margin: 0 0 2rem 0;
   }
 }
+.note-image{
+  background-image: url('../../assets/funcs/note_main.png');
+}
+.chat-image{
+  background-image: url('../../assets/funcs/chat_main.png');
+}
+.album-image{
+  background-image: url('../../assets/funcs/album_main.png');
+}
+.attendance-image{
+  background-image: url('../../assets/funcs/attendance_main.png');
+}
+.notice-image{
+  background-image: url('../../assets/funcs/notice_main.png');
+}
+.request-image{
+  background-image: url('../../assets/funcs/request_main.png');
+}
+
 </style>

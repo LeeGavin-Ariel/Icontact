@@ -47,18 +47,18 @@
               $router.push({ name: 'MyPage', params: { userId: userId } })
             "
           >
-            <v-list-item-title>마이페이지</v-list-item-title>
+            <v-list-item-title style="text-align:right;" >마이페이지</v-list-item-title>
           </v-list-item>
           <v-list-item @click="toggleAlarm" v-if="type == 2">
-            <v-list-item-title v-if="stateCode == 1"
-              >자리 비움</v-list-item-title
+            <v-list-item-title style="text-align:right;" v-if="stateCode == 1"
+              ><img src="@/assets/flaticon/on.png" style="width:0.7rem; margin-right:0.3rem">온라인</v-list-item-title
             >
-            <v-list-item-title v-if="stateCode == 2"
-              >온라인</v-list-item-title
+            <v-list-item-title style="text-align:right;"  v-if="stateCode == 2"
+              ><img src="@/assets/flaticon/off.png" style="width:0.7rem; margin-right:0.3rem;">오프라인</v-list-item-title
             >
           </v-list-item>
           <v-list-item @click="logout">
-            <v-list-item-title>로그아웃</v-list-item-title>
+            <v-list-item-title style="text-align:right;" >로그아웃</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -85,7 +85,7 @@ export default {
       userId: "",
       kidName: "",
       stateCode: "",
-      badgeColor: "green",
+      badgeColor: "stateOn",
     };
   },
 
@@ -116,7 +116,7 @@ export default {
           if (result) {
             console.log("상태코드가 변경되었습니다");
             this.stateCode = this.stateCode == 1 ? 2 : 1;
-            this.badgeColor = this.badgeColor == "green" ? "red" : "green";
+            this.badgeColor = this.badgeColor == "stateOff" ? "stateOn" : "stateOff";
           }
         })
         .catch((e) => {

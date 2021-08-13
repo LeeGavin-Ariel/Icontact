@@ -1,8 +1,8 @@
 <template>
   <div class="channel" >
-    <channel-users v-if="channel" />
+    <channel-users style="height:5rem" v-if="channel" />
     <!-- <hr /> -->
-    <messages v-if="channel" />
+    <messages style="height:70vh" v-if="channel" />
 
     <message-sender v-if="channel" />
   </div>

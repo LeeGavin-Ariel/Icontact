@@ -1,5 +1,5 @@
 <template>
-  <div class="messages" id="messagesScroll">
+  <div class="messages messagesScroll">
     <loading :is-active="loadingIsActive" />
 
     <!-- <h1 v-if="stateFlag">TEST</h1>
@@ -220,21 +220,40 @@ export default {
 <style scoped>
 /* @import "../../assets/scss/index.scss"; */
 .messages{
-  background: none;
+  background: rgba(256,256,256,0.4);
 }
 
-#messagesScroll::-webkit-scrollbar {
+/* #messagesScroll::-webkit-scrollbar {
   width: 3px;
-}
+} */
 
 /* 현재 스크롤의 위치바의 색 */
-#messagesScroll::-webkit-scrollbar-thumb {
+/* #messagesScroll::-webkit-scrollbar-thumb {
   background-color: black;
-}
+} */
 
 /* 남는공간의 색 */
-#messagesScroll::-webkit-scrollbar-track {
+/* #messagesScroll::-webkit-scrollbar-track {
   background-color: white;
+} */
+
+/* 스크롤 */
+.messagesScroll{
+  overflow-y:scroll; 
+  height:80vh; 
+}
+.messagesScroll::-webkit-scrollbar {
+  width: 7px;
+  background-color: rgba(233,234,239, 0.5);
+  border-radius: 1px;
+}
+.messagesScroll::-webkit-scrollbar-thumb {
+  background-color: #a8b1cf;
+  border-radius: 1px;
+}
+.messagesScroll::-webkit-scrollbar-track {
+  background-color: rgba(233,234,239, 0.5);
+  border-radius: 1px;
 }
 
 ul{

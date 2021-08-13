@@ -40,7 +40,7 @@
                       </div>
                       <div class="col-7">
                         <div class="note-title mb-1">{{note.title}}</div>
-                        <div class="note-time mt-1" align="right">{{note.createDate}}</div>
+                        <div class="note-time mt-1" align="right">{{ dateform(note.createDate)}}</div>
                       </div>
                       <div class="col-2" align="center">
                         <img src="@/assets/flaticon/alarm.png" style="width: 1.6rem">
@@ -69,11 +69,10 @@
               <div class="list-group list-group-flush scrollarea border-bottom" :class="{selected : idx == index}" :key="note.noteId" @click="setDetail(note.noteId, index)">
                   <div class="list-group-item list-group-item-action py-2 lh-tight" style="background-color:rgb(256, 256, 256, 0.7);">
                     <div class="d-flex align-items-center" style="height: 9vh; width:100%">
-                      
-                      <!-- 리스트 내용 -->
+
                       <div align="center" class="col-3">
-                          <div class="profile-img mb-2">
-                            <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + note.profileImg"/>
+                          <div class="mb-2">
+                            <img class="profile-img" :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + note.profileImg"/>
                           </div>
                           <!-- 학부모일 경우 -->
                           <div v-if="$store.state.user.type === 1" class="note-list-name">{{note.writerName}} 선생님</div>
@@ -82,9 +81,9 @@
                       </div>
                       <div class="col-7">
                         <div class="note-title mb-1">{{note.title}}</div>
-                        <div class="note-time mt-1" align="right">{{note.createDate}}</div>
+                        <div class="note-time mt-1" align="right">{{ dateform(note.createDate)}}</div>
                       </div>
-                      <div class="col-2">
+                      <div class="col-2" align="center">
                         <img src="@/assets/flaticon/alarm.png" style="width: 1.6rem">
                       </div>
 
@@ -158,6 +157,11 @@ export default {
   },
   
   methods: {
+    dateform(content) {
+      var dateform = ''
+      dateform = content.substr(0, 4) + "년 "+content.substr(5,2)+"월 "+content.substr(8,2)+"일";
+      return  dateform;
+    },
     initNotebookList() {
       this.id = 0
       this.searchFlag = 0

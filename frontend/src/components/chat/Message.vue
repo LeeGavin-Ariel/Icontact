@@ -113,10 +113,11 @@ export default {
 }
 .item {
   display: flex;
-  margin: 1rem 0rem 0rem 0rem;
+  margin: 1rem 0rem 0rem 1rem;
 
   .user {
     padding: 0rem 0.5rem 0.3rem 0.5rem;
+    font-size: 0.9rem;
   }
   .text {
     display: inline;
@@ -126,8 +127,8 @@ export default {
     // background: rgba(209, 219, 255, 0.5);
     // background: #fffbdb;
     margin-left: 0.5rem;
-    padding: 0.5rem 1rem 0.3rem 1rem;
-    font-size: 1.2rem;
+    padding: 0.2rem 0.5rem 0.2rem 0.5rem;
+    font-size: 1.1rem;
     border-radius: 5px;
     align-self: flex-end;
     // align-content: flex-end;
@@ -141,7 +142,7 @@ export default {
   }
   .date {
     padding: 0rem 0.3rem;
-    font-size: 0.6rem;
+    font-size: 0.7rem;
     font-family: inherit;
     // position: relative;
   }

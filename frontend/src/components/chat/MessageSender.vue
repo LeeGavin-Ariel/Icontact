@@ -1,12 +1,12 @@
 <template>
-  <div class="message-sender" style="background: white">
+  <div class="message-sender" style="width: 100%; background: white; border-radius: 0px 0px 5px 5px;">
     <textarea
       v-model="message"
       placeholder="메시지를 입력하세요"
       @keyup.enter="send(message)"
     />
     <div class="send-btn" @click="send(message)">
-      <icon name="paper-plane" />
+      전송
     </div>
     <!-- <div class="columns is-gapless is-centered">
       <div class="column">
@@ -117,9 +117,9 @@ export default {
     transition: all 600ms ease;
   }
 
-  & .send-btn:hover {
-    // color: rgb(252, 255, 94);
-    color: rgb(209, 219, 255, 1);
-  }
+  // & .send-btn:hover {
+  //   // color: rgb(252, 255, 94);
+  //   color: rgb(209, 219, 255, 1);
+  // }
 }
 </style>

@@ -8,6 +8,8 @@ export default new Vuetify({
     themes: {
       light: {
         mainColor1: '#667ABC',
+        stateOn: '#8BC34A',
+        stateOff: "#757575",
 
       },
     },

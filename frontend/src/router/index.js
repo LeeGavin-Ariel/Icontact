@@ -181,7 +181,7 @@ router.beforeEach((to, from, next) => {
   //3-2. 만약 로그인이 필요하지 않은 컴포넌트인데 로그인이 되어있는 상태에서 강제로 가려고 하면?
   } 
   else if (authNotRequired && isLoggedIn) {
-    next({ name: 'Login' })
+    next({ name: 'MainPage' })
   } 
   // //3-3. 전부 아니라면
   else {

@@ -44,7 +44,7 @@
         <v-list>
           <v-list-item
             @click="
-              $router.push({ name: 'MyPage', params: { userId: userId } })
+              moveToMyPage
             "
           >
             <v-list-item-title>마이페이지</v-list-item-title>
@@ -143,7 +143,7 @@ export default {
           method: "get",
         }).then(() => {
           this.$store.dispatch("removeUser");
-          if (this.$route.path !== "Login") this.$router.push("Login");
+          if (this.$route.path !== "Login") this.$router.push({ name: "Login" });
         });
       }
     },
@@ -152,6 +152,9 @@ export default {
         this.$router.push({ name: "MainPage" });
       }
     },
+    moveToMyPage() {
+      this.$router.push({ name: "MyPage", params: {userId : this.userId}}).catch(()=>{})
+    }
   },
   computed: {
     checkLogin() {

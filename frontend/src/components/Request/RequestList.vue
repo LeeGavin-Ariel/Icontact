@@ -369,6 +369,10 @@ export default {
   background-color: rgba(233,234,239, 0.5);
   border-radius: 5px;
 }
+.list-col{
+  background-color: rgba(256, 256, 256, 0.7)
+}
+
 
 .profile-img {
   box-shadow: 0px 0px 2px 2px rgba(168, 177, 207, 0.7);

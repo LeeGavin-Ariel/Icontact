@@ -1,8 +1,8 @@
 <template>
   <div class="row letter-back" style="width: 82vw; margin: 0">
-    <div  style="padding-bottom: 0px; width: 38%">
+    <div class="mx-auto" style="padding-bottom: 0px; width: 38%">
       <!-- 공지 사항 리스트 -->
-      <v-col >
+      <v-col class="mx-auto">
         <v-tabs
           color="mainColor1"
           background-color="transparent"
@@ -14,88 +14,60 @@
           <v-tabs-slider color="#A8B1CF"></v-tabs-slider>
         </v-tabs>
 
-        <!-- <v-list two-line>
-          <v-list-item-group active-class="pink--text"> -->
-        <!-- 공지사항 리스트 띄우기 -->
-        <div
-          class="container"
-          id="noticeListContainer"
-          v-if="noticeType === 1"
-          style="overflow-y: scroll"
-        >
-          <template v-for="notice in noticeList">
-            <notice-list-item
-              :key="notice.createDate"
-              :noticeInfo="notice"
-              @click="setDetail(notice.noticeId)"
-            />
-          </template>
+        <!-- 공지사항 리스트 -->
+        <div v-if="noticeType === 1" class="content-container list-col mt-5" style="height:80vh;" >
+          <div class="d-flex flex-column align-items-stretch flex-shrink-0" style="width: 100%;">
 
-          <button class="mt-2 moreBtn" @click="getMoreNoticeList">더보기</button>
-        
-          <!-- <v-btn
-            class="showMoreBtn"
-            outlined
-            color="indigo"
-            @click="getMoreNoticeList"
-          >
-            더보기
-          </v-btn> -->
+            <template v-for="notice in noticeList">
+              <notice-list-item
+                :class="{selected : idx == index}"
+                :key="notice.createDate"
+                :noticeInfo="notice"
+                @click="setDetail(notice.noticeId)"
+              />
+            </template>
+
+            <button class="mt-2 moreBtn" @click="getMoreNoticeList">더보기</button>
+          </div>
         </div>
 
-        <!-- 일정 리스트 띄우기-->
-        <div
-          class="container"
-          v-if="noticeType === 2"
-          style="overflow-y: scroll; height: 80vh"
-        >
-          <template v-for="schedule in scheduleList">
-            <schedule-list-item
+        <!-- 일정 리스트-->
+        <div v-if="noticeType === 2" class="content-container list-col mt-5" style="height:80vh;" >
+          <div class="d-flex flex-column align-items-stretch flex-shrink-0" style="width: 100%;">
+
+            <template v-for="schedule in scheduleList">
+              <schedule-list-item
               :key="schedule.createDate"
               :scheduleInfo="schedule"
               @click="setDetail(schedule.scheduleId)"
             />
-          </template>
-          <v-row fluid dense justify="center" no-gutters>
-            <v-col></v-col>
-            <v-col>
-              <v-btn
-                class="mt-5"
-                outlined
-                color="indigo"
-                @click="getMoreScheduleList"
-              >
-                더보기
-              </v-btn>
-            </v-col>
-            <v-col></v-col>
-          </v-row>
+            </template>
+
+            <button class="mt-2 moreBtn" @click="getMoreScheduleList">더보기</button>
+          </div>
         </div>
 
-        <!-- 식단 리스트 띄우기-->
-        <div v-if="noticeType === 3" style="overflow-y: scroll; height: 80vh">
-          <template v-for="menu in menuList">
-            <menu-list-item
+       
+
+        <!-- 식단 리스트 -->
+        <div v-if="noticeType === 3" class="content-container list-col mt-5" style="height:80vh;" >
+          <div class="d-flex flex-column align-items-stretch flex-shrink-0" style="width: 100%;">
+
+            <template v-for="menu in menuList">
+              <menu-list-item
               :key="menu.createDate"
               :menuInfo="menu"
               @click="setDetail(menu.menuId)"
-            />
-          </template>
-          <v-row fluid dense justify="center" no-gutters>
-            <v-col></v-col>
-            <v-col>
-              <v-btn
-                class="mt-5"
-                outlined
-                color="indigo"
-                @click="getMoreMenuList"
-              >
-                더보기
-              </v-btn>
-            </v-col>
-            <v-col></v-col>
-          </v-row>
+              />
+            </template>
+
+            <button class="mt-2 moreBtn" @click="getMoreMenuList">더보기</button>
+          </div>
         </div>
+
+
+        
+        
         <!-- </v-list-item-group>
         </v-list> -->
       </v-col>
@@ -376,33 +348,30 @@ export default {
 </script>
 
 <style scoped>
-/* 스크롤바 너비 */
-.container::-webkit-scrollbar {
-  width: 3px;
+/* 스크롤 */
+.content-container{
+  overflow-y:scroll; 
+  height:80vh; 
 }
-
-/* 현재 스크롤의 위치바의 색 */
-.container::-webkit-scrollbar-thumb {
-  background-color: white;
+.content-container::-webkit-scrollbar {
+  width: 7px;
+  background-color: rgba(233,234,239, 0.5);
+  border-radius: 5px;
 }
-
-/* 남는공간의 색 */
-.container::-webkit-scrollbar-track {
-  background-color: black;
+.content-container::-webkit-scrollbar-thumb {
+  background-color: #a8b1cf;
+  border-radius: 5px;
 }
-
-.container {
-  height: 84vh;
-  padding: 5px;
-  background: white;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-content: flex-start;
+.content-container::-webkit-scrollbar-track {
+  background-color: rgba(233,234,239, 0.5);
+  border-radius: 5px;
+}
+.list-col{
+  background-color: rgba(256, 256, 256, 0.7)
 }
 
 .notice-tab {
-  font-size: 20px;
+  font-size: 16px;
   font-family: "NanumSquareRound";
   font-weight: 900;
 }

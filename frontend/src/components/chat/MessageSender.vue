@@ -1,5 +1,5 @@
 <template>
-  <div class="message-sender" style="background: white">
+  <div class="message-sender" style="background: white" v-if="channel">
     <textarea
       v-model="message"
       placeholder="메시지를 입력하세요"

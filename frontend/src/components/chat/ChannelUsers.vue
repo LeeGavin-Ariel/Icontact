@@ -1,6 +1,6 @@
 <template>
-  <div class="channel-users">
-    <div class="room">{{ opponentNickname }}과의 대화</div>
+  <div class="channel-users" v-if="opponentNickname">
+    <div class="room" >{{ opponentNickname }}과의 대화</div>
     <!-- <h2>{{ opponentNickname }}과의 대화</h2> -->
     <!-- <p class="statusMsg" v-if="connect == 'offline' && teacher">
       선생님은 현재 자리에 없습니다.
@@ -48,9 +48,9 @@ export default {
 
   watch: {
     channel: {
-      handler: function (newValue) {
+      handler: async function (newValue) {
         console.log("채널유저스 채널 변경");
-        this.init(newValue);
+        await this.init(newValue);
       },
       deep: true,
     },
@@ -71,10 +71,10 @@ export default {
     async init(channel) {
       await sendBird
         .getChannelUsers(channel)
-        .then((participantList) => {
-          this.$store.commit("SET_CHANNEL_USERS", participantList);
-          // console.log('this.channelUsers')
-          // console.log(this.channelUsers)
+        .then( async (participantList) => {
+          await this.$store.commit("SET_CHANNEL_USERS", participantList);
+          console.log('this.channelUsers')
+          console.log(this.channelUsers)
         })
         .catch((error) => {
           console.error(error);

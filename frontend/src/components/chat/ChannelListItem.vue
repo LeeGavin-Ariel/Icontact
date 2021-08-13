@@ -79,6 +79,8 @@ export default {
 
   methods: {
     async setData() {
+      
+      // await this.$store.commit("SET_CHANNEL", null);
 
       if (this.$store.state.user.userId == this.members[0].userId) {
         this.nickName = this.members[1].nickname;

@@ -193,8 +193,12 @@ export default {
       this.updating = 0;
 
       this.$emit("updateMenu");
-      alert("식단이 수정되었습니다.");
-    },
+      this.$fire({
+        html: `<a href="javascript:void(0);"></a><p style="font-size: 30px; font-family: 'NanumSquareRound';">식단이 수정되었습니다.</p>`,
+        focusConfirm: false,
+        type: 'success'
+      })  
+},
 
     async imgUpdate(photoKey, elId) {
       var resultImgUrl = "";

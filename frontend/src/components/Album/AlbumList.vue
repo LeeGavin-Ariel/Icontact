@@ -232,10 +232,19 @@ export default {
           "refresh-token": refreshToken,
         })
         .then(() => {
-          alert("업로드 성공");
+          this.$fire({
+            html: `<a href="javascript:void(0);"></a><p style="font-size: 30px; font-family: 'NanumSquareRound';">사진이 업로드 되었습니다.</p>`,
+            focusConfirm: false,
+            type: 'success'
+          })
         })
         .catch(() => {
-          alert("업로드 실패");
+          this.$fire({
+            html: `<a href="javascript:void(0);"></a><p style="font-size: 30px; font-family: 'NanumSquareRound';">사진 업로드에 실패했습니다.</p>
+            <p style="font-size: 30px; font-family: 'NanumSquareRound';">다시 시도해주세요.</p>`,
+            focusConfirm: false,
+            type: 'error'
+          })
         });
       this.pageNum = 0;
       this.albumList = [];

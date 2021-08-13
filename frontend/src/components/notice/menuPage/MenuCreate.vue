@@ -106,7 +106,11 @@ export default {
     async createNewMenu() {
       //점심명을 입력하지 않으면 생성불가
       if (this.lunchName == "") {
-        alert("점심 메뉴를 입력하세요");
+        this.$fire({
+          html: `<a href="javascript:void(0);"></a><p style="font-size: 30px; font-family: 'NanumSquareRound';">점심 메뉴를 입력하세요.</p>`,
+          focusConfirm: false,
+          type: 'warning'
+        })
         return;
       }
 

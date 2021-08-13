@@ -257,10 +257,19 @@ export default {
             console.log("왔다!");
             this.isRequested = true;
           }
-          alert("인증번호가 발송되었습니다");
+          this.$fire({
+            html: `<a href="javascript:void(0);"></a><p style="font-size: 30px; font-family: 'NanumSquareRound';">인증 번호가 발송되었습니다.</p>`,
+            focusConfirm: false,
+            type: 'success'
+          })
         })
         .catch(() => {
-          alert("인증번호 전송에 실패했습니다. 다시 시도해주세요");
+          this.$fire({
+            html: `<a href="javascript:void(0);"></a><p style="font-size: 30px; font-family: 'NanumSquareRound';">인증 번호 전송에 실패했습니다.</p>
+            <p style="font-size: 30px; font-family: 'NanumSquareRound';">다시 시도해주세요.</p>`,
+            focusConfirm: false,
+            type: 'error'
+          })
         });
     },
     // 인증번호 확인 요청
@@ -282,7 +291,11 @@ export default {
           }
         })
         .catch(() => {
-          alert("인증에 실패했습니다.");
+          this.$fire({
+            html: `<a href="javascript:void(0);"></a><p style="font-size: 30px; font-family: 'NanumSquareRound';">인증에 실패했습니다.</p>`,
+            focusConfirm: false,
+            type: 'error'
+          })
         });
     },
   },

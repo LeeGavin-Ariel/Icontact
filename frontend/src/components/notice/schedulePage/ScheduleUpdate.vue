@@ -179,7 +179,11 @@ export default {
       console.log(result);
 
       this.$emit("updateSchedule");
-      alert("공지사항이 수정되었습니다.");
+      this.$fire({
+        html: `<a href="javascript:void(0);"></a><p style="font-size: 30px; font-family: 'NanumSquareRound';">일정이 수정되었습니다.</p>`,
+        focusConfirm: false,
+        type: 'success'
+      })
     },
   },
 };

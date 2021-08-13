@@ -83,7 +83,11 @@ export default {
     async createNewNotice() {
       //입력안하면 반환
       if (this.title == "" || this.content == "") {
-        alert("입력하세요");
+        this.$fire({
+          html: `<a href="javascript:void(0);"></a><p style="font-size: 30px; font-family: 'NanumSquareRound';"공지사항을 입력하세요.</p>`,
+          focusConfirm: false,
+          type: 'warning'
+        })
         return;
       }
 

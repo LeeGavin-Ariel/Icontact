@@ -251,16 +251,16 @@ export default {
       if (notice) {
         this.noticeType = 1;
         console.log("this.noticeList[0].noticeId");
-        console.log(this.noticeList[0].noticeId);
+        // console.log(this.noticeList[0].noticeId);
       } else if (schedule) {
         this.noticeType = 2;
         console.log("this.scheduleList[0].scheduleId");
-        console.log(this.scheduleList[0].scheduleId);
+        // console.log(this.scheduleList[0].scheduleId);
         // this.setDetail(this.scheduleList[0].scheduleId);
       } else if (menu) {
         this.noticeType = 3;
         console.log("this.menuList[0].menuId");
-        console.log(this.menuList[0].menuId);
+        // console.log(this.menuList[0].menuId);
         // this.setDetail(this.menuList[0].menuId);
       }
 

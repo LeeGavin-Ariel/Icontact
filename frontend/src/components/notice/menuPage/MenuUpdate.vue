@@ -2,21 +2,160 @@
   <div style="overflow-y: scroll" class="col">
     <!-- 디테일 -->
 
-    식단 수정
-    <!-- 공지
-    <button  @click="createNewMenu">연필</button>
-    | 
-    <button @click="updateMenu">연필</button> -->
-    |
-    <button @click="updateMenu">글 수정하기</button>
-
-    |
-    <!-- <button @click="deleteMenu">글 삭제</button>-->
-    |
-    <button @click="offUpdateForm">글 작성 취소</button>
-
     <v-sheet rounded="lg">
-      식단 수정 페이지
+      <div
+        style="width: 100%; height: 15px; background-color: #a8b1cf"
+        class="mt-3"
+      ></div>
+      <div class="container" style="overflow-y: scroll">
+        <div class="menu-detail-date">{{ this.menuInfo.createDate.substr(0,11) }} 식단</div>
+        <div class="item-wrapper">
+          <div class="item">
+            <div class="item-type">오전 간식</div>
+            <div class="item-img">
+              <img
+                v-if="menuInfo.amSnackImgUrl"
+                class="noticeImg"
+                :src="
+                  'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
+                  menuInfo.amSnackImgUrl
+                "
+                alt="profile-image"
+              />
+            </div>
+            <input
+              type="text"
+              v-model="amSnackName"
+            />
+            <v-file-input
+            class="file-input"
+              id="amSnackFile"
+              v-model="amSnackFile"
+              accept="image/*"
+            ></v-file-input>
+              <!-- :label="amSnackFile" -->
+          </div>
+          <div class="item">
+            <div class="item-type">점심 식사</div>
+            <div class="item-img">
+              <img
+                v-if="menuInfo.lunchImgUrl"
+                class="noticeImg"
+                :src="
+                  'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
+                  menuInfo.lunchImgUrl
+                "
+                alt="profile-image"
+              />
+            </div>
+            <input type="text" v-model="lunchName"  />
+            <v-file-input
+            class="file-input"
+              id="lunchFile"
+              v-model="lunchFile"
+              accept="image/*"
+            ></v-file-input>
+              <!-- label="File Name" -->
+          </div>
+          <div class="item">
+            <div class="item-type">오전 간식</div>
+            <div class="item-img">
+              <img
+                v-if="menuInfo.pmSnackImgUrl"
+                class="noticeImg"
+                :src="
+                  'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
+                  menuInfo.pmSnackImgUrl
+                "
+                alt="profile-image"
+              />
+            </div>
+            <input
+              type="text"
+              v-model="pmSnackName"
+            />
+            <v-file-input
+            class="file-input"
+              id="pmSnackFile"
+              v-model="pmSnackFile"
+              accept="image/*"
+            ></v-file-input>
+              <!-- :label="pmSnackFile" -->
+          </div>
+        </div>
+        <!-- <div class="menu-detail-img">
+          <p>
+            오전 간식 :
+            {{ this.menuInfo.amSnack }}
+          </p>
+          <img
+            v-if="menuInfo.amSnackImgUrl"
+            class="noticeImg"
+            :src="
+              'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
+              menuInfo.amSnackImgUrl
+            "
+            alt="profile-image"
+          />
+          <v-file-input
+            id="amSnackFile"
+            v-model="amSnackFile"
+            accept="image/*"
+            label="File input"
+          ></v-file-input>
+        </div> -->
+        <!-- <div class="menu-detail-img">
+          <p>
+            점심 식사 :
+            {{ this.menuInfo.lunch }}
+          </p>
+          <img
+            v-if="menuInfo.lunchImgUrl"
+            class="noticeImg"
+            :src="
+              'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
+              menuInfo.lunchImgUrl
+            "
+            alt="profile-image"
+          />
+          <v-file-input
+            id="lunchFile"
+            v-model="lunchFile"
+            accept="image/*"
+            label="File input"
+          ></v-file-input>
+        </div>
+        <div class="menu-detail-img">
+          <p>
+            오후 간식 :
+            {{ this.menuInfo.pmSnack }}
+          </p>
+          <img
+            v-if="menuInfo.pmSnackImgUrl"
+            class="noticeImg"
+            :src="
+              'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
+              menuInfo.pmSnackImgUrl
+            "
+            alt="profile-image"
+          />
+          <v-file-input
+            id="pmSnackFile"
+            v-model="pmSnackFile"
+            accept="image/*"
+            label="File input"
+          ></v-file-input>
+        </div>-->
+        <div class="btn-wrapper">
+          <button @click="updateMenu" class="mr-2 update-return-btn">
+            수정
+          </button>
+          <button @click="offUpdateForm" class="ml-2 update-return-btn">
+            취소
+          </button>
+        </div>
+      </div>
+      <!-- 식단 수정 페이지
       {{ menuDetail }}
       <p>
         오전 간식 :
@@ -25,42 +164,35 @@
 
       <p>오전 간식 사진 :</p>
 
-      <!-- <div v-if="menuInfo.amSnackImgUrl"> -->
         <v-file-input
           id="amSnackFile"
           v-model="amSnackFile"
           accept="image/*"
           label="File input"
         ></v-file-input>
-      <!-- </div> -->
       <p>
         점심 식사 :
         <input type="text" v-model="lunchName" style="border: solid 1px" />
       </p>
       <p>점심 식사 사진 :</p>
 
-      <!-- <div v-if="menuInfo.lunchImgUrl"> -->
         <v-file-input
           id="lunchFile"
           v-model="lunchFile"
           accept="image/*"
           label="File input"
         ></v-file-input>
-      <!-- </div> -->
       <p>
         오후 간식 :
         <input type="text" v-model="pmSnackName" style="border: solid 1px" />
       </p>
       <p>오후 간식 사진 :</p>
-<!-- 
-      <div v-if="menuInfo.pmSnackImgUrl"> -->
         <v-file-input
           id="pmSnackFile"
           v-model="pmSnackFile"
           accept="image/*"
           label="File input"
-        ></v-file-input>
-      <!-- </div> -->
+        ></v-file-input> -->
     </v-sheet>
   </div>
 </template>
@@ -117,12 +249,14 @@ export default {
 
   methods: {
     init() {
-      this.amSnackFile = this.menuInfo.amSnackFile;
-      this.pmSnackFile = this.menuInfo.pmSnackFile;
-      this.lunchFile = this.menuInfo.lunchFile;
+      this.amSnackFile = this.menuInfo.amSnackImgUrl;
+      this.pmSnackFile = this.menuInfo.pmSnackImgUrl;
+      this.lunchFile = this.menuInfo.lunchImgUrl;
       this.amSnackName = this.menuInfo.amSnack;
       this.pmSnackName = this.menuInfo.pmSnack;
       this.lunchName = this.menuInfo.lunch;
+      console.log('amSnackFile');
+      console.log(this.amSnackFile);
     },
 
     offUpdateForm() {
@@ -235,4 +369,169 @@ export default {
 </script>
 
 <style scoped>
+.container {
+  display: flex;
+  height: 84.6vh;
+  /* flex-direction: column; */
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: flex-start;
+}
+/* 스크롤바 너비 */
+.container::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* 현재 스크롤의 위치바의 색 */
+.container::-webkit-scrollbar-thumb {
+  background-color: black;
+}
+
+/* 남는공간의 색 */
+.container::-webkit-scrollbar-track {
+  background-color: white;
+}
+.menu-detail-title {
+  /* margin: 0.3rem 0px; */
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
+  width: 95%;
+  display: flex;
+  justify-content: center;
+  font-size: 2em;
+  border-bottom: #a8b1cf 0.1rem solid;
+}
+.menu-detail-writer {
+  width: 95%;
+  /* display: ; */
+  /* justify-content: flex-end; */
+  /* border-bottom: #a8b1cf 0.1rem solid; */
+  /* padding-right: 0.5rem; */
+  /* margin-bottom: 1rem; */
+  /* position: relative; */
+  /* right: 0.5rem; */
+}
+.menu-detail-date {
+  margin-top: 2.7rem;
+  width: 95%;
+  display: flex;
+  justify-content: flex-start;
+  /* border-bottom: #a8b1cf 0.1rem solid; */
+  padding-left: 1rem;
+  margin-bottom: 1rem;
+  font-size: 1.3em;
+  font-family: "NanumSquareRound";
+  font-weight: bold;
+  /* position: relative; */
+  /* right: 0.5rem; */
+}
+.menu-detail-content-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.menu-detail-content {
+  width: 95%;
+  min-height: 5rem;
+  padding: 0px 0.5rem 0.5rem;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: left;
+  border-bottom: #a8b1cf 0.1rem solid;
+}
+.btn-wrapper {
+  /* align-content: flex-end; */
+  /* justify-content: flex-end; */
+  width: 100%;
+  text-align: right;
+  margin-bottom: 1rem;
+}
+
+.btn-wrapper {
+  /* align-content: flex-end; */
+  /* justify-content: flex-end; */
+  width: 100%;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+.update-return-btn {
+  background-color: rgba(168, 177, 207, 1);
+  border-radius: 70px;
+  height: 36px;
+  width: 70px;
+  margin: 20px 3px 3px 3px;
+  text-align: center;
+  color: rgba(256, 256, 256);
+  letter-spacing: -1px;
+}
+.item-wrapper {
+  width: 95%;
+  height: 60vh;
+  padding: 2rem 0rem 2rem 0rem;
+  /* margin-bottom: 1rem; */
+  /* display: flex; */
+  /* align-items: center; */
+  /* background:rgba(156, 156, 156, 0.1); */
+  background:white;
+  display: flex;
+  border-radius: 5px;
+  border-top: #a8b1cf 0.1rem solid;
+  border-bottom: #a8b1cf 0.1rem solid;
+}
+.item {
+  width: 33%;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+}
+.item-type {
+  width: 90%;
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 20px;
+  font-weight: bold;
+  font-family: "NanumSquareRound";
+  display: inline-block;
+  text-align: center;
+  border-bottom: #a8b1cf 0.1rem solid;
+}
+.item input {
+  margin-top: 1rem;
+  width: 80%;
+  text-align: center;
+  display: inline-block;
+  border: none;
+  background: rgba(156, 156, 156, 0.1);
+  height: 2rem;
+  border-radius: 5px;
+}
+.file-input {
+  /* margin-top: 1rem; */
+  width: 100%;
+  /* padding: 0px;
+  margin: 0px; */
+  display: flex;
+  /* text-align: center; */
+  /* display: inline-block; */
+  /* border: none; */
+  /* background: rgba(156, 156, 156, 0.1); */
+  /* height: 2rem; */
+  /* border-radius: 5px; */
+}
+
+.item-img {
+  width: 90%;
+  height: 250px;
+  display: flex;
+  border-bottom: #a8b1cf 0.1rem solid;
+}
+.item-img img {
+    width: 100%;
+  /* height: 200px; */
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+  height: 95%;
+}
 </style>

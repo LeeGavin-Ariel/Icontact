@@ -6,10 +6,7 @@
         <v-avatar>
           <img
             v-if="profileImg" :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + profileImg"/>
-          <img
-            v-else
-            :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/profileImg/noImg_1628231352109.png'"
-          />
+          
           <!-- <img :src="require('@/assets/profileImg/' + opponentId + '.jpg')" alt="profile-image"> -->
           <!-- <img :src="coverUrl" alt="coverUrl" /> -->
         </v-avatar>

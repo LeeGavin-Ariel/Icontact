@@ -140,6 +140,8 @@ export default {
       // 더보기 전체 페이지 수
       dosagePageCnt: 1 ,
       returnhomePageCnt: 1 ,
+
+      profileImg:this.$store.state.user.profileImg,
     }
   },
   watch: {
@@ -332,6 +334,7 @@ export default {
   },
 
   created() {
+    console.log(this.$store.state.user);
     // 페이지 들어오자마자 getRequest 실행 (default 투약요청)
     this.identity = this.$store.state.user.type
     if (this.identity === 1) {
@@ -381,6 +384,10 @@ export default {
   background-color: rgba(233,234,239, 0.5);
   border-radius: 5px;
 }
+.list-col{
+  background-color: rgba(256, 256, 256, 0.7)
+}
+
 
 .profile-img {
   width: 50%;

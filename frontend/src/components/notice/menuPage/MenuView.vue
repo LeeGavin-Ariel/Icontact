@@ -1,26 +1,26 @@
 <template>
-  <div style="overflow-y: scroll" class="col">
+  <div class="col">
     <v-spacer></v-spacer>
 
     <v-fab-transition>
       <v-btn
-        color="red"
+        color="black"
         fab
-        small
+        large
         dark
         bottom
         left
-        class="v-btn--example"
+        class="writeBtn"
         @click="showCreateMenuForm"
-        v-if="!createMode & this.$store.state.user.type==2"
+        v-if="!createMode & (this.$store.state.user.type == 2)"
       >
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
     </v-fab-transition>
 
-    <button v-if="detailMode & this.$store.state.user.type==2" @click="showUpdateMenuForm">|글 수정</button>
+    <!-- <button v-if="detailMode & this.$store.state.user.type==2" @click="showUpdateMenuForm">|글 수정</button>
 
-    <button v-if="detailMode & this.$store.state.user.type==2" @click="deleteMenu">|글 삭제</button>
+    <button v-if="detailMode & this.$store.state.user.type==2" @click="deleteMenu">|글 삭제</button> -->
 
     <!-- <button @click="offCreateForm">글 작성 취소</button> -->
 
@@ -36,7 +36,9 @@
       @cancelUpdateMenu="cancelUpdateMenu"
       @updateMenu="updateMenu"
     />
-    <menu-detail v-if="this.detailMode" :menuInfo="this.menuDetail" />
+    <menu-detail v-if="this.detailMode" :menuInfo="this.menuDetail"
+      @showUpdateMenuForm="showUpdateMenuForm"
+      @deleteMenu="deleteMenu" />
   </div>
 </template>
 
@@ -184,4 +186,24 @@ export default {
 </script>
 
 <style scoped>
+.writeBtn {
+  position: fixed;
+  right: 60px;
+  bottom: 50px;
+}
+.notice-detail-tab {
+  font-size: 20px;
+  font-family: "NanumSquareRound";
+  font-weight: 900;
+}
+.notice-update-tab {
+  font-size: 20px;
+  font-family: "NanumSquareRound";
+  font-weight: 900;
+}
+.notice-create-tab {
+  font-size: 20px;
+  font-family: "NanumSquareRound";
+  font-weight: 900;
+}
 </style>

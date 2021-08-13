@@ -1,46 +1,53 @@
 <template>
   <div style="overflow-y: scroll" class="col">
     <!-- 디테일 -->
-
-    <!-- 공지 작성페이지 <br /> -->
-    <v-row>
-      <v-sheet rounded="lg" v-if="createMode">
-        <br />
-        <p>
-          제목 : <input type="text" v-model="title" style="border: solid 1px" />
-        </p>
-
-        <p>내용</p>
-        <input
-          id=""
-          type="textarea"
-          v-model="content"
-          style="border: solid 1px"
-        />
-        <p>공지사항첨부사진 :</p>
-        <v-file-input
-          id="noticeFile"
-          v-model="files"
-          accept="image/*"
-          label="File input"
-        ></v-file-input>
-      </v-sheet>
-    </v-row>
-    <v-row justify="end">
-      <v-btn
-        class="mr-3"
-        color="primary"
-        fab
-        small
-        dark
-        @click="createNewNotice"
-      >
-        <v-icon>mdi-check </v-icon>
-      </v-btn>
-      <v-btn class="mr-3" color="red" fab small dark @click="offCreateForm">
-        <v-icon>mdi-window-close </v-icon>
-      </v-btn>
-    </v-row>
+    <v-sheet rounded="lg" v-if="createMode">
+      <div
+        style="width: 100%; height: 15px; background-color: #a8b1cf"
+        class="mt-3"
+      ></div>
+      <div class="container">
+        <div class="notice-detail-top">
+          <div class="notice-type">공지사항 작성</div>
+        </div>
+        <div class="notice-detail-title">
+          <input
+            type="text"
+            v-model="title"
+            style="text-align: center"
+            placeholder="제목을 입력하세요"
+          />
+          <!-- style="border-bottom: solid 1px" -->
+        </div>
+        <div class="notice-detail-content-container">
+          <textarea
+            rows="10"
+            placeholder="내용을 입력하세요."
+            v-model="content"
+          >
+          </textarea>
+          <div class="notice-detail-img">
+            <!-- <input id="customFile" type="file" /> -->
+            <v-file-input
+              style="width: 100%"
+              id="noticeFile"
+              v-model="files"
+              accept="image/*"
+              label="File input"
+            ></v-file-input>
+          </div>
+        </div>
+        <!-- <div class="notice-detail-date">날짜</div> -->
+        <div class="btn-wrapper">
+          <button @click="createNewNotice" class="mr-2 update-return-btn">
+            저장
+          </button>
+          <button @click="offCreateForm" class="ml-2 update-return-btn">
+            취소
+          </button>
+        </div>
+      </div>
+    </v-sheet>
   </div>
 </template>
 
@@ -60,6 +67,7 @@ export default {
     id: {
       id: Number,
     },
+    createStart: Boolean,
   },
 
   data() {
@@ -74,6 +82,12 @@ export default {
     };
   },
 
+  watch: {
+    createStart() {
+      this.createNewNotice();
+    },
+  },
+
   methods: {
     async offCreateForm() {
       this.$emit("cancelCreateNotice");
@@ -83,6 +97,8 @@ export default {
     async createNewNotice() {
       //입력안하면 반환
       if (this.title == "" || this.content == "") {
+        console.log(this.title);
+        console.log(this.content);
         alert("입력하세요");
         return;
       }
@@ -98,7 +114,7 @@ export default {
           .uploadPhoto("notice", "noticeFile")
           .then((result) => (noticeImgUrl = result[0]));
         console.log("파일있음");
-      } 
+      }
 
       let data = {
         noticeImgUrl: noticeImgUrl,
@@ -117,6 +133,7 @@ export default {
       console.log("result");
       console.log(result);
 
+      alert("새 공지가 등록되었습니다.");
       this.$emit("createNotice");
     },
   },
@@ -124,4 +141,104 @@ export default {
 </script>
 
 <style scoped>
+.container {
+  display: flex;
+  /* flex-direction: column; */
+  height: 84.6vh;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: flex-start;
+}
+.notice-detail-top {
+  width: 95%;
+  display: flex;
+  justify-content: space-between;
+  /* padding-left: 1rem; */
+  margin-bottom: 1rem;
+  font-size: 1.2em;
+  font-family: "NanumSquareRound";
+  font-weight: bold;
+}
+.notice-type {
+  width: 100%;
+  display: inline-block;
+}
+.notice-detail-title {
+  /* margin: 0.3rem 0px; */
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
+  width: 95%;
+  display: flex;
+  justify-content: center;
+  font-size: 2em;
+  /* border-bottom: #a8b1cf 0.1rem solid; */
+}
+.notice-detail-title input {
+  width: 98%;
+  display: inline-block;
+  justify-content: center;
+  text-align: center;
+  font-size: 1.5rem;
+}
+.notice-detail-date {
+  width: 95%;
+  display: flex;
+  justify-content: flex-end;
+  border-bottom: #a8b1cf 0.1rem solid;
+  padding-right: 0.5rem;
+  margin-bottom: 1rem;
+  /* position: relative; */
+  /* right: 0.5rem; */
+}
+.notice-detail-content-container {
+  width: 95%;
+  min-height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-content: flex-start;
+  flex-wrap: wrap;
+  border-radius: 5px;
+  border-top: #a8b1cf 0.1rem solid;
+  border-bottom: #a8b1cf 0.1rem solid;
+}
+
+.notice-detail-content-container textarea {
+  width: 98%;
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 5px;
+  padding-left: 0.5em;
+}
+.notice-detail-img {
+  width: 100%;
+  display: flex;
+  justify-content: left;
+}
+.noticeImg {
+  width: 50%;
+  height: 200px;
+  /* display: flex; */
+  /* justify-content: left; */
+}
+input,
+textarea {
+  background-color: rgba(156, 156, 156, 0.1);
+}
+.btn-wrapper {
+  /* align-content: flex-end; */
+  /* justify-content: flex-end; */
+  width: 100%;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+.update-return-btn {
+  background-color: rgba(168, 177, 207, 1);
+  border-radius: 70px;
+  height: 36px;
+  width: 70px;
+  margin: 20px 3px 3px 3px;
+  text-align: center;
+  color: rgba(256, 256, 256);
+  letter-spacing: -1px;
+}
 </style>

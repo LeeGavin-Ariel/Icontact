@@ -1,11 +1,12 @@
 <template>
-  <div class="message-sender">
+  <div class="message-sender" style="background:white">
     <div class="columns is-gapless is-centered">
       <div class="column">
         <textarea
           v-model="message"
           placeholder="메시지를 입력하세요"
           @keyup.enter="send(message)"
+          
         />
       </div>
 

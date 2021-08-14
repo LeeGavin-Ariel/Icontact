@@ -98,7 +98,7 @@
         <div align="center" class="mb-5">
 
           <div class="col-lg-11">
-            <table class="table">
+            <table class="table table-borderless mb-0">
               <tbody>
                 <tr class="d-flex">
                     <td class="col-12 align-items-center mt-3">
@@ -535,7 +535,7 @@ export default {
   border-radius: 70px;
   height: 36px;
   width: 70px;
-  margin: 20px 3px 3px 3px;
+  margin: 0px 3px 3px 3px;
   text-align: center;
   color: rgba(256, 256, 256);
   letter-spacing: -1px;

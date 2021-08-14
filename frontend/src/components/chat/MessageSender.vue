@@ -1,9 +1,11 @@
 <template>
-  <div class="message-sender" style="width: 100%; background: white; border-radius: 0px 0px 5px 5px;">
+  <div class="message-sender" style="width: 100%; background: white; border-radius: 0px 0px 5px 5px;" v-if="channel">
+
     <textarea
       v-model="message"
       placeholder="메시지를 입력하세요"
       @keyup.enter="send(message)"
+      
     />
     <div class="send-btn" @click="send(message)">
       전송
@@ -39,6 +41,10 @@ export default {
   },
 
   methods: {
+    shift(){
+      console.log('쉬프트 누름');
+      // document.onke
+    },
     async send(message) {
       if (!message) return;
       console.log("tesetsdafsdfasdf");

@@ -1,10 +1,10 @@
 <template>
   <div class="channel" >
-    <channel-users style="height:5rem" v-if="channel" />
+    <channel-users style="height:5rem" v-if="choiceChannel" />
     <!-- <hr /> -->
-    <messages style="height:70vh" v-if="channel" />
+    <messages style="height:70vh" v-if="choiceChannel" />
 
-    <message-sender v-if="channel" />
+    <message-sender v-if="choiceChannel" />
   </div>
 </template>
 
@@ -18,6 +18,12 @@ import { mapState } from "vuex";
 export default {
   name: "Channel",
 
+  data(){
+    return{
+      choiceChannel:{},
+    };
+  },
+
   components: {
     Messages,
     MessageSender,
@@ -30,8 +36,11 @@ export default {
 
   watch: {
     channel: {
-      handler(newValue) {
-        this.init(newValue.url);
+      async handler(newValue) {
+        console.log('채널 오픈')
+        console.log(newValue)
+        this.choiceChannel = newValue;
+        // await this.init(newValue.url);
       },
     },
   },
@@ -41,11 +50,13 @@ export default {
   },
 
   methods: {
-    init(url) {
-      sendBird
+    async init(url) {
+      await sendBird
         .getChannel(url)
-        .then((channel) => {
-          this.$store.commit("SET_CHANNEL", channel);
+        .then(async (channel) => {
+          console.log('채널 또받음');
+          console.log(channel);
+          // await this.$store.commit("SET_CHANNEL", channel);
         })
         .catch((error) => {
           console.error(error);

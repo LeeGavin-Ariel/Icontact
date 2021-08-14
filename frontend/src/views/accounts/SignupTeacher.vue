@@ -120,11 +120,21 @@ export default {
               })(index);
           }
         });
-        alert("회원가입에 성공하였습니다");
-        this.$router.push({ name: 'Login' });
+        this.$fire({
+          html: `<a href="javascript:void(0);"></a><p style="font-size: 30px; font-family: 'NanumSquareRound';">회원가입에 성공하였습니다!</p>`,
+          focusConfirm: false,
+          type: 'success'
+        }).then(() => {
+          this.$router.push({ name: 'Login' });
+        }) 
       }
       catch (e) {
-        alert('회원가입에 실패하였습니다')
+        this.$fire({
+          html: `<a href="javascript:void(0);"></a><p style="font-size: 30px; font-family: 'NanumSquareRound';">회원가입에 실패하였습니다.</p>
+          <p style="font-size: 30px; font-family: 'NanumSquareRound';">다시 시도해주세요.</p>`,
+          focusConfirm: false,
+          type: 'error'
+        })
       }
     },
 

@@ -44,17 +44,17 @@
         <v-list>
           <v-list-item
             @click="
-              $router.push({ name: 'MyPage', params: { userId: userId } })
+              moveToMyPage
             "
           >
             <v-list-item-title style="text-align:right;" >마이페이지</v-list-item-title>
           </v-list-item>
           <v-list-item @click="toggleAlarm" v-if="type == 2">
             <v-list-item-title style="text-align:right;" v-if="stateCode == 1"
-              ><img src="@/assets/flaticon/on.png" style="width:0.7rem; margin-right:0.3rem">온라인</v-list-item-title
+              ><img src="@/assets/flaticon/off.png" style="width:0.7rem; margin-right:0.3rem">자리비움</v-list-item-title
             >
             <v-list-item-title style="text-align:right;"  v-if="stateCode == 2"
-              ><img src="@/assets/flaticon/off.png" style="width:0.7rem; margin-right:0.3rem;">오프라인</v-list-item-title
+              ><img src="@/assets/flaticon/on.png" style="width:0.7rem; margin-right:0.3rem;">온라인</v-list-item-title
             >
           </v-list-item>
           <v-list-item @click="logout">
@@ -115,8 +115,10 @@ export default {
         .then((result) => {
           if (result) {
             console.log("상태코드가 변경되었습니다");
-            this.stateCode = this.stateCode == 1 ? 2 : 1;
-            this.badgeColor = this.badgeColor == "stateOff" ? "stateOn" : "stateOff";
+
+            this.$store.state.user.stateCode = this.stateCode = this.$store.state.user.stateCode == 1 ? 2 : 1;
+            this.badgeColor = this.$store.state.user.stateCode == 2 ? "stateOn" : "stateOff";
+
           }
         })
         .catch((e) => {
@@ -131,6 +133,7 @@ export default {
       this.userId = this.$store.state.user.userId
       this.kidName = this.$store.state.user.kidName
       this.stateCode =  this.$store.state.user.stateCode
+      this.badgeColor = this.$store.state.user.stateCode == 2 ? "red" : "green"
       
     },
     logout() {
@@ -143,7 +146,7 @@ export default {
           method: "get",
         }).then(() => {
           this.$store.dispatch("removeUser");
-          if (this.$route.path !== "Login") this.$router.push("Login");
+          if (this.$route.path !== "Login") this.$router.push({ name: "Login" });
         });
       }
     },
@@ -152,6 +155,9 @@ export default {
         this.$router.push({ name: "MainPage" });
       }
     },
+    moveToMyPage() {
+      this.$router.push({ name: "MyPage", params: {userId : this.userId}}).catch(()=>{})
+    }
   },
   computed: {
     checkLogin() {

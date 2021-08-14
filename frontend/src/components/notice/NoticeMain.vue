@@ -20,20 +20,24 @@
           class="content-container list-col mt-5"
           style="height: 80vh"
         >
-            <!-- v-if="noticeList.length > 0" -->
+          <!-- v-if="noticeList.length > 0" -->
           <div
             class="d-flex flex-column align-items-stretch flex-shrink-0"
             style="width: 100%"
           >
             <template v-for="notice in noticeList">
-                <!-- :class="{ selected: idx == index }" -->
+              <!-- :class="{ selected: idx == index }" -->
               <notice-list-item
                 :key="notice.createDate"
                 :noticeInfo="notice"
                 @click="setNoticeDetail(notice.noticeId)"
               />
             </template>
-            <button class="mt-2 moreBtn" @click="getMoreNoticeList" v-if="noticeList.length > 0 && (noticePageNum <= noticePageCnt)">
+            <button
+              class="mt-2 moreBtn"
+              @click="getMoreNoticeList"
+              v-if="noticeList.length > 0 && noticePageNum <= noticePageCnt"
+            >
               더보기
             </button>
           </div>
@@ -58,7 +62,13 @@
               />
             </template>
 
-            <button class="mt-2 moreBtn" @click="getMoreScheduleList" v-if="scheduleList.length > 0 && (schedulePageNum <= schedulePageCnt)">
+            <button
+              class="mt-2 moreBtn"
+              @click="getMoreScheduleList"
+              v-if="
+                scheduleList.length > 0 && schedulePageNum <= schedulePageCnt
+              "
+            >
               더보기
             </button>
           </div>
@@ -82,7 +92,11 @@
               />
             </template>
 
-            <button class="mt-2 moreBtn" @click="getMoreMenuList" v-if="menuList.length > 0 && (menuPageNum <= menuPageCnt)">
+            <button
+              class="mt-2 moreBtn"
+              @click="getMoreMenuList"
+              v-if="menuList.length > 0 && menuPageNum <= menuPageCnt"
+            >
               더보기
             </button>
           </div>
@@ -96,23 +110,23 @@
     <notice-view
       v-if="this.noticeType == 1"
       :id="noticeId"
-      @createNotice="initRequestList(1, 'create')"
+      @createNotice="afterCreate"
       @updateNotice="afterUpdate"
-      @deleteNotice="initRequestList(1, 'delete')"
+      @deleteNotice="afterDelete"
     />
     <schedule-view
       v-if="this.noticeType == 2"
       :id="scheduleId"
-      @createSchedule="initRequestList(2, 'create')"
+      @createSchedule="afterCreate"
       @updateSchedule="afterUpdate"
-      @deleteSchedule="initRequestList(2, 'delete')"
+      @deleteSchedule="afterDelete"
     />
     <menu-view
       v-if="this.noticeType == 3"
       :id="menuId"
-      @createMenu="initRequestList(3, 'create')"
+      @createMenu="afterCreate"
       @updateMenu="afterUpdate"
-      @deleteMenu="initRequestList(3, 'delete')"
+      @deleteMenu="afterDelete"
     />
   </div>
 </template>
@@ -166,45 +180,65 @@ export default {
     };
   },
   methods: {
-    afterUpdate(id) {
+    async afterCreate() {
+      console.log("after create");
       if (this.noticeType == 1) {
         this.noticeList = [];
         this.noticePageNum = 1;
-        this.getNoticeList();
+        await this.getNoticeList();
+        this.setNoticeDetail(this.noticeList[0].noticeId);
       } else if (this.noticeType == 2) {
         this.scheduleList = [];
         this.schedulePageNum = 1;
-        this.getScheduleList();
+        await this.getScheduleList();
+        this.setScheduleDetail(this.scheduleList[0].scheduleId);
       } else if (this.noticeType == 3) {
         this.menuList = [];
         this.menuPageNum = 1;
-        this.getMenuList();
+        await this.getMenuList();
+        this.setMenuDetail(this.menuList[0].menuId);
       }
-      this.setNoticeDetail(id);
-      this.setScheduleDetail(id);
-      this.setMenuDetail(id);
     },
-    // 글 작성, 수정, 삭제 이벤트 발생시 다시 목록 조회.
-    initRequestList(noticeType, mode) {
-      if (noticeType === 1) {
+
+    async afterUpdate(id) {
+      if (this.noticeType == 1) {
         this.noticeList = [];
         this.noticePageNum = 1;
-        // this.noticeId = 0;
-        if (mode == "update") this.setNoticeDetail(this.noticeId);
-
-        this.getNoticeList();
-      } else if (noticeType === 2) {
+        await this.getNoticeList();
+        this.setNoticeDetail(id);
+      } else if (this.noticeType == 2) {
         this.scheduleList = [];
         this.schedulePageNum = 1;
-        this.getScheduleList();
-        // this.ScheduleId = 0;
-        if (mode == "update") this.setScheduleDetail(this.ScheduleId);
-      } else if (noticeType === 3) {
+        await this.getScheduleList();
+        this.setScheduleDetail(id);
+      } else if (this.noticeType == 3) {
         this.menuList = [];
         this.menuPageNum = 1;
-        this.getMenuList();
-        // this.MenuId = 0;
-        if (mode == "update") this.setMenuDetail(this.MenuId);
+        await this.getMenuList();
+        this.setMenuDetail(id);
+      }
+    },
+
+    async afterDelete() {
+      console.log("after delete");
+      if (this.noticeType == 1) {
+        this.noticeList = [];
+        this.noticePageNum = 1;
+        await this.getNoticeList();
+        if (this.noticeList.length > 0)
+          this.setNoticeDetail(this.noticeList[0].noticeId);
+      } else if (this.noticeType == 2) {
+        this.scheduleList = [];
+        this.schedulePageNum = 1;
+        await this.getScheduleList();
+        if (this.scheduleList.length > 0)
+          this.setScheduleDetail(this.scheduleList[0].scheduleId);
+      } else if (this.noticeType == 3) {
+        this.menuList = [];
+        this.menuPageNum = 1;
+        await this.getMenuList();
+        if (this.menuList.length > 0)
+          this.setMenuDetail(this.menuList[0].menuId);
       }
     },
 
@@ -231,7 +265,7 @@ export default {
 
     // 글을 클릭했을때 id값 저장
     setNoticeDetail(id) {
-      console.log('공지 클릭',id);
+      console.log("공지 아이디 변경", id);
       this.noticeId = id;
     },
     setScheduleDetail(id) {
@@ -274,7 +308,7 @@ export default {
       this.menuId = 0;
       await this.changeView(true, false, false);
       if (this.noticeList[0] != null) {
-        console.log('공지탭누름');
+        console.log("공지탭누름");
         await this.setNoticeDetail(this.noticeList[0].noticeId);
       }
     },

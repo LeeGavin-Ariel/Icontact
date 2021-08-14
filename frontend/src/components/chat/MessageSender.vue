@@ -4,7 +4,7 @@
     <textarea
       v-model="message"
       placeholder="메시지를 입력하세요"
-      @keyup.enter="send(message)"
+      @keypress.enter="send(message)"
       
     />
     <div class="send-btn" @click="send(message)">

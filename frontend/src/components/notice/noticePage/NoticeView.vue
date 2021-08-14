@@ -1,8 +1,10 @@
 <template>
   <div class="col">
+    <div class="ml-5 mr-5 mt-5">
     <!-- <div style="margin-top:2.5rem;"></div> -->
     <!-- <v-btn @click="showCreateNoticeForm">새 글</v-btn> -->
-    <v-fab-transition>
+    <button class="writeBtn" v-if="!createMode & (this.$store.state.user.type == 2)"  @click="showCreateNoticeForm"><img src="@/assets/flaticon/write.png" style="width:3.8rem"></button>
+    <!-- <v-fab-transition>
       <v-btn
         color="black"
         fab
@@ -16,7 +18,7 @@
       >
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
-    </v-fab-transition>
+    </v-fab-transition> -->
 
     <notice-create
       v-if="this.createMode"
@@ -35,6 +37,7 @@
     @showUpdateNoticeForm="showUpdateNoticeForm"
     @deleteNotice="deleteNotice"
     />
+  </div>
   </div>
 </template>
 
@@ -193,6 +196,7 @@ export default {
   position: fixed;
   right: 60px;
   bottom: 50px;
+  width:3.8rem;
 }
 .notice-detail-tab {
   font-size: 20px;

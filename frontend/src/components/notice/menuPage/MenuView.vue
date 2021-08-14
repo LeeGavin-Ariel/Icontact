@@ -1,6 +1,10 @@
 <template>
   <div class="col">
-    <v-spacer></v-spacer>
+
+    <div class="ml-5 mr-5 mt-5">
+
+    <button class="writeBtn" @click="showCreateMenuForm" v-if="!createMode & (this.$store.state.user.type == 2)"><img src="@/assets/flaticon/write.png" style="width:3.8rem"></button>
+    <!-- <v-spacer></v-spacer>
 
     <v-fab-transition>
       <v-btn
@@ -16,7 +20,7 @@
       >
         <v-icon>mdi-pencil</v-icon>
       </v-btn>
-    </v-fab-transition>
+    </v-fab-transition> -->
 
     <!-- <button v-if="detailMode & this.$store.state.user.type==2" @click="showUpdateMenuForm">|글 수정</button>
 
@@ -39,6 +43,7 @@
     <menu-detail v-if="this.detailMode" :menuInfo="this.menuDetail"
       @showUpdateMenuForm="showUpdateMenuForm"
       @deleteMenu="deleteMenu" />
+  </div>
   </div>
 </template>
 
@@ -190,6 +195,7 @@ export default {
   position: fixed;
   right: 60px;
   bottom: 50px;
+  width:3.8rem;
 }
 .notice-detail-tab {
   font-size: 20px;

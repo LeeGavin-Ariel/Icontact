@@ -1,12 +1,10 @@
 <template>
-  <div style="overflow-y: scroll" class="col">
+  <div>
     <!-- 디테일 -->
+    
     <v-sheet rounded="lg" v-if="createMode">
-      <div
-        style="width: 100%; height: 15px; background-color: #a8b1cf"
-        class="mt-3"
-      ></div>
-      <div class="container">
+      <div style="width:100%; height:15px; background-color:#a8b1cf" class="mt-3"></div>
+      <div class="container content-container" style="height:84.8vh">
         <div class="notice-detail-top">
           <div class="notice-type">공지사항 작성</div>
         </div>
@@ -141,13 +139,23 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  display: flex;
-  /* flex-direction: column; */
-  height: 84.6vh;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-content: flex-start;
+/* 스크롤 */
+.content-container{
+  overflow-y:scroll; 
+  height:80vh; 
+}
+.content-container::-webkit-scrollbar {
+  width: 7px;
+  background-color: rgba(233,234,239, 0.5);
+  border-radius: 1px;
+}
+.content-container::-webkit-scrollbar-thumb {
+  background-color: #a8b1cf;
+  border-radius: 1px;
+}
+.content-container::-webkit-scrollbar-track {
+  background-color: rgba(233,234,239, 0.5);
+  border-radius: 1px;
 }
 .notice-detail-top {
   width: 95%;

@@ -1,13 +1,10 @@
 <template>
-  <div style="overflow-y: scroll" class="col">
+  <div>
     <!-- 디테일 -->
 
     <v-sheet rounded="lg" v-if="createMode && this.menuInfo">
-      <div
-        style="width: 100%; height: 15px; background-color: #a8b1cf"
-        class="mt-3"
-      ></div>
-      <div class="container" style="overflow-y: scroll">
+      <div style="width:100%; height:15px; background-color:#a8b1cf" class="mt-3"></div>
+      <div class="container content-container" style="height:84.8vh">
         <div class="notice-detail-top">
           <div class="notice-type">식단</div>
           <div class="btn-wrapper" v-if="this.$store.state.user.type == 2">
@@ -136,14 +133,6 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  display: flex;
-  height: 84.6vh;
-  /* flex-direction: column; */
-  flex-wrap: wrap;
-  justify-content: center;
-  align-content: flex-start;
-}
 .notice-detail-top {
   width: 95%;
   display: flex;
@@ -158,20 +147,25 @@ export default {
   width: 100%;
   display: inline-block;
 }
-/* 스크롤바 너비 */
-.container::-webkit-scrollbar {
-  width: 5px;
+/* 스크롤 */
+.content-container{
+  overflow-y:scroll; 
+  height:80vh; 
+}
+.content-container::-webkit-scrollbar {
+  width: 7px;
+  background-color: rgba(233,234,239, 0.5);
+  border-radius: 1px;
+}
+.content-container::-webkit-scrollbar-thumb {
+  background-color: #a8b1cf;
+  border-radius: 1px;
+}
+.content-container::-webkit-scrollbar-track {
+  background-color: rgba(233,234,239, 0.5);
+  border-radius: 1px;
 }
 
-/* 현재 스크롤의 위치바의 색 */
-.container::-webkit-scrollbar-thumb {
-  background-color: black;
-}
-
-/* 남는공간의 색 */
-.container::-webkit-scrollbar-track {
-  background-color: white;
-}
 .menu-detail-title {
   padding-bottom: 0.5rem;
   /* margin-bottom: 0.5rem; */

@@ -33,7 +33,7 @@
         </div>
         <!-- 수정 관련 버튼-->
         <div class="btn-wrapper">
-          <button @click="updateNotice" class="mr-2 update-return-btn">
+          <button @click="updateNotice" class="mr-2 update-return-btn" :disabled="saveDisabled">
             수정
           </button>
           <button @click="offUpdateForm" class="ml-2 update-return-btn">
@@ -41,49 +41,6 @@
           </button>
         </div>
       </div>
-      <!-- <div class="button">
-          <v-btn
-            class="mr-3"
-            color="primary"
-            fab
-            small
-            dark
-            @click="createNewNotice"
-          >
-            <v-icon>mdi-check </v-icon>
-          </v-btn>
-          <v-btn class="mr-3" color="red" fab small dark @click="offCreateForm">
-            <v-icon>mdi-window-close </v-icon>
-          </v-btn>
-        </div> 
-      </div>-->
-
-      <!-- 공지 수정 페이지
-      {{ noticeDetail }}
-      <p>
-        제목 : <input type="text" v-model="title" style="border: solid 1px" />
-      </p>
-
-      <p>내용</p>
-      <input type="textarea" v-model="content" style="border: solid 1px" />
-
-      <p>공지사항첨부사진 :</p>
-      <div v-if="noticeInfo.noticeImgUrl">
-        <img
-          :src="
-            'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
-            noticeInfo.noticeImgUrl
-          "
-          alt="profile-image"
-        />
-        <hr />
-      </div>
-      <v-file-input
-        id="noticeFile"
-        v-model="noticeImgUrl"
-        accept="image/*"
-        label="File input"
-      ></v-file-input> -->
     </v-sheet>
   </div>
 </template>
@@ -118,6 +75,7 @@ export default {
       title: this.noticeInfo.title,
       content: this.noticeInfo.content,
       noticeImgUrl: this.noticeInfo.noticeImgUrl,
+      saveDisabled: true,
     };
   },
   watch: {
@@ -128,6 +86,10 @@ export default {
     },
     updateStart() {
       this.updateNotice();
+    },
+    title(newValue) {
+      if (newValue != "") this.saveDisabled = false;
+      else this.saveDisabled = true;
     },
   },
 

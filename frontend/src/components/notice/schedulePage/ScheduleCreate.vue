@@ -34,7 +34,11 @@
         </div>
         <!-- 수정 관련 버튼-->
         <div class="btn-wrapper">
-          <button @click="createNewSchedule" class="mr-2 update-return-btn">
+          <button
+            @click="createNewSchedule"
+            class="mr-2 update-return-btn"
+            :disabled="saveDisabled"
+          >
             저장
           </button>
           <button @click="offCreateForm" class="ml-2 update-return-btn">
@@ -42,28 +46,7 @@
           </button>
         </div>
       </div>
-      <!-- <br />
-      <p>
-        제목 : <input type="text" v-model="title" style="border: solid 1px" />
-      </p>
-
-      <p>내용</p>
-      <input type="textarea" v-model="content" style="border: solid 1px" />
-      <p>공지사항첨부사진 :</p>
-      <v-file-input
-        id="scheduleFile"
-        v-model="files"
-        accept="image/*"
-        label="File input"
-      ></v-file-input> -->
     </v-sheet>
-
-    <!-- <v-btn color="primary" fab small dark @click="createNewSchedule">
-      <v-icon>mdi-check </v-icon>
-    </v-btn>
-    <v-btn color="red" fab small dark @click="offCreateForm">
-      <v-icon>mdi-window-close </v-icon>
-    </v-btn> -->
   </div>
 </template>
 
@@ -95,7 +78,15 @@ export default {
       title: "",
       content: "",
       files: null,
+      saveDisabled: true,
     };
+  },
+
+  watch: {
+    title(newValue) {
+      if (newValue != "") this.saveDisabled = false;
+      else this.saveDisabled = true;
+    },
   },
 
   methods: {

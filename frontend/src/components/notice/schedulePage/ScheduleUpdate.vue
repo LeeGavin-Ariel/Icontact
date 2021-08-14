@@ -33,7 +33,8 @@
         </div>
         <!-- 수정 관련 버튼-->
         <div class="btn-wrapper">
-          <button @click="updateSchedule" class="mr-2 update-return-btn">
+          <button @click="updateSchedule" class="mr-2 update-return-btn" 
+            :disabled="saveDisabled">
             수정
           </button>
           <button @click="offUpdateForm" class="ml-2 update-return-btn">
@@ -41,33 +42,6 @@
           </button>
         </div>
       </div>
-      <!-- 일정 수정 페이지
-      {{ scheduleDetail }}
-      <p>
-        제목 : <input type="text" v-model="title" style="border: solid 1px" />
-      </p>
-
-      <p>내용</p>
-      <input type="textarea" v-model="content" style="border: solid 1px" />
-
-      <p>공지사항첨부사진 :</p>
-
-      <div v-if="scheduleInfo.scheduleImgUrl">
-      <img
-        :src="
-          'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
-          scheduleInfo.scheduleImgUrl
-        "
-        alt="profile-image"
-      />
-      <hr />
-      </div>
-      <v-file-input
-        id="scheduleFile"
-        v-model="files"
-        accept="image/*"
-        label="File input"
-      ></v-file-input> -->
     </v-sheet>
   </div>
 </template>
@@ -101,6 +75,7 @@ export default {
       title: this.scheduleInfo.title,
       content: this.scheduleInfo.content,
       schedulImgUrl: this.scheduleInfo.schedulImgUrl,
+      saveDisabled: true,
     };
   },
   watch: {
@@ -108,6 +83,10 @@ export default {
       if (this.id !== 0) {
         this.getScheduleDetail();
       }
+    },
+    title(newValue) {
+      if (newValue != "") this.saveDisabled = false;
+      else this.saveDisabled = true;
     },
   },
 

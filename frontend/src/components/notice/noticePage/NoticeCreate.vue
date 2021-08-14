@@ -39,7 +39,11 @@
         </div>
         <!-- <div class="notice-detail-date">날짜</div> -->
         <div class="btn-wrapper">
-          <button @click="createNewNotice" class="mr-2 update-return-btn">
+          <button
+            @click="createNewNotice"
+            class="mr-2 update-return-btn"
+            :disabled="saveDisabled"
+          >
             저장
           </button>
           <button @click="offCreateForm" class="ml-2 update-return-btn">
@@ -70,6 +74,12 @@ export default {
     createStart: Boolean,
   },
 
+  computed: {
+    // title() {
+    //   console.log('타이틀변경');
+    // },
+  },
+
   data() {
     return {
       // 상세 내용을 저장할 변수
@@ -79,12 +89,18 @@ export default {
       title: "",
       content: "",
       files: null,
+      saveDisabled: true,
     };
   },
 
   watch: {
     createStart() {
       this.createNewNotice();
+    },
+
+    title(newValue) {
+      if (newValue != "") this.saveDisabled = false;
+      else this.saveDisabled = true;
     },
   },
 

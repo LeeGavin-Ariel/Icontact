@@ -550,32 +550,45 @@ export default {
     },
 
     async deleteRequest() {
-      let accessToken = sessionStorage.getItem('access-token')
-      let refreshToken = sessionStorage.getItem('refresh-token')
-      if (this.requestType === 1){
-        let data = {
-        requestType: this.requestType,
-        id: this.requestDetail.dosageId
-      }
-      let result = await requestApi.deleteRequest(data, {
-        "access-token": accessToken,
-        "refresh-token": refreshToken,
-      });
-      console.log(result)
-      }
-      else if (this.requestType === 2){
-        let data = {
-        requestType: this.requestType,
-        id: this.requestDetail.rhId
-      }
-      let result = await requestApi.deleteRequest(data, {
-        "access-token": accessToken,
-        "refresh-token": refreshToken,
-      });
-      console.log(result)
-      }
-      this.$emit('get-notebooklist', this.requestType)
-      // window.location.reload()
+      this.$fire({
+          html: `<a href="javascript:void(0);"></a><p style="font-size: 0.95rem; font-family: 'NanumSquareRound';">정말로 삭제하시겠습니까?</p>`,
+          type: "question",
+          showCancelButton: true,
+          confirmButtonText: "예",
+          cancelButtonText: "아니오",
+          confirmButtonColor: '#58679A',
+        }
+      )
+      .then(async (r) => {
+        if (r.value) {
+          let accessToken = sessionStorage.getItem('access-token')
+          let refreshToken = sessionStorage.getItem('refresh-token')
+          if (this.requestType === 1){
+            let data = {
+            requestType: this.requestType,
+            id: this.requestDetail.dosageId
+          }
+          let result = await requestApi.deleteRequest(data, {
+            "access-token": accessToken,
+            "refresh-token": refreshToken,
+          });
+          console.log(result)
+          }
+          else if (this.requestType === 2){
+            let data = {
+            requestType: this.requestType,
+            id: this.requestDetail.rhId
+          }
+          let result = await requestApi.deleteRequest(data, {
+            "access-token": accessToken,
+            "refresh-token": refreshToken,
+          });
+          console.log(result)
+          }
+          this.$emit('get-notebooklist', this.requestType)
+          // window.location.reload()
+        }
+      })
     }
   },
 

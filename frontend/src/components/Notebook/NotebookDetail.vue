@@ -143,9 +143,9 @@
           </div>
           <!-- 새로운 글 작성 관련 버튼 -->
           <!-- 새 글을 작성하고, 저장하는 버튼 -->
-          <button v-if="$store.state.user.type === 2 && updating === 0 && creating === 1" @click="createNotebook" class="mr-2 update-return-btn">작성</button>
+          <button v-if="$store.state.user.type === 2 && updating === 0 && creating === 1" @click="createNotebook" :disabled="!title || !targetId" class="mr-2 update-return-btn">작성</button>
           <!-- 글 작성(수정,새글) 취소 버튼 -->
-          <button v-if="$store.state.user.type === 2 && updating === 1 && creating === 0" @click="updateNotebook" class="mr-2 update-return-btn">수정</button>
+          <button v-if="$store.state.user.type === 2 && updating === 1 && creating === 0" @click="updateNotebook" :disabled="!title || !targetId" class="mr-2 update-return-btn">수정</button>
           <button v-if="$store.state.user.type === 2 && (creating === 1 || updating === 1)" @click="offCreateForm" class="ml-2 update-return-btn">취소</button>
           
         </div>
@@ -467,20 +467,33 @@ export default {
     },
 
     async deleteNotebook() {
-      let accessToken = sessionStorage.getItem('access-token')
-      let refreshToken = sessionStorage.getItem('refresh-token')
-      let notebookImgUrl = this.notebookDetail.noteImgUrl;
-      await awss3.deletePhoto([notebookImgUrl], "");
-      let data = {
-        notebookId: this.notebookDetail.noteId,
-      }
-      let result = await notebookApi.deleteNotebook(data, {
-        "access-token": accessToken,
-        "refresh-token": refreshToken,
-      });
-      
-      console.log(result)
-      this.$emit('get-notebooklist')
+      this.$fire({
+          html: `<a href="javascript:void(0);"></a><p style="font-size: 0.95rem; font-family: 'NanumSquareRound';">정말로 삭제하시겠습니까?</p>`,
+          type: "question",
+          showCancelButton: true,
+          confirmButtonText: "예",
+          cancelButtonText: "아니오",
+          confirmButtonColor: '#58679A',
+        }
+      )
+      .then(async (r) => {
+        if (r.value) {
+          let accessToken = sessionStorage.getItem('access-token')
+          let refreshToken = sessionStorage.getItem('refresh-token')
+          let notebookImgUrl = this.notebookDetail.noteImgUrl;
+          await awss3.deletePhoto([notebookImgUrl], "");
+          let data = {
+            notebookId: this.notebookDetail.noteId,
+          }
+          let result = await notebookApi.deleteNotebook(data, {
+            "access-token": accessToken,
+            "refresh-token": refreshToken,
+          });
+          
+          console.log(result)
+          this.$emit('get-notebooklist')
+        }
+      })
     },
   },
   created () {

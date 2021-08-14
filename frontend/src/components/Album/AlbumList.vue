@@ -81,13 +81,14 @@
                 class="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
+                @click="resetDate"
               ></button>
             </div>
             <div class="modal-body" >
               <!-- <input type="text" id="title" /> -->
               <div class="d-flex justify-content-end align-items-center mt-5">
                 <p style="margin:0; margin-right:2.3px;">제목</p>
-                <input type="text" id="title" class="formInput me-0">
+                <input type="text" id="title" class="formInput me-0" v-model="title">
               </div>
               <!-- <input type="file" id="photoupload" multiple /> -->
               
@@ -97,6 +98,8 @@
                 filled
                 prepend-icon="mdi-camera"
                 dense
+                v-model="filename"
+                @change="fileSelect"
               ></v-file-input>
               
               <!-- <div class="upload-btn-wrapper">
@@ -113,6 +116,7 @@
               style="background-color:#a8b1cf; border-radius:40px;"
               @click="uploadZip"
               data-bs-dismiss="modal"
+              :disabled="!fileSelectFlag || !title"
               >사진 업로드</button>
 
               <!-- <button 
@@ -164,12 +168,26 @@ export default {
 
       albumList: [],
       // imgs:'',
-
+      fileSelectFlag: 0,
       visible: false,
       selectedAlbumId: 0,
+      filename: null,
     };
   },
   methods: {
+    resetDate() {
+      this.fileSelectFlag = 0
+      this.title = ''
+    },
+
+    fileSelect() {
+      if (this.filename.length) {
+        this.fileSelectFlag = 1
+      }
+      else {
+        this.fileSelectFlag = 0
+      }
+    },
     
 
     reGetAlbumthumbnail() {
@@ -210,13 +228,11 @@ export default {
       var list1 = await awss3.uploadPhoto("album", "photoupload");
       // 2. downloadUrl
       var list2 = awss3.uploadZip();
-      console.log({ photoKeyLilst: list1, zipKey: list2 });
 
       this.photoList = list1;
       this.ZipUrl = list2;
       let classCode = this.$store.state.user.classCode;
       let writerId = this.$store.state.user.userId;
-      console.log(this.title);
       let accessToken = sessionStorage.getItem("access-token");
       let refreshToken = sessionStorage.getItem("refresh-token");
       let data = {
@@ -242,6 +258,11 @@ export default {
             type: 'error'
           })
         });
+      // 파일 리셋 안됨...
+      // document.getElementById("photoupload").value = "";
+
+      this.title = '';
+      this.fileSelectFlag = 0;
       this.pageNum = 0;
       this.albumList = [];
       this.getAlbumthumbnail();

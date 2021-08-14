@@ -1,5 +1,5 @@
 <template>
-  <div class="channel" >
+  <div class="channel" style="height: 100%"> 
     <channel-users style="height:5rem" v-if="choiceChannel" />
     <!-- <hr /> -->
     <messages style="height:70vh" v-if="choiceChannel" />

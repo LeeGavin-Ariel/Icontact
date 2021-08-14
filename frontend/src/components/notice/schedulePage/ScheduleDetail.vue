@@ -1,51 +1,42 @@
 <template>
-  <div style="overflow-y: scroll" class="col">
+  <div>
     <!-- 디테일 -->
 
     <v-sheet rounded="lg" v-if="createMode && this.scheduleInfo">
-      <div
-        style="width: 100%; height: 15px; background-color: #a8b1cf"
-        class="mt-3"
-      ></div>
-      <div class="container" style="overflow-y: scroll">
-        <div class="notice-detail-top">
-          <div class="notice-type">일정</div>
-          <div class="btn-wrapper" v-if="this.$store.state.user.type == 2">
-            <button
-              @click="showUpdateScheduleForm"
-              class="mr-2 update-delete-btn"
-            >
-              수정
-            </button>
-            <button @click="deleteSchedule" class="ml-2 mr-2 update-delete-btn">
-              삭제
-            </button>
-          </div>
-        </div>
-        <div class="notice-detail-title">{{ this.scheduleInfo.title }}</div>
-        <!-- <div class="notice-detail-writer">{{this.noticeInfo.userName}}선생님 </div> -->
+      <div style="width:100%; height:15px; background-color:#a8b1cf" class="mt-3"></div>
+      <div class="container content-container" style="height:84.8vh">
 
-        <div class="notice-detail-content-container">
-          <div class="notice-detail-img" v-if="scheduleInfo.scheduleImgUrl">
-            <img
-              v-if="scheduleInfo.scheduleImgUrl"
-              class="noticeImg"
-              :src="
-                'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
-                scheduleInfo.scheduleImgUrl
-              "
-              alt="profile-image"
-            />
-          </div>
-          <div
-            class="notice-detail-content"
-            v-html="contentReplace(this.scheduleInfo.content)"
-          ></div>
-          <!-- <div v-html="contentReplace(this.noticeInfo.content)">
-          </div> -->
+        <div align="right" class="mt-2"> 
+          <button v-if="this.$store.state.user.type == 2" @click="showUpdateScheduleForm" class="mr-2 update-delete-btn">수정</button>
+          <button v-if="this.$store.state.user.type == 2" @click="deleteSchedule" class="ml-2 mr-2 update-delete-btn">삭제</button>
         </div>
-        <div class="notice-detail-date">
-          작성일 : {{ this.scheduleInfo.createDate }}
+        <div class="section-title">
+        </div>
+        <div align="center" class="mb-5">
+
+          <div class="col-lg-11">
+            <table class="table">
+              <tbody>
+                  <tr class="d-flex">
+                      <td class="col-12">
+                        <div style="font-size:35px"><strong>{{this.scheduleInfo.title}}</strong></div>
+                        <div class="d-flex align-items-center mt-3 mb-2">
+                          <div>{{this.scheduleInfo.writerName}} 선생님</div>
+                        </div>
+                      </td>
+                  </tr>
+                  <tr class="d-flex">
+                    <td class="col-12 align-items-center mt-3" style="min-height: 400px;">
+                      <div class="mb-5">
+                        <img style="max-width: 100%" v-if="scheduleInfo.scheduleImgUrl" :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/'+ scheduleInfo.scheduleImgUrl" alt="profile-image">
+                      </div>
+                      <div v-html="contentReplace(this.scheduleInfo.content)"></div>
+                          
+                    </td>
+                  </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </v-sheet>
@@ -138,118 +129,26 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  display: flex;
-  height: 84.6vh;
-  /* flex-direction: column; */
-  flex-wrap: wrap;
-  justify-content: center;
-  align-content: flex-start;
+/* 스크롤 */
+.content-container{
+  overflow-y:scroll; 
+  height:80vh; 
 }
-/* 스크롤바 너비 */
-.container::-webkit-scrollbar {
-  width: 5px;
+.content-container::-webkit-scrollbar {
+  width: 7px;
+  background-color: rgba(233,234,239, 0.5);
+  border-radius: 1px;
 }
-
-/* 현재 스크롤의 위치바의 색 */
-.container::-webkit-scrollbar-thumb {
-  background-color: black;
+.content-container::-webkit-scrollbar-thumb {
+  background-color: #a8b1cf;
+  border-radius: 1px;
 }
-
-/* 남는공간의 색 */
-.container::-webkit-scrollbar-track {
-  background-color: white;
+.content-container::-webkit-scrollbar-track {
+  background-color: rgba(233,234,239, 0.5);
+  border-radius: 1px;
 }
 
-.notice-detail-top {
-  width: 95%;
-  display: flex;
-  justify-content: space-between;
-  /* padding-left: 1rem; */
-  margin-bottom: 1rem;
-  font-size: 1.2em;
-  font-family: "NanumSquareRound";
-  font-weight: bold;
-}
-.notice-type{
-  width: 100%;
-  display: inline-block;
-}
-
-.notice-detail-title {
-  padding-bottom: 0.5rem;
-  /* margin-bottom: 0.5rem; */
-  width: 95%;
-  display: flex;
-  justify-content: center;
-  font-size: 1.5em;
-  font-family: "NanumSquareRound";
-  font-weight: 900;
-  /* border-bottom: #a8b1cf 0.1rem solid; */
-}
-
-.notice-detail-content-container {
-  width: 95%;
-  min-height: 50vh;
-  display: flex;
-  justify-content: center;
-  align-content: flex-start;
-  flex-wrap: wrap;
-  border-radius: 5px;
-  border-top: #a8b1cf 0.1rem solid;
-  border-bottom: #a8b1cf 0.1rem solid;
-}
-
-.notice-detail-content {
-  width: 100%;
-  /* min-height: 15rem; */
-  padding: 1rem;
-  margin-bottom: 1rem;
-  display: flex;
-  /* justify-content: left; */
-  /* border-radius: 5px;
-  border-top: #a8b1cf 0.1rem solid;
-  border-bottom: #a8b1cf 0.1rem solid; */
-}
-
-.notice-detail-img {
-  width: 40%;
-  min-height: 15rem;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  display: flex;
-  justify-content: left;
-}
-.noticeImg {
-  width: 100%;
-  height: 200px;
-  display: flex;
-  justify-content: center;
-  /* margin-bottom: 2rem; */
-}
-
-.notice-detail-date {
-  width: 95%;
-  display: flex;
-  justify-content: flex-end;
-  /* border-bottom: #a8b1cf 0.1rem solid; */
-  padding-right: 0.5rem;
-  font-size: 0.8rem;
-  /* margin-bottom: 1rem; */
-  /* position: relative; */
-  /* right: 0.5rem; */
-}
-
-.btn-wrapper {
-  /* align-content: flex-end; */
-  /* justify-content: flex-end; */
-  width: 100%;
-  text-align: right;
-  /* margin-bottom: 1rem; */
-}
 .update-delete-btn {
-  /* justify-content: flex-end; */
-  /* display: inline; */
   font-size: 18px;
   color: darkgrey;
 }
@@ -257,7 +156,4 @@ export default {
   color: black;
   transition: 0.3s;
 }
-/* @media all and (max-width: 1000px) {
-  .container { font-size: 10px ; } 
-} */
 </style>

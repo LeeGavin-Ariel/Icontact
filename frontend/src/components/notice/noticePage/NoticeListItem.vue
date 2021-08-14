@@ -1,46 +1,22 @@
 <template>
-  <div class="item" v-bind="$attrs" v-on="$listeners" elevation="10" >
-    <!-- <div class="notice-img">
-      <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + noticeInfo.noticeImgUrl"/>
-    </div> -->
-    <div class="notice-title">
-      <span style="30px">{{ noticeInfo.title }}</span>
-    </div>
-    <div class="notice-sub">
-      <div class="notice-content">{{noticeInfo.content}}</div>
-      <div class="notice-date">{{ createDate }}</div>
+  <div v-bind="$attrs" v-on="$listeners" elevation="10"  class="list-group list-group-flush scrollarea">
+    <div class="list-group-item list-group-item-action py-2 lh-tight border-bottom" style="background-color:rgb(256, 256, 256, 0.7);">
+      <div class="align-items-center" style="height: 9vh; width:100%">
+         <div style="height:100%">
+          <div class="col-12">
+            <div class="notice-title">{{ trimTitle(noticeInfo.title) }}</div>
+
+            <div class="notice-sub justify-content-between mt-2">
+              <div class="notice-user">{{noticeInfo.userName}} 선생님</div>
+              <div class="notice-date">{{ dateform(noticeInfo.createDate) }}</div>
+            </div>
+
+          </div>
+          
+        </div>
+      </div>
     </div>
   </div>
-    <!-- <div class="item" v-bind="$attrs" v-on="$listeners" elevation="10" >
-    <div class="notice-title">
-      <span style="30px">{{ noticeInfo.title }}</span>
-    </div>
-    <div class="notice-sub">
-      <div class="notice-content">{{noticeInfo.content}}</div>
-      <div class="notice-date">{{ createDate }}</div>
-    </div>
-  </div> -->
-  <!-- <v-card
-      color="blue lighten-4 radius"
-      dense
-      outlined
-      elevation="10"
-      shaped
-      v-bind="$attrs"
-      v-on="$listeners"
-    >
-      <v-row no-gutters>
-        <v-col cols="9" class="pl-6">
-          <v-row >
-            <v-card-title>{{ noticeInfo.title }} </v-card-title>
-            <v-card-subtitle> </v-card-subtitle>
-          </v-row>
-        </v-col>
-        <v-col align-self="end" class="pr-3">
-          {{ createDate }}
-        </v-col>
-      </v-row>
-    </v-card> -->
 </template>
 
 <script>
@@ -58,8 +34,25 @@ export default {
   },
 
   methods: {
+    trimTitle(title) {
+      if (title.length > 20) {
+        title = title.substr(0, 20) + "...";
+      }
+      return title;
+    },
+    trimContent(content) {
+      if (content.length > 20) {
+        content = content.substr(0, 20) + "...";
+      }
+      return content;
+    },
     refineDate() {
       this.createDate = this.noticeInfo.createDate.substr(0, 11);
+    },
+    dateform(content) {
+      var dateform = ''
+      dateform = content.substr(0, 4) + "년 "+content.substr(5,2)+"월 "+content.substr(8,2)+"일";
+      return  dateform;
     },
   },
 
@@ -70,54 +63,24 @@ export default {
 </script>
 
 <style scoped>
-.item {
-  background: white ;
-  /* border-bottom: solid 0.5px #a8b1cf; */
-  position: relative;
-  /* justify-content: space-between; */
-  /* align-self: center; */
 
-  width: 100%;
-  height: 5rem;
-  border-bottom: #a8b1cf 0.1rem solid;
-  margin-bottom: 0.1rem;
-  /* border-radius: 20px; */
+.notice-user {
+  font-size: 0.8rem;
 
-  display: flex;
 }
 .notice-title {
-  margin-top: 0.3rem;
-  margin-left: 2rem;
-  font-size: 1.8rem;
-  width: 100%;
-  display: block;
-  justify-self: flex-end;
+  font-weight: 900;
+  font-size: 1.3rem;
+
 }
 .notice-sub {
-  /* top: 0.5em; */
-  /* height: 100%; */
-  padding: 0.2rem 2rem;
-  width: 100%;
   display: flex;
-  position: absolute;
-  bottom: 0;
-  /* top: 2rem; */
-  /* 아이템을 어떻게 배치할지 */
-  justify-content: space-between;
-  /* align-items: flex-end; */
-  align-content: flex-end;
 }
 .notice-content {
-  /* margin-left: 0.5rem; */
-  width: 60%;
-  align-self: flex-end;
+  color: rgb(150, 150, 150);
+  font-size: 1rem;
 }
 .notice-date {
-  display: inline-block;
-  /* background-color: red; */
-  /* display: inline-block; */
-
-  /* display: flex; */
-  align-self: flex-end;
+  font-size: 0.8rem;
 }
 </style>

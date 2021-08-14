@@ -323,9 +323,11 @@ export default {
           "access-token": sessionStorage.getItem('access-token')
         });        
         this.$fire({
-          html: `<a href="javascript:void(0);"></a><p style="font-size: 30px; font-family: 'NanumSquareRound';">비밀번호가 변경되었습니다.</p>`,
-          focusConfirm: false,
-          type: 'success'
+            html: `<a href="javascript:void(0);"></a>
+            <p style="font-size: 0.95rem; font-family: 'NanumSquareRound';">비밀번호가 변경되었습니다.</p>`,
+            type: 'success',
+            confirmButtonColor: '#58679A',
+            focusConfirm: false
         })
         this.currentPassword = ''
         this.changePassword = ''
@@ -333,10 +335,12 @@ export default {
         this.isChanged = true
       } catch (e) {
         this.$fire({
-          html: `<a href="javascript:void(0);"></a><p style="font-size: 30px; font-family: 'NanumSquareRound';">비밀번호 변경에 실패하였습니다.</p>
-          <p style="font-size: 30px; font-family: 'NanumSquareRound';">다시 시도해주세요.</p>`,
-          focusConfirm: false,
-          type: 'error'
+            html: `<a href="javascript:void(0);"></a>
+            <p style="font-size: 0.95rem; font-family: 'NanumSquareRound';">비밀번호 변경에 실패하였습니다.</p>
+            <p style="font-size: 0.95rem; font-family: 'NanumSquareRound';">다시 시도해주세요.</p>`,
+            type: 'error',
+            confirmButtonColor: '#58679A',
+            focusConfirm: false
         })
       }
     },

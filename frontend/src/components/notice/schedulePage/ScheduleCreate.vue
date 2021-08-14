@@ -1,69 +1,63 @@
 <template>
-  <div style="overflow-y: scroll" class="col">
+  <div>
     <!-- 디테일 -->
 
     <v-sheet rounded="lg" v-if="createMode">
-      <div
-        style="width: 100%; height: 15px; background-color: #a8b1cf"
-        class="mt-3"
-      ></div>
-      <div class="container">
-        <div class="notice-detail-top">
-          <div class="notice-type">일정 작성</div>
+      <div style="width:100%; height:15px; background-color:#a8b1cf" class="mt-3"></div>
+      <div class="container content-container" style="height:84.8vh">
+
+        <div align="right" class="mt-2"> 
         </div>
-        <!-- <div class="notice-top">일정 작성</div> -->
-        <div class="notice-detail-title">
-          <input type="text" v-model="title" placeholder="제목을 입력하세요" />
-        </div>
-        <div class="notice-detail-content-container">
-          <textarea
-            rows="10"
-            placeholder="내용을 입력하세요."
-            v-model="content"
-          >
-          </textarea>
-          <div class="notice-detail-img">
-            <v-file-input
-              style="width: 100%"
-              id="scheduleFile"
-              v-model="files"
-              accept="image/*"
-              label="File input"
-            ></v-file-input>
+        <div align="center" class="mb-5">
+
+          <div class="col-lg-11">
+            <table class="table table-borderless mb-0">
+              <tbody>
+                <tr class="d-flex">
+                    <td class="col-12 align-items-center mt-3">
+                      <strong style="font-size: 18px">일정</strong>
+                      <table class=" table mt-5 mb-5">
+
+                        <tr class="d-flex">
+                          <td class="col-12"><input type="text"  v-model="title" class="formInput" placeholder="제목을 입력하세요."></td>
+                        </tr>
+                        <tr class="d-flex">
+                          <td class="col-12">
+                            <textarea rows="15" v-model="content" class="formInputText" placeholder="내용을 입력하세요."></textarea>
+                          </td>
+                        </tr>
+                        <tr class="d-flex">
+                          <td class="col-12 mb-0">
+                            <!-- 파일 첨부-->
+                            <v-file-input
+                              id="scheduleFile"
+                              v-model="files"
+                              filled
+                              prepend-icon="mdi-camera"
+                              dense
+                              accept="image/*"
+                              style="width: 100%"
+                            ></v-file-input>                            
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+              </tbody>
+            </table>
+            
           </div>
-        </div>
-        <!-- 수정 관련 버튼-->
-        <div class="btn-wrapper">
-          <button @click="createNewSchedule" class="mr-2 update-return-btn">
-            저장
-          </button>
-          <button @click="offCreateForm" class="ml-2 update-return-btn">
-            취소
-          </button>
+  
+          <button @click="createNewSchedule" class="mr-2 update-return-btn">작성</button>
+
+          <button @click="offCreateForm" class="ml-2 update-return-btn">취소</button>
+
+
         </div>
       </div>
-      <!-- <br />
-      <p>
-        제목 : <input type="text" v-model="title" style="border: solid 1px" />
-      </p>
 
-      <p>내용</p>
-      <input type="textarea" v-model="content" style="border: solid 1px" />
-      <p>공지사항첨부사진 :</p>
-      <v-file-input
-        id="scheduleFile"
-        v-model="files"
-        accept="image/*"
-        label="File input"
-      ></v-file-input> -->
     </v-sheet>
 
-    <!-- <v-btn color="primary" fab small dark @click="createNewSchedule">
-      <v-icon>mdi-check </v-icon>
-    </v-btn>
-    <v-btn color="red" fab small dark @click="offCreateForm">
-      <v-icon>mdi-window-close </v-icon>
-    </v-btn> -->
   </div>
 </template>
 
@@ -106,11 +100,7 @@ export default {
     // 일정 생성
     async createNewSchedule() {
       if (this.title == "" || this.content == "") {
-        this.$fire({
-          html: `<a href="javascript:void(0);"></a><p style="font-size: 30px; font-family: 'NanumSquareRound';">일정을 입력하세요.</p>`,
-          focusConfirm: false,
-          type: 'warning'
-        })
+        
         return;
       }
 
@@ -148,122 +138,69 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  display: flex;
-  /* flex-direction: column; */
-  flex-wrap: wrap;
-  justify-content: center;
+/* 스크롤 */
+.content-container{
+  overflow-y:scroll; 
+  height:80vh; 
 }
-.notice-detail-top {
-  width: 95%;
-  display: flex;
-  justify-content: space-between;
-  /* padding-left: 1rem; */
-  margin-bottom: 1rem;
-  font-size: 1.2em;
-  font-family: "NanumSquareRound";
-  font-weight: bold;
+.content-container::-webkit-scrollbar {
+  width: 7px;
+  background-color: rgba(233,234,239, 0.5);
+  border-radius: 1px;
 }
-.notice-type {
-  width: 100%;
-  display: inline-block;
+.content-container::-webkit-scrollbar-thumb {
+  background-color: #a8b1cf;
+  border-radius: 1px;
 }
-.notice-detail-title {
-  /* margin: 0.3rem 0px; */
-  padding-bottom: 0.5rem;
-  margin-bottom: 0.5rem;
-  width: 95%;
-  display: flex;
-  justify-content: center;
-  font-size: 2em;
-  /* border-bottom: #a8b1cf 0.1rem solid; */
+.content-container::-webkit-scrollbar-track {
+  background-color: rgba(233,234,239, 0.5);
+  border-radius: 1px;
 }
-
-.notice-detail-title input {
-  /* margin: 0.3rem 0px; */
-  /* padding-bottom: 0.5rem;
-  margin-bottom: 0.5rem; */
-  width: 98%;
-  display: inline-block;
-  justify-content: center;
-  text-align: center;
-  font-size: 1.5rem;
-  /* border-bottom: #a8b1cf 0.1rem solid; */
-}
-.notice-detail-date {
-  width: 95%;
-  display: flex;
-  justify-content: flex-end;
-  border-bottom: #a8b1cf 0.1rem solid;
-  padding-right: 0.5rem;
-  margin-bottom: 1rem;
-  /* position: relative; */
-  /* right: 0.5rem; */
-}
-.notice-detail-content-container {
-  width: 95%;
-  min-height: 50vh;
-  display: flex;
-  justify-content: center;
-  align-content: flex-start;
-  flex-wrap: wrap;
-  border-radius: 5px;
-  border-top: #a8b1cf 0.1rem solid;
-  border-bottom: #a8b1cf 0.1rem solid;
-}
-
-.notice-detail-content-container textarea {
-  width: 98%;
-  margin-top: 1rem;
-  padding: 1rem;
-  border-radius: 5px;
-  padding-left: 0.5em;
-}
-.notice-detail-img {
-  width: 100%;
-}
-.noticeImg {
-  width: 100%;
-  height: 150px;
-  display: flex;
-  justify-content: center;
-}
-.notice-top {
-  margin-top: 2.5rem;
-  margin-bottom: 1rem;
-  padding: 0px 0.5rem;
-  width: 95%;
-  display: flex;
-  justify-content: flex-start;
-  font-size: 1.3em;
-  font-family: "NanumSquareRound";
-  font-weight: bold;
-}
-.notice-tab {
-  font-size: 20px;
-  font-family: "NanumSquareRound";
-  font-weight: 900;
-}
-input,
-textarea {
+.formInput {
   background-color: rgba(156, 156, 156, 0.1);
-}
-
-.btn-wrapper {
-  /* align-content: flex-end; */
-  /* justify-content: flex-end; */
+  border-radius: 5px;
+  height: 36px;
   width: 100%;
-  text-align: center;
-  margin-bottom: 1rem;
+  padding: 0px 0px 0px 15px;
+  margin: 3px 3px 3px 3px;
+}
+.formInputText{
+  background-color: rgba(156, 156, 156, 0.1);
+  border-radius: 5px;
+  height: 100%;
+  width: 100%;
+  padding: 15px 15px 15px 15px;
+  margin: 3px 3px 3px 3px;
+}
+.formInputText:hover{
+  background-color: rgba(156, 156, 156, 0.2);
+  transition: 0.3s;
+}
+.formInputText:focus{
+  background-color: rgba(156, 156, 156, 0.2);
+  transition: 0.3s;
+  outline: none;
+}
+.formInput:hover{
+  background-color: rgba(156, 156, 156, 0.2);
+  transition: 0.3s;
 }
 .update-return-btn {
   background-color: rgba(168, 177, 207, 1);
   border-radius: 70px;
   height: 36px;
   width: 70px;
-  margin: 20px 3px 3px 3px;
+  margin: 0px 3px 3px 3px;
   text-align: center;
   color: rgba(256, 256, 256);
   letter-spacing: -1px;
+}
+.update-delete-btn {
+  font-size: 18px;
+  color: darkgrey;
+}
+.update-delete-btn:hover {
+  color: black;
+  transition: 0.3s;
 }
 </style>

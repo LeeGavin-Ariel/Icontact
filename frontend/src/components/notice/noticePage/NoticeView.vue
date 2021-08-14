@@ -1,22 +1,10 @@
 <template>
   <div class="col">
+    <div class="ml-5 mr-5 mt-5">
     <!-- <div style="margin-top:2.5rem;"></div> -->
     <!-- <v-btn @click="showCreateNoticeForm">새 글</v-btn> -->
-    <v-fab-transition>
-      <v-btn
-        color="black"
-        fab
-        large
-        dark
-        bottom
-        left
-        class="writeBtn"
-        @click="showCreateNoticeForm"
-        v-if="!createMode & (this.$store.state.user.type == 2)"
-      >
-        <v-icon>mdi-pencil</v-icon>
-      </v-btn>
-    </v-fab-transition>
+    <button class="writeBtn" v-if="!createMode & !updateMode & (this.$store.state.user.type == 2)"  @click="showCreateNoticeForm"><img src="@/assets/flaticon/write.png" style="width:3.8rem"></button>
+
 
     <notice-create
       v-if="this.createMode"
@@ -35,6 +23,7 @@
     @showUpdateNoticeForm="showUpdateNoticeForm"
     @deleteNotice="deleteNotice"
     />
+  </div>
   </div>
 </template>
 
@@ -93,6 +82,7 @@ export default {
     },
     //공지 삭제
     async deleteNotice() {
+      // alert로 바꿔주세요.
       if (!confirm("정말 삭제하시겠습니까?")) {
         console.log("삭제안함.");
         return;
@@ -117,7 +107,6 @@ export default {
       console.log(result);
 
       this.$emit("deleteNotice");
-      alert("삭제되었습니다.");
     },
 
     //공지 업데이트 완료
@@ -193,6 +182,7 @@ export default {
   position: fixed;
   right: 60px;
   bottom: 50px;
+  width:3.8rem;
 }
 .notice-detail-tab {
   font-size: 20px;

@@ -33,7 +33,7 @@
                 @click="setNoticeDetail(notice.noticeId)"
               />
             </template>
-            <button class="mt-2 moreBtn" @click="getMoreNoticeList">
+            <button class="mt-2 moreBtn" @click="getMoreNoticeList" v-if="noticeList.length > 0 && (noticePageNum <= noticePageCnt)">
               더보기
             </button>
           </div>
@@ -58,7 +58,7 @@
               />
             </template>
 
-            <button class="mt-2 moreBtn" @click="getMoreScheduleList">
+            <button class="mt-2 moreBtn" @click="getMoreScheduleList" v-if="scheduleList.length > 0 && (schedulePageNum <= schedulePageCnt)">
               더보기
             </button>
           </div>
@@ -82,7 +82,7 @@
               />
             </template>
 
-            <button class="mt-2 moreBtn" @click="getMoreMenuList">
+            <button class="mt-2 moreBtn" @click="getMoreMenuList" v-if="menuList.length > 0 && (menuPageNum <= menuPageCnt)">
               더보기
             </button>
           </div>

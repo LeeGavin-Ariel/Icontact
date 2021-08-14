@@ -102,7 +102,7 @@ import noticeApi from "@/api/notice.js";
 import scheduleApi from "@/api/schedule.js";
 import menuApi from "@/api/menu.js";
 import NoticeView from "./noticePage/NoticeView.vue";
-import NoticeListItem from "./noticePage/NoticeListItem2.vue";
+import NoticeListItem from "./noticePage/NoticeListItem.vue";
 import MenuView from "./menuPage/MenuView.vue";
 import MenuListItem from "./menuPage/MenuListItem.vue";
 import ScheduleView from "./schedulePage/ScheduleView.vue";

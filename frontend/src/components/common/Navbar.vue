@@ -117,7 +117,7 @@ export default {
             console.log("상태코드가 변경되었습니다");
 
             this.$store.state.user.stateCode = this.stateCode = this.$store.state.user.stateCode == 1 ? 2 : 1;
-            this.badgeColor = this.$store.state.user.stateCode == 2 ? "stateOn" : "stateOff";
+            this.badgeColor = this.$store.state.user.stateCode == 2 ? "stateOff" : "stateOn";
 
           }
         })
@@ -133,7 +133,7 @@ export default {
       this.userId = this.$store.state.user.userId
       this.kidName = this.$store.state.user.kidName
       this.stateCode =  this.$store.state.user.stateCode
-      this.badgeColor = this.$store.state.user.stateCode == 2 ? "red" : "green"
+      this.badgeColor = this.$store.state.user.stateCode == 2 ? "stateOff" : "stateOn";
       
     },
     logout() {

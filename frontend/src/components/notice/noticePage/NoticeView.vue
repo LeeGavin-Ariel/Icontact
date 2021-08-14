@@ -82,6 +82,7 @@ export default {
     },
     //공지 삭제
     async deleteNotice() {
+      // alert로 바꿔주세요.
       if (!confirm("정말 삭제하시겠습니까?")) {
         console.log("삭제안함.");
         return;
@@ -106,7 +107,6 @@ export default {
       console.log(result);
 
       this.$emit("deleteNotice");
-      alert("삭제되었습니다.");
     },
 
     //공지 업데이트 완료

@@ -1,78 +1,122 @@
 <template>
   <div>
-    <!-- 디테일 -->
-
     <v-sheet rounded="lg" v-if="createMode && this.menuInfo">
-      <div style="width:100%; height:15px; background-color:#a8b1cf" class="mt-3"></div>
-      <div class="container content-container" style="height:84.8vh">
-        <div class="notice-detail-top">
-          <div class="notice-type">식단</div>
-          <div class="btn-wrapper" v-if="this.$store.state.user.type == 2">
-            <button @click="showUpdateMenuForm" class="mr-2 update-delete-btn">
-              수정
-            </button>
-            <button @click="deleteMenu" class="ml-2 mr-2 update-delete-btn">
-              삭제
-            </button>
-          </div>
+      <div
+        style="width: 100%; height: 15px; background-color: #a8b1cf"
+        class="mt-3"
+      >
+      </div>
+      <div class="container content-container" style="height: 84.8vh">
+        <!-- 버튼 -->
+        <div align="right" class="mt-2">
+          <button
+            v-if="this.$store.state.user.type == 2"
+            @click="showUpdateMenuForm"
+            class="mr-2 update-delete-btn"
+          >
+            수정
+          </button>
+          <button
+            v-if="this.$store.state.user.type == 2"
+            @click="deleteMenu"
+            class="ml-2 mr-2 update-delete-btn"
+          >
+            삭제
+          </button>
         </div>
-        <div class="menu-detail-title">
-          {{ this.menuInfo.createDate.substr(0, 11) }} 식단
-        </div>
-        <div class="item-wrapper">
-          <div class="item">
-            <div class="item-type">오전 간식</div>
-            <div class="item-img">
-              <img
-                v-if="menuInfo.amSnackImgUrl"
-                class="noticeImg"
-                :src="
-                  'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
-                  menuInfo.amSnackImgUrl
-                "
-                alt="profile-image"
-              />
-            </div>
-            <div class="item-name">{{ this.menuInfo.amSnack }}</div>
+        
+        
+        <!-- 메뉴 -->
+        <div align="center" class="mb-5">
+          <div class="col-lg-11">
+            <table class="table">
+              <tbody>
+                
+                <!-- 메뉴 상단 -->
+                <tr class="d-flex">
+                  <td class="col-12">
+                    <div style="font-size: 35px">
+                      <strong>{{ menuTitle(menuInfo.createDate) }}</strong>
+                    </div>
+                    <div class="mt-3 mb-2">{{ menuInfo.userName }} 선생님</div>
+                  </td>
+                </tr>
+
+                <!-- 내용 -->
+                <tr class="d-flex">
+                  <td class="col-12 align-items-center">
+                    <table class="table mt-5 mb-5">
+                      <tr class="d-flex">
+                        <td class="col-12 menu-title d-flex align-items-center">
+                          <div>오전 간식</div>
+                        </td>
+                      </tr>
+                      <tr class="d-flex">
+                        <td class="col-5">
+                          <img
+                            v-if="menuInfo.amSnackImgUrl"
+                            style="width: 100%"
+                            :src="
+                              'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
+                              menuInfo.amSnackImgUrl
+                            "
+                            alt="profile-image"
+                          />
+                        </td>
+                        <td class="col-7">{{ this.menuInfo.amSnack }}</td>
+                      </tr>
+
+                      <tr class="d-flex">
+                        <td class="col-12 menu-title d-flex align-items-center">
+                          <div>점심</div>
+                        </td>
+                      </tr>
+                      <tr class="d-flex">
+                        <td class="col-5">
+                          <img
+                            v-if="menuInfo.lunchImgUrl"
+                            style="width: 100%"
+                            :src="
+                              'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
+                              menuInfo.lunchImgUrl
+                            "
+                            alt="profile-image"
+                          />
+                        </td>
+                        <td class="col-7">{{ this.menuInfo.lunch }}</td>
+                      </tr>
+
+                      <tr class="d-flex">
+                        <td class="col-12 menu-title d-flex align-items-center">
+                          <div>오후 간식</div>
+                        </td>
+                      </tr>
+                      <tr class="d-flex">
+                        <td class="col-5">
+                          <img
+                            v-if="menuInfo.pmSnackImgUrl"
+                            style="width: 100%"
+                            :src="
+                              'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
+                              menuInfo.pmSnackImgUrl
+                            "
+                            alt="profile-image"
+                          />
+                        </td>
+                        <td class="col-7">{{ this.menuInfo.pmSnack }}</td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-          <div class="item">
-            <div class="item-type">점심 식사</div>
-            <div class="item-img">
-              <img
-                v-if="menuInfo.lunchImgUrl"
-                class="noticeImg"
-                :src="
-                  'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
-                  menuInfo.lunchImgUrl
-                "
-                alt="profile-image"
-              />
-            </div>
-            <div class="item-name">{{ this.menuInfo.lunch }}</div>
-          </div>
-          <div class="item">
-            <div class="item-type">오후 간식</div>
-            <div class="item-img">
-              <img
-                v-if="menuInfo.pmSnackImgUrl"
-                class="noticeImg"
-                :src="
-                  'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
-                  menuInfo.pmSnackImgUrl
-                "
-                alt="profile-image"
-              />
-            </div>
-            <div class="item-name">{{ this.menuInfo.pmSnack }}</div>
-          </div>
-        </div>
-        <div class="menu-detail-date">
-          작성일 : {{ this.menuInfo.createDate }}
         </div>
       </div>
     </v-sheet>
   </div>
 </template>
+
 
 <script>
 export default {
@@ -110,6 +154,12 @@ export default {
   },
 
   methods: {
+    menuTitle(content) {
+      var dateform = "";
+      dateform =
+        content.substr(5, 2) + "월 " + content.substr(8, 2) + "일 식단";
+      return dateform;
+    },
     showUpdateMenuForm() {
       console.log("오픈업데이트폼");
       this.$emit("showUpdateMenuForm");
@@ -133,28 +183,19 @@ export default {
 </script>
 
 <style scoped>
-.notice-detail-top {
-  width: 95%;
-  display: flex;
-  justify-content: space-between;
-  /* padding-left: 1rem; */
-  /* margin-bottom: 1rem; */
-  font-size: 1.2em;
+* {
   font-family: "NanumSquareRound";
-  font-weight: bold;
 }
-.notice-type {
-  width: 100%;
-  display: inline-block;
-}
+
+
 /* 스크롤 */
-.content-container{
-  overflow-y:scroll; 
-  height:80vh; 
+.content-container {
+  overflow-y: scroll;
+  height: 80vh;
 }
 .content-container::-webkit-scrollbar {
   width: 7px;
-  background-color: rgba(233,234,239, 0.5);
+  background-color: rgba(233, 234, 239, 0.5);
   border-radius: 1px;
 }
 .content-container::-webkit-scrollbar-thumb {
@@ -162,65 +203,12 @@ export default {
   border-radius: 1px;
 }
 .content-container::-webkit-scrollbar-track {
-  background-color: rgba(233,234,239, 0.5);
+  background-color: rgba(233, 234, 239, 0.5);
   border-radius: 1px;
 }
 
-.menu-detail-title {
-  padding-bottom: 0.5rem;
-  /* margin-bottom: 0.5rem; */
-  width: 95%;
-  display: flex;
-  justify-content: center;
-  font-size: 1.5em;
-  font-family: "NanumSquareRound";
-  font-weight: 900;
-}
-.menu-detail-writer {
-  width: 95%;
-  /* display: ; */
-  /* justify-content: flex-end; */
-  /* border-bottom: #a8b1cf 0.1rem solid; */
-  /* padding-right: 0.5rem; */
-  /* margin-bottom: 1rem; */
-  /* position: relative; */
-  /* right: 0.5rem; */
-}
-.menu-detail-date {
-  width: 95%;
-  display: flex;
-  justify-content: flex-end;
-  /* border-bottom: #a8b1cf 0.1rem solid; */
-  padding-right: 0.5rem;
-  font-size: 0.8rem;
-  /* margin-bottom: 1rem; */
-  /* position: relative; */
-  /* right: 0.5rem; */
-}
-.menu-detail-content-container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-.menu-detail-content {
-  width: 95%;
-  min-height: 5rem;
-  padding: 0px 0.5rem 0.5rem;
-  margin-bottom: 1rem;
-  display: flex;
-  justify-content: left;
-  border-bottom: #a8b1cf 0.1rem solid;
-}
-.btn-wrapper {
-  /* align-content: flex-end; */
-  /* justify-content: flex-end; */
-  width: 100%;
-  text-align: right;
-  margin-bottom: 1rem;
-}
+/* 수정 삭제 버튼 */
 .update-delete-btn {
-  /* justify-content: flex-end; */
-  /* display: inline; */
   font-size: 18px;
   color: darkgrey;
 }
@@ -228,56 +216,14 @@ export default {
   color: black;
   transition: 0.3s;
 }
-.item-wrapper {
-  width: 95%;
-  height: 60vh;
-  padding: 2rem 0rem 2rem 0rem;
-  /* margin-bottom: 1rem; */
-  /* display: flex; */
-  /* align-items: center; */
-  /* background:rgba(156, 156, 156, 0.1); */
-  background: white;
-  display: flex;
+
+/* 메뉴 타이틀 */
+.menu-title {
   border-radius: 5px;
-  border-top: #a8b1cf 0.1rem solid;
-  border-bottom: #a8b1cf 0.1rem solid;
+  background-color: rgba(228, 233, 251, 0.4);
+  height: 1.7rem;
+  font-size: 0.95rem;
+  font-weight: 600;
 }
-.item {
-  width: 33%;
-  display: flex;
-  flex-direction: column;
-  /* justify-content: center; */
-  align-items: center;
-}
-.item-type {
-  width: 90%;
-  padding-bottom: 0.5rem;
-  margin-bottom: 0.5rem;
-  font-size: 20px;
-  font-weight: bold;
-  font-family: "NanumSquareRound";
-  display: inline-block;
-  text-align: center;
-  border-bottom: #a8b1cf 0.1rem solid;
-}
-.item-img {
-  width: 90%;
-  height: 250px;
-  display: flex;
-  border-bottom: #a8b1cf 0.1rem solid;
-}
-.item-img img {
-  width: 100%;
-  /* height: 200px; */
-  display: flex;
-  justify-content: center;
-  margin-bottom: 2rem;
-  height: 95%;
-}
-.item-name {
-  margin-top: 1rem;
-  width: 80%;
-  text-align: center;
-  display: inline-block;
-}
+
 </style>

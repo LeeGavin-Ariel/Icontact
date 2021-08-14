@@ -218,11 +218,7 @@ export default {
       console.log(result);
 
       this.$emit("updateSchedule");
-      this.$fire({
-        html: `<a href="javascript:void(0);"></a><p style="font-size: 30px; font-family: 'NanumSquareRound';">일정이 수정되었습니다.</p>`,
-        focusConfirm: false,
-        type: 'success'
-      })
+      
     },
   },
 };
@@ -271,6 +267,10 @@ export default {
   background-color: rgba(156, 156, 156, 0.2);
   transition: 0.3s;
   outline: none;
+}
+.formInput:hover{
+  background-color: rgba(156, 156, 156, 0.2);
+  transition: 0.3s;
 }
 .update-return-btn {
   background-color: rgba(168, 177, 207, 1);

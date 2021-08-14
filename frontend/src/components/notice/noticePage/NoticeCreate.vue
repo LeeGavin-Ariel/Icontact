@@ -117,11 +117,6 @@ export default {
         console.log(this.title);
         console.log(this.content);
 
-        this.$fire({
-          html: `<a href="javascript:void(0);"></a><p style="font-size: 30px; font-family: 'NanumSquareRound';"공지사항을 입력하세요.</p>`,
-          focusConfirm: false,
-          type: 'warning'
-        })
         return;
       }
 
@@ -155,7 +150,6 @@ export default {
       console.log("result");
       console.log(result);
 
-      alert("새 공지가 등록되었습니다.");
       this.$emit("createNotice");
     },
   },
@@ -198,6 +192,10 @@ export default {
   margin: 3px 3px 3px 3px;
 }
 .formInputText:hover{
+  background-color: rgba(156, 156, 156, 0.2);
+  transition: 0.3s;
+}
+.formInput:hover{
   background-color: rgba(156, 156, 156, 0.2);
   transition: 0.3s;
 }

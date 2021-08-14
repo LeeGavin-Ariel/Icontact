@@ -150,9 +150,10 @@ export default {
         })
         .catch(()=>{
           this.$fire({
-            html: `<a href="javascript:void(0);"></a><p style="font-size: 30px; font-family: 'NanumSquareRound';">인증번호 전송에 실패했습니다.</p>`,
+            html: `<a href="javascript:void(0);"></a><p style="font-size: 0.95rem; font-family: 'NanumSquareRound';">인증번호 전송에 실패했습니다.</p>`,
             focusConfirm: false,
-            type: 'error'
+            type: 'error',
+            confirmButtonColor: '#58679A',
           })
         })
       },
@@ -166,9 +167,10 @@ export default {
         .then((res) => {
           console.log(res)
           this.$fire({
-            html: `<a href="javascript:void(0);"></a><p style="font-size: 30px; font-family: 'NanumSquareRound';">인증에 성공하였습니다.</p>
-            <p style="font-size: 30px; font-family: 'NanumSquareRound';">다음 단계를 진행해주세요.</p>`,
+            html: `<a href="javascript:void(0);"></a><p style="font-size: 0.95rem; font-family: 'NanumSquareRound';">인증에 성공하였습니다.</p>
+            <p style="font-size: 0.95rem; font-family: 'NanumSquareRound';">다음 단계를 진행해주세요.</p>`,
             focusConfirm: false,
+            confirmButtonColor: '#58679A',
             type: 'success'
           })
           if (res.status === 200) {
@@ -178,9 +180,10 @@ export default {
         .catch((err)=>{
           console.log(err)
           this.$fire({
-            html: `<a href="javascript:void(0);"></a><p style="font-size: 30px; font-family: 'NanumSquareRound';">인증번호 확인에 실패했습니다.</p>
-            <p style="font-size: 30px; font-family: 'NanumSquareRound';">다시 시도해주세요.</p>`,
+            html: `<a href="javascript:void(0);"></a><p style="font-size: 0.95rem; font-family: 'NanumSquareRound';">인증번호 확인에 실패했습니다.</p>
+            <p style="font-size: 0.95rem; font-family: 'NanumSquareRound';">다시 시도해주세요.</p>`,
             focusConfirm: false,
+            confirmButtonColor: '#58679A',
             type: 'error'
           })
         })

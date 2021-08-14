@@ -250,11 +250,11 @@ export default {
       this.updating = 0;
 
       this.$emit("updateNotice");
-      this.$fire({
-        html: `<a href="javascript:void(0);"></a><p style="font-size: 30px; font-family: 'NanumSquareRound';">공지사항이 수정되었습니다.</p>`,
-        focusConfirm: false,
-        type: 'success'
-      })
+      // this.$fire({
+      //   html: `<a href="javascript:void(0);"></a><p style="font-size: 30px; font-family: 'NanumSquareRound';">공지사항이 수정되었습니다.</p>`,
+      //   focusConfirm: false,
+      //   type: 'success'
+      // })
     },
   },
 };
@@ -294,6 +294,10 @@ export default {
   width: 100%;
   padding: 15px 15px 15px 15px;
   margin: 3px 3px 3px 3px;
+}
+.formInput:hover{
+  background-color: rgba(156, 156, 156, 0.2);
+  transition: 0.3s;
 }
 .formInputText:hover{
   background-color: rgba(156, 156, 156, 0.2);

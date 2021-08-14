@@ -173,17 +173,19 @@ export default {
         } else {
           this.$fire({
             html: `<a href="javascript:void(0);"></a>
-            <p style="font-size: 30px; font-family: 'NanumSquareRound';">승인되지 않은 계정입니다.</p>
-            <p style="font-size: 30px; font-family: 'NanumSquareRound';">관리자에게 문의하세요.</p>`,
+            <p style="font-size: 0.95rem; font-family: 'NanumSquareRound';">승인되지 않은 계정입니다.</p>
+            <p style="font-size: 0.95rem;; font-family: 'NanumSquareRound';">관리자에게 문의하세요.</p>`,
             type: 'error',
-            focusConfirm: false
+            focusConfirm: false,
+            confirmButtonColor: '#58679A',
           })
         }
       }catch (err){
         console.log(err)
         this.$fire({
-          html: `<a href="javascript:void(0);"></a><p style="font-size: 30px; font-family: 'NanumSquareRound';">아이디와 비밀번호를 확인하세요.</p>`,
+          html: `<a href="javascript:void(0);"></a><p style="font-size: 0.95rem; font-family: 'NanumSquareRound';">아이디와 비밀번호를 확인하세요.</p>`,
           type: 'error',
+          confirmButtonColor: '#58679A',
           focusConfirm: false
         })
       }

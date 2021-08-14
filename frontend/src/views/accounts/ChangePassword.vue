@@ -115,8 +115,9 @@ export default {
       .then((res) => {
         if (res.status == 200) {
           this.$fire({
-            html: `<a href="javascript:void(0);"></a><p style="font-size: 30px; font-family: 'NanumSquareRound';">비밀번호 변경이 완료되었습니다.</p>`,
+            html: `<a href="javascript:void(0);"></a><p style="font-size: 0.95rem; font-family: 'NanumSquareRound';">비밀번호 변경이 완료되었습니다.</p>`,
             focusConfirm: false,
+            confirmButtonColor: '#58679A',
             type: 'success'
           }).then(() => {
             this.$router.push({ name: 'Login' });
@@ -127,9 +128,10 @@ export default {
         console.log(err)
         this.$fire({
           html: `<a href="javascript:void(0);"></a><p style="font-size: 30px; font-family: 'NanumSquareRound';">비밀번호 변경에 실패하였습니다.</p>
-          <p style="font-size: 30px; font-family: 'NanumSquareRound';">다시 시도해주세요.</p>`,
+          <p style="font-size: 0.95rem; font-family: 'NanumSquareRound';">다시 시도해주세요.</p>`,
           focusConfirm: false,
-          type: 'error'
+          type: 'error',
+          confirmButtonColor: '#58679A'
         })
       })
     }

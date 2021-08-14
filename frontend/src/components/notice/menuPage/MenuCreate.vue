@@ -5,111 +5,88 @@
     <v-sheet rounded="lg" v-if="createMode">
       <div style="width:100%; height:15px; background-color:#a8b1cf" class="mt-3"></div>
       <div class="container content-container" style="height:84.8vh">
-        <div class="notice-detail-title">
-          식단 작성
+
+        <div align="right" class="mt-2"> 
         </div>
-        <div class="item-wrapper">
-          <div class="item">
-            <div class="item-menuType">
-              오전 간식
-              <input
-                type="text"
-                v-model="amSnackName"
-              />
-            </div>
-            <!-- <div class="item-menuName">자장면</div> -->
-            <div class="item-img">
-              <v-file-input
-                id="amSnackFile"
-                v-model="amSnackFile"
-                accept="image/*"
-                label="File input"
-              ></v-file-input>
-            </div>
+        <div align="center" class="mb-5">
+
+          <div class="col-lg-11">
+            <table class="table table-borderless mb-0">
+              <tbody>
+                <tr class="d-flex">
+                    <td class="col-12 align-items-center mt-3">
+                      <strong style="font-size: 18px">메뉴</strong>
+                      <table class=" table mt-5 mb-5">
+                        <tr class="d-flex">
+                          <td class="col-12"><strong>오전 간식</strong></td>
+                        </tr>
+                        <tr class="d-flex">
+                          <td class="col-5">
+
+                            <v-file-input
+                              filled
+                              prepend-icon="mdi-camera"
+                              dense
+                              id="amSnackFile"
+                              v-model="amSnackFile"
+                              accept="image/*"
+                            ></v-file-input>
+                        </td>
+                        <td class="col-7"><input type="text" class="formInput" placeholder="오전 간식 메뉴" v-model="amSnackName"></td>
+                      </tr>
+
+                      <tr class="d-flex">
+                        <td class="col-12"><strong>점심</strong></td>
+                      </tr>
+                      <tr class="d-flex">
+                        <td class="col-5">
+
+                          <v-file-input
+                            filled
+                            prepend-icon="mdi-camera"
+                            dense
+                            id="lunchFile"
+                            v-model="lunchFile"
+                            accept="image/*"
+                          ></v-file-input>
+
+                        </td>
+                        <td class="col-7"><input type="text" class="formInput" placeholder="점심 메뉴" v-model="lunchName"/></td>
+                      </tr>
+
+                      <tr class="d-flex">
+                        <td class="col-12"><strong>오후간식</strong></td>
+                      </tr>
+                      <tr class="d-flex">
+                        <td class="col-5">
+
+                          <v-file-input
+                            filled
+                            prepend-icon="mdi-camera"
+                            dense
+                            id="pmSnackFile"
+                            v-model="pmSnackFile"
+                            accept="image/*"
+                          ></v-file-input>
+                          
+                        </td>
+                        <td class="col-7"><input type="text" class="formInput" placeholder="오후 간식 메뉴" v-model="pmSnackName"/></td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-          <div class="item">
-            <div class="item-menuType">
-              점심 식사 
-              <input
-                type="text"
-                v-model="lunchName"
-              />
-            </div>
-            <!-- <div class="item-menuName">자장면</div> -->
-            <div class="item-img">
-              <v-file-input
-                id="lunchFile"
-                v-model="lunchFile"
-                accept="image/*"
-                label="File input"
-              ></v-file-input>
-            </div>
-          </div>
-          <div class="item">
-            <div class="item-menuType">
-              오후 간식
-              <input
-                type="text"
-                v-model="pmSnackName"
-              />
-            </div>
-            <!-- <div class="item-menuName">자장면</div> -->
-            <div class="item-img">
-              <v-file-input
-                id="pmSnackFile"
-                v-model="pmSnackFile"
-                accept="image/*"
-                label="File input"
-              ></v-file-input>
-            </div>
-          </div>
-        </div>
-        <div>
-          <button @click="createNewMenu" class="mr-2 update-return-btn">
-            저장
-          </button>
-          <button @click="offCreateForm" class="ml-2 update-return-btn">
-            취소
-          </button>
+          <!-- 새로운 글 작성 관련 버튼 -->
+          <!-- 새 글을 작성하고, 저장하는 버튼 -->
+          <button @click="createNewMenu" class="mr-2 update-return-btn">작성</button>
+          <!-- 글 작성(수정,새글) 취소 버튼 -->
+          <button @click="offCreateForm" class="ml-2 update-return-btn">취소</button>
+
+
         </div>
       </div>
-
-      <!-- <p>
-        오전 간식 :
-        <input type="text" v-model="amSnackName" style="border: solid 1px" />
-      </p>
-
-      <p>오전 간식 사진 :</p>
-      <v-file-input
-        id="amSnackFile"
-        v-model="amSnackFile"
-        accept="image/*"
-        label="File input"
-      ></v-file-input>
-
-      <p>
-        점심 식사 :
-        <input type="text" v-model="lunchName" style="border: solid 1px" />
-      </p>
-      <p>점심 식사 사진 :</p>
-      <v-file-input
-        id="lunchFile"
-        v-model="lunchFile"
-        accept="image/*"
-        label="File input"
-      ></v-file-input>
-
-      <p>
-        오후 간식 :
-        <input type="text" v-model="pmSnackName" style="border: solid 1px" />
-      </p>
-      <p>오후 간식 사진 :</p>
-      <v-file-input
-        id="pmSnackFile"
-        v-model="pmSnackFile"
-        accept="image/*"
-        label="File input"
-      ></v-file-input> -->
     </v-sheet>
   </div>
 </template>
@@ -163,11 +140,7 @@ export default {
     async createNewMenu() {
       //점심명을 입력하지 않으면 생성불가
       if (this.lunchName == "") {
-        this.$fire({
-          html: `<a href="javascript:void(0);"></a><p style="font-size: 30px; font-family: 'NanumSquareRound';">점심 메뉴를 입력하세요.</p>`,
-          focusConfirm: false,
-          type: 'warning'
-        })
+        
         return;
       }
 
@@ -240,64 +213,22 @@ export default {
   background-color: rgba(233,234,239, 0.5);
   border-radius: 1px;
 }
-.notice-detail-title {
-  /* margin: 0.3rem 0px; */
-  /* padding-bottom: 0.5rem; */
-  margin-top: 2.5rem;
-  margin-bottom: 1rem;
-  padding: 0px 0.5rem;
-  width: 95%;
-  display: flex;
-  justify-content: flex-start;
-  font-size: 1.3em;
-  font-family: "NanumSquareRound";
-  font-weight: bold;
-  /* border-bottom: #a8b1cf 0.1rem solid; */
-  /* text-align: left; */
-  /* border-radius: ; */
-}
-
-.item-wrapper {
-  width: 95%;
-  padding: 2rem 1rem 2rem 2rem;
-  margin-bottom: 1rem;
-  /* display: flex; */
-  /* align-items: center; */
-  /* background:rgba(156, 156, 156, 0.1); */
-  background:white;
+.formInput {
+  background-color: rgba(156, 156, 156, 0.08);
   border-radius: 5px;
-  border-top: #a8b1cf 0.1rem solid;
-  border-bottom: #a8b1cf 0.1rem solid;
-
-}
-
-.item {
+  height: 36px;
   width: 100%;
-  display: flex;
-  align-items: center;
+  padding: 0px 0px 0px 15px;
+  margin: 3px 3px 3px 3px;
 }
-.item-menuType {
-  font-size: 15px;
-  font-family: "NanumSquareRound";
-  font-weight: bold;
-  display: inline-block;
-}
-.item-menuType input{
-  margin-left: 2rem;
-  padding-left: 0.5rem;
-  background: rgba(156, 156, 156, 0.1);
-  height: 2rem;
-  /* border: 0 solid none; */
+.formInputText{
+  background-color: rgba(156, 156, 156, 0.1);
   border-radius: 5px;
+  height: 100%;
+  width: 100%;
+  padding: 15px 15px 15px 15px;
+  margin: 3px 3px 3px 3px;
 }
-.item-img {
-  margin-left: 2rem;
-  display: inline-block;
-  width: 10vw;
-  /* display: flex; */
-  /* padding: 0px; */
-}
-
 .update-return-btn {
   background-color: rgba(168, 177, 207, 1);
   border-radius: 70px;
@@ -307,5 +238,9 @@ export default {
   text-align: center;
   color: rgba(256, 256, 256);
   letter-spacing: -1px;
+}
+.formInput:hover{
+  background-color: rgba(156, 156, 156, 0.2);
+  transition: 0.3s;
 }
 </style>

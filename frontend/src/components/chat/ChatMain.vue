@@ -4,7 +4,7 @@
       <!-- 공지 사항 리스트 -->
       <channel-list />
     </div>
-    <v-col class="mx height:100vh">
+    <v-col class="mx-auto">
       <channel  />
     </v-col>
   </div>

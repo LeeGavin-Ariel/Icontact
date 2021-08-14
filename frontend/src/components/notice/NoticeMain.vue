@@ -20,7 +20,6 @@
 
             <template v-for="notice in noticeList">
               <notice-list-item
-                :class="{selected : idx == index}"
                 :key="notice.createDate"
                 :noticeInfo="notice"
                 @click="setDetail(notice.noticeId)"

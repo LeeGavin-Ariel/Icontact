@@ -227,18 +227,21 @@ export default {
         await this.getNoticeList();
         if (this.noticeList.length > 0)
           this.setNoticeDetail(this.noticeList[0].noticeId);
+        else this.setNoticeDetail(-1);
       } else if (this.noticeType == 2) {
         this.scheduleList = [];
         this.schedulePageNum = 1;
         await this.getScheduleList();
         if (this.scheduleList.length > 0)
           this.setScheduleDetail(this.scheduleList[0].scheduleId);
+        else this.setScheduleDetail(-1);
       } else if (this.noticeType == 3) {
         this.menuList = [];
         this.menuPageNum = 1;
         await this.getMenuList();
         if (this.menuList.length > 0)
           this.setMenuDetail(this.menuList[0].menuId);
+        else this.setMenuDetail(-1);
       }
     },
 

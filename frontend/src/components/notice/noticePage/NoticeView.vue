@@ -32,7 +32,7 @@
       @updateNotice="updateNotice"
     />
     <notice-detail
-      v-if="this.detailMode"
+      v-if="this.detailMode && this.noticeDetail"
       :noticeInfo="this.noticeDetail"
       @showUpdateNoticeForm="showUpdateNoticeForm"
       @deleteNotice="deleteNotice"
@@ -79,6 +79,12 @@ export default {
   },
   watch: {
     id: function () {
+      if (this.id == -1) {
+        this.noticeDetail=null;
+        console.log('글이 없습니다');
+        return;
+      }
+
       if (this.id !== 0) {
         console.log("아이디가 변했어요오오" + this.id);
         this.getNoticeDetail();

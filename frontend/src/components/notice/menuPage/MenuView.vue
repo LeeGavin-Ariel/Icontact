@@ -36,9 +36,12 @@
       @cancelUpdateMenu="cancelUpdateMenu"
       @updateMenu="updateMenu"
     />
-    <menu-detail v-if="this.detailMode" :menuInfo="this.menuDetail"
+    <menu-detail
+      v-if="this.detailMode && this.menuDetail"
+      :menuInfo="this.menuDetail"
       @showUpdateMenuForm="showUpdateMenuForm"
-      @deleteMenu="deleteMenu" />
+      @deleteMenu="deleteMenu"
+    />
   </div>
 </template>
 
@@ -79,8 +82,13 @@ export default {
   },
   watch: {
     id: function () {
-      console.log("아이디가 변했어요" + this.id);
+      if (this.id == -1) {
+        this.menuDetail = null;
+        console.log("글이 없습니다");
+        return;
+      }
       if (this.id != 0) {
+        console.log("아이디가 변했어요" + this.id);
         this.getMenuDetail();
       }
     },

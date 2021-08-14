@@ -18,23 +18,6 @@
       </v-btn>
     </v-fab-transition>
 
-    <!-- <button
-      v-if="detailMode & (this.$store.state.user.type == 2)"
-      @click="showUpdateScheduleForm"
-    >
-      |글 수정
-    </button>
-
-    <button
-      v-if="detailMode & (this.$store.state.user.type == 2)"
-      @click="deleteSchedule"
-    >
-      |글 삭제
-    </button> -->
-
-    <!-- <button @click="offCreateForm">글 작성 취소</button> -->
-
-    <!-- <schedule-detail v-if="detailMode"/> -->
     <schedule-create
       v-if="this.createMode"
       @cancelCreateSchedule="cancelCreateSchedule"
@@ -47,7 +30,7 @@
       @updateSchedule="updateSchedule"
     />
     <schedule-detail
-      v-if="this.detailMode"
+      v-if="this.detailMode && this.scheduleDetail"
       :scheduleInfo="this.scheduleDetail"
       @showUpdateScheduleForm="showUpdateScheduleForm"
       @deleteSchedule="deleteSchedule"
@@ -92,8 +75,14 @@ export default {
   },
   watch: {
     id: function () {
-      console.log("아이디가 변했어요" + this.id);
+      if (this.id == -1) {
+        this.scheduleDetail = null;
+        console.log("글이 없습니다");
+        return;
+      }
+
       if (this.id !== 0) {
+        console.log("아이디가 변했어요" + this.id);
         this.getScheduleDetail();
       }
     },

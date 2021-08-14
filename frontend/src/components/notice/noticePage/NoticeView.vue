@@ -3,22 +3,8 @@
     <div class="ml-5 mr-5 mt-5">
     <!-- <div style="margin-top:2.5rem;"></div> -->
     <!-- <v-btn @click="showCreateNoticeForm">새 글</v-btn> -->
-    <button class="writeBtn" v-if="!createMode & (this.$store.state.user.type == 2)"  @click="showCreateNoticeForm"><img src="@/assets/flaticon/write.png" style="width:3.8rem"></button>
-    <!-- <v-fab-transition>
-      <v-btn
-        color="black"
-        fab
-        large
-        dark
-        bottom
-        left
-        class="writeBtn"
-        @click="showCreateNoticeForm"
-        v-if="!createMode & (this.$store.state.user.type == 2)"
-      >
-        <v-icon>mdi-pencil</v-icon>
-      </v-btn>
-    </v-fab-transition> -->
+    <button class="writeBtn" v-if="!createMode & !updateMode & (this.$store.state.user.type == 2)"  @click="showCreateNoticeForm"><img src="@/assets/flaticon/write.png" style="width:3.8rem"></button>
+
 
     <notice-create
       v-if="this.createMode"

@@ -3,40 +3,7 @@
 
     <div class="ml-5 mr-5 mt-5">
 
-    <button class="writeBtn" @click="showCreateScheduleForm" v-if="!createMode & (this.$store.state.user.type == 2)"><img src="@/assets/flaticon/write.png" style="width:3.8rem"></button>
-    <!-- <v-spacer></v-spacer>
-
-    <v-fab-transition>
-      <v-btn
-        color="black"
-        fab
-        large
-        dark
-        bottom
-        left
-        class="writeBtn"
-        @click="showCreateScheduleForm"
-        v-if="!createMode & (this.$store.state.user.type == 2)"
-      >
-        <v-icon>mdi-pencil</v-icon>
-      </v-btn>
-    </v-fab-transition> -->
-
-    <!-- <button
-      v-if="detailMode & (this.$store.state.user.type == 2)"
-      @click="showUpdateScheduleForm"
-    >
-      |글 수정
-    </button>
-
-    <button
-      v-if="detailMode & (this.$store.state.user.type == 2)"
-      @click="deleteSchedule"
-    >
-      |글 삭제
-    </button> -->
-
-    <!-- <button @click="offCreateForm">글 작성 취소</button> -->
+    <button class="writeBtn" @click="showCreateScheduleForm" v-if="!createMode & !updateMode & (this.$store.state.user.type == 2)"><img src="@/assets/flaticon/write.png" style="width:3.8rem"></button>
 
     <!-- <schedule-detail v-if="detailMode"/> -->
     <schedule-create

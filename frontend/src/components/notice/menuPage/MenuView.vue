@@ -3,7 +3,7 @@
 
     <div class="ml-5 mr-5 mt-5">
 
-    <button class="writeBtn" @click="showCreateMenuForm" v-if="!createMode & (this.$store.state.user.type == 2)"><img src="@/assets/flaticon/write.png" style="width:3.8rem"></button>
+    <button class="writeBtn" @click="showCreateMenuForm" v-if="!createMode & !updateMode & (this.$store.state.user.type == 2)"><img src="@/assets/flaticon/write.png" style="width:3.8rem"></button>
     <!-- <v-spacer></v-spacer>
 
     <v-fab-transition>

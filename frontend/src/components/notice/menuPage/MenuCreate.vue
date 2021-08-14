@@ -8,17 +8,12 @@
         class="mt-3"
       ></div>
       <div class="container">
-        <div class="notice-detail-title">
-          식단 작성
-        </div>
+        <div class="notice-detail-title">식단 작성</div>
         <div class="item-wrapper">
           <div class="item">
             <div class="item-menuType">
               오전 간식
-              <input
-                type="text"
-                v-model="amSnackName"
-              />
+              <input type="text" v-model="amSnackName" />
             </div>
             <!-- <div class="item-menuName">자장면</div> -->
             <div class="item-img">
@@ -32,11 +27,8 @@
           </div>
           <div class="item">
             <div class="item-menuType">
-              점심 식사 
-              <input
-                type="text"
-                v-model="lunchName"
-              />
+              점심 식사
+              <input type="text" v-model="lunchName" />
             </div>
             <!-- <div class="item-menuName">자장면</div> -->
             <div class="item-img">
@@ -51,10 +43,7 @@
           <div class="item">
             <div class="item-menuType">
               오후 간식
-              <input
-                type="text"
-                v-model="pmSnackName"
-              />
+              <input type="text" v-model="pmSnackName" />
             </div>
             <!-- <div class="item-menuName">자장면</div> -->
             <div class="item-img">
@@ -68,7 +57,11 @@
           </div>
         </div>
         <div>
-          <button @click="createNewMenu" class="mr-2 update-return-btn">
+          <button
+            @click="createNewMenu"
+            class="mr-2 update-return-btn"
+            :disabled="saveDisabled"
+          >
             저장
           </button>
           <button @click="offCreateForm" class="ml-2 update-return-btn">
@@ -76,43 +69,6 @@
           </button>
         </div>
       </div>
-
-      <!-- <p>
-        오전 간식 :
-        <input type="text" v-model="amSnackName" style="border: solid 1px" />
-      </p>
-
-      <p>오전 간식 사진 :</p>
-      <v-file-input
-        id="amSnackFile"
-        v-model="amSnackFile"
-        accept="image/*"
-        label="File input"
-      ></v-file-input>
-
-      <p>
-        점심 식사 :
-        <input type="text" v-model="lunchName" style="border: solid 1px" />
-      </p>
-      <p>점심 식사 사진 :</p>
-      <v-file-input
-        id="lunchFile"
-        v-model="lunchFile"
-        accept="image/*"
-        label="File input"
-      ></v-file-input>
-
-      <p>
-        오후 간식 :
-        <input type="text" v-model="pmSnackName" style="border: solid 1px" />
-      </p>
-      <p>오후 간식 사진 :</p>
-      <v-file-input
-        id="pmSnackFile"
-        v-model="pmSnackFile"
-        accept="image/*"
-        label="File input"
-      ></v-file-input> -->
     </v-sheet>
   </div>
 </template>
@@ -148,6 +104,7 @@ export default {
       amSnackName: "",
       pmSnackName: "",
       lunchName: "",
+      saveDisabled: true,
     };
   },
   watch: {
@@ -155,9 +112,28 @@ export default {
       console.log(value);
       console.log(value);
     },
+
+    amSnackName() {
+      this.checkInput();
+    },
+    pmSnackName() {
+      this.checkInput();
+    },
+    lunchName() {
+      this.checkInput();
+    },
   },
 
   methods: {
+    checkInput() {
+      if (
+        this.amSnackName != "" ||
+        this.pmSnackName != "" ||
+        this.lunchName != ""
+      )
+        this.saveDisabled = false;
+      else this.saveDisabled = true;
+    },
     offCreateForm() {
       this.$emit("cancelCreateMenu");
     },
@@ -254,11 +230,10 @@ export default {
   /* display: flex; */
   /* align-items: center; */
   /* background:rgba(156, 156, 156, 0.1); */
-  background:white;
+  background: white;
   border-radius: 5px;
   border-top: #a8b1cf 0.1rem solid;
   border-bottom: #a8b1cf 0.1rem solid;
-
 }
 
 .item {
@@ -272,7 +247,7 @@ export default {
   font-weight: bold;
   display: inline-block;
 }
-.item-menuType input{
+.item-menuType input {
   margin-left: 2rem;
   padding-left: 0.5rem;
   background: rgba(156, 156, 156, 0.1);

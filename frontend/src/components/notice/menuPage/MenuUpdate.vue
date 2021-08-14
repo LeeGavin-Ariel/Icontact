@@ -8,7 +8,9 @@
         class="mt-3"
       ></div>
       <div class="container" style="overflow-y: scroll">
-        <div class="menu-detail-date">{{ this.menuInfo.createDate.substr(0,11) }} 식단</div>
+        <div class="menu-detail-date">
+          {{ this.menuInfo.createDate.substr(0, 11) }} 식단
+        </div>
         <div class="item-wrapper">
           <div class="item">
             <div class="item-type">오전 간식</div>
@@ -23,17 +25,14 @@
                 alt="profile-image"
               />
             </div>
-            <input
-              type="text"
-              v-model="amSnackName"
-            />
+            <input type="text" v-model="amSnackName" />
             <v-file-input
-            class="file-input"
+              class="file-input"
               id="amSnackFile"
               v-model="amSnackFile"
               accept="image/*"
             ></v-file-input>
-              <!-- :label="amSnackFile" -->
+            <!-- :label="amSnackFile" -->
           </div>
           <div class="item">
             <div class="item-type">점심 식사</div>
@@ -48,14 +47,14 @@
                 alt="profile-image"
               />
             </div>
-            <input type="text" v-model="lunchName"  />
+            <input type="text" v-model="lunchName" />
             <v-file-input
-            class="file-input"
+              class="file-input"
               id="lunchFile"
               v-model="lunchFile"
               accept="image/*"
             ></v-file-input>
-              <!-- label="File Name" -->
+            <!-- label="File Name" -->
           </div>
           <div class="item">
             <div class="item-type">오전 간식</div>
@@ -70,84 +69,23 @@
                 alt="profile-image"
               />
             </div>
-            <input
-              type="text"
-              v-model="pmSnackName"
-            />
+            <input type="text" v-model="pmSnackName" />
             <v-file-input
-            class="file-input"
+              class="file-input"
               id="pmSnackFile"
               v-model="pmSnackFile"
               accept="image/*"
             ></v-file-input>
-              <!-- :label="pmSnackFile" -->
+            <!-- :label="pmSnackFile" -->
           </div>
         </div>
-        <!-- <div class="menu-detail-img">
-          <p>
-            오전 간식 :
-            {{ this.menuInfo.amSnack }}
-          </p>
-          <img
-            v-if="menuInfo.amSnackImgUrl"
-            class="noticeImg"
-            :src="
-              'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
-              menuInfo.amSnackImgUrl
-            "
-            alt="profile-image"
-          />
-          <v-file-input
-            id="amSnackFile"
-            v-model="amSnackFile"
-            accept="image/*"
-            label="File input"
-          ></v-file-input>
-        </div> -->
-        <!-- <div class="menu-detail-img">
-          <p>
-            점심 식사 :
-            {{ this.menuInfo.lunch }}
-          </p>
-          <img
-            v-if="menuInfo.lunchImgUrl"
-            class="noticeImg"
-            :src="
-              'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
-              menuInfo.lunchImgUrl
-            "
-            alt="profile-image"
-          />
-          <v-file-input
-            id="lunchFile"
-            v-model="lunchFile"
-            accept="image/*"
-            label="File input"
-          ></v-file-input>
-        </div>
-        <div class="menu-detail-img">
-          <p>
-            오후 간식 :
-            {{ this.menuInfo.pmSnack }}
-          </p>
-          <img
-            v-if="menuInfo.pmSnackImgUrl"
-            class="noticeImg"
-            :src="
-              'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
-              menuInfo.pmSnackImgUrl
-            "
-            alt="profile-image"
-          />
-          <v-file-input
-            id="pmSnackFile"
-            v-model="pmSnackFile"
-            accept="image/*"
-            label="File input"
-          ></v-file-input>
-        </div>-->
+
         <div class="btn-wrapper">
-          <button @click="updateMenu" class="mr-2 update-return-btn">
+          <button
+            @click="updateMenu"
+            class="mr-2 update-return-btn"
+            :disabled="saveDisabled"
+          >
             수정
           </button>
           <button @click="offUpdateForm" class="ml-2 update-return-btn">
@@ -155,44 +93,6 @@
           </button>
         </div>
       </div>
-      <!-- 식단 수정 페이지
-      {{ menuDetail }}
-      <p>
-        오전 간식 :
-        <input type="text" v-model="amSnackName" style="border: solid 1px" />
-      </p>
-
-      <p>오전 간식 사진 :</p>
-
-        <v-file-input
-          id="amSnackFile"
-          v-model="amSnackFile"
-          accept="image/*"
-          label="File input"
-        ></v-file-input>
-      <p>
-        점심 식사 :
-        <input type="text" v-model="lunchName" style="border: solid 1px" />
-      </p>
-      <p>점심 식사 사진 :</p>
-
-        <v-file-input
-          id="lunchFile"
-          v-model="lunchFile"
-          accept="image/*"
-          label="File input"
-        ></v-file-input>
-      <p>
-        오후 간식 :
-        <input type="text" v-model="pmSnackName" style="border: solid 1px" />
-      </p>
-      <p>오후 간식 사진 :</p>
-        <v-file-input
-          id="pmSnackFile"
-          v-model="pmSnackFile"
-          accept="image/*"
-          label="File input"
-        ></v-file-input> -->
     </v-sheet>
   </div>
 </template>
@@ -233,6 +133,8 @@ export default {
       amSnackName: this.menuInfo.amSnackName,
       pmSnackName: this.menuInfo.pmSnackName,
       lunchName: this.menuInfo.lunchName,
+
+      saveDisabled: true,
     };
   },
   watch: {
@@ -241,6 +143,16 @@ export default {
         this.getMenuDetail();
       }
     },
+
+    amSnackName() {
+      this.checkInput();
+    },
+    pmSnackName() {
+      this.checkInput();
+    },
+    lunchName() {
+      this.checkInput();
+    },
   },
 
   created() {
@@ -248,6 +160,15 @@ export default {
   },
 
   methods: {
+    checkInput() {
+      if (
+        this.amSnackName != "" ||
+        this.pmSnackName != "" ||
+        this.lunchName != ""
+      )
+        this.saveDisabled = false;
+      else this.saveDisabled = true;
+    },
     init() {
       this.amSnackFile = this.menuInfo.amSnackImgUrl;
       this.pmSnackFile = this.menuInfo.pmSnackImgUrl;
@@ -255,7 +176,7 @@ export default {
       this.amSnackName = this.menuInfo.amSnack;
       this.pmSnackName = this.menuInfo.pmSnack;
       this.lunchName = this.menuInfo.lunch;
-      console.log('amSnackFile');
+      console.log("amSnackFile");
       console.log(this.amSnackFile);
     },
 
@@ -472,7 +393,7 @@ export default {
   /* display: flex; */
   /* align-items: center; */
   /* background:rgba(156, 156, 156, 0.1); */
-  background:white;
+  background: white;
   display: flex;
   border-radius: 5px;
   border-top: #a8b1cf 0.1rem solid;
@@ -527,7 +448,7 @@ export default {
   border-bottom: #a8b1cf 0.1rem solid;
 }
 .item-img img {
-    width: 100%;
+  width: 100%;
   /* height: 200px; */
   display: flex;
   justify-content: center;

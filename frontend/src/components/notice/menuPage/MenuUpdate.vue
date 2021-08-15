@@ -29,7 +29,6 @@
                               prepend-icon="mdi-camera"
                               dense
                               id="amSnackFile"
-                              v-model="amSnackFile"
                               accept="image/*"
                             ></v-file-input>
                         </td>
@@ -47,7 +46,6 @@
                             prepend-icon="mdi-camera"
                             dense
                             id="lunchFile"
-                            v-model="lunchFile"
                             accept="image/*"
                           ></v-file-input>
 
@@ -66,7 +64,6 @@
                             prepend-icon="mdi-camera"
                             dense
                             id="pmSnackFile"
-                            v-model="pmSnackFile"
                             accept="image/*"
                           ></v-file-input>
                           

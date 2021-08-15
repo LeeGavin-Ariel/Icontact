@@ -42,7 +42,6 @@
                           <!-- 파일 첨부-->
                           <v-file-input
                             id="scheduleFile"
-                            v-model="scheduleInfo.scheduleImgUrl"
                             filled
                             prepend-icon="mdi-camera"
                             dense

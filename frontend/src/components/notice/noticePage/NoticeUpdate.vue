@@ -31,7 +31,6 @@
                             <!-- 파일 첨부-->
                             <v-file-input
                               id="noticeFile"
-                              v-model="noticeInfo.noticeImgUrl"
                               filled
                               prepend-icon="mdi-camera"
                               dense

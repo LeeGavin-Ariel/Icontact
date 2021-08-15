@@ -54,9 +54,9 @@
         >
           <option value="noValue">반 선택</option>
           <option
-            v-for="[Class, idx] in kindergardenClasses"
-            v-bind:key="idx"
-            v-bind:value="idx"
+            v-for="[Class, classNumber] in kindergardenClasses"
+            v-bind:key="classNumber"
+            v-bind:value="classNumber"
           >
             {{ Class }}
           </option>
@@ -151,7 +151,8 @@ export default {
         }).then(() => {
           this.$router.push({ name: "Login" });
         });
-      } catch {
+      } catch (e) {
+        console.log(e)
         this.$fire({
           html: `<a href="javascript:void(0);"></a><p style="font-size: 0.95rem; font-family: 'NanumSquareRound';">회원가입에 실패하였습니다.</p>
           <p style="font-size: 0.95rem; font-family: 'NanumSquareRound';">다시 시도해주세요.</p>`,

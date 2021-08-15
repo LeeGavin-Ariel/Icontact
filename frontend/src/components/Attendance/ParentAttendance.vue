@@ -168,7 +168,7 @@ export default {
     },
 
     async updateRange({ start, end }) {
-      console.log(end)
+      console.log(end);
 
       this.totalDay = 0;
       const events = [];
@@ -194,7 +194,7 @@ export default {
           color: this.attendance[i].attend ? this.colors[0] : this.colors[1],
         });
       }
-      this.attendPercent = Math.round((attend / this.attendance.length) * 100);
+      this.attendPercent = Math.round((attend / this.totalDay) * 100);
       if (this.attendance.length === 0) {
         this.attendPercent = 0;
       }

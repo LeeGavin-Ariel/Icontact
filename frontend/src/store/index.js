@@ -1,14 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import router from '@/router/index.js'
-// import userApi from '@/api/user.js';
 import createPersistedState from "vuex-persistedstate"
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  // plugins: [
-  //       createPersistedState(),
-  //     ],
   plugins: [createPersistedState({
     storage: window.sessionStorage,
   })],
@@ -126,7 +122,7 @@ export default new Vuex.Store({
     addMessages: ({ commit, state }, messages) => {
       commit('SET_MESSAGES', messages.concat(state.messages))
     },
-    //이전 메시지 가져오기
+    // 이전 메시지 가져오기
     loadPrevMessages: ({ commit }, messages) => {
       commit('PLUS_MESSAGES', messages)
     },

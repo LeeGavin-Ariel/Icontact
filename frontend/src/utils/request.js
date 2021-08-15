@@ -50,7 +50,6 @@ export const requestSendBirdPost = async (url, data, headers) => {
     if (response.status === 200) {
       console.log('성공했습니다.');
       console.log(response.data);
-      // if (response.headers['jwt-access-token']) setJwtTokens(response);
       return response.data;
     }
     throw new Error();

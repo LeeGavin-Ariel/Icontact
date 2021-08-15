@@ -3,7 +3,11 @@
     <nav class="navbar">
       <!-- 로고 -->
       <button @click="moveToMainPage">
-        <img src="@/assets/icontact/dark_log.png" style="height: 2.1rem" alt="logo-image" />
+        <img
+          src="@/assets/icontact/dark_log.png"
+          style="height: 2.1rem"
+          alt="logo-image"
+        />
       </button>
 
       <!-- 간격 조정 -->
@@ -42,23 +46,29 @@
           </v-btn>
         </template>
         <v-list>
-          <v-list-item
-            @click="
-              moveToMyPage
-            "
-          >
-            <v-list-item-title style="text-align:right;" >마이페이지</v-list-item-title>
+          <v-list-item @click="moveToMyPage">
+            <v-list-item-title style="text-align: right"
+              >마이페이지</v-list-item-title
+            >
           </v-list-item>
           <v-list-item @click="toggleAlarm" v-if="type == 2">
-            <v-list-item-title style="text-align:right;" v-if="stateCode == 1"
-              ><img src="@/assets/flaticon/off.png" style="width:0.7rem; margin-right:0.3rem">자리비움</v-list-item-title
+            <v-list-item-title style="text-align: right" v-if="stateCode == 1"
+              ><img
+                src="@/assets/flaticon/off.png"
+                style="width: 0.7rem; margin-right: 0.3rem"
+              />자리비움</v-list-item-title
             >
-            <v-list-item-title style="text-align:right;"  v-if="stateCode == 2"
-              ><img src="@/assets/flaticon/on.png" style="width:0.7rem; margin-right:0.3rem;">온라인</v-list-item-title
+            <v-list-item-title style="text-align: right" v-if="stateCode == 2"
+              ><img
+                src="@/assets/flaticon/on.png"
+                style="width: 0.7rem; margin-right: 0.3rem"
+              />온라인</v-list-item-title
             >
           </v-list-item>
           <v-list-item @click="logout">
-            <v-list-item-title style="text-align:right;" >로그아웃</v-list-item-title>
+            <v-list-item-title style="text-align: right"
+              >로그아웃</v-list-item-title
+            >
           </v-list-item>
         </v-list>
       </v-menu>
@@ -92,9 +102,6 @@ export default {
   methods: {
     async toggleAlarm() {
       await this.updateStateCode();
-
-      console.log("토글 변경" + this.stateCode);
-      console.log(this.$store.state.user);
     },
 
     async updateStateCode() {
@@ -114,27 +121,23 @@ export default {
         )
         .then((result) => {
           if (result) {
-            console.log("상태코드가 변경되었습니다");
-
-            this.$store.state.user.stateCode = this.stateCode = this.$store.state.user.stateCode == 1 ? 2 : 1;
-            this.badgeColor = this.$store.state.user.stateCode == 2 ? "stateOff" : "stateOn";
-
+            this.$store.state.user.stateCode = this.stateCode =
+              this.$store.state.user.stateCode == 1 ? 2 : 1;
+            this.badgeColor =
+              this.$store.state.user.stateCode == 2 ? "stateOff" : "stateOn";
           }
         })
-        .catch((e) => {
-          console.log(e);
-        });
     },
 
     setInfo() {
-      this.type = this.$store.state.user.type
-      this.className = this.$store.state.user.className
-      this.userName = this.$store.state.user.userName
-      this.userId = this.$store.state.user.userId
-      this.kidName = this.$store.state.user.kidName
-      this.stateCode =  this.$store.state.user.stateCode
-      this.badgeColor = this.$store.state.user.stateCode == 2 ? "stateOff" : "stateOn";
-      
+      this.type = this.$store.state.user.type;
+      this.className = this.$store.state.user.className;
+      this.userName = this.$store.state.user.userName;
+      this.userId = this.$store.state.user.userId;
+      this.kidName = this.$store.state.user.kidName;
+      this.stateCode = this.$store.state.user.stateCode;
+      this.badgeColor =
+        this.$store.state.user.stateCode == 2 ? "stateOff" : "stateOn";
     },
     logout() {
       if (confirm("정말 로그아웃하시겠습니까?")) {
@@ -146,7 +149,8 @@ export default {
           method: "get",
         }).then(() => {
           this.$store.dispatch("removeUser");
-          if (this.$route.path !== "Login") this.$router.push({ name: "Login" });
+          if (this.$route.path !== "Login")
+            this.$router.push({ name: "Login" });
         });
       }
     },
@@ -156,12 +160,13 @@ export default {
       }
     },
     moveToMyPage() {
-      this.$router.push({ name: "MyPage", params: {userId : this.userId}}).catch(()=>{})
-    }
+      this.$router
+        .push({ name: "MyPage", params: { userId: this.userId } })
+        .catch(() => {});
+    },
   },
   computed: {
     checkLogin() {
-      console.log("로그인됨");
       this.setInfo();
 
       return this.$store.getters.isLogged;

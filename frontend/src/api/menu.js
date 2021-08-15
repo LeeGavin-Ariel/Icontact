@@ -11,7 +11,6 @@ export const menuApi = {
     return requestGet(SERVER.URL + SERVER.ROUTES.menu + `?noticeType=${data.menuType}` + `&userId=${data.userId}` + `&pageNum=${data.pageNum}`, data, headers);
   },
 
-
   getMenuDetail: (data, headers) => {    
     return requestGet(SERVER.URL + SERVER.ROUTES.menu + `/${data.menuType}` + `?id=${data.id}`, headers);
   },
@@ -23,7 +22,6 @@ export const menuApi = {
   deleteMenu: ( data,headers ) => {
     return requestDelete(SERVER.URL + SERVER.ROUTES.menu + `?noticeType=${data.menuType}` + `&id=${data.id}`, headers);
   },
-
 
 };
 

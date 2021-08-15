@@ -1,7 +1,6 @@
 <template>
   <div id="bg">
 
-    
     <!-- 사이드바 -->
     <div style="width:18vw;">
       <Sidebar/>

@@ -3,7 +3,6 @@ import SERVER from './drf.js';
 
 export const userApi = {
   registerUser: (data) => {
-    console.log('good')
     return requestPost(SERVER.URL + SERVER.ROUTES.signup, data);
   },
 
@@ -12,9 +11,6 @@ export const userApi = {
   },
 
   getUser: (userId, headers) => {
-    // 이거 유알엘 어떻게 하냐.
-    // 근데 app.vue에서는 그냥 getUser 하나로만 갱신하는데....
-    // url 바꿔주기.
     return requestGet(SERVER.URL + SERVER.ROUTES.getuserinf  + `/${userId}`, headers);
   },
 
@@ -24,13 +20,10 @@ export const userApi = {
   
 
   updateUserProfileImg: (data, headers) => {    
-    console.log(data);
     return requestPut(SERVER.URL + SERVER.ROUTES.changeProfileImg + `/${data.userId}?profileImg=${data.profileImg}`, data, headers);
   },
   
   updateUserStateCode: (data, headers) => {
-    console.log('업데이트 상태코드');
-    console.log(data);
     return requestPut(SERVER.URL + SERVER.ROUTES.changeStateCode + `/${data.userId}?stateCode=${data.stateCode}`, data, headers);
   },
 

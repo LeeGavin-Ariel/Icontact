@@ -1,21 +1,19 @@
 <template>
   <v-app id="app">
-    <Navbar
-    v-if="$store.state.isLoggedIn"
-    />
-    <router-view/>
+    <Navbar v-if="$store.state.isLoggedIn" />
+    <router-view />
   </v-app>
 </template>
 
 <script>
-import { getTokenInfo, tokenExpired } from '@/utils/jwt.js';
-import Navbar from '@/components/common/Navbar.vue';
-import userApi from '@/api/user.js';
+import { getTokenInfo, tokenExpired } from "@/utils/jwt.js";
+import Navbar from "@/components/common/Navbar.vue";
+import userApi from "@/api/user.js";
 
 export default {
-  name: 'App',
-  components:{
-    Navbar
+  name: "App",
+  components: {
+    Navbar,
   },
   methods: {
     async setUserInfo(userid, accessToken, refreshToken) {
@@ -30,8 +28,8 @@ export default {
           "refresh-token": refreshToken,
         });
       }
-      // 일단 이 밑으로 실행 안됨. 위에 에러나서 그런듯
-      this.$store.dispatch('setUser', {
+
+      this.$store.dispatch("setUser", {
         userId: result.userId,
         userName: result.userName,
         type: result.type,
@@ -47,17 +45,21 @@ export default {
         className: result.className,
       });
       console.log(this.$store.state.user);
-    }
+    },
   },
   mounted() {
-    const accessToken = sessionStorage.getItem('access-token');
+    const accessToken = sessionStorage.getItem("access-token");
     if (accessToken) {
       const userid = getTokenInfo().userId;
-      console.log(userid)
+      console.log(userid);
       if (tokenExpired()) {
-        this.setUserInfo(userid, sessionStorage.getItem('access-token'), sessionStorage.getItem('refresh-token'));
+        this.setUserInfo(
+          userid,
+          sessionStorage.getItem("access-token"),
+          sessionStorage.getItem("refresh-token")
+        );
       } else {
-        this.setUserInfo(userid, sessionStorage.getItem('access-token'));
+        this.setUserInfo(userid, sessionStorage.getItem("access-token"));
       }
     }
   },
@@ -71,17 +73,19 @@ export default {
   background-color: white;
 }
 @font-face {
-  font-family: 'EliceDigitalBaeum_Bold';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/EliceDigitalBaeum_Bold.woff') format('woff');
+  font-family: "EliceDigitalBaeum_Bold";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/EliceDigitalBaeum_Bold.woff")
+    format("woff");
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
-  font-family: 'NanumSquareRound';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NanumSquareRound.woff') format('woff');
-  font-weight: normal; 
+  font-family: "NanumSquareRound";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NanumSquareRound.woff")
+    format("woff");
+  font-weight: normal;
 }
 * {
-  font-family: 'NanumSquareRound';
+  font-family: "NanumSquareRound";
 }
 </style>

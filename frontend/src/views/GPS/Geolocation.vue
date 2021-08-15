@@ -49,11 +49,11 @@ export default {
 			console.log(jsonData.type);
 			if(jsonData.type === "not running"){				
 				this.$fire({
-					html: `<a href="javascript:void(0);"></a><p style="font-size: 30px; font-family: 'NanumSquareRound';">현재 등하원 버스는 미운행 중입니다.</p>`,
+					html: `<a href="javascript:void(0);"></a><p style="font-size: 0.95rem; font-family: 'NanumSquareRound';">현재 등하원 버스는 미운행 중입니다.</p>`,
 					imageUrl: require('@/assets/flaticon/not_running.png'),
 					imageWidth: 225,
 					imageHeight: 185,
-					confirmButtonColor: '#c7cce0',
+					confirmButtonColor: '#58679A',
 					focusConfirm: false
 				}).then(r => {
 					console.log(r.value);
@@ -61,11 +61,11 @@ export default {
 				});				
 			}else if(jsonData.type === "Delete"){
 				this.$fire({
-					html: `<p style="font-size: 30px; font-family: 'NanumSquareRound';">등하원 버스 운행이 종료되었습니다.</p>`,
+					html: `<p style="font-size: 0.95rem; font-family: 'NanumSquareRound';">등하원 버스 운행이 종료되었습니다.</p>`,
 					imageUrl: require('@/assets/flaticon/Delete.png'),
 					imageWidth: 225,
 					imageHeight: 185,
-					confirmButtonColor: '#c7cce0'
+					confirmButtonColor: '#58679A'
 				}).then(r => {
 					console.log(r.value);
 					this.$router.push({ name: 'MainPage' });

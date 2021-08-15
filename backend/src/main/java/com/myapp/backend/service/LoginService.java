@@ -62,6 +62,10 @@ public class LoginService {
 
     @Transactional
     public LoginResultDto setLoginResult(User user) {
+        //로그인 하면 상태코드를 변경해준다
+        user.setStateCode(1);
+        loginRepository.save(user);
+
         LoginResultDto loginResultDto = new LoginResultDto();
 
         loginResultDto.setUserId(user.getUserId());

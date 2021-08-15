@@ -38,7 +38,7 @@ public class Dosage {
     @Column(length = 30)
     private String dosageTime;
 
-    @Column(length = 10)
+    @Column(length = 30)
     private String storage;
 
     @Column(length = 100)

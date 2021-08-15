@@ -35,7 +35,7 @@ public class UserController {
     JoinService joinService;
 
     @PostMapping
-    public ResponseEntity join(@RequestBody JoinDto joinDto){
+    public ResponseEntity join(@RequestBody JoinDto joinDto) {
         return joinService.join(joinDto);
     }
 
@@ -53,7 +53,7 @@ public class UserController {
     public ResponseEntity<MyPageResultDto> retrieveUser(@PathVariable String userId) {
         MyPageResultDto findUser = userService.retrieveUser(userId);
 
-        if (findUser !=null) {
+        if (findUser != null) {
             return new ResponseEntity<MyPageResultDto>(findUser, HttpStatus.OK);
         }
         return new ResponseEntity<MyPageResultDto>(HttpStatus.NOT_FOUND);
@@ -67,7 +67,7 @@ public class UserController {
     public ResponseEntity<List<User>> retrieveAllUser(@RequestParam(value = "code", required = true) String kinderCode) {
         List<User> userlist = userService.retrieveAllUser(kinderCode);
 
-        if (userlist !=null) {
+        if (userlist != null) {
             return new ResponseEntity<List<User>>(userlist, HttpStatus.OK);
         }
         return new ResponseEntity<List<User>>(HttpStatus.NOT_FOUND);
@@ -80,13 +80,12 @@ public class UserController {
     public ResponseEntity<List<User>> retrieveAllClassUser(@RequestParam(value = "classCode", required = true) String classCode) {
         List<User> userlist = userService.retrieveAllClassUser(classCode);
 
-        for (User u:userlist)
-        {
+        for (User u : userlist) {
             System.out.println(u.toString());
 
         }
 
-        if (userlist !=null) {
+        if (userlist != null) {
             return new ResponseEntity<List<User>>(userlist, HttpStatus.OK);
         }
         return new ResponseEntity<List<User>>(HttpStatus.NOT_FOUND);
@@ -134,6 +133,7 @@ public class UserController {
 
     /**
      * 유저 프로필사진 수정
+     *
      * @param userId
      * @return
      */
@@ -143,25 +143,43 @@ public class UserController {
 
         int result = userService.updateProfileImg(photoKey, userId);
 
-        if(result == SUCCESS) return new ResponseEntity(result, HttpStatus.OK);
+        if (result == SUCCESS) return new ResponseEntity(result, HttpStatus.OK);
         return new ResponseEntity(result, HttpStatus.BAD_REQUEST);
     }
 
     /**
      * 유저 비밀번호 수정
+     *
      * @param userId
      * @return
      */
     @PutMapping("/password/{userId}")
     public ResponseEntity<Result> updatePassword(
             @RequestBody ChangePasswordDto changePasswordDto,
-            @PathVariable String userId){
+            @PathVariable String userId) {
         boolean flag = userService.updatePassword(changePasswordDto);
 
         if (flag) {
             return new ResponseEntity<Result>(new Result(true, "정보 수정 완료, userid : " + userId), HttpStatus.OK);
         }
         return new ResponseEntity<Result>(new Result(false, "정보 수정에 실패하였습니다."), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    /**
+     * 유저 상태코드 변경
+     *
+     * @param userId
+     * @param stateCode , 변경할 코드로 들어온다
+     * @return
+     */
+    @PutMapping("/stateCode/{userId}")
+    public ResponseEntity<Result> changeStateCode(@PathVariable String userId, @RequestParam(value = "stateCode", required = true) int stateCode) {
+        boolean flag = userService.changeStateCode(userId, stateCode);
+
+        if (flag) {
+            return new ResponseEntity<Result>(new Result(true, "상태코드 수정 완료, userid : " + userId), HttpStatus.OK);
+        }
+        return new ResponseEntity<Result>(new Result(false, "상태코드 수정에 실패하였습니다."), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
 

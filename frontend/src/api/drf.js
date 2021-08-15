@@ -4,6 +4,7 @@ export default {
   URL,
   ROUTES: {
     login: '/login',
+    logout: '/logout',
     signup: '/user',
     sms: '/auth/sms',
     searchClass:'/auth/kinder/class',
@@ -11,6 +12,7 @@ export default {
     getuserinf:'/user/info',
     changeProfileImg:'/user/profileImg',
     changePWAfterLogin:'/user/password',
+    changeStateCode:'/user/stateCode',
     notebook: '/notebook',
     request: '/request',
     getClassMember:'/user/class',
@@ -19,5 +21,6 @@ export default {
     menu: '/notice',
     attendance: '/attendance',
     album: '/album',
+    chat: '/chat',
   }
 }

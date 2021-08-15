@@ -1,243 +1,243 @@
 <template>
-<div>
-  <!-- 모달 배경 -->
-  <div 
-    class="modalBackground"
-    v-if="visible"
-    @click="$emit('updateVisible', !visible)"
-    >
-  </div>
+  <div>
+    <!-- 모달 배경 -->
+    <div
+      class="modalBackground"
+      v-if="visible"
+      @click="$emit('updateVisible', !visible)"
+    ></div>
 
     <!-- 모달 박스 -->
-    <div class="modalBox" v-if="visible">
-      
+    <div class="modalBox flex-column" v-if="visible">
+      <div style="width: 100%; display: flex; justify-content: flex-end">
+        <!-- 삭제 버튼 -->
+        <button
+          style="margin-right: 1.3rem; margin-bottom: 1.3rem"
+          v-if="user.type === 2"
+        >
+          <img
+            @click="deleteAlbum"
+            class="modalBtn"
+            src="@/assets/flaticon/trash.png"
+            alt="close-icon"
+          />
+        </button>
+        <!-- 다운로드 버튼 -->
+        <button style="margin-right: 1.3rem; margin-bottom: 1.3rem">
+          <a
+            :href="
+              'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
+              downloadUrl
+            "
+            download
+          >
+            <img
+              class="modalBtn"
+              src="@/assets/flaticon/download.png"
+              alt="close-icon"
+            />
+          </a>
+        </button>
+        <!-- 닫기 버튼 -->
+        <button style="margin-right: 1.3rem; margin-bottom: 1.2rem">
+          <img
+            @click="$emit('updateVisible', !visible)"
+            class="modalBtn"
+            src="@/assets/flaticon/close1.png"
+            alt="close-icon"
+          />
+        </button>
+      </div>
+
       <!-- 슬라이더 -->
-      <div
-        class="modalSlide"
-      >
-        <swiper class="swiper gallery-top" :options="swiperOptionTop" ref="swiperTop">
-          <!-- <swiper-slide class="slide-1"></swiper-slide> -->
+      <div class="modalSlide">
+        <swiper
+          class="swiper gallery-top"
+          :options="swiperOptionTop"
+          ref="swiperTop"
+        >
           <swiper-slide v-for="image in images" :key="image.photoId">
-            <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/'+ image.photoId" style="width:100%; height: 100%" alt="">
+            <img
+              :src="
+                'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
+                image.photoId
+              "
+              style="height: 100%; object-fit: cover"
+              alt=""
+            />
           </swiper-slide>
 
-          <div class="swiper-button-next swiper-button-white" slot="button-next"></div>
-          <div class="swiper-button-prev swiper-button-white" slot="button-prev"></div>
+          <div
+            class="swiper-button-next swiper-button-white"
+            slot="button-next"
+          ></div>
+          <div
+            class="swiper-button-prev swiper-button-white"
+            slot="button-prev"
+          ></div>
         </swiper>
-        <!-- swiper2 Thumbs -->
-        <swiper class="swiper gallery-thumbs" :options="swiperOptionThumbs" ref="swiperThumbs">
+        <swiper
+          class="swiper gallery-thumbs"
+          :options="swiperOptionThumbs"
+          ref="swiperThumbs"
+        >
           <swiper-slide v-for="image in images" :key="image.photoId">
-            <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/'+ image.photoId" style="width:100%; height: 100%" alt="">
+            <img
+              :src="
+                'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
+                image.photoId
+              "
+              style="width: 100%; height: 100%; object-fit: cover"
+              alt=""
+            />
           </swiper-slide>
         </swiper>
       </div>
-
-      <!-- 다운로드 버튼 -->
-      <button
-        class="modalBtn"
-      > <a :href="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + downloadUrl" download>
-          <img id="downloadBtn" src="@/assets/flaticon/download.png" alt="close-icon">
-        </a>
-      </button>
-      <!-- 삭제 버튼 -->
-      <button
-        class="modalBtn"
-        @click="deleteAlbum"
-      >
-        <img id="deleteBtn" src="@/assets/flaticon/trash.png" alt="close-icon">
-      </button>      
-      <!-- 닫기 버튼 -->
-      <!-- <button
-        class="modalBtn"
-        @click="$emit('updateVisible', !visible)"
-
-      >
-        <img id="closeBtn" src="@/assets/flaticon/close1.png" alt="close-icon">
-      </button>
-
-      <v-btn
-        class="ma-2 modalBtn"
-        text
-        icon
-        color="blue lighten-2"
-      >
-        <img id="closeBtn" src="@/assets/flaticon/close1.png" alt="close-icon">
-      </v-btn> -->
-
-      <v-btn
-        class="ma-2 "
-        small
-        icon
-        color="mainColor lighten-2"
-        style="position: absolute; top: 0; left: 0;"     
-      >
-        <img src="@/assets/flaticon/trash.png" alt="close-icon" style="height:1rem; width:1rem;">
-      </v-btn>
-      
-      <v-btn
-        class="ma-2 "
-        small
-        icon
-        color="red lighten-2"
-        style="position: absolute; top: 0; left: 3rem;"     
-      >
-        <img src="@/assets/flaticon/download.png" alt="close-icon" style="height:1rem; width:1rem;">
-      </v-btn>             
     </div>
-</div>  
+  </div>
 </template>
 
 <script>
-import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
-import 'swiper/css/swiper.css'
-import albumApi from '@/api/album.js';
-import awss3 from '@/utils/awss3.js'
-
+import { mapState } from "vuex";
+import { Swiper, SwiperSlide } from "vue-awesome-swiper";
+import "swiper/css/swiper.css";
+import albumApi from "@/api/album.js";
+import awss3 from "@/utils/awss3.js";
 
 export default {
-  name: 'AlbumDetail',
+  name: "AlbumDetail",
   components: {
     Swiper,
-    SwiperSlide
+    SwiperSlide,
   },
   props: {
     visible: {
       type: Boolean,
-      require:true,
-      default:false
+      require: true,
+      default: false,
     },
     selectedAlbumId: {
       type: Number,
-    }
+    },
   },
   data() {
     return {
-      // 1. 디테일 띄우기.
-      // 2. 삭제.
-      // 3. 다운로드.
-      
-      images : [],
-      downloadUrl : "",
-      photoKeyList:[],
+      images: [],
+      downloadUrl: "",
+      photoKeyList: [],
 
       swiperOptionTop: {
-        loop: true,
-        loopedSlides: 5, // looped slides should be the same
+        loop: false,
+        loopedSlides: 5,
         spaceBetween: 10,
         navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev'
-        }
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
       },
       swiperOptionThumbs: {
         loop: false,
-        loopedSlides: 5, // looped slides should be the same
+        loopedSlides: 5,
         spaceBetween: 10,
         centeredSlides: true,
-        slidesPerView: 'auto',
+        slidesPerView: "auto",
         touchRatio: 0.2,
-        slideToClickedSlide: true
-      }
-    }
+        slideToClickedSlide: true,
+      },
+    };
+  },
+  computed: {
+    ...mapState({
+      user: "user",
+    }),
   },
   methods: {
     async getAlbumDetail() {
-      let accessToken = sessionStorage.getItem('access-token')
-      let refreshToken = sessionStorage.getItem('refresh-token')
+      let accessToken = sessionStorage.getItem("access-token");
+      let refreshToken = sessionStorage.getItem("refresh-token");
       let data = {
-        albumId: this.selectedAlbumId
-      }
+        albumId: this.selectedAlbumId,
+      };
       let result = await albumApi.getAlbumDetail(data, {
         "access-token": accessToken,
         "refresh-token": refreshToken,
-      })
-      // 이미지 띄울때 이미지 소스 안에 주소를 만들어서 넣는다.
-      // 
-      this.downloadUrl = result.downloadUrl
-      this.images = result.albumImgs
-      console.log(this.images)
-      for(var image of this.images) {
-        this.photoKeyList.push(image.photoId)
+      });
+      this.downloadUrl = result.downloadUrl;
+      this.images = result.albumImgs;
+      for (var image of this.images) {
+        this.photoKeyList.push(image.photoId);
       }
     },
 
     async deleteAlbum() {
-      let accessToken = sessionStorage.getItem('access-token')
-      let refreshToken = sessionStorage.getItem('refresh-token')
+      let accessToken = sessionStorage.getItem("access-token");
+      let refreshToken = sessionStorage.getItem("refresh-token");
 
       let data = {
-        albumId: this.selectedAlbumId
-      }
+        albumId: this.selectedAlbumId,
+      };
       await albumApi.deleteAlbum(data, {
         "access-token": accessToken,
         "refresh-token": refreshToken,
-      })
-      // testlist = photoKeyList, testzip = photoKey, 
+      });
       awss3.deletePhoto(this.photoKeyList, this.downloadUrl);
-      this.photoKeyList = []
-      this.downloadUrl = ""
-      this.$emit('updateVisible', !this.visible)
-      this.$emit('get-album')
+      this.photoKeyList = [];
+      this.downloadUrl = "";
+      this.$emit("updateVisible", !this.visible);
+      this.$emit("get-album");
     },
-
-
-    },
+  },
   created() {
-    console.log(this.selectedAlbumId)
-    this.getAlbumDetail()
+    this.getAlbumDetail();
   },
   mounted() {
     this.$nextTick(() => {
-      const swiperTop = this.$refs.swiperTop.$swiper
-      const swiperThumbs = this.$refs.swiperThumbs.$swiper
-      swiperTop.controller.control = swiperThumbs
-      swiperThumbs.controller.control = swiperTop
-    })
-  }
-}
+      const swiperTop = this.$refs.swiperTop.$swiper;
+      const swiperThumbs = this.$refs.swiperThumbs.$swiper;
+      swiperTop.controller.control = swiperThumbs;
+      swiperThumbs.controller.control = swiperTop;
+    });
+  },
+};
 </script>
 
 <style lang="scss" scoped>
 @import "@/assets/scss/index.scss";
+
 // 모달 관련
 .modalBackground {
   position: fixed;
-  top:0; left: 0; bottom: 0; right: 0;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
   background: rgba(0, 0, 0, 0.8);
   display: block;
 }
- 
+
 .modalBox {
-  position: absolute;
-  top: 8vh; left: 10vw; 
-  background-color: rgba(255, 255, 255, 0.93);
-  display: flex; justify-content: center;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+
+  background-color: rgba(240, 241, 247);
+  display: flex;
+  justify-content: center;
   align-items: center;
   border-radius: 4px;
-  width: 80vw;
-  height: 89vh;
+  width: 70vw;
+  height: 80vh;
 }
 
 .modalBtn {
-  position: absolute;
-  height: 0.8rem;
-  width: 0.8rem;
-  top: 0.4rem; right: 1rem;
+  height: 1.1rem;
+  width: 1.1rem;
 }
-
-#downloadBtn {
-  position: absolute;
-  top: 0.4rem; right: 5rem;
-}
-#deleteBtn {
-  position: absolute;
-  top: 0.4rem; right: 3rem;
-}
-#closeBtn {
-  position: absolute;
-  top: 0.4rem; right: 1rem;
-}
-
 .modalSlide {
   height: 90%;
   width: 100%;
@@ -277,5 +277,4 @@ export default {
     opacity: 1;
   }
 }
-
 </style>

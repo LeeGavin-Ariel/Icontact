@@ -1,26 +1,45 @@
 <template>
-  <div style="overflow-y: scroll" class="col">
+  <div>
     <!-- 디테일 -->
 
-    일정 상세페이지 <br />
-    <!-- <v-btn @click="showCreateNoticeForm">새 글 작성</v-btn>
-    
-    <v-btn @click="showUpdateNoticeForm">글 수정</v-btn> -->
-
     <v-sheet rounded="lg" v-if="createMode && this.scheduleInfo">
-      <br />
-      <p>
-        제목 : {{this.scheduleInfo.title}}
-      </p>
+      <div style="width:100%; height:15px; background-color:#a8b1cf" class="mt-3"></div>
+      <div class="container content-container" style="height:84.8vh">
 
-      <p>내용</p>
-       {{this.scheduleInfo.content}}
-      <!-- <p>작성 일자 : </p>
-      <input type="number" v-model="createDate"> -->
-      <br/><br/>
-      <p>첨부사진 :</p>
-      <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/'+ scheduleInfo.scheduleImgUrl" alt="profile-image">
-   </v-sheet>
+        <div align="right" class="mt-2"> 
+          <button v-if="this.$store.state.user.type == 2" @click="showUpdateScheduleForm" class="mr-2 update-delete-btn">수정</button>
+          <button v-if="this.$store.state.user.type == 2" @click="deleteSchedule" class="ml-2 mr-2 update-delete-btn">삭제</button>
+        </div>
+        <div class="section-title">
+        </div>
+        <div align="center" class="mb-5">
+
+          <div class="col-lg-11">
+            <table class="table">
+              <tbody>
+                  <tr class="d-flex">
+                      <td class="col-12">
+                        <div style="font-size:35px"><strong>{{this.scheduleInfo.title}}</strong></div>
+                        <div class="d-flex align-items-center mt-3 mb-2">
+                          <div>{{this.scheduleInfo.userName}} 선생님</div>
+                        </div>
+                      </td>
+                  </tr>
+                  <tr class="d-flex">
+                    <td class="col-12 align-items-center mt-3" style="min-height: 400px;">
+                      <div class="mb-5">
+                        <img style="max-width: 100%" v-if="scheduleInfo.scheduleImgUrl" :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/'+ scheduleInfo.scheduleImgUrl" alt="profile-image">
+                      </div>
+                      <div v-html="contentReplace(this.scheduleInfo.content)"></div>
+                          
+                    </td>
+                  </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </v-sheet>
   </div>
 </template>
 
@@ -39,7 +58,7 @@ export default {
     id: {
       id: Number,
     },
-    scheduleInfo:{}
+    scheduleInfo: {},
   },
 
   data() {
@@ -60,15 +79,27 @@ export default {
   },
 
   methods: {
+    showUpdateScheduleForm() {
+      console.log("오픈업데이트폼");
+      this.$emit("showUpdateScheduleForm");
+    },
+    deleteSchedule() {
+      console.log("삭제");
+      this.$emit("deleteSchedule");
+    },
+    contentReplace(content) {
+      // 줄바꿈
+      return content.replace(/(?:\r\n|\r|\n)/g, "<br />");
+    },
     changeMode(create, update, detail) {
       this.createMode = create;
       this.updateMode = update;
       this.detailMode = detail;
     },
 
-     // 생성창 띄우기
-    async showCreateNoticeForm() {
-      console.log('눌렀는데');
+    // 생성창 띄우기
+    async showCreateScheduleForm() {
+      console.log("눌렀는데");
       this.changeMode(true, false, false);
 
       // this.$emit("get-notebooklist", this.noticeType);
@@ -98,4 +129,31 @@ export default {
 </script>
 
 <style scoped>
+/* 스크롤 */
+.content-container{
+  overflow-y:scroll; 
+  height:80vh; 
+}
+.content-container::-webkit-scrollbar {
+  width: 7px;
+  background-color: rgba(233,234,239, 0.5);
+  border-radius: 1px;
+}
+.content-container::-webkit-scrollbar-thumb {
+  background-color: #a8b1cf;
+  border-radius: 1px;
+}
+.content-container::-webkit-scrollbar-track {
+  background-color: rgba(233,234,239, 0.5);
+  border-radius: 1px;
+}
+
+.update-delete-btn {
+  font-size: 18px;
+  color: darkgrey;
+}
+.update-delete-btn:hover {
+  color: black;
+  transition: 0.3s;
+}
 </style>

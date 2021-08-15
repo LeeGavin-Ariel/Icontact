@@ -12,6 +12,7 @@ import java.util.Date;
 public class DosageResultDto {
     private String userId;
     private String kidName;
+    private String profileImg;
     private int dosageId;
     private String symptom;
     private String medicineType;

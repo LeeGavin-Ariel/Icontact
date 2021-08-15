@@ -1,14 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import router from '@/router/index.js'
-import userApi from '@/api/user.js';
-// import createPersistedState from "vuex-persistedstate"
+import createPersistedState from "vuex-persistedstate"
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  // plugins: [
-  //       createPersistedState(),
-  //     ],
+  plugins: [createPersistedState({
+    storage: window.sessionStorage,
+  })],
   state: {
     user: null,
 
@@ -101,19 +100,11 @@ export default new Vuex.Store({
 
 
     async removeUser(context) {
-      try{
-        // 로그아웃할때 유저 아이디 넘겨주기 (가빈누나부탁)
-        await userApi.updateUser({
-          userId : context.state.user.userId,
-        },
-        {
-          "access-token": sessionStorage.getItem('access-token')
-        });
-      } catch (e) {
-        console.log(e)
-      }
+      console.log('로그아웃테스트')
+      console.log(context.state.user.userId)
       context.commit('REMOVE_USER');
       sessionStorage.clear();
+      
     },
 
     // 비밀번호 변경 - id 값 저장
@@ -131,7 +122,7 @@ export default new Vuex.Store({
     addMessages: ({ commit, state }, messages) => {
       commit('SET_MESSAGES', messages.concat(state.messages))
     },
-    //이전 메시지 가져오기
+    // 이전 메시지 가져오기
     loadPrevMessages: ({ commit }, messages) => {
       commit('PLUS_MESSAGES', messages)
     },

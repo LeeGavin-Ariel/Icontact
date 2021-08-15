@@ -1,36 +1,23 @@
 <template>
   <v-app id="app">
-    <Navbar
-    v-if="$store.state.user"
-    />
-    <!-- <Navbar
-    v-if="$store.state.isLoggedIn"
-    /> -->
-    <router-view/>
+    <Navbar v-if="$store.state.isLoggedIn" />
+    <router-view />
   </v-app>
 </template>
 
 <script>
-import { getTokenInfo, tokenExpired } from '@/utils/jwt.js';
-import Navbar from '@/components/common/Navbar.vue';
-import userApi from '@/api/user.js';
+import { getTokenInfo, tokenExpired } from "@/utils/jwt.js";
+import Navbar from "@/components/common/Navbar.vue";
+import userApi from "@/api/user.js";
 
 export default {
-  name: 'App',
-  components:{
-    Navbar // state 방식 불가능식 props로 내려준다...
+  name: "App",
+  components: {
+    Navbar,
   },
-  // getUser -> 우리가 거기서 뽑아낸 값으로 type을 봐서 처리를 한다 -> 노상관
-  // 근데, 선생과 학부모 테이블 형태가 다르면 getUser 했을때 문제 생길 수 있다.
-  // 그럼, 선생 따로, 학부모 따로 유저 정보를 가져와야하는가?
-  // 프론트에서 -> 토큰을 보내서 디코딩해서 유저가 선생인지 학부모인지 체크를 해서,
-  // 체크가 되면, 조건분기해서 그걸로 getTeacher, getParent 방식처럼 2가지로 나누어 불러와야함.
   methods: {
     async setUserInfo(userid, accessToken, refreshToken) {
       let result;
-
-      
-      // getUser는 의상이 코드에서 확인하기.
       if (!refreshToken) {
         result = await userApi.getUser(userid, {
           "access-token": accessToken,
@@ -41,8 +28,8 @@ export default {
           "refresh-token": refreshToken,
         });
       }
-      // 일단 이 밑으로 실행 안됨. 위에 에러나서 그런듯
-      this.$store.dispatch('setUser', {
+
+      this.$store.dispatch("setUser", {
         userId: result.userId,
         userName: result.userName,
         type: result.type,
@@ -58,28 +45,47 @@ export default {
         className: result.className,
       });
       console.log(this.$store.state.user);
-    }
+    },
   },
-  // 토큰만 확인하는 방식. or 이 방식 그대로.
   mounted() {
-    const accessToken = sessionStorage.getItem('access-token');
+    const accessToken = sessionStorage.getItem("access-token");
     if (accessToken) {
       const userid = getTokenInfo().userId;
-      console.log(userid)
+      console.log(userid);
       if (tokenExpired()) {
-        this.setUserInfo(userid, sessionStorage.getItem('access-token'), sessionStorage.getItem('refresh-token'));
+        this.setUserInfo(
+          userid,
+          sessionStorage.getItem("access-token"),
+          sessionStorage.getItem("refresh-token")
+        );
       } else {
-        this.setUserInfo(userid, sessionStorage.getItem('access-token'));
+        this.setUserInfo(userid, sessionStorage.getItem("access-token"));
       }
     }
   },
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-  #app {
-    height: 100vh;
-    width: 100vw;
-  }
+#app {
+  height: 100vh;
+  width: 100vw;
+  background-color: white;
+}
+@font-face {
+  font-family: "EliceDigitalBaeum_Bold";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/EliceDigitalBaeum_Bold.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "NanumSquareRound";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NanumSquareRound.woff")
+    format("woff");
+  font-weight: normal;
+}
+* {
+  font-family: "NanumSquareRound";
+}
 </style>

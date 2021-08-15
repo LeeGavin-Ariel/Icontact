@@ -15,7 +15,7 @@ public class NoteBookDetailDto {
     int noteId;
     String title;
     String content;
-    Date createDate;
+    String createDate;
     String writerId;
     String writerName;
     String targetId;

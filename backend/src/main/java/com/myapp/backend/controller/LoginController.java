@@ -40,7 +40,7 @@ public class LoginController {
             int userType = user.getType(); // 회원 유형
             int userAccept = user.getAccept(); // 승인상태
 
-            LoginResultDto loginResultDto = null;
+            LoginResultDto loginResultDto = new LoginResultDto();
 
             if(userAccept == 2){ // 승인완료
                 loginResultDto = loginService.setLoginResult(user);
@@ -59,6 +59,7 @@ public class LoginController {
                 }
             } else { // 미승인, 승인거절
                 loginResultDto.setAccept(userAccept);
+                System.out.println(loginResultDto);
                 return new ResponseEntity<>(loginResultDto, HttpStatus.OK);
             }
 

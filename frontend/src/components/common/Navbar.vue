@@ -1,111 +1,222 @@
 <template>
-    <div style="background-color: rgb(250, 215, 73);">
+  <div>
+    <nav class="navbar">
+      <!-- 로고 -->
+      <button @click="moveToMainPage">
+        <img
+          src="@/assets/icontact/dark_log.png"
+          style="height: 2.1rem"
+          alt="logo-image"
+        />
+      </button>
 
-      <nav
-      class="navbar bg-light"
-      style="background-color: rgb(230, 232, 240) padding-top; 0"
-      >
-        <button @click="moveToMainPage">
-          <img src="@/assets/icontact2.png" style="height:2.8rem" alt="">
-        </button>
-        <!-- <v-btn plain @click="moveToMainPage">
-          <v-icon>Icontact</v-icon>
-        </v-btn> -->
-        
-        <v-spacer></v-spacer>
-        <p v-if="type == 2" style="color: black; margin-bottom:0px; margin-right:20px">{{ className }} {{ userName }} 선생님</p>
-        <p v-if="type == 1">{{ className }} {{ userName }} 보호자님</p>
-        <v-menu
-          left
-          bottom
-        >
-          <template v-slot:activator="{ on, attrs }" >
-            <v-btn
-              icon
-              v-bind="attrs"
-              v-on="on"
-            style="margin-right:15px">
-              <v-avatar size="40">
-                <img :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + $store.state.user.profileImg">
+      <!-- 간격 조정 -->
+      <v-spacer></v-spacer>
+
+      <!-- 호칭 -->
+      <p v-if="type == 2" class="userName">
+        {{ className }}반 {{ userName }} 선생님
+      </p>
+      <p v-if="type == 1" class="userName">
+        {{ className }}반 {{ kidName }} 보호자님
+      </p>
+
+      <!-- 프로필 사진 : 드롭 다운 -->
+      <v-menu left bottom>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn icon v-bind="attrs" v-on="on" style="margin-right: 1.3em">
+            <v-badge v-if="type == 2" dot overlap bottom :color="badgeColor">
+              <v-avatar size="40" class="scale">
+                <img
+                  :src="
+                    'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
+                    $store.state.user.profileImg
+                  "
+                />
               </v-avatar>
-            </v-btn>
-          </template>
-          <v-list>
-            <v-list-item @click="$router.push({ name: 'MyPage', params: { userId: userId }})">
-              <v-list-item-title >마이페이지</v-list-item-title>
-            </v-list-item>
-            <v-list-item>
-              <v-list-item-title>알람끄기</v-list-item-title>
-            </v-list-item>
-            <v-list-item @click="logout">
-              <v-list-item-title >로그아웃</v-list-item-title>
-            </v-list-item>
-          </v-list>
-        </v-menu>
-
-
-        <v-btn icon>  
-          <v-badge
-            overlap
-            dot
-            color="pink"
-          >
-            <v-avatar size="40">
-              <v-img src="https://image.flaticon.com/icons/png/512/2645/2645883.png"></v-img>
+            </v-badge>
+            <v-avatar v-else-if="type == 1" size="40" class="scale">
+              <img
+                :src="
+                  'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
+                  $store.state.user.profileImg
+                "
+              />
             </v-avatar>
-          </v-badge>
-        </v-btn>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item @click="moveToMyPage">
+            <v-list-item-title style="text-align: right"
+              >마이페이지</v-list-item-title
+            >
+          </v-list-item>
+          <v-list-item @click="toggleAlarm" v-if="type == 2">
+            <v-list-item-title style="text-align: right" v-if="stateCode == 1"
+              ><img
+                src="@/assets/flaticon/off.png"
+                style="width: 0.7rem; margin-right: 0.3rem"
+              />자리비움</v-list-item-title
+            >
+            <v-list-item-title style="text-align: right" v-if="stateCode == 2"
+              ><img
+                src="@/assets/flaticon/on.png"
+                style="width: 0.7rem; margin-right: 0.3rem"
+              />온라인</v-list-item-title
+            >
+          </v-list-item>
+          <v-list-item @click="logout">
+            <v-list-item-title style="text-align: right"
+              >로그아웃</v-list-item-title
+            >
+          </v-list-item>
+        </v-list>
+      </v-menu>
 
-      </nav>
-    </div>
+      <!-- 지도 아이콘 -->
+      <button class="scale">
+        <img src="@/assets/flaticon/bus.png" style="height: 3.2rem" />
+      </button>
+    </nav>
+  </div>
 </template>
 
 <script>
+import SERVER from "@/api/drf.js";
+import axios from "axios";
+import userApi from "@/api/user.js";
 export default {
-  name: 'Navbar',
+  name: "Navbar",
   data() {
     return {
       type: 0,
-      className: '',
-      userName: '',
-      userId: '',
-    }
+      className: "",
+      userName: "",
+      userId: "",
+      kidName: "",
+      stateCode: "",
+      badgeColor: "stateOn",
+    };
   },
+
   methods: {
+    async toggleAlarm() {
+      await this.updateStateCode();
+    },
+
+    async updateStateCode() {
+      let accessToken = sessionStorage.getItem("access-token");
+      let refreshToken = sessionStorage.getItem("refresh-token");
+
+      await userApi
+        .updateUserStateCode(
+          {
+            userId: this.$store.state.user.userId,
+            stateCode: this.stateCode == 1 ? 2 : 1,
+          },
+          {
+            "access-token": accessToken,
+            "refresh-token": refreshToken,
+          }
+        )
+        .then((result) => {
+          if (result) {
+            this.$store.state.user.stateCode = this.stateCode =
+              this.$store.state.user.stateCode == 1 ? 2 : 1;
+            this.badgeColor =
+              this.$store.state.user.stateCode == 2 ? "stateOff" : "stateOn";
+          }
+        })
+    },
+
     setInfo() {
-      this.type = this.$store.state.user.type
-      this.className = this.$store.state.user.className
-      this.userName = this.$store.state.user.userName
-      this.userId = this.$store.state.user.userId
+      this.type = this.$store.state.user.type;
+      this.className = this.$store.state.user.className;
+      this.userName = this.$store.state.user.userName;
+      this.userId = this.$store.state.user.userId;
+      this.kidName = this.$store.state.user.kidName;
+      this.stateCode = this.$store.state.user.stateCode;
+      this.badgeColor =
+        this.$store.state.user.stateCode == 2 ? "stateOff" : "stateOn";
     },
     logout() {
       if (confirm("정말 로그아웃하시겠습니까?")) {
-        this.$store.dispatch('removeUser');
-        if (this.$route.path !== '/') this.$router.push('/');
+        axios({
+          url:
+            SERVER.URL +
+            SERVER.ROUTES.logout +
+            `?userId=${this.$store.state.user.userId}`,
+          method: "get",
+        }).then(() => {
+          this.$store.dispatch("removeUser");
+          if (this.$route.path !== "Login")
+            this.$router.push({ name: "Login" });
+        });
       }
     },
     moveToMainPage() {
-      if (this.$route.path !== '/') {
-        this.$router.push({ name: 'MainPage' })
+      if (this.$route.path !== "/") {
+        this.$router.push({ name: "MainPage" });
       }
+    },
+    moveToMyPage() {
+      this.$router
+        .push({ name: "MyPage", params: { userId: this.userId } })
+        .catch(() => {});
     },
   },
   computed: {
     checkLogin() {
-      console.log('로그인됨')
-      this.setInfo()
-      
-      return this.$store.getters.isLogged
-    }
+      this.setInfo();
+
+      return this.$store.getters.isLogged;
+    },
   },
   watch: {
     checkLogin() {
-      this.setInfo()
-    }
-  }
-}
+      this.setInfo();
+    },
+  },
+};
 </script>
 
 <style scoped>
-
+* {
+  font-family: "NanumSquareRound";
+  letter-spacing: -0.5px;
+  color: rgba(40, 40, 40, 0.8);
+}
+.navbar {
+  background-color: rgba(102, 122, 188, 0.23);
+  padding-left: 1.5em;
+  padding-right: 1.5em;
+  padding-top: 0.3em;
+  padding-bottom: 0.3em;
+}
+.scale {
+  transform: scale(1);
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -ms-transform: scale(1);
+  -o-transform: scale(1);
+  transition: all 0.3s ease-in-out;
+}
+.scale:hover {
+  transform: scale(1.2);
+  -webkit-transform: scale(1.2);
+  -moz-transform: scale(1.2);
+  -ms-transform: scale(1.2);
+  -o-transform: scale(1.2);
+}
+.img {
+  width: 325px;
+  height: 280px;
+  overflow: hidden;
+}
+.userName {
+  margin-bottom: 0px;
+  margin-right: 1.2em;
+  font-weight: 800;
+  font-size: 1rem;
+}
 </style>

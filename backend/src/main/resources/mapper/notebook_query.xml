@@ -7,8 +7,8 @@
     <select id="searchNotebook" parameterType="map" resultType="com.myapp.backend.domain.dto.notebook.NoteBookListDto">
         SELECT *
         FROM user as u1,
-             (select classCode, type from user where userId = #{userId}) as tmp,
-            notebook
+        (select classCode, type from user where userId = #{userId}) as tmp,
+        notebook
         <if test="type==2">
             , (SELECT count(*) as totalNum
             FROM user as u1,
@@ -17,40 +17,36 @@
             WHERE u1.classCode = tmp.classCode
             and u1.type != tmp.type
             and notebook.writerId = #{userId}
-            and notebook.targetId like CONCAT('%', CONCAT(#{searchParam},'%'))
+            and notebook.targetId in (select userId from user where kidName like CONCAT('%', CONCAT(#{searchParam},'%')))
             and notebook.targetId = u1.userId
-            ORDER BY noteId DESC
-            LIMIT #{limit}, #{offset}
             ) as cnt
         </if>
         <if test="type==1">
-            (SELECT count(*) as totalNum
+            , (SELECT count(*) as totalNum
             FROM user as u1,
             (select classCode, type from user where userId = #{userId}) as tmp,
             notebook
             WHERE u1.classCode = tmp.classCode
             and u1.type != tmp.type
-                and notebook.targetId = #{userId}
-                and notebook.writerId like CONCAT('%', CONCAT(#{searchParam},'%'))
-                and notebook.writerId = u1.userId
-            ORDER BY noteId DESC
-            LIMIT #{limit}, #{offset}
+            and notebook.targetId = #{userId}
+            and notebook.writerId in (select userId from user where userName like CONCAT('%', CONCAT(#{searchParam},'%')))
+            and notebook.writerId = u1.userId
             ) as cnt
         </if>
         WHERE u1.classCode = tmp.classCode
-          and u1.type != tmp.type
+        and u1.type != tmp.type
         <if test="type==2">
             and notebook.writerId = #{userId}
-            and notebook.targetId like CONCAT('%', CONCAT(#{searchParam},'%'))
+            and notebook.targetId in (select userId from user where kidName like CONCAT('%', CONCAT(#{searchParam},'%')))
             and notebook.targetId = u1.userId
         </if>
         <if test="type==1">
             and notebook.targetId = #{userId}
-            and notebook.writerId like CONCAT('%', CONCAT(#{searchParam},'%'))
+            and notebook.writerId in (select userId from user where userName like CONCAT('%', CONCAT(#{searchParam},'%')))
             and notebook.writerId = u1.userId
         </if>
         ORDER BY noteId DESC
-            LIMIT #{limit}, #{offset}
+        LIMIT #{limit}, #{offset}
     </select>
 
 

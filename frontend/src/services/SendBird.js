@@ -11,7 +11,7 @@ const ChannelHandler = new sendBird.ChannelHandler()
 export default {
 
   async addUser(userId, nickName){
-    console.log("sendbird 연결 들어옴")
+    console.log("sendbird 연결 들어옴1")
     console.log(userId)
     console.log(nickName)
 

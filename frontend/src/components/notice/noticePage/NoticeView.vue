@@ -1,42 +1,36 @@
 <template>
-  <div style="overflow-y: scroll" class="col">
-    <v-spacer></v-spacer>
-    <!-- <v-btn @click="showCreateNoticeForm">새 글</v-btn> -->
-    <v-fab-transition>
-      <v-btn
-        color="red"
-        fab
-        small
-        dark
-        bottom
-        left
-        class="v-btn--example"
+  <div class="col">
+    <div class="ml-5 mr-5 mt-5">
+      <!-- <div style="margin-top:2.5rem;"></div> -->
+      <!-- <v-btn @click="showCreateNoticeForm">새 글</v-btn> -->
+      <button
+        class="writeBtn"
+        v-if="!createMode & !updateMode & (this.$store.state.user.type == 2)"
         @click="showCreateNoticeForm"
-        v-if="!createMode"
       >
-        <v-icon>mdi-pencil</v-icon>
-      </v-btn>
-    </v-fab-transition>
+        <img src="@/assets/flaticon/write.png" style="width: 3.8rem" />
+      </button>
 
-    <button v-if="detailMode" @click="showUpdateNoticeForm">|글 수정</button>
-
-    <button v-if="detailMode" @click="deleteNotice">|글 삭제</button>
-
-    <!-- <button @click="offCreateForm">글 작성 취소</button> -->
-
-    <!-- <notice-detail v-if="detailMode"/> -->
-    <notice-create
-      v-if="this.createMode"
-      @cancelCreateNotice="cancelCreateNotice"
-      @createNotice="createNotice"
-    />
-    <notice-update
-      v-if="this.updateMode"
-      :noticeInfo="this.noticeDetail"
-      @cancelUpdateNotice="cancelUpdateNotice"
-      @updateNotice="updateNotice"
-    />
-    <notice-detail v-if="this.detailMode" :noticeInfo="this.noticeDetail" />
+      <notice-create
+        v-if="this.createMode"
+        :createStart="createStart"
+        @cancelCreateNotice="cancelCreateNotice"
+        @createNotice="createNotice"
+      />
+      <notice-update
+        v-if="this.updateMode"
+        :noticeInfo="this.noticeDetail"
+        :updateStart="updateStart"
+        @cancelUpdateNotice="cancelUpdateNotice"
+        @updateNotice="updateNotice"
+      />
+      <notice-detail
+        v-if="this.detailMode && this.noticeDetail"
+        :noticeInfo="this.noticeDetail"
+        @showUpdateNoticeForm="showUpdateNoticeForm"
+        @deleteNotice="deleteNotice"
+      />
+    </div>
   </div>
 </template>
 
@@ -73,20 +67,49 @@ export default {
       createMode: false,
       detailMode: false,
       updateMode: false,
+      updateStart: false,
+      createStart: false,
     };
   },
   watch: {
     id: function () {
-      console.log("아이디가 변했어요" + this.id);
+      if (this.id == -1) {
+        this.noticeDetail = null;
+        console.log("글이 없습니다");
+        return;
+      }
+
       if (this.id !== 0) {
+        console.log("아이디가 변했어요오오" + this.id);
         this.getNoticeDetail();
       }
     },
   },
 
   methods: {
+    propUpdateNotice() {
+      this.updateStart = !this.updateStart;
+    },
+    propCreateNotice() {
+      this.createStart = !this.createStart;
+    },
     //공지 삭제
     async deleteNotice() {
+      let choice = await this.$fire({
+        html: `<a href="javascript:void(0);"></a><p style="font-size: 0.95rem; font-family: 'NanumSquareRound';">정말로 삭제하시겠습니까?</p>`,
+        type: "question",
+        showCancelButton: true,
+        confirmButtonText: "예",
+        cancelButtonText: "아니오",
+        confirmButtonColor: "#58679A",
+      });
+
+      // alert로 바꿔주세요.
+      if (!choice.value) {
+        console.log("삭제안함.");
+        return;
+      }
+
       let accessToken = sessionStorage.getItem("access-token");
       let refreshToken = sessionStorage.getItem("refresh-token");
 
@@ -177,4 +200,25 @@ export default {
 </script>
 
 <style scoped>
+.writeBtn {
+  position: fixed;
+  right: 60px;
+  bottom: 50px;
+  width: 3.8rem;
+}
+.notice-detail-tab {
+  font-size: 20px;
+  font-family: "NanumSquareRound";
+  font-weight: 900;
+}
+.notice-update-tab {
+  font-size: 20px;
+  font-family: "NanumSquareRound";
+  font-weight: 900;
+}
+.notice-create-tab {
+  font-size: 20px;
+  font-family: "NanumSquareRound";
+  font-weight: 900;
+}
 </style>

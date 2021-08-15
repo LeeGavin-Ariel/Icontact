@@ -77,7 +77,7 @@ public class RequestController {
         RequestResultDto requestResultDto = new RequestResultDto();
 
         int requestType = requestParamDto.getRequestType();
-        int limit = 2;
+        int limit = 7;
         requestParamDto.setLimit(limit);
         requestParamDto.setOffset((requestParamDto.getPageNum()-1)*limit);
 
@@ -114,7 +114,7 @@ public class RequestController {
         RequestResultDto requestResultDto = new RequestResultDto();
 
         int requestType = requestParamDto.getRequestType();
-        int limit = 2;
+        int limit = 7;
         requestParamDto.setLimit(limit);
         requestParamDto.setOffset((requestParamDto.getPageNum()-1)*limit);
 

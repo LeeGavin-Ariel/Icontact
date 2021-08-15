@@ -1,20 +1,20 @@
 <template>
-  <div style="display: flex; height:100vh;">
+  <div id="bg">
 
     
     <!-- 사이드바 -->
-    <div style="width:20vw;">
+    <div style="width:18vw;">
       <Sidebar/>
     </div>
 
     <!-- 관계에 따라 컴포넌트 분리 -->
     <ParentAttendance
+    style="width:82vw;"
     v-if="identity === 1"
-    style="width:80vw;"
     />
     <TeacherAttendance
+    style="width:82vw;"
     v-if="identity === 2"
-    style="width:80vw;"
     />
 
   </div>
@@ -39,6 +39,12 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+#bg {   
+  background-color: white;
+  width: 100%;
+  height: 100%;
+  display: flex; 
+}
 
 </style>

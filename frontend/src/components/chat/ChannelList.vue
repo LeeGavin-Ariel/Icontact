@@ -1,17 +1,49 @@
 <template>
-  <v-container fluid>
-    <v-text-field
-      label="유저명으로 검색"
-      dense
-      v-model="searchId"
-      @keypress.enter="searchById(searchId)"
-      append-icon="mdi-account-search"
-    ></v-text-field>
+  <v-col class="mx-auto">
+    <div align="center">
+      <input
+        type="text"
+        class="searchInput mb-1"
+        placeholder="이름으로 검색"
+        v-model="searchId"
+        @keypress.enter="searchById(searchId)"
+      />
+      <button class="searchBtn" @click="searchById(searchId)">검색</button>
+    </div>
+
+    <div
+      id="channelFrame"
+      ref="channelFrame"
+      class="content-container list-col mt-5"
+      style="height: 80vh"
+    >
+      <div
+        class="d-flex flex-column align-items-stretch flex-shrink-0"
+        style="width: 100%"
+      >
+        <channel-list-item
+          style="border: collpase"
+          v-for="(channel, index) in this.channelList"
+          :key="index"
+          :cover-url="channel.coverUrl"
+          :name="channel.name"
+          :url="channel.url"
+          :members="channel.members"
+          :searchId="searchId"
+          :lastMessage="
+            channel.lastMessage === undefined ? null : channel.lastMessage
+          "
+          :channel="channel"
+        />
+      </div>
+    </div>
+    <!-- <v-container fluid > -->
+
     <!-- 
     <v-btn @click="searchById">모든유저</v-btn>
 
     <v-btn @click="disconnectSendbird">연결해제</v-btn> -->
-    <v-list
+    <!-- <v-list
       two-line
       ref="channelFrame"
       class="overflow-y-auto"
@@ -36,7 +68,8 @@
         />
       </v-list-item-group>
     </v-list>
-  </v-container>
+  </v-container> -->
+  </v-col>
 </template>
 
 <script>
@@ -75,6 +108,15 @@ export default {
       console.log("channelList 변경되었습니다");
       console.log(this.channelList);
 
+      console.log("this");
+      console.log(this);
+
+      console.log("this.$el");
+      console.log(this.$el);
+
+      console.log("this.$el.offsetHeight");
+      console.log(this.$el.offsetHeight);
+
       if (
         newValue &&
         this.$el.offsetHeight + this.$el.scrollTop === this.$el.scrollHeight
@@ -92,7 +134,13 @@ export default {
     },
 
     handleScroll() {
-      console.log("scroll");
+      console.log("scroll11");
+
+      console.log(this.$el.offsetHeight);
+      console.log(document.getElementById("channelFrame").offsetHeight);
+
+      console.log(this.$refs.channelFrame);
+      console.log("this.$refs.channelFrame.offsetHeight");
       const oldHeight = this.$refs.channelFrame.offsetHeight;
 
       // if (this.$el.scrollTop === 0 && !this.allMessagesIsLoaded && this.messages.length > 0) {
@@ -124,7 +172,13 @@ export default {
     },
 
     scrollToBottom() {
-      console.log("scroll");
+      console.log("scroll222");
+
+      console.log('this.$el.offsetHeight', this.$el.offsetHeight);
+      console.log('document.getElementById("channelFrame").offsetHeight',document.getElementById("channelFrame").offsetHeight);
+
+      console.log(this.$refs.channelFrame);
+      console.log("this.$refs.channelFrame.offsetHeight:",this.$refs.channelFrame.offsetHeight);
       this.$el.scrollTop = this.$refs.channelFrame.offsetHeight;
     },
 
@@ -151,6 +205,8 @@ export default {
       sendBird
         .getGroupChannelList()
         .then(async (channels) => {
+          console.log('채널리스트 받음');
+          console.log(channels);
           await this.$store.commit("SET_CHANNELS", channels);
         })
         .catch((error) => {
@@ -169,24 +225,51 @@ export default {
 };
 </script>
 
-<style>
-.vscroll {
-  height: "inherit";
+<style scoped>
+.border-bottom {
+  border-bottom: solid 0.5px #a8b1cf;
 }
 
-.overflow-y-auto::-webkit-scrollbar {
-  /* display: none; */
-  /* width: 0 !important; */
-  width: 3px;
+.searchInput {
+  background-color: rgba(256, 256, 256, 0.7);
+  border-radius: 20px;
+  height: 36px;
+  width: 71%;
+  padding: 0px 0px 0px 15px;
+  margin: 3px 3px 3px 3px;
 }
-
-/* 현재 스크롤의 위치바의 색 */
-.overflow-y-auto::-webkit-scrollbar-thumb {
-  background-color: black;
+.searchBtn {
+  background-color: rgba(168, 177, 207, 1);
+  border-radius: 70px;
+  height: 36px;
+  width: 20%;
+  margin: 20px 3px 3px 3px;
+  text-align: center;
+  color: rgba(256, 256, 256);
+  letter-spacing: -1px;
 }
-
-/* 남는공간의 색 */
-.overflow-y-auto::-webkit-scrollbar-track {
-  background-color: white;
+/* 스크롤 */
+.content-container {
+  overflow-y: scroll;
+  height: 80vh;
+}
+.content-container::-webkit-scrollbar {
+  width: 7px;
+  background-color: rgba(233, 234, 239, 0.5);
+  border-radius: 5px;
+}
+.content-container::-webkit-scrollbar-thumb {
+  background-color: #a8b1cf;
+  border-radius: 5px;
+}
+.content-container::-webkit-scrollbar-track {
+  background-color: rgba(233, 234, 239, 0.5);
+  border-radius: 5px;
+}
+.selected {
+  background-color: #58679a;
+}
+.list-col {
+  background-color: rgba(256, 256, 256, 0.7);
 }
 </style>

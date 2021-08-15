@@ -1,55 +1,50 @@
 <template>
-  <!-- <li class="channel-list-item" > -->
-  <v-card two-line @click="openChannel(url)" class="mt-1" dense>
-    <v-row no-gutters>
-      <v-col align-self="center" class="" cols="2" style="border: solid 0px">
-        <v-avatar>
-          <img :src="require('@/assets/profileImg/' + opponentId + '.jpg')" alt="profile-image">
-          <!-- <img :src="coverUrl" alt="coverUrl" /> -->
-        </v-avatar>
-      </v-col>
-      <v-col>
-        <v-row>
-          <v-col cols="8">
-            <v-card-title primary-title>
-              {{ nickName }}
-            </v-card-title>
-            <v-card-subtitle>
-              {{ getLastMessage() }}
-            </v-card-subtitle>
-          </v-col>
+  <div @click="openChannel(url)" class="list-group list-group-flush scrollarea">
+    <div class="list-group-item list-group-item-action py-2 lh-tight border-bottom" style="background-color:rgb(256, 256, 256, 0.7);">
+      <div class="d-flex align-items-center" style="height: 9vh; width:100%">
+        
+        <div align="center" class="col-3">
+          <div class="mb-2">
+            <img
+            v-if="profileImg" class="profile-img" :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + profileImg"/>
+            <img
+            v-else class="profile-img"
+            :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/profileImg/noImg_1628231352109.png'"
+            />
+          </div>
 
-          <v-col align-self="center">
-            <v-row>{{ connectionStatus }}</v-row>
-            <v-row>{{ getCreatedAt() }}</v-row>
-          </v-col>
-          <!-- <v-col align-self="end"></v-col> -->
-        </v-row>
-        <!-- <v-row>
-          <v-card-text>{{ getCreatedAt() }} </v-card-text>
-        </v-row> -->
-      </v-col>
-    </v-row>
-  </v-card>
-  <!-- <div v-if="coverUrl" class="channel-list-item_thumb">
-      <img :src="coverUrl" >
-    </div> -->
-  <!-- </li> -->
+          
+
+        </div>
+        <div class="col-9">
+          <div class="chat-list-name mb-1">{{ nickName }}</div>
+          <div class="chat-last">{{ trimMsg(getLastMessage()) }}</div>
+          <div class="chat-time" align="right">{{ getCreatedAt() }}</div>
+        </div>
+        
+      </div>
+
+    </div>
+  </div>
+                      
 </template>
 
 <script>
 import sendBird from "@/services/SendBird.js";
+import chatApi from "@/api/chat.js";
 
 export default {
   name: "ChannelListItem",
 
   data() {
     return {
+      idx: 0,
       nickName: "",
       connectionStatus: "",
       // lastMessage:"",
       createdAt: "",
-      opponentId:"",
+      opponentId: "",
+      profileImg: "",
     };
   },
 
@@ -70,54 +65,62 @@ export default {
       type: Object,
     },
     members: [],
-    channel:{
-      type:Object,
+    channel: {
+      type: Object,
     },
   },
 
-  watch:{
-    channel(){
+  watch: {
+    channel() {
       this.setData();
-    }
+    },
   },
 
   methods: {
-    setData() {
-      console.log("this.members");
-      console.log(this.members);
+    async setData() {
+      
+      // await this.$store.commit("SET_CHANNEL", null);
 
       if (this.$store.state.user.userId == this.members[0].userId) {
-        console.log("0번");
-
         this.nickName = this.members[1].nickname;
         this.connectionStatus = this.members[1].connectionStatus;
         this.opponentId = this.members[1].userId;
       } else {
-        console.log("1번");
         this.nickName = this.members[0].nickname;
         this.connectionStatus = this.members[0].connectionStatus;
         this.opponentId = this.members[0].userId;
       }
 
-      console.log(this.nickName);
+      let result = await chatApi.getUserProfileImg(this.opponentId);
+      if(result==""){
+        this.profileImg = "profileImg/noImg_1628231352109.png";
+        
+      }else{
+        this.profileImg = result;
+      }
     },
-
+    trimMsg(msg) {
+      if (msg.length > 20) {
+        msg = msg.substr(0, 20) + "...";
+      }
+      return msg;
+    },
     async openChannel(url) {
+      console.log('채널을 선택했다');
+      console.log(url);
       await sendBird
         .getChannel(url)
-        .then((channel) => {
-          this.$store.commit("SET_CHANNEL", channel);
-          // 채널이 변경되면 computed 작동
-          console.log('채널을 가져왔어요');
+        .then(async (channel) => {
+          console.log('채널받기 성공');
           console.log(channel);
-          console.log(this.$store.state.channel);
-          console.log(channel==this.$store.state.channel);
+          channel.myImg = await chatApi.getUserProfileImg(this.$store.state.user.userId);
+          channel.oppoImg = this.profileImg;
+          await this.$store.commit("SET_CHANNEL", channel);
+          // 채널이 변경되면 computed 작동
         })
         .catch((error) => {
           console.error(error);
         });
-
-
     },
 
     toStringByFormatting(source, delimiter = "/") {
@@ -157,6 +160,24 @@ export default {
   },
 };
 </script>
-<style scoped lang="scss">
-@import "../../assets/scss/index.scss";
+<style scoped>
+.border-bottom{
+  border-bottom: solid 0.5px #a8b1cf;
+}
+.chat-list-name {
+  font-size: 1rem;
+  display:block;
+  font-weight: 900;
+}
+.chat-time {
+  font-size:0.8rem;
+}
+.chat-last{
+  font-size:1.2rem;
+}
+.profile-img {
+  width: 50%;
+  border-radius: 100%;
+  box-shadow: 0px 0px 2px 2px rgba(168, 177, 207, 0.7);
+}
 </style>

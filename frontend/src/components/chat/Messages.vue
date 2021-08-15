@@ -41,6 +41,8 @@ export default {
       stateFlag: false,
       transferMessage: [],
       channelUsersInfo: {},
+
+      oldHeight: 0,
     };
   },
 
@@ -57,7 +59,7 @@ export default {
       handler: async function (newValue) {
         console.log("메시지스 와치");
         console.log(newValue);
-        
+
         var myImg = "";
         var oppoImg = "";
         var myId = "";
@@ -89,22 +91,32 @@ export default {
           if (element._sender.userId == myId) {
             element.profileImg = myImg;
             element.senderId = myId;
-          }else{
+          } else {
             element.profileImg = oppoImg;
             element.senderId = oppoId;
           }
         });
 
         this.transferMessage = newValue;
-        console.log('transferMessage');
-        console.log(this.transferMessage);
+        console.log("transferMessage");
+        console.log(
+          "this.$refs.messagesList",
+          this.$refs.messagesList.offsetHeight
+        );
+        console.log("this.$el.scrollTop", this.$el.scrollTop);
+        console.log("this.$el.scrollHeight", this.$el.scrollHeight);
+        console.log("oldHeightt", this.oldHeight);
 
         if (
-          newValue &&
-          this.$el.offsetHeight + this.$el.scrollTop === this.$el.scrollHeight
+          newValue
         ) {
           this.$nextTick(() => {
-            this.scrollToBottom();
+            console.log("this.$refs.messagesList.offsetHeight");
+            console.log(this.$refs.messagesList.offsetHeight);
+            this.loadingIsActive = false;
+
+            this.$el.scrollTop =
+              this.$el.scrollHeight - this.oldHeight;
           });
         }
         await this.getTeacherState();
@@ -145,7 +157,7 @@ export default {
 
       await sendBird.onMessageReceived(channel, (channel, message) => {
         console.log("메시지를 받았습니다");
-        this.$store.dispatch('addMessage', message)
+        this.$store.dispatch("addMessage", message);
       });
 
       this.$nextTick(() => {
@@ -154,44 +166,35 @@ export default {
     },
 
     scrollToBottom() {
-      console.log("scroll");
-      this.$el.scrollTop = this.$refs.messagesList.offsetHeight;
+      console.log("scroll to bottom");
+      this.$el.scrollTop = this.$el.scrollHeight + 20;
     },
 
-    handleScroll() {
-      console.log("scroll");
-      const oldHeight = this.$refs.messagesList.offsetHeight;
+    async handleScroll() {
+      console.log("handle scroll");
 
-      if (
-        this.$el.scrollTop === 0 &&
-        !this.allMessagesIsLoaded &&
-        this.messages.length > 0
-      ) {
+      // 스크롤이 맨위로 올라갔으면
+      if (this.$el.scrollTop === 0) {
+        // var oldHeight = this.$refs.messagesList.offsetHeight;
         this.loadingIsActive = true;
+        // There should only be one single instance per channel view.
+        var listQuery = await this.channel.createPreviousMessageListQuery();
+        listQuery.limit = 100;
+        listQuery.reverse = false;
+        listQuery.includeMetaArray = true; // Retrieve a list of messages along with their metaarrays.
+        listQuery.includeReaction = true; // Retrieve a list of messages along with their reactions.
 
-        sendBird
-          // .getPreviousMessages(this.channel, this.earliestMessage.createdAt, 10)
-          .getPreviousGroupMessages(this.channel)
-          .then((messageList) => {
-            if (messageList.length === 0) {
-              this.loadingIsActive = false;
-              this.allMessagesIsLoaded = true;
-              return;
-            }
+        // Retrieving previous messages.
+        var preMsgs = await listQuery.load();
 
-            // this.$store.dispatch('addMessages', messageList)
-            this.$store.dispatch("loadPrevMessages", messageList);
-
-            this.$nextTick(() => {
-              this.$el.scrollTop =
-                this.$refs.messagesList.offsetHeight - oldHeight;
-              this.loadingIsActive = false;
-            });
-          })
-          .catch((error) => {
-            console.error(error);
-          });
+        this.oldHeight = this.$el.scrollHeight + 20;
+        await this.$store.dispatch("loadPrevMessages", preMsgs);
+        this.$nextTick(() => {
+          console.log("이전메시지 불러온 뒤");
+          this.loadingIsActive = false;
+        });
       }
+
     },
 
     getTeacherState() {
@@ -218,33 +221,18 @@ export default {
 };
 </script>
 <style scoped>
-/* @import "../../assets/scss/index.scss"; */
-.messages{
-  background: rgba(256,256,256,0.4);
+.messages {
+  background: rgba(256, 256, 256, 0.4);
 }
 
-/* #messagesScroll::-webkit-scrollbar {
-  width: 3px;
-} */
-
-/* 현재 스크롤의 위치바의 색 */
-/* #messagesScroll::-webkit-scrollbar-thumb {
-  background-color: black;
-} */
-
-/* 남는공간의 색 */
-/* #messagesScroll::-webkit-scrollbar-track {
-  background-color: white;
-} */
-
 /* 스크롤 */
-.messagesScroll{
-  overflow-y:scroll; 
-  height:80vh; 
+.messagesScroll {
+  overflow-y: scroll;
+  height: 80vh;
 }
 .messagesScroll::-webkit-scrollbar {
   width: 7px;
-  background-color: rgba(233,234,239, 0.5);
+  background-color: rgba(233, 234, 239, 0.5);
   border-radius: 1px;
 }
 .messagesScroll::-webkit-scrollbar-thumb {
@@ -252,11 +240,11 @@ export default {
   border-radius: 1px;
 }
 .messagesScroll::-webkit-scrollbar-track {
-  background-color: rgba(233,234,239, 0.5);
+  background-color: rgba(233, 234, 239, 0.5);
   border-radius: 1px;
 }
 
-ul{
+ul {
   padding: 0px;
   margin: 0px;
 }

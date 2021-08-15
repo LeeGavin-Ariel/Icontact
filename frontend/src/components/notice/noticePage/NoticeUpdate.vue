@@ -87,7 +87,7 @@ export default {
       title: this.noticeInfo.title,
       content: this.noticeInfo.content,
       noticeImgUrl: this.noticeInfo.noticeImgUrl,
-      saveDisabled: true,
+      saveDisabled: false,
     };
   },
   watch: {

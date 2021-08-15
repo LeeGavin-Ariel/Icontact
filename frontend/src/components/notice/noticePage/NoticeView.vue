@@ -11,14 +11,12 @@
 
       <notice-create
         v-if="this.createMode"
-        :createStart="createStart"
         @cancelCreateNotice="cancelCreateNotice"
         @createNotice="createNotice"
       />
       <notice-update
         v-if="this.updateMode"
         :noticeInfo="this.noticeDetail"
-        :updateStart="updateStart"
         @cancelUpdateNotice="cancelUpdateNotice"
         @updateNotice="updateNotice"
       />
@@ -71,8 +69,6 @@ export default {
       createMode: false,
       detailMode: false,
       updateMode: false,
-      updateStart: false,
-      createStart: false,
     };
   },
 
@@ -111,12 +107,6 @@ export default {
   },
 
   methods: {
-    propUpdateNotice() {
-      this.updateStart = !this.updateStart;
-    },
-    propCreateNotice() {
-      this.createStart = !this.createStart;
-    },
     //공지 삭제
     async deleteNotice() {
       let choice = await this.$fire({

@@ -1,17 +1,18 @@
 <template >
-  <div id="bg" >
-
+  <div id="bg">
     <!-- 로고 -->
     <div class="upperBox">
-      <img src="@/assets/icontact/children.png" class="logo" alt="children-image"/>
+      <img
+        src="@/assets/icontact/children.png"
+        class="logo"
+        alt="children-image"
+      />
       <h1>회원가입</h1>
     </div>
-
 
     <!-- 회원 가입 폼 -->
     <div class="lowerBox">
       <div style="width: 300px">
-
         <!-- 아이디 입력 -->
         <input
           class="formInput"
@@ -70,11 +71,7 @@
         </div>
 
         <!-- 이름 입력 -->
-        <input
-          class="formInput"
-          v-model="username"
-          placeholder="이름"
-        />
+        <input class="formInput" v-model="username" placeholder="이름" />
 
         <!-- 휴대폰 번호 입력 -->
         <div class="placement">
@@ -91,10 +88,7 @@
               block
               rounded
               :disabled="!phoneNumber"
-              style="
-                background-color: #58679a;
-                color: white;
-              "
+              style="background-color: #58679a; color: white"
               @click="requestAuthNumber"
             >
               인증번호 받기
@@ -115,10 +109,7 @@
             <v-btn
               block
               rounded
-              style="
-                background-color: #58679a;
-                color: white;
-              "
+              style="background-color: #58679a; color: white"
               v-if="!isAuth"
               @click="checkAuthNumber"
             >
@@ -126,7 +117,6 @@
             </v-btn>
           </div>
         </div>
-
       </div>
 
       <!-- 선생님/학부모 유형 선택 버튼 -->
@@ -134,7 +124,17 @@
         <button
           class="signupTypeBtn"
           @click="setTeacherInfo({ userid, password, username, phoneNumber })"
-          :disabled="!userid || !password || !passwordConfirm || !username || !phoneNumber || error.userid !== false || error.password !== false || error.passwordConfirm !== false || !isAuth"
+          :disabled="
+            !userid ||
+            !password ||
+            !passwordConfirm ||
+            !username ||
+            !phoneNumber ||
+            error.userid !== false ||
+            error.password !== false ||
+            error.passwordConfirm !== false ||
+            !isAuth
+          "
         >
           <img
             src="@/assets/flaticon/teacher.png"
@@ -143,11 +143,21 @@
             style="padding: 0; width: 3.3rem"
           />선생님으로 가입
         </button>
-        
+
         <button
           class="signupTypeBtn"
           @click="setParentInfo({ userid, password, username, phoneNumber })"
-          :disabled="!userid || !password || !passwordConfirm || !username || !phoneNumber || error.userid !== false || error.password !== false || error.passwordConfirm !== false || !isAuth"        
+          :disabled="
+            !userid ||
+            !password ||
+            !passwordConfirm ||
+            !username ||
+            !phoneNumber ||
+            error.userid !== false ||
+            error.password !== false ||
+            error.passwordConfirm !== false ||
+            !isAuth
+          "
         >
           <img
             src="@/assets/flaticon/parents.png"
@@ -159,12 +169,7 @@
       </div>
 
       <!-- 뒤로가기 버튼 -->
-      <button @click="$router.go(-1)"
-        class="etcBtn"
-      >
-        뒤로 가기
-      </button>
-
+      <button @click="$router.go(-1)" class="etcBtn">뒤로 가기</button>
     </div>
   </div>
 </template>
@@ -190,9 +195,9 @@ export default {
         password: false,
         passwordConfirm: false,
       },
-      // 요청을 받았다.
+
       isRequested: 0,
-      // 성공: 인증을 받았다(200) 인증에 실패했다(400) / 실패: 에러케이스(500)
+
       isAuth: false,
     };
   },
@@ -240,10 +245,9 @@ export default {
         this.error.passwordConfirm = false;
       }
     },
-    // 인증번호 발송 요청.
+    // 인증번호 발송 요청
     requestAuthNumber() {
       axios({
-        // URL 체크 필요
         url: SERVER.URL + SERVER.ROUTES.sms,
         method: "post",
         data: {
@@ -251,27 +255,24 @@ export default {
         },
       })
         .then((res) => {
-          // res 확인해서 분기처리
-          console.log(res);
           if (res.status == 200) {
-            console.log("왔다!");
             this.isRequested = true;
           }
           this.$fire({
             html: `<a href="javascript:void(0);"></a><p style="font-size: 0.95rem; font-family: 'NanumSquareRound';">인증 번호가 발송되었습니다.</p>`,
             focusConfirm: false,
-            confirmButtonColor: '#58679A',
-            type: 'success'
-          })
+            confirmButtonColor: "#58679A",
+            type: "success",
+          });
         })
         .catch(() => {
           this.$fire({
             html: `<a href="javascript:void(0);"></a><p style="font-size: 0.95rem; font-family: 'NanumSquareRound';">인증 번호 전송에 실패했습니다.</p>
             <p style="font-size: 0.95rem; font-family: 'NanumSquareRound';">다시 시도해주세요.</p>`,
             focusConfirm: false,
-            confirmButtonColor: '#58679A',
-            type: 'error'
-          })
+            confirmButtonColor: "#58679A",
+            type: "error",
+          });
         });
     },
     // 인증번호 확인 요청
@@ -287,7 +288,6 @@ export default {
         method: "get",
       })
         .then((res) => {
-          console.log(res);
           if (res.status === 200) {
             this.isAuth = true;
           }
@@ -296,9 +296,9 @@ export default {
           this.$fire({
             html: `<a href="javascript:void(0);"></a><p style="font-size: 0.95rem; font-family: 'NanumSquareRound';">인증에 실패했습니다.</p>`,
             focusConfirm: false,
-            confirmButtonColor: '#58679A',
-            type: 'error'
-          })
+            confirmButtonColor: "#58679A",
+            type: "error",
+          });
         });
     },
   },
@@ -307,7 +307,7 @@ export default {
 
 <style scoped>
 * {
-  font-family: 'NanumSquareRound';
+  font-family: "NanumSquareRound";
   font-size: 0.95em;
 }
 #bg {
@@ -315,14 +315,14 @@ export default {
   width: 100%;
   height: 100%;
 }
-.upperBox{
+.upperBox {
   position: absolute;
   top: 28%;
   left: 50%;
-  transform: translate(-50%, -50%); 
-  text-align:center;
+  transform: translate(-50%, -50%);
+  text-align: center;
 }
-.lowerBox{
+.lowerBox {
   position: absolute;
   top: 60%;
   left: 50%;
@@ -332,16 +332,16 @@ export default {
 h1 {
   font-weight: 900;
   letter-spacing: 2px;
-  font-size:48px;
-  color: #58679A;
+  font-size: 48px;
+  color: #58679a;
 }
 .logo {
   width: 10rem;
-  padding-right:10px;
-  display:inline-block;
+  padding-right: 10px;
+  display: inline-block;
   vertical-align: middle;
 }
-button{
+button {
   letter-spacing: -1px;
   color: #404c74;
   font-weight: 600;
@@ -360,7 +360,7 @@ button{
   background-color: rgba(256, 256, 256, 1);
   transition: 0.3s;
 }
-.etcBtn{
+.etcBtn {
   margin: 20px 3px 3px 3px;
   padding: 0px 7px 0px 3px;
   color: #404c74;
@@ -370,11 +370,11 @@ button{
   transition: 0.3s;
 }
 .signupTypeBtn {
-  border: 2px #58679A;
+  border: 2px #58679a;
   border-style: solid;
   border-radius: 4%;
-  height: 70px; 
-  width: 150px; 
+  height: 70px;
+  width: 150px;
   margin: 10px 3px 3px 3px;
   color: #404c74;
 }
@@ -383,6 +383,4 @@ button{
   flex-direction: row;
   width: 100%;
 }
-
-
 </style>

@@ -1,47 +1,61 @@
 <template>
-
-  <div style="background-color: rgba(240, 241, 247); height:100%;">
-  <!-- vuetify menus 참고 -->
-    <div class="mx-auto d-flex justify-content-end" style="width:57vw; margin-bottom:10px">
-      <template v-if="$store.state.user.type===2">
-          <button
-            data-bs-toggle="modal"
-            data-bs-target="#profileModal"
-          >
-            <img
-              src="@/assets/flaticon/upload.png"
-              class="file-uploader-btn"
-              alt="upload-button"
-            />
-          </button>
+  <div style="background-color: rgba(240, 241, 247); height: 100%">
+    <div
+      class="mx-auto d-flex justify-content-end"
+      style="width: 57vw; margin-bottom: 10px"
+    >
+      <template v-if="$store.state.user.type === 2">
+        <button data-bs-toggle="modal" data-bs-target="#profileModal">
+          <img
+            src="@/assets/flaticon/upload.png"
+            class="file-uploader-btn"
+            alt="upload-button"
+          />
+        </button>
       </template>
-      <div style="height:67.2px" v-else>
-        
-      </div>
+      <div style="height: 67.2px" v-else></div>
     </div>
-      
 
-    <div class="container d-flex flex-wrap justify-content-center content-container align-content-between" style="height:75vh; width:57vw; margin:0 auto; border-radius: 8px; background-color:white;">
+    <div
+      class="
+        container
+        d-flex
+        flex-wrap
+        justify-content-center
+        content-container
+        align-content-between
+      "
+      style="
+        height: 75vh;
+        width: 57vw;
+        margin: 0 auto;
+        border-radius: 8px;
+        background-color: white;
+      "
+    >
       <div class="row row-cols-5">
         <div v-for="album in albumList" :key="album.albumId" cols="3">
           <div class="thumbnailWrap">
-            <img 
-              :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + album.thumbnailUrl"
-  
+            <img
+              :src="
+                'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
+                album.thumbnailUrl
+              "
               @click="setDetail(album.albumId)"
               class="thumbnailImg"
-            >
+            />
           </div>
-          <div class="m-0" style="text-align:right; font-weight: 600; width:91%;">
-            {{album.title}}
-            <p style="font-size:0.8rem;">
-              {{album.createDate2}}
+          <div
+            class="m-0"
+            style="text-align: right; font-weight: 600; width: 91%"
+          >
+            {{ album.title }}
+            <p style="font-size: 0.8rem">
+              {{ album.createDate2 }}
             </p>
           </div>
         </div>
       </div>
-
-
 
       <div class="more-btn">
         <button
@@ -62,7 +76,6 @@
       </div>
     </div>
 
-    
     <!-- 모달 -->
     <div style="width: 95%">
       <div
@@ -74,8 +87,14 @@
       >
         <div class="modal-dialog">
           <div class="modal-content">
-            <div class="modal-header" style="background-color:#a8b1cf;">
-              <h5 class="modal-title" style="color: rgb(256,256,256);" id="profileModalLabel">사진 업로드</h5>
+            <div class="modal-header" style="background-color: #a8b1cf">
+              <h5
+                class="modal-title"
+                style="color: rgb(256, 256, 256)"
+                id="profileModalLabel"
+              >
+                사진 업로드
+              </h5>
               <button
                 type="button"
                 class="btn-close"
@@ -84,14 +103,17 @@
                 @click="resetDate"
               ></button>
             </div>
-            <div class="modal-body" >
-              <!-- <input type="text" id="title" /> -->
+            <div class="modal-body">
               <div class="d-flex justify-content-end align-items-center mt-5">
-                <p style="margin:0; margin-right:2.3px;">제목</p>
-                <input type="text" id="title" class="formInput me-0" v-model="title">
+                <p style="margin: 0; margin-right: 2.3px">제목</p>
+                <input
+                  type="text"
+                  id="title"
+                  class="formInput me-0"
+                  v-model="title"
+                />
               </div>
-              <!-- <input type="file" id="photoupload" multiple /> -->
-              
+
               <v-file-input
                 id="photoupload"
                 multiple
@@ -101,50 +123,25 @@
                 v-model="filename"
                 @change="fileSelect"
               ></v-file-input>
-              
-              <!-- <div class="upload-btn-wrapper">
-                <div id="image_container" style="margin-bottom:10px"></div>
-                <button class="btn btnstyle">사진 선택</button>
-                <input type="file" name="myfile" id="photoupload" @change="onFileSelected" multiple/>
-              </div> -->
+
             </div>
             <div class="modal-footer">
-
-              <button 
-              type="button"
-              class="btn"
-              style="background-color:#a8b1cf; border-radius:40px;"
-              @click="uploadZip"
-              data-bs-dismiss="modal"
-              :disabled="!fileSelectFlag || !title"
-              >사진 업로드</button>
-
-              <!-- <button 
-                @click="uploadZip"
-                style="background-color:#a8b1cf;"
-                type="button" class="btn" data-bs-dismiss="modal">앨범 생성</button> -->
-              <!-- <button
+              <button
                 type="button"
-                class="btn btn-primary"
+                class="btn"
+                style="background-color: #a8b1cf; border-radius: 40px"
                 @click="uploadZip"
                 data-bs-dismiss="modal"
+                :disabled="!fileSelectFlag || !title"
               >
-                앨범 생성
-              </button> -->
+                사진 업로드
+              </button>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-
-
-
-    
-    
-    
-    
-  
 </template>
 
 <script>
@@ -167,7 +164,6 @@ export default {
       pageCnt: 0,
 
       albumList: [],
-      // imgs:'',
       fileSelectFlag: 0,
       visible: false,
       selectedAlbumId: 0,
@@ -176,19 +172,17 @@ export default {
   },
   methods: {
     resetDate() {
-      this.fileSelectFlag = 0
-      this.title = ''
+      this.fileSelectFlag = 0;
+      this.title = "";
     },
 
     fileSelect() {
       if (this.filename.length) {
-        this.fileSelectFlag = 1
-      }
-      else {
-        this.fileSelectFlag = 0
+        this.fileSelectFlag = 1;
+      } else {
+        this.fileSelectFlag = 0;
       }
     },
-    
 
     reGetAlbumthumbnail() {
       this.pageNum = 0;
@@ -214,7 +208,6 @@ export default {
         "access-token": accessToken,
         "refresh-token": refreshToken,
       });
-      console.log(result);
       this.pageCnt = result.pageCnt;
       this.albumList.push(...result.thumbnailList);
       this.pageNum += 1;
@@ -222,11 +215,8 @@ export default {
 
     // 사진 업로드
     async uploadZip() {
-      // 기존 title, classCode, writerId(userId)
-      // 1. urlList -> photoList
       this.title = document.getElementById("title").value;
       var list1 = await awss3.uploadPhoto("album", "photoupload");
-      // 2. downloadUrl
       var list2 = awss3.uploadZip();
 
       this.photoList = list1;
@@ -247,21 +237,17 @@ export default {
           "access-token": accessToken,
           "refresh-token": refreshToken,
         })
-        .then(() => {
-        })
+        .then(() => {})
         .catch(() => {
           this.$fire({
             html: `<a href="javascript:void(0);"></a><p style="font-size: 0.95rem; font-family: 'NanumSquareRound';">사진 업로드에 실패했습니다.</p>
             <p style="font-size: 0.95rem; font-family: 'NanumSquareRound';">다시 시도해주세요.</p>`,
             focusConfirm: false,
-            confirmButtonColor: '#58679A',
-            type: 'error'
-          })
+            confirmButtonColor: "#58679A",
+            type: "error",
+          });
         });
-      // 파일 리셋 안됨...
-      // document.getElementById("photoupload").value = "";
-
-      this.title = '';
+      this.title = "";
       this.fileSelectFlag = 0;
       this.pageNum = 0;
       this.albumList = [];
@@ -284,7 +270,7 @@ export default {
 
 <style scoped>
 * {
-  font-family: 'NanumSquareRound';
+  font-family: "NanumSquareRound";
   font-size: 0.95rem;
 }
 .container {
@@ -298,24 +284,24 @@ export default {
   margin-top: 1.7rem;
   cursor: pointer;
 }
-.more-btn{
+.more-btn {
   color: rgb(156, 156, 156);
-  background-color: rgba(102,122,188, 0.05);
+  background-color: rgba(102, 122, 188, 0.05);
   font-size: 0.8rem;
   border-radius: 5px;
-  width:100%;
+  width: 100%;
   height: 2rem;
-  text-align:center;
+  text-align: center;
 }
 
 /* 썸네일 */
 .thumbnailImg {
-  width:100%;
-  height:15vh;
-  margin-top:1rem;
-  margin-bottom:0.4rem;
+  width: 100%;
+  height: 15vh;
+  margin-top: 1rem;
+  margin-bottom: 0.4rem;
   transition-duration: 1s;
-  object-fit: cover; 
+  object-fit: cover;
 }
 .thumbnailImg:hover {
   transition: 0.4s;
@@ -328,13 +314,13 @@ export default {
 }
 
 /* 스크롤 */
-.content-container{
-  overflow-y:scroll; 
-  height:80vh; 
+.content-container {
+  overflow-y: scroll;
+  height: 80vh;
 }
 .content-container::-webkit-scrollbar {
   width: 7px;
-  background-color: rgba(233,234,239, 0.5);
+  background-color: rgba(233, 234, 239, 0.5);
   border-radius: 5px;
 }
 .content-container::-webkit-scrollbar-thumb {
@@ -342,7 +328,7 @@ export default {
   border-radius: 5px;
 }
 .content-container::-webkit-scrollbar-track {
-  background-color: rgba(233,234,239, 0.5);
+  background-color: rgba(233, 234, 239, 0.5);
   border-radius: 5px;
 }
 
@@ -356,7 +342,7 @@ export default {
   font-size: 20px;
   font-weight: bold;
 }
-.upload-btn-wrapper input[type=file] {
+.upload-btn-wrapper input[type="file"] {
   font-size: 100px;
   position: absolute;
   left: 0;
@@ -383,5 +369,4 @@ export default {
   background-color: rgba(156, 156, 156, 0.35);
   border-bottom: solid 1.5px rgba(40, 40, 40, 0.8);
 }
-
 </style>

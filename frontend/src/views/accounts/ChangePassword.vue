@@ -1,63 +1,84 @@
 <template>
-  <div id="bg" >
-
+  <div id="bg">
     <!-- 로고 -->
     <div class="upperBox">
-      <img src="@/assets/icontact/children.png" class="logo" alt="children-image"/>
+      <img
+        src="@/assets/icontact/children.png"
+        class="logo"
+        alt="children-image"
+      />
       <h1>비밀번호 변경</h1>
     </div>
-    
+
     <!-- 회원 가입 폼 -->
     <div class="lowerBox">
       <div style="width: 300px">
-
         <!-- 새 비밀번호 -->
         <input
           class="formInput"
           type="password"
-          v-model="password" 
+          v-model="password"
           placeholder="새 비밀번호"
+        />
+        <div
+          v-if="error.password"
+          style="
+            text-align: left;
+            color: red;
+            font-size: 12px;
+            margin-left: 19px;
+          "
         >
-        <div v-if="error.password" style="text-align:left; color: red; font-size: 12px; margin-left: 19px">{{error.password}}</div>
-
+          {{ error.password }}
+        </div>
 
         <!-- 비밀번호 확인 -->
         <input
           class="formInput"
           type="password"
-          v-model="passwordConfirm" 
+          v-model="passwordConfirm"
           placeholder="새 비밀번호 확인"
+        />
+        <div
+          v-if="error.passwordConfirm"
+          style="
+            text-align: left;
+            color: red;
+            font-size: 12px;
+            margin-left: 19px;
+          "
         >
-        <div v-if="error.passwordConfirm" style="text-align:left; color: red; font-size: 12px; margin-left: 19px">{{error.passwordConfirm}}</div>
+          {{ error.passwordConfirm }}
+        </div>
 
         <!-- 비밀번호 변경 버튼 -->
-        <v-btn 
-          block 
+        <v-btn
+          block
           rounded
-          style="background-color: #58679A; color: white; margin: 3px 0px;"
-          :disabled="!password || error.password || error.passwordConfirm || !(password==passwordConfirm)"
+          style="background-color: #58679a; color: white; margin: 3px 0px"
+          :disabled="
+            !password ||
+            error.password ||
+            error.passwordConfirm ||
+            !(password == passwordConfirm)
+          "
           @click="changePassword"
-          >
+        >
           비밀번호 변경
         </v-btn>
-        <button @click="$router.go(-1)"
-          class="etcBtn"
-        >
-          뒤로 가기
-        </button>        
+        <button @click="$router.go(-1)" class="etcBtn">뒤로 가기</button>
       </div>
     </div>
-
   </div>
 </template>
 
 <script>
 import PV from "password-validator";
-import axios from 'axios'
-import SERVER from '@/api/drf.js'
+import axios from "axios";
+import SERVER from "@/api/drf.js";
 
 export default {
-  name: 'ChangePassword',
+  name: "ChangePassword",
   data: () => {
     return {
       password: "",
@@ -82,81 +103,82 @@ export default {
       .letters();
   },
   watch: {
-    password: function() {
+    password: function () {
       this.checkForm();
     },
-    passwordConfirm: function() {
+    passwordConfirm: function () {
       this.checkForm();
     },
   },
   methods: {
     checkForm() {
-      if (!this.passwordSchema.validate(this.password) || this.password.length < 8){
+      if (
+        !this.passwordSchema.validate(this.password) ||
+        this.password.length < 8
+      ) {
         this.error.password = "비밀 번호 형식이 아닙니다.";
-      }else {
-        this.error.password = false
+      } else {
+        this.error.password = false;
       }
-      if (this.password != this.passwordConfirm){
+      if (this.password != this.passwordConfirm) {
         this.error.passwordConfirm = "비밀 번호가 틀립니다.";
-      }else {
-        this.error.passwordConfirm = false
+      } else {
+        this.error.passwordConfirm = false;
       }
     },
     changePassword() {
       axios({
-        // URL 체크 필요
         url: SERVER.URL + SERVER.ROUTES.changepw,
-        method: 'post',
+        method: "post",
         data: {
           userId: this.$store.state.sendUserIdForChangePW,
-          password: this.password
+          password: this.password,
+        },
+      })
+        .then((res) => {
+          if (res.status == 200) {
+            this.$fire({
+              html: `<a href="javascript:void(0);"></a><p style="font-size: 0.95rem; font-family: 'NanumSquareRound';">비밀번호 변경이 완료되었습니다.</p>`,
+              focusConfirm: false,
+              confirmButtonColor: "#58679A",
+              type: "success",
+            }).then(() => {
+              this.$router.push({ name: "Login" });
+            });
           }
-      })
-      .then((res) => {
-        if (res.status == 200) {
-          this.$fire({
-            html: `<a href="javascript:void(0);"></a><p style="font-size: 0.95rem; font-family: 'NanumSquareRound';">비밀번호 변경이 완료되었습니다.</p>`,
-            focusConfirm: false,
-            confirmButtonColor: '#58679A',
-            type: 'success'
-          }).then(() => {
-            this.$router.push({ name: 'Login' });
-          })
-        }
-      })
-      .catch((err)=>{
-        console.log(err)
-        this.$fire({
-          html: `<a href="javascript:void(0);"></a><p style="font-size: 30px; font-family: 'NanumSquareRound';">비밀번호 변경에 실패하였습니다.</p>
-          <p style="font-size: 0.95rem; font-family: 'NanumSquareRound';">다시 시도해주세요.</p>`,
-          focusConfirm: false,
-          type: 'error',
-          confirmButtonColor: '#58679A'
         })
-      })
-    }
-  }
-}  
+        .catch(() => {
+          this.$fire({
+            html: `<a href="javascript:void(0);"></a><p style="font-size: 30px; font-family: 'NanumSquareRound';">비밀번호 변경에 실패하였습니다.</p>
+          <p style="font-size: 0.95rem; font-family: 'NanumSquareRound';">다시 시도해주세요.</p>`,
+            focusConfirm: false,
+            type: "error",
+            confirmButtonColor: "#58679A",
+          });
+        });
+    },
+  },
+};
 </script>
 
 <style scoped>
 * {
-  font-family: 'NanumSquareRound';
-    font-size: 0.95em;
+  font-family: "NanumSquareRound";
+  font-size: 0.95em;
 }
 #bg {
   background-color: #a8b1cf;
   width: 100%;
   height: 100%;
 }
-.upperBox{
+.upperBox {
   position: absolute;
   top: 28%;
   left: 50%;
-  transform: translate(-50%, -50%); 
-  text-align:center;
+  transform: translate(-50%, -50%);
+  text-align: center;
 }
-.lowerBox{
+.lowerBox {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -166,16 +188,16 @@ export default {
 h1 {
   font-weight: 900;
   letter-spacing: 2px;
-  font-size:48px;
-  color: #58679A;
+  font-size: 48px;
+  color: #58679a;
 }
 .logo {
   width: 10rem;
-  padding-right:10px;
-  display:inline-block;
+  padding-right: 10px;
+  display: inline-block;
   vertical-align: middle;
 }
-button{
+button {
   letter-spacing: -1px;
   color: #404c74;
   font-weight: 600;
@@ -194,7 +216,7 @@ button{
   background-color: rgba(256, 256, 256, 1);
   transition: 0.3s;
 }
-.etcBtn{
+.etcBtn {
   margin: 20px 3px 3px 3px;
   padding: 0px 7px 0px 3px;
   color: #404c74;

@@ -80,10 +80,10 @@
           </div>
           <!-- 새로운 글 작성 관련 버튼 -->
           <!-- 새 글을 작성하고, 저장하는 버튼 -->
-          <button @click="createNewMenu" class="mr-2 update-return-btn">작성</button>
+          <button @click="createNewMenu" class="mr-2 update-return-btn" 
+            :disabled="saveDisabled">작성</button>
           <!-- 글 작성(수정,새글) 취소 버튼 -->
           <button @click="offCreateForm" class="ml-2 update-return-btn">취소</button>
-
 
         </div>
       </div>
@@ -122,6 +122,7 @@ export default {
       amSnackName: "",
       pmSnackName: "",
       lunchName: "",
+      saveDisabled: true,
     };
   },
   watch: {
@@ -129,9 +130,28 @@ export default {
       console.log(value);
       console.log(value);
     },
+
+    amSnackName() {
+      this.checkInput();
+    },
+    pmSnackName() {
+      this.checkInput();
+    },
+    lunchName() {
+      this.checkInput();
+    },
   },
 
   methods: {
+    checkInput() {
+      if (
+        this.amSnackName != "" ||
+        this.pmSnackName != "" ||
+        this.lunchName != ""
+      )
+        this.saveDisabled = false;
+      else this.saveDisabled = true;
+    },
     offCreateForm() {
       this.$emit("cancelCreateMenu");
     },
@@ -208,6 +228,7 @@ export default {
 .content-container::-webkit-scrollbar-thumb {
   background-color: #a8b1cf;
   border-radius: 1px;
+
 }
 .content-container::-webkit-scrollbar-track {
   background-color: rgba(233,234,239, 0.5);
@@ -215,6 +236,7 @@ export default {
 }
 .formInput {
   background-color: rgba(156, 156, 156, 0.08);
+
   border-radius: 5px;
   height: 36px;
   width: 100%;

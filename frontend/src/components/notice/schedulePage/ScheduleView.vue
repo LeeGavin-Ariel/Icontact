@@ -1,29 +1,33 @@
 <template>
   <div class="col">
-
     <div class="ml-5 mr-5 mt-5">
+      <button
+        class="writeBtn"
+        @click="showCreateScheduleForm"
+        v-if="!createMode & !updateMode & (this.$store.state.user.type == 2)"
+      >
+        <img src="@/assets/flaticon/write.png" style="width: 3.8rem" />
+      </button>
 
-    <button class="writeBtn" @click="showCreateScheduleForm" v-if="!createMode & !updateMode & (this.$store.state.user.type == 2)"><img src="@/assets/flaticon/write.png" style="width:3.8rem"></button>
-
-    <!-- <schedule-detail v-if="detailMode"/> -->
-    <schedule-create
-      v-if="this.createMode"
-      @cancelCreateSchedule="cancelCreateSchedule"
-      @createSchedule="createSchedule"
-    />
-    <schedule-update
-      v-if="this.updateMode"
-      :scheduleInfo="this.scheduleDetail"
-      @cancelUpdateSchedule="cancelUpdateSchedule"
-      @updateSchedule="updateSchedule"
-    />
-    <schedule-detail
-      v-if="this.detailMode"
-      :scheduleInfo="this.scheduleDetail"
-      @showUpdateScheduleForm="showUpdateScheduleForm"
-      @deleteSchedule="deleteSchedule"
-    />
-  </div>
+      <!-- <schedule-detail v-if="detailMode"/> -->
+      <schedule-create
+        v-if="this.createMode"
+        @cancelCreateSchedule="cancelCreateSchedule"
+        @createSchedule="createSchedule"
+      />
+      <schedule-update
+        v-if="this.updateMode"
+        :scheduleInfo="this.scheduleDetail"
+        @cancelUpdateSchedule="cancelUpdateSchedule"
+        @updateSchedule="updateSchedule"
+      />
+      <schedule-detail
+        v-if="this.detailMode && this.scheduleDetail"
+        :scheduleInfo="this.scheduleDetail"
+        @showUpdateScheduleForm="showUpdateScheduleForm"
+        @deleteSchedule="deleteSchedule"
+      />
+    </div>
   </div>
 </template>
 
@@ -64,8 +68,14 @@ export default {
   },
   watch: {
     id: function () {
-      console.log("아이디가 변했어요" + this.id);
+      if (this.id == -1) {
+        this.scheduleDetail = null;
+        console.log("글이 없습니다");
+        return;
+      }
+
       if (this.id !== 0) {
+        console.log("아이디가 변했어요" + this.id);
         this.getScheduleDetail();
       }
     },
@@ -73,8 +83,20 @@ export default {
 
   methods: {
     async deleteSchedule() {
-      console.log("삭제시작");
+      let choice = await this.$fire({
+        html: `<a href="javascript:void(0);"></a><p style="font-size: 0.95rem; font-family: 'NanumSquareRound';">정말로 삭제하시겠습니까?</p>`,
+        type: "question",
+        showCancelButton: true,
+        confirmButtonText: "예",
+        cancelButtonText: "아니오",
+        confirmButtonColor: "#58679A",
+      });
 
+      // alert로 바꿔주세요.
+      if (!choice.value) {
+        console.log("삭제안함.");
+        return;
+      }
       let accessToken = sessionStorage.getItem("access-token");
       let refreshToken = sessionStorage.getItem("refresh-token");
 
@@ -170,7 +192,7 @@ export default {
   position: fixed;
   right: 60px;
   bottom: 50px;
-  width:3.8rem;
+  width: 3.8rem;
 }
 .notice-detail-tab {
   font-size: 20px;

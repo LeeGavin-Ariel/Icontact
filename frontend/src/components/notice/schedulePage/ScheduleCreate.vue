@@ -3,61 +3,75 @@
     <!-- 디테일 -->
 
     <v-sheet rounded="lg" v-if="createMode">
-      <div style="width:100%; height:15px; background-color:#a8b1cf" class="mt-3"></div>
-      <div class="container content-container" style="height:84.8vh">
-
-        <div align="right" class="mt-2"> 
-        </div>
+      <div
+        style="width: 100%; height: 15px; background-color: #a8b1cf"
+        class="mt-3"
+      ></div>
+      <div class="container content-container" style="height: 84.8vh">
+        <div align="right" class="mt-2"></div>
         <div align="center" class="mb-5">
-
           <div class="col-lg-11">
             <table class="table table-borderless mb-0">
               <tbody>
                 <tr class="d-flex">
-                    <td class="col-12 align-items-center mt-3">
-                      <strong style="font-size: 18px">일정</strong>
-                      <table class=" table mt-5 mb-5">
-
-                        <tr class="d-flex">
-                          <td class="col-12"><input type="text"  v-model="title" class="formInput" placeholder="제목을 입력하세요."></td>
-                        </tr>
-                        <tr class="d-flex">
-                          <td class="col-12">
-                            <textarea rows="15" v-model="content" class="formInputText" placeholder="내용을 입력하세요."></textarea>
-                          </td>
-                        </tr>
-                        <tr class="d-flex">
-                          <td class="col-12 mb-0">
-                            <!-- 파일 첨부-->
-                            <v-file-input
-                              id="scheduleFile"
-                              v-model="files"
-                              filled
-                              prepend-icon="mdi-camera"
-                              dense
-                              accept="image/*"
-                              style="width: 100%"
-                            ></v-file-input>                            
-                          </td>
-                        </tr>
-                      </table>
-                    </td>
-                  </tr>
+                  <td class="col-12 align-items-center mt-3">
+                    <strong style="font-size: 18px">일정</strong>
+                    <table class="table mt-5 mb-5">
+                      <tr class="d-flex">
+                        <td class="col-12">
+                          <input
+                            type="text"
+                            v-model="title"
+                            class="formInput"
+                            placeholder="제목을 입력하세요."
+                          />
+                        </td>
+                      </tr>
+                      <tr class="d-flex">
+                        <td class="col-12">
+                          <textarea
+                            rows="15"
+                            v-model="content"
+                            class="formInputText"
+                            placeholder="내용을 입력하세요."
+                          ></textarea>
+                        </td>
+                      </tr>
+                      <tr class="d-flex">
+                        <td class="col-12 mb-0">
+                          <!-- 파일 첨부-->
+                          <v-file-input
+                            id="scheduleFile"
+                            v-model="files"
+                            filled
+                            prepend-icon="mdi-camera"
+                            dense
+                            accept="image/*"
+                            style="width: 100%"
+                          ></v-file-input>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
               </tbody>
             </table>
-            
           </div>
-  
-          <button @click="createNewSchedule" class="mr-2 update-return-btn">작성</button>
 
-          <button @click="offCreateForm" class="ml-2 update-return-btn">취소</button>
+          <button
+            @click="createNewSchedule"
+            class="mr-2 update-return-btn"
+            :disabled="saveDisabled"
+          >
+            작성
+          </button>
 
-
+          <button @click="offCreateForm" class="ml-2 update-return-btn">
+            취소
+          </button>
         </div>
       </div>
-
     </v-sheet>
-
   </div>
 </template>
 
@@ -89,7 +103,15 @@ export default {
       title: "",
       content: "",
       files: null,
+      saveDisabled: true,
     };
+  },
+
+  watch: {
+    title(newValue) {
+      if (newValue != "") this.saveDisabled = false;
+      else this.saveDisabled = true;
+    },
   },
 
   methods: {
@@ -100,7 +122,6 @@ export default {
     // 일정 생성
     async createNewSchedule() {
       if (this.title == "" || this.content == "") {
-        
         return;
       }
 
@@ -139,13 +160,13 @@ export default {
 
 <style scoped>
 /* 스크롤 */
-.content-container{
-  overflow-y:scroll; 
-  height:80vh; 
+.content-container {
+  overflow-y: scroll;
+  height: 80vh;
 }
 .content-container::-webkit-scrollbar {
   width: 7px;
-  background-color: rgba(233,234,239, 0.5);
+  background-color: rgba(233, 234, 239, 0.5);
   border-radius: 1px;
 }
 .content-container::-webkit-scrollbar-thumb {
@@ -153,7 +174,7 @@ export default {
   border-radius: 1px;
 }
 .content-container::-webkit-scrollbar-track {
-  background-color: rgba(233,234,239, 0.5);
+  background-color: rgba(233, 234, 239, 0.5);
   border-radius: 1px;
 }
 .formInput {
@@ -164,7 +185,7 @@ export default {
   padding: 0px 0px 0px 15px;
   margin: 3px 3px 3px 3px;
 }
-.formInputText{
+.formInputText {
   background-color: rgba(156, 156, 156, 0.1);
   border-radius: 5px;
   height: 100%;
@@ -172,16 +193,16 @@ export default {
   padding: 15px 15px 15px 15px;
   margin: 3px 3px 3px 3px;
 }
-.formInputText:hover{
+.formInputText:hover {
   background-color: rgba(156, 156, 156, 0.2);
   transition: 0.3s;
 }
-.formInputText:focus{
+.formInputText:focus {
   background-color: rgba(156, 156, 156, 0.2);
   transition: 0.3s;
   outline: none;
 }
-.formInput:hover{
+.formInput:hover {
   background-color: rgba(156, 156, 156, 0.2);
   transition: 0.3s;
 }

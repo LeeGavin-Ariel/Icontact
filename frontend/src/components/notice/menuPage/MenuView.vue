@@ -1,10 +1,14 @@
 <template>
   <div class="col">
-
     <div class="ml-5 mr-5 mt-5">
-
-    <button class="writeBtn" @click="showCreateMenuForm" v-if="!createMode & !updateMode & (this.$store.state.user.type == 2)"><img src="@/assets/flaticon/write.png" style="width:3.8rem"></button>
-    <!-- <v-spacer></v-spacer>
+      <button
+        class="writeBtn"
+        @click="showCreateMenuForm"
+        v-if="!createMode & !updateMode & (this.$store.state.user.type == 2)"
+      >
+        <img src="@/assets/flaticon/write.png" style="width: 3.8rem" />
+      </button>
+      <!-- <v-spacer></v-spacer>
 
     <v-fab-transition>
       <v-btn
@@ -22,28 +26,31 @@
       </v-btn>
     </v-fab-transition> -->
 
-    <!-- <button v-if="detailMode & this.$store.state.user.type==2" @click="showUpdateMenuForm">|글 수정</button>
+      <!-- <button v-if="detailMode & this.$store.state.user.type==2" @click="showUpdateMenuForm">|글 수정</button>
 
     <button v-if="detailMode & this.$store.state.user.type==2" @click="deleteMenu">|글 삭제</button> -->
 
-    <!-- <button @click="offCreateForm">글 작성 취소</button> -->
+      <!-- <button @click="offCreateForm">글 작성 취소</button> -->
 
-    <!-- <menu-detail v-if="detailMode"/> -->
-    <menu-create
-      v-if="this.createMode"
-      @cancelCreateMenu="cancelCreateMenu"
-      @createMenu="createMenu"
-    />
-    <menu-update
-      v-if="this.updateMode"
-      :menuInfo="this.menuDetail"
-      @cancelUpdateMenu="cancelUpdateMenu"
-      @updateMenu="updateMenu"
-    />
-    <menu-detail v-if="this.detailMode" :menuInfo="this.menuDetail"
-      @showUpdateMenuForm="showUpdateMenuForm"
-      @deleteMenu="deleteMenu" />
-  </div>
+      <!-- <menu-detail v-if="detailMode"/> -->
+      <menu-create
+        v-if="this.createMode"
+        @cancelCreateMenu="cancelCreateMenu"
+        @createMenu="createMenu"
+      />
+      <menu-update
+        v-if="this.updateMode"
+        :menuInfo="this.menuDetail"
+        @cancelUpdateMenu="cancelUpdateMenu"
+        @updateMenu="updateMenu"
+      />
+      <menu-detail
+        v-if="this.detailMode && this.menuDetail"
+        :menuInfo="this.menuDetail"
+        @showUpdateMenuForm="showUpdateMenuForm"
+        @deleteMenu="deleteMenu"
+      />
+    </div>
   </div>
 </template>
 
@@ -84,8 +91,13 @@ export default {
   },
   watch: {
     id: function () {
-      console.log("아이디가 변했어요" + this.id);
+      if (this.id == -1) {
+        this.menuDetail = null;
+        console.log("글이 없습니다");
+        return;
+      }
       if (this.id != 0) {
+        console.log("아이디가 변했어요" + this.id);
         this.getMenuDetail();
       }
     },
@@ -93,8 +105,20 @@ export default {
 
   methods: {
     async deleteMenu() {
-      console.log("삭제시작");
+      let choice = await this.$fire({
+        html: `<a href="javascript:void(0);"></a><p style="font-size: 0.95rem; font-family: 'NanumSquareRound';">정말로 삭제하시겠습니까?</p>`,
+        type: "question",
+        showCancelButton: true,
+        confirmButtonText: "예",
+        cancelButtonText: "아니오",
+        confirmButtonColor: "#58679A",
+      });
 
+      // alert로 바꿔주세요.
+      if (!choice.value) {
+        console.log("삭제안함.");
+        return;
+      }
       let accessToken = sessionStorage.getItem("access-token");
       let refreshToken = sessionStorage.getItem("refresh-token");
 
@@ -195,7 +219,7 @@ export default {
   position: fixed;
   right: 60px;
   bottom: 50px;
-  width:3.8rem;
+  width: 3.8rem;
 }
 .notice-detail-tab {
   font-size: 20px;

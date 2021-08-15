@@ -49,20 +49,11 @@
           </div>
           <!-- 새로운 글 작성 관련 버튼 -->
           <!-- 새 글을 작성하고, 저장하는 버튼 -->
-          <button @click="createNewNotice" class="mr-2 update-return-btn">작성</button>
+          <button @click="createNewNotice" class="mr-2 update-return-btn" 
+            :disabled="saveDisabled">작성</button>
           <!-- 글 작성(수정,새글) 취소 버튼 -->
           <button @click="offCreateForm" class="ml-2 update-return-btn">취소</button>
-          
-        <!-- <v-file-input
-              style="width: 100%"
-              id="noticeFile"
-              v-model="files"
-              accept="image/*"
-              label="File input"
-            ></v-file-input> -->
-
-        
-      </div>
+        </div>
       </div>
     </v-sheet>
   </div>
@@ -87,6 +78,12 @@ export default {
     createStart: Boolean,
   },
 
+  computed: {
+    // title() {
+    //   console.log('타이틀변경');
+    // },
+  },
+
   data() {
     return {
       // 상세 내용을 저장할 변수
@@ -96,12 +93,18 @@ export default {
       title: "",
       content: "",
       files: null,
+      saveDisabled: true,
     };
   },
 
   watch: {
     createStart() {
       this.createNewNotice();
+    },
+
+    title(newValue) {
+      if (newValue != "") this.saveDisabled = false;
+      else this.saveDisabled = true;
     },
   },
 
@@ -158,13 +161,13 @@ export default {
 
 <style scoped>
 /* 스크롤 */
-.content-container{
-  overflow-y:scroll; 
-  height:80vh; 
+.content-container {
+  overflow-y: scroll;
+  height: 80vh;
 }
 .content-container::-webkit-scrollbar {
   width: 7px;
-  background-color: rgba(233,234,239, 0.5);
+  background-color: rgba(233, 234, 239, 0.5);
   border-radius: 1px;
 }
 .content-container::-webkit-scrollbar-thumb {
@@ -172,7 +175,7 @@ export default {
   border-radius: 1px;
 }
 .content-container::-webkit-scrollbar-track {
-  background-color: rgba(233,234,239, 0.5);
+  background-color: rgba(233, 234, 239, 0.5);
   border-radius: 1px;
 }
 .formInput {
@@ -183,7 +186,7 @@ export default {
   padding: 0px 0px 0px 15px;
   margin: 3px 3px 3px 3px;
 }
-.formInputText{
+.formInputText {
   background-color: rgba(156, 156, 156, 0.1);
   border-radius: 5px;
   height: 100%;
@@ -191,15 +194,15 @@ export default {
   padding: 15px 15px 15px 15px;
   margin: 3px 3px 3px 3px;
 }
-.formInputText:hover{
+.formInputText:hover {
   background-color: rgba(156, 156, 156, 0.2);
   transition: 0.3s;
 }
-.formInput:hover{
+.formInput:hover {
   background-color: rgba(156, 156, 156, 0.2);
   transition: 0.3s;
 }
-.formInputText:focus{
+.formInputText:focus {
   background-color: rgba(156, 156, 156, 0.2);
   transition: 0.3s;
   outline: none;

@@ -21,7 +21,7 @@
                       <td class="col-12">
                         <div style="font-size:35px"><strong>{{this.scheduleInfo.title}}</strong></div>
                         <div class="d-flex align-items-center mt-3 mb-2">
-                          <div>{{this.scheduleInfo.writerName}} 선생님</div>
+                          <div>{{this.scheduleInfo.userName}} 선생님</div>
                         </div>
                       </td>
                   </tr>

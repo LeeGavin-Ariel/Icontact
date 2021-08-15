@@ -81,18 +81,12 @@
           </div>
           <!-- 새로운 글 작성 관련 버튼 -->
           <!-- 새 글을 작성하고, 저장하는 버튼 -->
-          <button @click="updateMenu" class="mr-2 update-return-btn">수정</button>
+          <button @click="updateMenu" class="mr-2 update-return-btn" 
+            :disabled="saveDisabled">수정</button>
           <!-- 글 작성(수정,새글) 취소 버튼 -->
           <button @click="offUpdateForm" class="ml-2 update-return-btn">취소</button>
-      
-
-      
-
-
-
         </div>
-      </div>
-      
+      </div> 
     </v-sheet>
   </div>
 </template>
@@ -133,6 +127,8 @@ export default {
       amSnackName: this.menuInfo.amSnackName,
       pmSnackName: this.menuInfo.pmSnackName,
       lunchName: this.menuInfo.lunchName,
+
+      saveDisabled: true,
     };
   },
   watch: {
@@ -141,6 +137,16 @@ export default {
         this.getMenuDetail();
       }
     },
+
+    amSnackName() {
+      this.checkInput();
+    },
+    pmSnackName() {
+      this.checkInput();
+    },
+    lunchName() {
+      this.checkInput();
+    },
   },
 
   created() {
@@ -148,6 +154,15 @@ export default {
   },
 
   methods: {
+    checkInput() {
+      if (
+        this.amSnackName != "" ||
+        this.pmSnackName != "" ||
+        this.lunchName != ""
+      )
+        this.saveDisabled = false;
+      else this.saveDisabled = true;
+    },
     init() {
       this.amSnackFile = this.menuInfo.amSnackImgUrl;
       this.pmSnackFile = this.menuInfo.pmSnackImgUrl;
@@ -155,7 +170,7 @@ export default {
       this.amSnackName = this.menuInfo.amSnack;
       this.pmSnackName = this.menuInfo.pmSnack;
       this.lunchName = this.menuInfo.lunch;
-      console.log('amSnackFile');
+      console.log("amSnackFile");
       console.log(this.amSnackFile);
     },
 

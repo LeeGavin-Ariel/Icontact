@@ -35,9 +35,7 @@ public class UserController {
     JoinService joinService;
 
     @PostMapping
-    public ResponseEntity join(@RequestBody JoinDto joinDto) {
-        return joinService.join(joinDto);
-    }
+    public ResponseEntity join(@RequestBody JoinDto joinDto) { return joinService.join(joinDto); }
 
 
     @PostMapping("/changepw")

@@ -20,6 +20,7 @@
     "jszip": "^3.7.1",
     "moment": "^2.29.1",
     "password-validator": "^5.1.1",
+    "readme-md-generator": "^1.0.0",
     "s3-zip": "^3.2.0",
     "sendbird": "^3.0.153",
     "striptags": "^3.2.0",
@@ -28,6 +29,7 @@
     "vue": "^2.6.11",
     "vue-awesome": "^3.0.0",
     "vue-awesome-swiper": "^4.1.1",
+    "vue-geolocation-api": "^0.1.21",
     "vue-icon": "^2.2.0",
     "vue-infinite-loading": "^2.4.5",
     "vue-resource": "^1.5.1",
@@ -66,7 +68,12 @@
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "rules": {}
+    "rules": {
+      "no-unused-vars": "off"
+    },
+    "globals": {
+      "kakao": false
+    }
   },
   "browserslist": [
     "> 1%",

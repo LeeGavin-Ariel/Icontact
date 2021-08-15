@@ -7,15 +7,15 @@ import vuetify from './plugins/vuetify'
 
 import 'vue-awesome/icons'
 import Icon from 'vue-awesome/components/Icon'
-// import 'vuesax/dist/vuesax.css'
+// import 'vuesax/dist/vuesax.css' //Vuesax styles
 
-import VueSimpleAlert from "vue-simple-alert"
-
-Vue.use(VueSimpleAlert);
-
+import VueGeolocationApi from 'vue-geolocation-api'
+import VueSimpleAlert from 'vue-simple-alert'
 // Vue.use(Vuesax, {
-
+//   // options here
 // })
+Vue.use(VueGeolocationApi)
+Vue.use(VueSimpleAlert)
 
 Vue.component('icon', Icon)
 

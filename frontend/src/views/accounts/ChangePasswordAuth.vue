@@ -50,7 +50,7 @@
             oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
             maxlength="4"
             v-model="authNumber"
-            placeholder="authNumber"
+            placeholder="인증번호"
           />
           <div style="width: 100px; margin: 3px 0px">
             <v-btn

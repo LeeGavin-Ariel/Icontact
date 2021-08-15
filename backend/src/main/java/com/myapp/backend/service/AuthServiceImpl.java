@@ -38,10 +38,10 @@ public class AuthServiceImpl implements AuthService{
         try{
             //받을 번호 / 보낼 번호(고정-작성자 이현건의 twilio 발급 가상번호) / 메세지
             //유료임! 주석을 함부로 해제하지 마시오!
-//                    Message msg = Message.creator(new PhoneNumber("+82"+autoDto.phoneNum.substring(1)),
-//                            new PhoneNumber("+14695302245"),
-//                            body)
-//                            .create();
+                    Message msg = Message.creator(new PhoneNumber("+82"+autoDto.phoneNum.substring(1)),
+                            new PhoneNumber("+14695302245"),
+                            body)
+                            .create();
 
             //인증용 map에 삽입
             authMap.put(autoDto.getPhoneNum(), code);

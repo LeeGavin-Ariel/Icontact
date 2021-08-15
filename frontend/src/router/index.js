@@ -17,6 +17,7 @@ import Notice from '@/views/funcs/Notice'
 import Request from '@/views/funcs/Request'
 import NotFound from '@/views/errorpage/NotFound'
 import ServerError from '@/views/errorpage/ServerError'
+import Geolocation from '@/views/GPS/Geolocation.vue'
 
 
 Vue.use(VueRouter)
@@ -111,7 +112,11 @@ const routes = [
     name: 'ServerError',
     component: ServerError
   },
-
+  {
+    path: '/gps',
+    name: 'gps',
+    component: Geolocation
+  }
 ]
 
 const router = new VueRouter({

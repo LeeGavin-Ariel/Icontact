@@ -72,11 +72,43 @@
           </v-list-item>
         </v-list>
       </v-menu>
+<!-- 선생님 버튼 -->
+        <v-btn v-if="type == 2 && bus==1" icon  @click="gpsOff">  
+          <v-badge
+            overlap
+            dot
+            color="pink"
+          >
+            <v-avatar size="40">
+              <v-img src="https://image.flaticon.com/icons/png/512/2891/2891045.png"></v-img>
+            </v-avatar>
+          </v-badge>
+        </v-btn>
+        <!-- 버스 미운행 -->
+        <v-btn v-if="type == 2  && bus==0" icon @click="gpsOn">  
+          <v-badge
+            overlap
+            dot
+            color=""
+          >
+            <v-avatar size="40">
+              <v-img src="https://image.flaticon.com/icons/png/512/2891/2891045.png"></v-img>
+            </v-avatar>
+          </v-badge>
+        </v-btn>
+<!-- 학부모 버튼 -->
+<!-- Mypage를 GPS페이지로 변경해야한다 -->
+        <v-btn v-if="type == 1" icon @click="$router.push({ name: 'gps'})">
+          <v-avatar size="40">
+              <v-img src="https://image.flaticon.com/icons/png/512/234/234270.png"></v-img>
+          </v-avatar>
 
-      <!-- 지도 아이콘 -->
+        </v-btn>
+
+      <!-- 지도 아이콘
       <button class="scale">
         <img src="@/assets/flaticon/bus.png" style="height: 3.2rem" />
-      </button>
+      </button> -->
     </nav>
   </div>
 </template>
@@ -85,6 +117,8 @@
 import SERVER from "@/api/drf.js";
 import axios from "axios";
 import userApi from "@/api/user.js";
+import  { requestPost } from '@/utils/request.js';
+
 export default {
   name: "Navbar",
   data() {
@@ -96,9 +130,17 @@ export default {
       kidName: "",
       stateCode: "",
       badgeColor: "stateOn",
-    };
+      bus: 0,
+			latitude: '',
+			longitude: '',
+			socket: null,
+      kinderCode: '',
+      interval: null,
+    }
   },
+  created(){
 
+  },
   methods: {
     async toggleAlarm() {
       await this.updateStateCode();
@@ -136,22 +178,28 @@ export default {
       this.userId = this.$store.state.user.userId;
       this.kidName = this.$store.state.user.kidName;
       this.stateCode = this.$store.state.user.stateCode;
+      this.kinderCode = this.$store.state.user.kinderCode
       this.badgeColor =
         this.$store.state.user.stateCode == 2 ? "stateOff" : "stateOn";
     },
     logout() {
       if (confirm("정말 로그아웃하시겠습니까?")) {
-        axios({
-          url:
-            SERVER.URL +
-            SERVER.ROUTES.logout +
-            `?userId=${this.$store.state.user.userId}`,
-          method: "get",
-        }).then(() => {
-          this.$store.dispatch("removeUser");
-          if (this.$route.path !== "Login")
-            this.$router.push({ name: "Login" });
-        });
+        if(this.bus == 1){
+          alert("버스 위치 정보가 활성화 중입니다.");
+        }
+        else{
+          axios({
+            url:
+              SERVER.URL +
+              SERVER.ROUTES.logout +
+              `?userId=${this.$store.state.user.userId}`,
+            method: "get",
+          }).then(() => {
+            this.$store.dispatch("removeUser");
+            if (this.$route.path !== "Login")
+              this.$router.push({ name: "Login" });
+          });          
+        }  
       }
     },
     moveToMainPage() {
@@ -164,6 +212,75 @@ export default {
         .push({ name: "MyPage", params: { userId: this.userId } })
         .catch(() => {});
     },
+
+    gpsOn(){
+      this.$store.dispatch('setBus', 1);
+      this.bus = this.$store.state.bus;
+
+      this.socket = new WebSocket(`${SERVER.WS}/ws/gps`);
+
+      this.socket.onopen = async (e) => {
+        await this.createRoom();
+        console.log(e);
+        console.log('연결 성공');
+      }
+
+      this.socket.onmessage = ({data}) => {
+        console.log(data);
+      }
+      this.gps();
+    },
+    gpsOff(){
+      this.$store.dispatch('setBus', 0);
+      this.bus = this.$store.state.bus;
+      var mes = '{"type": "Delete", "code": "' +this.kinderCode+ '", "lat":"0", "lon":"0" }'
+      console.log(mes);
+      this.socket.send(mes);
+      clearInterval(this.interval);
+    },
+
+
+		async createRoom() {
+			await requestPost(`${SERVER.URL}/gps`, {name: 'test', code: this.kinderCode});
+			console.log('방 생성');
+      
+      var mes = '{"type": "Enter", "code": "' +this.kinderCode+ '", "lat":"0", "lon":"0" }'
+      console.log(mes);
+      this.socket.send(mes);
+		},
+
+		deleteRoom() {
+			requestPost(`${SERVER.URL}/gps`, {name: 'test', code: this.kinderCode});
+			console.log('방 닫음');
+		},
+
+		geofind() {
+			if(!("geolocation" in navigator)) {
+				return;
+			}
+			// get position
+			navigator.geolocation.getCurrentPosition(pos => {
+				this.latitude = pos.coords.latitude;
+				this.longitude = pos.coords.longitude;
+			}, err => {
+				console.log(err);
+			});			
+		},
+		sendLatLng() {
+			var mes = `{
+				"type": "Update",
+				"code": "${this.kinderCode}",
+				"lat": "${this.latitude}",
+				"lon": "${this.longitude}"
+			}`
+			this.socket.send(mes);
+			console.log(mes);		
+		},
+		gps() {
+			this.interval = setInterval(() => {
+      this.geofind(); 
+      this.sendLatLng();}, 1000);
+		},
   },
   computed: {
     checkLogin() {

@@ -33,6 +33,9 @@ export default new Vuex.Store({
 
 
     isLoggedIn: null,
+
+    //bus 위치추적
+    bus : 0,
   },
   mutations: {
 
@@ -80,7 +83,11 @@ export default new Vuex.Store({
     //이전 메시지 포함한 메시지로 대체
     PLUS_MESSAGES:(state, messages) => {
       state.messages = messages
-    }
+    },
+
+    SET_BUS: (state, bus)=>{
+      state.bus = bus
+    },
     
   },
   actions: {
@@ -133,9 +140,11 @@ export default new Vuex.Store({
 
     removeChannelUser: ({ commit, state }, user) => {
       commit('SET_CHANNEL_USERS', state.channelUsers.filter(it => it.userId !== user.userId))
-    }
+    },
 
-    
+    setBus(context, payload) {
+      context.commit('SET_BUS', payload);
+    },
 
   },
 

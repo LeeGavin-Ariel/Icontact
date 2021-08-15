@@ -8,31 +8,7 @@
       >
         <img src="@/assets/flaticon/write.png" style="width: 3.8rem" />
       </button>
-      <!-- <v-spacer></v-spacer>
 
-    <v-fab-transition>
-      <v-btn
-        color="black"
-        fab
-        large
-        dark
-        bottom
-        left
-        class="writeBtn"
-        @click="showCreateMenuForm"
-        v-if="!createMode & (this.$store.state.user.type == 2)"
-      >
-        <v-icon>mdi-pencil</v-icon>
-      </v-btn>
-    </v-fab-transition> -->
-
-      <!-- <button v-if="detailMode & this.$store.state.user.type==2" @click="showUpdateMenuForm">|글 수정</button>
-
-    <button v-if="detailMode & this.$store.state.user.type==2" @click="deleteMenu">|글 삭제</button> -->
-
-      <!-- <button @click="offCreateForm">글 작성 취소</button> -->
-
-      <!-- <menu-detail v-if="detailMode"/> -->
       <menu-create
         v-if="this.createMode"
         @cancelCreateMenu="cancelCreateMenu"
@@ -50,6 +26,9 @@
         @showUpdateMenuForm="showUpdateMenuForm"
         @deleteMenu="deleteMenu"
       />
+      <v-sheet rounded="lg" v-if="noDataMode">
+        등록된 식단이 없습니다.
+      </v-sheet>
     </div>
   </div>
 </template>
@@ -77,28 +56,47 @@ export default {
     id: {
       id: Number,
     },
+
+    menuList: {},
   },
 
   data() {
     return {
       // 상세 내용을 저장할 변수
       menuDetail: null,
+      noDataMode: false,
 
       createMode: false,
       detailMode: false,
       updateMode: false,
     };
   },
+  created() {
+    console.log("menuList");
+    if (this.menuList.length == 0) {
+      console.log("menuList nodatamode");
+
+      this.noDataMode = true;
+    }
+  },
   watch: {
     id: function () {
       if (this.id == -1) {
         this.menuDetail = null;
         console.log("글이 없습니다");
+        this.changeMode(false, false, false, true);
         return;
       }
       if (this.id != 0) {
         console.log("아이디가 변했어요" + this.id);
         this.getMenuDetail();
+      }
+    },
+    menuList(newValue) {
+      console.log("길이");
+      console.log(newValue);
+      if (newValue.length == 0) {
+        console.log("길이 0");
       }
     },
   },
@@ -151,48 +149,49 @@ export default {
       console.log(this.menuDetail);
       this.getMenuDetail();
 
-      this.changeMode(false, false, true);
+      this.changeMode(false, false, true, false);
       this.$emit("updateMenu", this.menuDetail.menuId);
     },
     //일정 작성 완료
     createMenu() {
-      this.changeMode(false, false, true);
+      this.changeMode(false, false, true, false);
       this.$emit("createMenu");
     },
     //공지 작성 취소
     cancelCreateMenu() {
       console.log("생성취소");
-      this.changeMode(false, false, true);
+      this.changeMode(false, false, true, false);
     },
     //공지 수정 취소
     cancelUpdateMenu() {
-      this.changeMode(false, false, true);
+      this.changeMode(false, false, true, false);
     },
     //공지 (작성,수정,상세) 모드 변경
-    changeMode(create, update, detail) {
+    changeMode(create, update, detail, noData) {
       this.createMode = create;
       this.updateMode = update;
       this.detailMode = detail;
+      this.noDataMode = noData;
     },
     // 공지 작성창 띄우기
     async showCreateMenuForm() {
-      this.changeMode(true, false, false);
+      this.changeMode(true, false, false, false);
     },
 
     // 공지 수정창 띄우기
     async showUpdateMenuForm() {
       console.log("업데이트폼");
-      this.changeMode(false, true, false);
+      this.changeMode(false, true, false, false);
     },
 
     // 공지 상세창 띄우기
     async showDetailMenuForm() {
       console.log("상세페이지폼");
-      this.changeMode(false, false, true);
+      this.changeMode(false, false, true, false);
     },
 
     async getMenuDetail() {
-      this.changeMode(false, false, true);
+      this.changeMode(false, false, true, false);
       console.log("메뉴상세요청간다");
       let accessToken = sessionStorage.getItem("access-token");
       let refreshToken = sessionStorage.getItem("refresh-token");

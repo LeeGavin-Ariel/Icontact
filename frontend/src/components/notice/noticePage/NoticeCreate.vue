@@ -1,58 +1,75 @@
 <template>
   <div>
     <!-- 디테일 -->
-    
+
     <v-sheet rounded="lg" v-if="createMode">
-      <div style="width:100%; height:15px; background-color:#a8b1cf" class="mt-3"></div>
-      <div class="container content-container" style="height:84.8vh">
-
-        <div align="right" class="mt-2"> 
-        </div>
+      <div
+        style="width: 100%; height: 15px; background-color: #a8b1cf"
+        class="mt-3"
+      ></div>
+      <div class="container content-container" style="height: 84.8vh">
+        <div align="right" class="mt-2"></div>
         <div align="center" class="mb-5">
-
           <div class="col-lg-11">
             <table class="table table-borderless mb-0">
               <tbody>
                 <tr class="d-flex">
-                    <td class="col-12 align-items-center mt-3">
-                      <strong style="font-size: 18px">공지</strong>
-                      <table class=" table mt-5 mb-5">
-
-                        <tr class="d-flex">
-                          <td class="col-12"><input type="text"  v-model="title" class="formInput" placeholder="제목을 입력하세요."></td>
-                        </tr>
-                        <tr class="d-flex">
-                          <td class="col-12">
-                            <textarea rows="15" v-model="content" class="formInputText" placeholder="내용을 입력하세요."></textarea>
-                          </td>
-                        </tr>
-                        <tr class="d-flex">
-                          <td class="col-12 mb-0">
-                            <!-- 파일 첨부-->
-                            <v-file-input
-                              id="noticeFile"
-                              v-model="files"
-                              filled
-                              prepend-icon="mdi-camera"
-                              dense
-                              accept="image/*"
-                              style="width: 100%"
-                            ></v-file-input>                            
-                          </td>
-                        </tr>
-                      </table>
-                    </td>
-                  </tr>
+                  <td class="col-12 align-items-center mt-3">
+                    <strong style="font-size: 18px">공지</strong>
+                    <table class="table mt-5 mb-5">
+                      <tr class="d-flex">
+                        <td class="col-12">
+                          <input
+                            type="text"
+                            v-model="title"
+                            class="formInput"
+                            placeholder="제목을 입력하세요."
+                          />
+                        </td>
+                      </tr>
+                      <tr class="d-flex">
+                        <td class="col-12">
+                          <textarea
+                            rows="15"
+                            v-model="content"
+                            class="formInputText"
+                            placeholder="내용을 입력하세요."
+                          ></textarea>
+                        </td>
+                      </tr>
+                      <tr class="d-flex">
+                        <td class="col-12 mb-0">
+                          <!-- 파일 첨부-->
+                          <v-file-input
+                            id="noticeFile"
+                            v-model="files"
+                            filled
+                            prepend-icon="mdi-camera"
+                            dense
+                            accept="image/*"
+                            style="width: 100%"
+                          ></v-file-input>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
               </tbody>
             </table>
-            
           </div>
           <!-- 새로운 글 작성 관련 버튼 -->
           <!-- 새 글을 작성하고, 저장하는 버튼 -->
-          <button @click="createNewNotice" class="mr-2 update-return-btn" 
-            :disabled="saveDisabled">작성</button>
+          <button
+            @click="createNewNotice"
+            class="mr-2 update-return-btn"
+            :disabled="saveDisabled"
+          >
+            작성
+          </button>
           <!-- 글 작성(수정,새글) 취소 버튼 -->
-          <button @click="offCreateForm" class="ml-2 update-return-btn">취소</button>
+          <button @click="offCreateForm" class="ml-2 update-return-btn">
+            취소
+          </button>
         </div>
       </div>
     </v-sheet>
@@ -115,14 +132,6 @@ export default {
 
     // 공지 생성
     async createNewNotice() {
-      //입력안하면 반환
-      if (this.title == "" || this.content == "") {
-        console.log(this.title);
-        console.log(this.content);
-
-        return;
-      }
-
       let accessToken = sessionStorage.getItem("access-token");
       let refreshToken = sessionStorage.getItem("refresh-token");
 

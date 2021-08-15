@@ -104,7 +104,7 @@ export default {
       title: this.scheduleInfo.title,
       content: this.scheduleInfo.content,
       schedulImgUrl: this.scheduleInfo.schedulImgUrl,
-      saveDisabled: true,
+      saveDisabled: false,
     };
   },
   watch: {

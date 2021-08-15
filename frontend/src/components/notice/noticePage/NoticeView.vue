@@ -1,8 +1,6 @@
 <template>
   <div class="col">
     <div class="ml-5 mr-5 mt-5">
-      <!-- <div style="margin-top:2.5rem;"></div> -->
-      <!-- <v-btn @click="showCreateNoticeForm">새 글</v-btn> -->
       <button
         class="writeBtn"
         v-if="!createMode & !updateMode & (this.$store.state.user.type == 2)"
@@ -13,14 +11,12 @@
 
       <notice-create
         v-if="this.createMode"
-        :createStart="createStart"
         @cancelCreateNotice="cancelCreateNotice"
         @createNotice="createNotice"
       />
       <notice-update
         v-if="this.updateMode"
         :noticeInfo="this.noticeDetail"
-        :updateStart="updateStart"
         @cancelUpdateNotice="cancelUpdateNotice"
         @updateNotice="updateNotice"
       />
@@ -30,6 +26,9 @@
         @showUpdateNoticeForm="showUpdateNoticeForm"
         @deleteNotice="deleteNotice"
       />
+      <v-sheet rounded="lg" v-if="noDataMode">
+        등록된 공지사항이 없습니다.
+      </v-sheet>
     </div>
   </div>
 </template>
@@ -57,6 +56,7 @@ export default {
     id: {
       id: Number,
     },
+    noticeList: {},
   },
 
   data() {
@@ -64,18 +64,31 @@ export default {
       // 상세 내용을 저장할 변수
       noticeDetail: null,
 
+      noDataMode: false,
+
       createMode: false,
       detailMode: false,
       updateMode: false,
-      updateStart: false,
-      createStart: false,
     };
+  },
+
+  created() {
+    console.log("noticeList");
+    console.log(this.noticeList);
+    console.log(this.noticeList == null);
+    console.log(this.noticeList.length == 0);
+    if (this.noticeList.length == 0) {
+      console.log("noticeList nodatamode");
+
+      this.noDataMode = true;
+    }
   },
   watch: {
     id: function () {
       if (this.id == -1) {
         this.noticeDetail = null;
         console.log("글이 없습니다");
+        this.changeMode(false, false, false, true);
         return;
       }
 
@@ -84,15 +97,16 @@ export default {
         this.getNoticeDetail();
       }
     },
+    noticeList(newValue) {
+      console.log("길이");
+      console.log(newValue);
+      if (newValue.length == 0) {
+        console.log("길이 0");
+      }
+    },
   },
 
   methods: {
-    propUpdateNotice() {
-      this.updateStart = !this.updateStart;
-    },
-    propCreateNotice() {
-      this.createStart = !this.createStart;
-    },
     //공지 삭제
     async deleteNotice() {
       let choice = await this.$fire({
@@ -137,48 +151,49 @@ export default {
       console.log(this.noticeDetail);
       this.getNoticeDetail();
 
-      this.changeMode(false, false, true);
+      this.changeMode(false, false, true, false);
       this.$emit("updateNotice", this.noticeDetail.noticeId);
     },
     //공지 작성 완료
     createNotice() {
-      this.changeMode(false, false, true);
+      this.changeMode(false, false, true, false);
       this.$emit("createNotice");
     },
     //공지 작성 취소
     cancelCreateNotice() {
       console.log("생성취소");
-      this.changeMode(false, false, true);
+      this.changeMode(false, false, true, false);
     },
     //공지 수정 취소
     cancelUpdateNotice() {
-      this.changeMode(false, false, true);
+      this.changeMode(false, false, true, false);
     },
     //공지 (작성,수정,상세) 모드 변경
-    changeMode(create, update, detail) {
+    changeMode(create, update, detail, noData) {
       this.createMode = create;
       this.updateMode = update;
       this.detailMode = detail;
+      this.noDataMode = noData;
     },
     // 공지 작성창 띄우기
     async showCreateNoticeForm() {
-      this.changeMode(true, false, false);
+      this.changeMode(true, false, false, false);
     },
 
     // 공지 수정창 띄우기
     async showUpdateNoticeForm() {
       console.log("업데이트폼");
-      this.changeMode(false, true, false);
+      this.changeMode(false, true, false, false);
     },
 
     // 공지 상세창 띄우기
     async showDetailNoticeForm() {
       console.log("상세페이지폼");
-      this.changeMode(false, false, true);
+      this.changeMode(false, false, true, false);
     },
 
     async getNoticeDetail() {
-      this.changeMode(false, false, true);
+      this.changeMode(false, false, true, false);
       console.log("공지상세요청간다");
       let accessToken = sessionStorage.getItem("access-token");
       let refreshToken = sessionStorage.getItem("refresh-token");

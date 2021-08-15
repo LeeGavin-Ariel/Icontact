@@ -128,7 +128,7 @@ export default {
       pmSnackName: this.menuInfo.pmSnackName,
       lunchName: this.menuInfo.lunchName,
 
-      saveDisabled: true,
+      saveDisabled: false,
     };
   },
   watch: {

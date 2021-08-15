@@ -110,6 +110,7 @@
     <notice-view
       v-if="this.noticeType == 1"
       :id="noticeId"
+      :noticeList="noticeList"
       @createNotice="afterCreate"
       @updateNotice="afterUpdate"
       @deleteNotice="afterDelete"
@@ -117,6 +118,7 @@
     <schedule-view
       v-if="this.noticeType == 2"
       :id="scheduleId"
+      :scheduleList="scheduleList"
       @createSchedule="afterCreate"
       @updateSchedule="afterUpdate"
       @deleteSchedule="afterDelete"
@@ -124,6 +126,7 @@
     <menu-view
       v-if="this.noticeType == 3"
       :id="menuId"
+      :menuList="menuList"
       @createMenu="afterCreate"
       @updateMenu="afterUpdate"
       @deleteMenu="afterDelete"
@@ -287,8 +290,8 @@ export default {
 
       if (notice) {
         this.noticeType = 1;
-        console.log("this.noticeList[0].noticeId");
-        // console.log(this.noticeList[0].noticeId);
+        console.log("this.noticeList[0].noticeId111");
+        console.log(this.noticeList);
       } else if (schedule) {
         this.noticeType = 2;
         console.log("this.scheduleList[0].scheduleId");
@@ -322,6 +325,7 @@ export default {
       this.menuId = 0;
       await this.changeView(false, true, false);
       if (this.scheduleList[0] != null) {
+        console.log("일정탭누름");
         await this.setScheduleDetail(this.scheduleList[0].scheduleId);
       }
     },

@@ -3,36 +3,42 @@
     <!-- 디테일 -->
 
     <v-sheet rounded="lg" v-if="createMode">
-      <div style="width:100%; height:15px; background-color:#a8b1cf" class="mt-3"></div>
-      <div class="container content-container" style="height:84.8vh">
-
-        <div align="right" class="mt-2"> 
-        </div>
+      <div
+        style="width: 100%; height: 15px; background-color: #a8b1cf"
+        class="mt-3"
+      ></div>
+      <div class="container content-container" style="height: 84.8vh">
+        <div align="right" class="mt-2"></div>
         <div align="center" class="mb-5">
-
           <div class="col-lg-11">
             <table class="table table-borderless mb-0">
               <tbody>
                 <tr class="d-flex">
-                    <td class="col-12 align-items-center mt-3">
-                      <strong style="font-size: 18px">메뉴</strong>
-                      <table class=" table mt-5 mb-5">
-                        <tr class="d-flex">
-                          <td class="col-12"><strong>오전 간식</strong></td>
-                        </tr>
-                        <tr class="d-flex">
-                          <td class="col-5">
-
-                            <v-file-input
-                              filled
-                              prepend-icon="mdi-camera"
-                              dense
-                              id="amSnackFile"
-                              v-model="amSnackFile"
-                              accept="image/*"
-                            ></v-file-input>
+                  <td class="col-12 align-items-center mt-3">
+                    <strong style="font-size: 18px">메뉴</strong>
+                    <table class="table mt-5 mb-5">
+                      <tr class="d-flex">
+                        <td class="col-12"><strong>오전 간식</strong></td>
+                      </tr>
+                      <tr class="d-flex">
+                        <td class="col-5">
+                          <v-file-input
+                            filled
+                            prepend-icon="mdi-camera"
+                            dense
+                            id="amSnackFile"
+                            v-model="amSnackFile"
+                            accept="image/*"
+                          ></v-file-input>
                         </td>
-                        <td class="col-7"><input type="text" class="formInput" placeholder="오전 간식 메뉴" v-model="amSnackName"></td>
+                        <td class="col-7">
+                          <input
+                            type="text"
+                            class="formInput"
+                            placeholder="오전 간식 메뉴"
+                            v-model="amSnackName"
+                          />
+                        </td>
                       </tr>
 
                       <tr class="d-flex">
@@ -40,7 +46,6 @@
                       </tr>
                       <tr class="d-flex">
                         <td class="col-5">
-
                           <v-file-input
                             filled
                             prepend-icon="mdi-camera"
@@ -49,9 +54,15 @@
                             v-model="lunchFile"
                             accept="image/*"
                           ></v-file-input>
-
                         </td>
-                        <td class="col-7"><input type="text" class="formInput" placeholder="점심 메뉴" v-model="lunchName"/></td>
+                        <td class="col-7">
+                          <input
+                            type="text"
+                            class="formInput"
+                            placeholder="점심 메뉴"
+                            v-model="lunchName"
+                          />
+                        </td>
                       </tr>
 
                       <tr class="d-flex">
@@ -59,7 +70,6 @@
                       </tr>
                       <tr class="d-flex">
                         <td class="col-5">
-
                           <v-file-input
                             filled
                             prepend-icon="mdi-camera"
@@ -68,9 +78,15 @@
                             v-model="pmSnackFile"
                             accept="image/*"
                           ></v-file-input>
-                          
                         </td>
-                        <td class="col-7"><input type="text" class="formInput" placeholder="오후 간식 메뉴" v-model="pmSnackName"/></td>
+                        <td class="col-7">
+                          <input
+                            type="text"
+                            class="formInput"
+                            placeholder="오후 간식 메뉴"
+                            v-model="pmSnackName"
+                          />
+                        </td>
                       </tr>
                     </table>
                   </td>
@@ -80,11 +96,17 @@
           </div>
           <!-- 새로운 글 작성 관련 버튼 -->
           <!-- 새 글을 작성하고, 저장하는 버튼 -->
-          <button @click="createNewMenu" class="mr-2 update-return-btn" 
-            :disabled="saveDisabled">작성</button>
+          <button
+            @click="createNewMenu"
+            class="mr-2 update-return-btn"
+            :disabled="saveDisabled"
+          >
+            작성
+          </button>
           <!-- 글 작성(수정,새글) 취소 버튼 -->
-          <button @click="offCreateForm" class="ml-2 update-return-btn">취소</button>
-
+          <button @click="offCreateForm" class="ml-2 update-return-btn">
+            취소
+          </button>
         </div>
       </div>
     </v-sheet>
@@ -126,11 +148,6 @@ export default {
     };
   },
   watch: {
-    lunchFile(value) {
-      console.log(value);
-      console.log(value);
-    },
-
     amSnackName() {
       this.checkInput();
     },
@@ -140,17 +157,38 @@ export default {
     lunchName() {
       this.checkInput();
     },
+    amSnackFile() {
+      this.checkInput();
+    },
+    pmSnackFile() {
+      this.checkInput();
+    },
+    lunchFile() {
+      this.checkInput();
+    },
   },
 
   methods: {
     checkInput() {
+      console.log("체크하자");
+      console.log(this.amSnackFile);
+      console.log(this.pmSnackFile);
+      console.log(this.lunchFile);
       if (
         this.amSnackName != "" ||
         this.pmSnackName != "" ||
-        this.lunchName != ""
-      )
+        this.lunchName != "" ||
+        this.amSnackFile != "" ||
+        this.pmSnackFile != "" ||
+        this.lunchFile != ""
+      ) {
+        console.log("입력햇음");
+
         this.saveDisabled = false;
-      else this.saveDisabled = true;
+      } else {
+        console.log("하나라도입력하세요");
+        this.saveDisabled = true;
+      }
     },
     offCreateForm() {
       this.$emit("cancelCreateMenu");
@@ -158,13 +196,6 @@ export default {
 
     // 식단 생성
     async createNewMenu() {
-      //점심명을 입력하지 않으면 생성불가
-      if (this.lunchName == "") {
-        
-        return;
-      }
-
-      console.log("식단생성");
       let accessToken = sessionStorage.getItem("access-token");
       let refreshToken = sessionStorage.getItem("refresh-token");
 
@@ -216,22 +247,21 @@ export default {
 
 <style scoped>
 /* 스크롤 */
-.content-container{
-  overflow-y:scroll; 
-  height:80vh; 
+.content-container {
+  overflow-y: scroll;
+  height: 80vh;
 }
 .content-container::-webkit-scrollbar {
   width: 7px;
-  background-color: rgba(233,234,239, 0.5);
+  background-color: rgba(233, 234, 239, 0.5);
   border-radius: 1px;
 }
 .content-container::-webkit-scrollbar-thumb {
   background-color: #a8b1cf;
   border-radius: 1px;
-
 }
 .content-container::-webkit-scrollbar-track {
-  background-color: rgba(233,234,239, 0.5);
+  background-color: rgba(233, 234, 239, 0.5);
   border-radius: 1px;
 }
 .formInput {
@@ -243,7 +273,7 @@ export default {
   padding: 0px 0px 0px 15px;
   margin: 3px 3px 3px 3px;
 }
-.formInputText{
+.formInputText {
   background-color: rgba(156, 156, 156, 0.1);
   border-radius: 5px;
   height: 100%;
@@ -261,7 +291,7 @@ export default {
   color: rgba(256, 256, 256);
   letter-spacing: -1px;
 }
-.formInput:hover{
+.formInput:hover {
   background-color: rgba(156, 156, 156, 0.2);
   transition: 0.3s;
 }

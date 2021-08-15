@@ -121,10 +121,6 @@ export default {
 
     // 일정 생성
     async createNewSchedule() {
-      if (this.title == "" || this.content == "") {
-        return;
-      }
-
       let accessToken = sessionStorage.getItem("access-token");
       let refreshToken = sessionStorage.getItem("refresh-token");
 

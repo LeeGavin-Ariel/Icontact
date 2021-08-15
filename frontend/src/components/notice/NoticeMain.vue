@@ -28,6 +28,7 @@
             <template v-for="notice in noticeList">
               <!-- :class="{ selected: idx == index }" -->
               <notice-list-item
+                :class="{ selected: selIdx == notice.noticeId }"
                 :key="notice.createDate"
                 :noticeInfo="notice"
                 @click="setNoticeDetail(notice.noticeId)"
@@ -56,6 +57,7 @@
           >
             <template v-for="schedule in scheduleList">
               <schedule-list-item
+                :class="{ selected: selIdx == schedule.scheduleId }"
                 :key="schedule.createDate"
                 :scheduleInfo="schedule"
                 @click="setScheduleDetail(schedule.scheduleId)"
@@ -86,6 +88,7 @@
           >
             <template v-for="menu in menuList">
               <menu-list-item
+                :class="{ selected: selIdx == menu.menuId }"
                 :key="menu.createDate"
                 :menuInfo="menu"
                 @click="setMenuDetail(menu.menuId)"
@@ -158,6 +161,8 @@ export default {
   data() {
     return {
       // 디테일 값을 얻어 오기 위한 글의 아이디값
+      selIdx: 0,
+
       noticeId: 0,
       scheduleId: 0,
       menuId: 0,
@@ -272,12 +277,15 @@ export default {
     // 글을 클릭했을때 id값 저장
     setNoticeDetail(id) {
       console.log("공지 아이디 변경", id);
+      this.selIdx = id;
       this.noticeId = id;
     },
     setScheduleDetail(id) {
+      this.selIdx = id;
       this.scheduleId = id;
     },
     setMenuDetail(id) {
+      this.selIdx = id;
       this.menuId = id;
     },
 
@@ -486,5 +494,8 @@ export default {
 /*부드러운 스크롤 효과*/
 html {
   scroll-behavior: smooth;
+}
+.selected {
+  background-color: #58679a;
 }
 </style>

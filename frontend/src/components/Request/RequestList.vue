@@ -211,6 +211,7 @@ export default {
 
     // 글 작성, 수정, 삭제 이벤트 발생시 다시 목록 조회.
     initRequestList(requestType) {
+      this.idx = 0;
       if (requestType === 1) {
         this.id = 0;
         this.dosageList = [];

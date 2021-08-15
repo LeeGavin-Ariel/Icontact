@@ -57,7 +57,7 @@
               block
               rounded
               style="background-color: #58679a; color: white"
-              v-if="!isAuth"
+              :disabled="isAuth || !isRequested"
               @click="checkAuthNumber"
             >
               인증번호 확인
@@ -133,6 +133,12 @@ export default {
         .then((res) => {
           if (res.status === 200) {
             this.isRequested = true;
+            this.$fire({
+              html: `<a href="javascript:void(0);"></a><p style="font-size: 0.95rem; font-family: 'NanumSquareRound';">인증 번호가 발송되었습니다.</p>`,
+              focusConfirm: false,
+              confirmButtonColor: "#58679A",
+              type: "success",
+            });
           }
         })
         .catch(() => {

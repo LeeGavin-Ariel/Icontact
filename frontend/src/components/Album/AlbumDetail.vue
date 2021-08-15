@@ -170,21 +170,33 @@ export default {
     },
 
     async deleteAlbum() {
-      let accessToken = sessionStorage.getItem("access-token");
-      let refreshToken = sessionStorage.getItem("refresh-token");
+      this.$fire({
+        html: `<a href="javascript:void(0);"></a><p style="font-size: 0.95rem; font-family: 'NanumSquareRound';">삭제 하시겠습니까?</p>`,
+        type: "question",
+        showCancelButton: true,
+        confirmButtonText: "예",
+        cancelButtonText: "아니오",
+        confirmButtonColor: "#58679A",
+      }).then(async (r) => {
+        if (r.value) {
+          let accessToken = sessionStorage.getItem("access-token");
+          let refreshToken = sessionStorage.getItem("refresh-token");
+    
+          let data = {
+            albumId: this.selectedAlbumId,
+          };
+          await albumApi.deleteAlbum(data, {
+            "access-token": accessToken,
+            "refresh-token": refreshToken,
+          });
+          awss3.deletePhoto(this.photoKeyList, this.downloadUrl);
+          this.photoKeyList = [];
+          this.downloadUrl = "";
+          this.$emit("updateVisible", !this.visible);
+          this.$emit("get-album");
+        }
+      })
 
-      let data = {
-        albumId: this.selectedAlbumId,
-      };
-      await albumApi.deleteAlbum(data, {
-        "access-token": accessToken,
-        "refresh-token": refreshToken,
-      });
-      awss3.deletePhoto(this.photoKeyList, this.downloadUrl);
-      this.photoKeyList = [];
-      this.downloadUrl = "";
-      this.$emit("updateVisible", !this.visible);
-      this.$emit("get-album");
     },
   },
   created() {

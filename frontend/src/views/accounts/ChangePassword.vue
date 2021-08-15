@@ -58,8 +58,8 @@
           style="background-color: #58679a; color: white; margin: 3px 0px"
           :disabled="
             !password ||
-            error.password ||
-            error.passwordConfirm ||
+            error.password !== false ||
+            error.passwordConfirm !== false ||
             !(password == passwordConfirm)
           "
           @click="changePassword"

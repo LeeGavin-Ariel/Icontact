@@ -215,6 +215,18 @@ export default {
 </script>
 
 <style scoped>
+#circle {
+  background-color:  #ffc1c2;
+  width: 20px;
+  height: 20px;
+  border-radius: 75px;
+}
+#circle2 {
+  background-color: #a1c8ff;
+  width: 20px;
+  height: 20px;
+  border-radius: 75px;
+}
 .attend {
   border-style: solid;
   border-color: #a1c8ff;

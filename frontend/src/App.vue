@@ -88,4 +88,9 @@ export default {
 * {
   font-family: "NanumSquareRound";
 }
+
+:focus-visible {
+  outline: 0px;
+}
+
 </style>

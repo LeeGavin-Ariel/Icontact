@@ -142,7 +142,6 @@ export default {
     },
   },
 
-
   destroyed() {
     this.$el.removeEventListener("scroll", this.handleScroll);
   },
@@ -162,9 +161,14 @@ export default {
           console.error(error);
         });
 
-      await sendBird.onMessageReceived(channel, (channel, message) => {
-        console.log("메시지를 받았습니다");
-        this.$store.dispatch("addMessage", message);
+      await sendBird.onMessageReceived(channel, (receivedChannel, message) => {
+        console.log("메시지를 받았습니다 메시지스");
+        console.log("channel", channel);
+        console.log("receivedChannel", receivedChannel);
+        console.log(channel == receivedChannel);
+
+        if (channel == receivedChannel)
+          this.$store.dispatch("addMessage", message);
       });
 
       this.$nextTick(() => {

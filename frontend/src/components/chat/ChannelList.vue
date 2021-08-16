@@ -37,38 +37,6 @@
         />
       </div>
     </div>
-    <!-- <v-container fluid > -->
-
-    <!-- 
-    <v-btn @click="searchById">모든유저</v-btn>
-
-    <v-btn @click="disconnectSendbird">연결해제</v-btn> -->
-    <!-- <v-list
-      two-line
-      ref="channelFrame"
-      class="overflow-y-auto"
-      v-scroll:#scroll-target="onScroll"
-      align="left"
-      justify="center"
-      style="height: 80vh"
-    >
-      <v-list-item-group active-class="pink--text">
-        <channel-list-item
-          v-for="(channel, index) in this.channelList"
-          :key="index"
-          :cover-url="channel.coverUrl"
-          :name="channel.name"
-          :url="channel.url"
-          :members="channel.members"
-          :searchId="searchId"
-          :lastMessage="
-            channel.lastMessage === undefined ? null : channel.lastMessage
-          "
-          :channel="channel"
-        />
-      </v-list-item-group>
-    </v-list>
-  </v-container> -->
   </v-col>
 </template>
 
@@ -88,7 +56,7 @@ export default {
     return {
       title: this.$store.state.user.userId,
       searchId: "",
-      channelList: [], //페이지에서 다루는 채널리스트
+      channelList: [],
       allChannelsIsLoaded: false,
       loadingIsActive: false,
       offsetTop: 0,
@@ -105,18 +73,6 @@ export default {
     },
 
     channelList(newValue) {
-      console.log("channelList 변경되었습니다");
-      console.log(this.channelList);
-
-      console.log("this");
-      console.log(this);
-
-      console.log("this.$el");
-      console.log(this.$el);
-
-      console.log("this.$el.offsetHeight");
-      console.log(this.$el.offsetHeight);
-
       if (
         newValue &&
         this.$el.offsetHeight + this.$el.scrollTop === this.$el.scrollHeight
@@ -134,21 +90,9 @@ export default {
     },
 
     handleScroll() {
-      console.log("scroll11");
-
-      console.log(this.$el.offsetHeight);
-      console.log(document.getElementById("channelFrame").offsetHeight);
-
-      console.log(this.$refs.channelFrame);
-      console.log("this.$refs.channelFrame.offsetHeight");
       const oldHeight = this.$refs.channelFrame.offsetHeight;
 
-      // if (this.$el.scrollTop === 0 && !this.allMessagesIsLoaded && this.messages.length > 0) {
-
-      // this.loadingIsActive = true
-
       sendBird
-        // .getPreviousMessages(this.channel, this.earliestMessage.createdAt, 10)
         .getPreviousGroupMessages(this.channel)
         .then((channels) => {
           if (channels.length === 0) {
@@ -157,28 +101,15 @@ export default {
             return;
           }
 
-          // this.$store.dispatch('addMessages', messageList)
-          // this.$store.dispatch('loadPrevMessages', messageList)
-
           this.$nextTick(() => {
             this.$el.scrollTop =
               this.$refs.channelFrame.offsetHeight - oldHeight;
             this.loadingIsActive = false;
           });
         })
-        .catch((error) => {
-          console.error(error);
-        });
     },
 
     scrollToBottom() {
-      console.log("scroll222");
-
-      console.log('this.$el.offsetHeight', this.$el.offsetHeight);
-      console.log('document.getElementById("channelFrame").offsetHeight',document.getElementById("channelFrame").offsetHeight);
-
-      console.log(this.$refs.channelFrame);
-      console.log("this.$refs.channelFrame.offsetHeight:",this.$refs.channelFrame.offsetHeight);
       this.$el.scrollTop = this.$refs.channelFrame.offsetHeight;
     },
 
@@ -187,31 +118,18 @@ export default {
         .getGroupChannelListByNickname(searchId)
         .then(async (channels) => {
           this.channelList = channels;
-          console.log("검색 뒤 channels");
-          console.log(this.channelList);
         })
-        .catch((error) => {
-          console.error(error);
-        });
     },
 
     async init() {
-      console.log("this.$store.state.user.userId");
-      console.log(this.$store.state.user);
-      console.log(this.$store.state.channels);
 
       await sendBird.login(this.$store.state.user.userId);
 
       sendBird
         .getGroupChannelList()
         .then(async (channels) => {
-          console.log('채널리스트 받음');
-          console.log(channels);
           await this.$store.commit("SET_CHANNELS", channels);
         })
-        .catch((error) => {
-          console.error(error);
-        });
     },
 
     disconnectSendbird() {

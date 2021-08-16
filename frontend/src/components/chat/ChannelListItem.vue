@@ -44,7 +44,6 @@ export default {
       idx: 0,
       nickName: "",
       connectionStatus: "",
-      // lastMessage:"",
       createdAt: "",
       opponentId: "",
       profileImg: "",
@@ -81,7 +80,6 @@ export default {
 
   methods: {
     async setData() {
-      // await this.$store.commit("SET_CHANNEL", null);
 
       if (this.$store.state.user.userId == this.members[0].userId) {
         this.nickName = this.members[1].nickname;
@@ -114,13 +112,9 @@ export default {
       return msg;
     },
     async openChannel(url) {
-      console.log("채널을 선택했다");
-      console.log(url);
       await sendBird
         .getChannel(url)
         .then(async (channel) => {
-          console.log("채널받기 성공");
-          console.log(channel);
 
           let accessToken = sessionStorage.getItem("access-token");
           let refreshToken = sessionStorage.getItem("refresh-token");
@@ -134,11 +128,7 @@ export default {
           );
           channel.oppoImg = this.profileImg;
           await this.$store.commit("SET_CHANNEL", channel);
-          // 채널이 변경되면 computed 작동
         })
-        .catch((error) => {
-          console.error(error);
-        });
     },
 
     toStringByFormatting(source, delimiter = "/") {

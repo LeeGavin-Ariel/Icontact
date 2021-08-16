@@ -170,13 +170,6 @@ export default {
 
   methods: {
     checkInput() {
-      console.log("체크하자");
-      console.log(this.amSnackFile);
-      console.log(this.lunchFile);
-      console.log(this.pmSnackFile);
-      console.log(this.amSnackName);
-      console.log(this.lunchName);
-      console.log(this.pmSnackName);
       if (
         this.amSnackName != "" ||
         this.pmSnackName != "" ||
@@ -185,11 +178,8 @@ export default {
         this.pmSnackFile != null ||
         this.lunchFile != null
       ) {
-        console.log("입력햇음");
-
         this.saveDisabled = false;
       } else {
-        console.log("하나라도입력하세요");
         this.saveDisabled = true;
       }
     },
@@ -205,11 +195,6 @@ export default {
       let amSnackImgUrl = await this.imgUpload("amSnackFile");
       let lunchImgUrl = await this.imgUpload("lunchFile");
       let pmSnackImgUrl = await this.imgUpload("pmSnackFile");
-
-      console.log("결과들");
-      console.log(amSnackImgUrl);
-      console.log(lunchImgUrl);
-      console.log(pmSnackImgUrl);
 
       let data = {
         amSnackImgUrl: amSnackImgUrl,
@@ -227,8 +212,6 @@ export default {
         "access-token": accessToken,
         "refresh-token": refreshToken,
       });
-      console.log("result");
-      console.log(result);
 
       this.$emit("createMenu");
     },
@@ -240,8 +223,6 @@ export default {
           .uploadPhoto("menu", elId)
           .then((result) => (resultImgUrl = result[0]));
       }
-      console.log("resultImgUrl");
-      console.log(resultImgUrl);
       return resultImgUrl;
     },
   },

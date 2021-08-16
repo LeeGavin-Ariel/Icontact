@@ -46,7 +46,6 @@
 </template>
 
 <script>
-// import noticeApi from "@/api/notice.js";
 export default {
   name: "NoticeDetail",
 
@@ -71,22 +70,12 @@ export default {
       updateMode: false,
     };
   },
-  watch: {
-    // id: function () {
-    //   console.log('noticedetail');
-    //   if (this.id !== 0) {
-    //     this.getNoticeDetail();
-    //   }
-    // },
-  },
 
   methods: {
     showUpdateNoticeForm() {
-      console.log("오픈업데이트폼");
       this.$emit("showUpdateNoticeForm");
     },
     deleteNotice() {
-      console.log("삭제");
       this.$emit("deleteNotice");
     },
     contentReplace(content) {
@@ -101,13 +90,8 @@ export default {
 
     // 생성창 띄우기
     async showCreateNoticeForm() {
-      console.log("눌렀는데");
       this.changeMode(true, false, false);
     },
-  },
-
-  created() {
-    console.log(this.noticeInfo);
   },
 };
 </script>

@@ -1,12 +1,10 @@
 .message-sender {
-  // height: 110px;
-  // position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
   background: $primary-light;
   box-shadow: 0px -3px 10px rgba($black, 0.03);
-  
+
   & .columns {
     align-items: center;
     height: 100%;

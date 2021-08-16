@@ -73,13 +73,7 @@ export default {
   },
 
   created() {
-    console.log("noticeList");
-    console.log(this.noticeList);
-    console.log(this.noticeList == null);
-    console.log(this.noticeList.length == 0);
     if (this.noticeList.length == 0) {
-      console.log("noticeList nodatamode");
-
       this.noDataMode = true;
     }
   },
@@ -87,21 +81,12 @@ export default {
     id: function () {
       if (this.id == -1) {
         this.noticeDetail = null;
-        console.log("글이 없습니다");
         this.changeMode(false, false, false, true);
         return;
       }
 
       if (this.id !== 0) {
-        console.log("아이디가 변했어요오오" + this.id);
         this.getNoticeDetail();
-      }
-    },
-    noticeList(newValue) {
-      console.log("길이");
-      console.log(newValue);
-      if (newValue.length == 0) {
-        console.log("길이 0");
       }
     },
   },
@@ -118,9 +103,7 @@ export default {
         confirmButtonColor: "#58679A",
       });
 
-      // alert로 바꿔주세요.
       if (!choice.value) {
-        console.log("삭제안함.");
         return;
       }
 
@@ -140,15 +123,11 @@ export default {
         "refresh-token": refreshToken,
       });
 
-      console.log(result);
-
       this.$emit("deleteNotice");
     },
 
     //공지 업데이트 완료
     updateNotice() {
-      console.log("에밋 view111");
-      console.log(this.noticeDetail);
       this.getNoticeDetail();
 
       this.changeMode(false, false, true, false);
@@ -161,7 +140,6 @@ export default {
     },
     //공지 작성 취소
     cancelCreateNotice() {
-      console.log("생성취소");
       this.changeMode(false, false, true, false);
     },
     //공지 수정 취소
@@ -182,19 +160,16 @@ export default {
 
     // 공지 수정창 띄우기
     async showUpdateNoticeForm() {
-      console.log("업데이트폼");
       this.changeMode(false, true, false, false);
     },
 
     // 공지 상세창 띄우기
     async showDetailNoticeForm() {
-      console.log("상세페이지폼");
       this.changeMode(false, false, true, false);
     },
 
     async getNoticeDetail() {
       this.changeMode(false, false, true, false);
-      console.log("공지상세요청간다");
       let accessToken = sessionStorage.getItem("access-token");
       let refreshToken = sessionStorage.getItem("refresh-token");
       let data = {
@@ -208,7 +183,6 @@ export default {
       });
 
       this.noticeDetail = result.notice;
-      console.log(this.noticeDetail);
     },
   },
 };

@@ -1,9 +1,13 @@
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
-body, body .input, body textarea {
-  font-family: 'Lato', sans-serif;
+body,
+body .input,
+body textarea {
+  font-family: "Lato", sans-serif;
   font-size: 16px;
   color: $text-color;
 }
@@ -14,11 +18,9 @@ body, body .input, body textarea {
   min-width: 1200px;
   overflow: hidden;
 
-
   h2 {
     font-size: 20px;
     text-transform: uppercase;
-    // padding-bottom: $size-3;
     margin: 0;
     color: $white;
   }
@@ -27,4 +29,3 @@ body, body .input, body textarea {
     list-style: none;
   }
 }
-

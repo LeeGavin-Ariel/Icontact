@@ -186,13 +186,6 @@ export default {
 
   methods: {
     checkInput() {
-      console.log("체크하자");
-      console.log("this.amSnackFile", this.amSnackFile);
-      console.log("this.lunchFile", this.lunchFile);
-      console.log("this.pmSnackFile", this.pmSnackFile);
-      console.log("this.amSnackName", this.amSnackName);
-      console.log(this.lunchName);
-      console.log(this.pmSnackName);
       if (
         this.amSnackName != "" ||
         this.pmSnackName != "" ||
@@ -201,10 +194,8 @@ export default {
         this.pmSnackFile != null ||
         this.lunchFile != null
       ) {
-        console.log("입력햇음");
         this.saveDisabled = false;
       } else {
-        console.log("입력안함");
         this.saveDisabled = true;
       }
     },
@@ -215,8 +206,6 @@ export default {
       this.amSnackName = this.menuInfo.amSnack;
       this.pmSnackName = this.menuInfo.pmSnack;
       this.lunchName = this.menuInfo.lunch;
-      console.log("amSnackFile");
-      console.log(this.amSnackFile);
     },
 
     offUpdateForm() {
@@ -230,24 +219,20 @@ export default {
         menuType: this.menuType,
         id: this.id,
       };
-      // 선생인지, 학부모인지에 따라 다르게 받음.
       let result = await menuApi.getMenuDetail(data, {
         "access-token": accessToken,
         "refresh-token": refreshToken,
       });
-      // 어떻게 날라오는지 확인후 데이터 집어넣기4
       if (this.menuType === 1) {
         this.menuDetail = result.dosage;
       } else if (this.menuType === 2) {
         this.menuDetail = result.returnhome;
       }
-      console.log(this.menuDetail);
       this.creating = 0;
       this.updating = 0;
     },
 
     async updateMenu() {
-      console.log("일정 업데이트 버튼 클릭11S");
       let accessToken = sessionStorage.getItem("access-token");
       let refreshToken = sessionStorage.getItem("refresh-token");
 
@@ -258,11 +243,6 @@ export default {
       let amSnackImgUrl = await this.imgUpdate(amSnackPhotoKey, "amSnackFile");
       let lunchImgUrl = await this.imgUpdate(lunchPhotoKey, "lunchFile");
       let pmSnackImgUrl = await this.imgUpdate(pmSnackPhotoKey, "pmSnackFile");
-
-      console.log("결과들");
-      console.log(amSnackImgUrl);
-      console.log(lunchImgUrl);
-      console.log(pmSnackImgUrl);
 
       let data = {
         amSnackImgUrl: amSnackImgUrl,
@@ -282,8 +262,6 @@ export default {
         "refresh-token": refreshToken,
       });
 
-      console.log("result111");
-      console.log(result);
       this.updating = 0;
 
       this.$emit("updateMenu");
@@ -294,33 +272,25 @@ export default {
       //s3 업로드 부분
       //기존에 사진파일이 없을때
       if (photoKey == null) {
-        console.log(elId + " 포토키없는데");
         //첨부한 사진이 있으면 업로드
         if (document.getElementById(elId).files.length != 0) {
-          console.log("첨부파일있음");
 
           await awss3
             .uploadPhoto("menu", elId)
             .then((result) => (resultImgUrl = result[0]));
         }
       } else {
-        console.log("포토키있는데");
-
         //기존에 사진파일이 있을 때
         //첨부한 사진이 있으면 업데이트
         if (document.getElementById(elId).files.length != 0) {
-          console.log("첨부파일이있음");
           await awss3
             .updatePhoto("menu", photoKey, elId)
             .then((result) => (resultImgUrl = result[0]));
         } else {
-          console.log("첨부파일이없음");
           //첨부한 사진이 없으면 기존 사진 삭제? 놔두기? 일단 놔두기로
           resultImgUrl = photoKey;
         }
       }
-      console.log("resultImgUrl");
-      console.log(resultImgUrl);
       return resultImgUrl;
     },
   },

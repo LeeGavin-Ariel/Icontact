@@ -44,14 +44,12 @@ export default {
         classCode: result.classCode,
         className: result.className,
       });
-      console.log(this.$store.state.user);
     },
   },
   mounted() {
     const accessToken = sessionStorage.getItem("access-token");
     if (accessToken) {
       const userid = getTokenInfo().userId;
-      console.log(userid);
       if (tokenExpired()) {
         this.setUserInfo(
           userid,

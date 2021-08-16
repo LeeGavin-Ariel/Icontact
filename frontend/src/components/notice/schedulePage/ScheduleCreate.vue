@@ -127,7 +127,6 @@ export default {
       let scheduleImgUrl = "";
       if (document.getElementById("scheduleFile").files.length != 0) {
         scheduleImgUrl = await awss3.uploadPhoto("schedule", "scheduleFile");
-        console.log("파일있음");
       }
 
       let data = {
@@ -144,11 +143,7 @@ export default {
         "refresh-token": refreshToken,
       });
 
-      console.log("result");
-      console.log(result);
-
       this.$emit("createSchedule");
-      // this.getSchedule()
     },
   },
 };

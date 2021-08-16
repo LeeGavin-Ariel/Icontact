@@ -72,9 +72,7 @@ export default {
     };
   },
   created() {
-    console.log("menuList");
     if (this.menuList.length == 0) {
-      console.log("menuList nodatamode");
 
       this.noDataMode = true;
     }
@@ -83,20 +81,11 @@ export default {
     id: function () {
       if (this.id == -1) {
         this.menuDetail = null;
-        console.log("글이 없습니다");
         this.changeMode(false, false, false, true);
         return;
       }
       if (this.id != 0) {
-        console.log("아이디가 변했어요" + this.id);
         this.getMenuDetail();
-      }
-    },
-    menuList(newValue) {
-      console.log("길이");
-      console.log(newValue);
-      if (newValue.length == 0) {
-        console.log("길이 0");
       }
     },
   },
@@ -112,9 +101,7 @@ export default {
         confirmButtonColor: "#58679A",
       });
 
-      // alert로 바꿔주세요.
       if (!choice.value) {
-        console.log("삭제안함.");
         return;
       }
       let accessToken = sessionStorage.getItem("access-token");
@@ -138,15 +125,11 @@ export default {
         "refresh-token": refreshToken,
       });
 
-      console.log(result);
-
       this.$emit("deleteMenu");
     },
 
     //일정 업데이트 완료
     updateMenu() {
-      console.log("에밋 view111");
-      console.log(this.menuDetail);
       this.getMenuDetail();
 
       this.changeMode(false, false, true, false);
@@ -159,7 +142,6 @@ export default {
     },
     //공지 작성 취소
     cancelCreateMenu() {
-      console.log("생성취소");
       this.changeMode(false, false, true, false);
     },
     //공지 수정 취소
@@ -180,19 +162,16 @@ export default {
 
     // 공지 수정창 띄우기
     async showUpdateMenuForm() {
-      console.log("업데이트폼");
       this.changeMode(false, true, false, false);
     },
 
     // 공지 상세창 띄우기
     async showDetailMenuForm() {
-      console.log("상세페이지폼");
       this.changeMode(false, false, true, false);
     },
 
     async getMenuDetail() {
       this.changeMode(false, false, true, false);
-      console.log("메뉴상세요청간다");
       let accessToken = sessionStorage.getItem("access-token");
       let refreshToken = sessionStorage.getItem("refresh-token");
       let data = {
@@ -206,8 +185,6 @@ export default {
       });
 
       this.menuDetail = result.menu;
-      console.log("this.menuDetail");
-      console.log(this.menuDetail);
     },
   },
 };

@@ -31,17 +31,13 @@ export default {
   watch: {
     channel: {
       async handler(newValue) {
-        console.log('채널 오픈')
-        console.log(newValue)
         this.choiceChannel = newValue;
-        // await this.init(newValue.url);
       },
     },
   },
   methods: {},
 
   async created() {
-    console.log("메인 크리에이트");
     await this.$store.commit("SET_CHANNEL", null);
   },
 };

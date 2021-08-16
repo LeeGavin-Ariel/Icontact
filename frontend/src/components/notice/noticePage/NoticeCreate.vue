@@ -95,12 +95,6 @@ export default {
     createStart: Boolean,
   },
 
-  computed: {
-    // title() {
-    //   console.log('타이틀변경');
-    // },
-  },
-
   data() {
     return {
       // 상세 내용을 저장할 변수
@@ -138,11 +132,9 @@ export default {
       //이미지 업로드처리
       let noticeImgUrl = "";
       if (document.getElementById("noticeFile").files.length != 0) {
-        // noticeImgUrl = await awss3.uploadPhoto("notice", "noticeFile").then(result=>noticeImgUrl=result);
         await awss3
           .uploadPhoto("notice", "noticeFile")
           .then((result) => (noticeImgUrl = result[0]));
-        console.log("파일있음");
       }
 
       let data = {
@@ -158,9 +150,6 @@ export default {
         "access-token": accessToken,
         "refresh-token": refreshToken,
       });
-
-      console.log("result");
-      console.log(result);
 
       this.$emit("createNotice");
     },

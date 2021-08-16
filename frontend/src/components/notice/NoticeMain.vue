@@ -189,7 +189,6 @@ export default {
   },
   methods: {
     async afterCreate() {
-      console.log("after create");
       if (this.noticeType == 1) {
         this.noticeList = [];
         this.noticePageNum = 1;
@@ -228,7 +227,6 @@ export default {
     },
 
     async afterDelete() {
-      console.log("after delete");
       if (this.noticeType == 1) {
         this.noticeList = [];
         this.noticePageNum = 1;
@@ -276,7 +274,6 @@ export default {
 
     // 글을 클릭했을때 id값 저장
     setNoticeDetail(id) {
-      console.log("공지 아이디 변경", id);
       this.selIdx = id;
       this.noticeId = id;
     },
@@ -291,29 +288,17 @@ export default {
 
     // 공지 일정 식단 페이지를 변경하는 함수
     changeView(notice, schedule, menu) {
-      // this.id = 0;
       this.noticeView = notice;
       this.menuView = schedule;
       this.scheduleView = menu;
 
       if (notice) {
         this.noticeType = 1;
-        console.log("this.noticeList[0].noticeId111");
-        console.log(this.noticeList);
       } else if (schedule) {
         this.noticeType = 2;
-        console.log("this.scheduleList[0].scheduleId");
-        // console.log(this.scheduleList[0].scheduleId);
-        // this.setDetail(this.scheduleList[0].scheduleId);
       } else if (menu) {
         this.noticeType = 3;
-        console.log("this.menuList[0].menuId");
-        // console.log(this.menuList[0].menuId);
-        // this.setDetail(this.menuList[0].menuId);
       }
-
-      console.log("ID");
-      // console.log(this.id);
     },
 
     // 공지 탭 눌렀을때
@@ -322,7 +307,6 @@ export default {
       this.menuId = 0;
       await this.changeView(true, false, false);
       if (this.noticeList[0] != null) {
-        console.log("공지탭누름");
         await this.setNoticeDetail(this.noticeList[0].noticeId);
       }
     },
@@ -333,7 +317,6 @@ export default {
       this.menuId = 0;
       await this.changeView(false, true, false);
       if (this.scheduleList[0] != null) {
-        console.log("일정탭누름");
         await this.setScheduleDetail(this.scheduleList[0].scheduleId);
       }
     },
@@ -353,7 +336,6 @@ export default {
       let accessToken = sessionStorage.getItem("access-token");
       let refreshToken = sessionStorage.getItem("refresh-token");
       let data = {
-        // type: this.identity_str,
         noticeType: this.noticeType,
         userId: this.$store.state.user.userId,
         pageNum: this.noticePageNum,
@@ -367,19 +349,9 @@ export default {
       this.noticeList.push(...result.noticeList);
       this.noticePageNum += 1;
 
-      console.log("공지사항리스트");
-      console.log(this.noticeList.length === 0);
-      console.log(this.noticeList.length);
-      console.log(this.noticeList);
-
       if (this.noticeList.length === 0) {
         this.noticeList = [];
         return;
-      }
-
-      if (this.noticeId === 0) {
-        console.log("공지id변경");
-        // this.noticeId = this.noticeList[0].noticeId;
       }
     },
 
@@ -401,12 +373,6 @@ export default {
       this.schedulePageCnt = result.pageCnt;
       this.scheduleList.push(...result.scheduleList);
       this.schedulePageNum += 1;
-
-      console.log("일정리스트");
-      console.log(this.scheduleList);
-      if (this.scheduleId === 0 && this.scheduleList.length > 0) {
-        // this.scheduleId = this.scheduleList[0].scheduleId;
-      }
     },
     //식단 조회
     async getMenuList() {
@@ -426,16 +392,9 @@ export default {
       this.menuPageCnt = result.pageCnt;
       this.menuList.push(...result.menuList);
       this.menuPageNum += 1;
-
-      console.log("식단리스트");
-      console.log(this.menuList);
-      if (this.menuId === 0 && this.menuList.length > 0) {
-        // this.menuId = this.menuList[0].menuId;
-      }
     },
 
     async init() {
-      console.log("노티스 메뉴 이닛");
       await this.getNoticeList();
       await this.getScheduleList();
       await this.getMenuList();

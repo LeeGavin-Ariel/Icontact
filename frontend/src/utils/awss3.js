@@ -25,7 +25,6 @@ export const awss3 = {
 	
 		var file = document.getElementById(elId).files;
 		if (file.length == 0) {
-			console.log("no img");
 			return;
 		}
 		if (photoKey && photoKey != 'profileImg/noImg_1628231352109.png') {
@@ -41,7 +40,7 @@ export const awss3 = {
 		var files = document.getElementById(elId).files;
 
 		if (!files.length) {
-			return console.log('사진 없음');
+			return;
 		} 
 
 		// 백으로 넘겨줘야하는 url list
@@ -62,12 +61,9 @@ export const awss3 = {
 				Key: photoKey,
 				Body: file,
 				ACL: 'public-read'
-			}).promise().then(function (data) {
-				console.log(data);
+			}).promise().then(function () {
 				photoKeyList.push(photoKey);
-			}).catch(function (err) {
-				console.log(err);
-			});
+			})
 
 			await promises.push(result);
 
@@ -87,7 +83,6 @@ export const awss3 = {
 		const zip = new JSZip;
 		
 		files.forEach( file => {
-			console.log(file);
 			zip.file(file.name, file, { base64: true })	
 		})
 
@@ -96,8 +91,6 @@ export const awss3 = {
 		var photoKey = albumPhotosKey + zipName;
 		zip.generateAsync({ type: 'blob' })
 			.then(function (content) {
-				console.log(content);
-				console.log(photoKey);
 				
 				s3.upload({
 					Key: photoKey,
@@ -106,7 +99,7 @@ export const awss3 = {
 				},
 				function (err, data) {
 					if (err) {
-						console.log(err);
+						return;
 					}
 					else {
 						console.log(data);
@@ -122,19 +115,13 @@ export const awss3 = {
 	deletePhoto(photoKeys, zipKey) {
 		photoKeys.forEach(photoKey => {		
 			s3.deleteObject({ Key: photoKey }, function (err) {
-				if (err) {
-						return console.log('There was an error deleting your photo: ', err.message);
-				}
-				console.log('Successfully deleted photo.');
+				if (err) { return err; }
 			});
 		});
 
 		if (zipKey) {
 			s3.deleteObject({ Key: zipKey }, function (err) {
-				if (err) {
-					return console.log('There was an error deleting your photo: ', err.message);
-				}
-				console.log('Successfully deleted photo.');
+				if (err) { return err; }
 			});
 		}		
 	}

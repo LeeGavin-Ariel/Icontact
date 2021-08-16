@@ -44,7 +44,6 @@
 </template>
 
 <script>
-// import noticeApi from "@/api/notice.js";
 export default {
   name: "NoticeDetail",
 
@@ -69,22 +68,12 @@ export default {
       updateMode: false,
     };
   },
-  watch: {
-    // id: function () {
-    //   console.log('noticedetail');
-    //   if (this.id !== 0) {
-    //     this.getNoticeDetail();
-    //   }
-    // },
-  },
 
   methods: {
     showUpdateScheduleForm() {
-      console.log("오픈업데이트폼");
       this.$emit("showUpdateScheduleForm");
     },
     deleteSchedule() {
-      console.log("삭제");
       this.$emit("deleteSchedule");
     },
     contentReplace(content) {
@@ -99,31 +88,8 @@ export default {
 
     // 생성창 띄우기
     async showCreateScheduleForm() {
-      console.log("눌렀는데");
       this.changeMode(true, false, false);
-
-      // this.$emit("get-notebooklist", this.noticeType);
-      // this.getNotice()
     },
-
-    // async getNoticeDetail() {
-    //   let accessToken = sessionStorage.getItem("access-token");
-    //   let refreshToken = sessionStorage.getItem("refresh-token");
-    //   let data = {
-    //     noticeType: this.noticeType,
-    //     id: this.id,
-    //   };
-    //   // 선생인지, 학부모인지에 따라 다르게 받음.
-    //   let result = await noticeApi.getNoticeDetail(data, {
-    //     "access-token": accessToken,
-    //     "refresh-token": refreshToken,
-    //   });
-    //   // 어떻게 날라오는지 확인후 데이터 집어넣기4
-    //   this.noticeDetail = result.notice;
-
-    //   console.log('this.noticeDetail');
-    //   console.log(this.noticeDetail);
-    // },
   },
 };
 </script>

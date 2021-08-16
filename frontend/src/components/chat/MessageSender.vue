@@ -41,15 +41,8 @@ export default {
   },
 
   methods: {
-    shift(){
-      console.log('쉬프트 누름');
-      // document.onke
-    },
     async send(message) {
       if (!message) return;
-      console.log("tesetsdafsdfasdf");
-      // console.log(this.channel);
-      // await this.$store.commit("SET_CHANNEL", this.channel);
 
       await sendBird
         .sendMessage(this.channel, striptags(message))
@@ -57,23 +50,15 @@ export default {
           this.$store.dispatch("addMessage", message);
           this.message = "";
           this.updateChannels();
-          // this.updateChannel();
         })
-        .catch((error) => {
-          console.error(error);
-        });
     },
 
     async updateChannels() {
-      console.log("업데이트를 위한 새로운 채널을 불러올게요!!!");
       await sendBird
         .getGroupChannelList()
         .then(async (channels) => {
           await this.$store.commit("SET_CHANNELS", channels);
         })
-        .catch((error) => {
-          console.error(error);
-        });
     },
 
     updateChannel() {
@@ -82,18 +67,12 @@ export default {
         .then(async (channels) => {
           await this.$store.commit("SET_CHANNELS", channels);
         })
-        .catch((error) => {
-          console.error(error);
-        });
     },
   },
 };
 </script>
 <style scoped lang="scss">
-// @import "../../assets/scss/index.scss";
 .message-sender {
-  // height: 110px;
-  // position: absolute;
   display: flex;
   align-items: center;
   width: 98%;
@@ -122,10 +101,5 @@ export default {
     cursor: pointer;
     transition: all 600ms ease;
   }
-
-  // & .send-btn:hover {
-  //   // color: rgb(252, 255, 94);
-  //   color: rgb(209, 219, 255, 1);
-  // }
 }
 </style>

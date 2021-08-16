@@ -37,30 +37,15 @@ export default {
   watch: {
     channel: {
       async handler(newValue) {
-        console.log('채널 오픈')
-        console.log(newValue)
         this.choiceChannel = newValue;
-        // await this.init(newValue.url);
       },
     },
-  },
-
-  mounted() {
-    // this.init('test')
   },
 
   methods: {
     async init(url) {
       await sendBird
-        .getChannel(url)
-        .then(async (channel) => {
-          console.log('채널 또받음');
-          console.log(channel);
-          // await this.$store.commit("SET_CHANNEL", channel);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+        .getChannel(url);
     },
   },
 };

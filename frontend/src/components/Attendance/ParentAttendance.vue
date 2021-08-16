@@ -158,7 +158,6 @@ export default {
     },
 
     async updateRange({ start, end }) {
-      console.log(end);
 
       this.totalDay = 0;
       const events = [];

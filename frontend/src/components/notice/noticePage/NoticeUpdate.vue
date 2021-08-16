@@ -110,12 +110,9 @@ export default {
 
   methods: {
     init() {
-      console.log(this.noticeInfo);
-      console.log(this.noticeInfo.noticeImgUrl);
       this.title = this.noticeInfo.title;
       this.content = this.noticeInfo.content;
       this.noticeImgUrl = this.noticeInfo.noticeImgUrl;
-      console.log(this.noticeImgUrl);
     },
 
     offUpdateForm() {
@@ -140,7 +137,6 @@ export default {
       } else if (this.noticeType === 2) {
         this.noticeDetail = result.returnhome;
       }
-      console.log(this.noticeDetail);
       this.creating = 0;
       this.updating = 0;
     },
@@ -149,48 +145,31 @@ export default {
       let accessToken = sessionStorage.getItem("access-token");
       let refreshToken = sessionStorage.getItem("refresh-token");
 
-      console.log("this.noticeInfo");
-      console.log(this.noticeInfo);
-
       let noticeImgUrl = "";
       let photoKey = this.noticeInfo.noticeImgUrl;
 
       //s3 업로드 부분
       //기존에 사진파일이 없을때
       if (photoKey == null) {
-        console.log("포토키없는데");
 
         //첨부한 사진이 있으면 업로드
         if (document.getElementById("noticeFile").files.length != 0) {
-          console.log("첨부파일있음");
-
           await awss3
             .uploadPhoto("notice", "noticeFile")
             .then((result) => (noticeImgUrl = result[0]));
         }
       } else {
-        console.log("포토키있는데");
-
         //기존에 사진파일이 있을 때
         //첨부한 사진이 있으면 업데이트
         if (document.getElementById("noticeFile").files.length != 0) {
-          console.log("첨부파일이있음");
           await awss3
             .updatePhoto("notice", photoKey, "noticeFile")
             .then((result) => (noticeImgUrl = result[0]));
         } else {
-          console.log("첨부파일이없음");
           //첨부한 사진이 없으면 기존 사진 삭제? 놔두기? 일단 놔두기로
           noticeImgUrl = photoKey;
         }
       }
-
-      console.log("업데이트하자");
-
-      console.log("noticeImgUrl");
-      console.log(noticeImgUrl);
-      console.log(this.noticeInfo.noticeId);
-
       let data = {
         noticeImgUrl: noticeImgUrl,
         noticeType: 1,
@@ -205,16 +184,10 @@ export default {
         "refresh-token": refreshToken,
       });
 
-      console.log("result");
-      console.log(result);
       this.updating = 0;
 
       this.$emit("updateNotice");
-      // this.$fire({
-      //   html: `<a href="javascript:void(0);"></a><p style="font-size: 30px; font-family: 'NanumSquareRound';">공지사항이 수정되었습니다.</p>`,
-      //   focusConfirm: false,
-      //   type: 'success'
-      // })
+
     },
   },
 };

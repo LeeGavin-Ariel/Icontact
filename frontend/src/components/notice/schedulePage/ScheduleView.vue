@@ -74,10 +74,7 @@ export default {
   },
 
   created() {
-    console.log("scheduleList");
     if (this.scheduleList.length == 0) {
-      console.log("scheduleList nodatamode");
-
       this.noDataMode = true;
     }
   },
@@ -85,21 +82,12 @@ export default {
     id: function () {
       if (this.id == -1) {
         this.scheduleDetail = null;
-        console.log("글이 없습니다");
         this.changeMode(false, false, false, true);
         return;
       }
 
       if (this.id !== 0) {
-        console.log("아이디가 변했어요" + this.id);
         this.getScheduleDetail();
-      }
-    },
-    scheduleList(newValue) {
-      console.log("길이");
-      console.log(newValue);
-      if (newValue.length == 0) {
-        console.log("길이 0");
       }
     },
   },
@@ -115,9 +103,7 @@ export default {
         confirmButtonColor: "#58679A",
       });
 
-      // alert로 바꿔주세요.
       if (!choice.value) {
-        console.log("삭제안함.");
         return;
       }
       let accessToken = sessionStorage.getItem("access-token");
@@ -136,15 +122,11 @@ export default {
         "refresh-token": refreshToken,
       });
 
-      console.log(result);
-
       this.$emit("deleteSchedule");
     },
 
     //일정 업데이트 완료
     updateSchedule() {
-      console.log("에밋 view111");
-      console.log(this.scheduleDetail);
       this.getScheduleDetail();
 
       this.changeMode(false, false, true, false);
@@ -157,7 +139,6 @@ export default {
     },
     //공지 작성 취소
     cancelCreateSchedule() {
-      console.log("생성취소");
       this.changeMode(false, false, true, false);
     },
     //공지 수정 취소
@@ -178,19 +159,16 @@ export default {
 
     // 공지 수정창 띄우기
     async showUpdateScheduleForm() {
-      console.log("업데이트폼");
       this.changeMode(false, true, false, false);
     },
 
     // 공지 상세창 띄우기
     async showDetailScheduleForm() {
-      console.log("상세페이지폼");
       this.changeMode(false, false, true, false);
     },
 
     async getScheduleDetail() {
       this.changeMode(false, false, true, false);
-      console.log("일정상세요청간다");
       let accessToken = sessionStorage.getItem("access-token");
       let refreshToken = sessionStorage.getItem("refresh-token");
       let data = {
@@ -204,8 +182,6 @@ export default {
       });
 
       this.scheduleDetail = result.schedule;
-      console.log("this.scheduleDetail");
-      console.log(this.scheduleDetail);
     },
   },
 };

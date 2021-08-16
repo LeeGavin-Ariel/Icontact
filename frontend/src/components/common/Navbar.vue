@@ -233,14 +233,8 @@ export default {
     
           this.socket = new WebSocket(`${SERVER.WS}/ws/gps`);
     
-          this.socket.onopen = async (e) => {
+          this.socket.onopen = async () => {
             await this.createRoom();
-            console.log(e);
-            console.log("연결 성공");
-          };
-    
-          this.socket.onmessage = ({ data }) => {
-            console.log(data);
           };
           this.gps();
         }
@@ -264,7 +258,6 @@ export default {
             '{"type": "Delete", "code": "' +
             this.kinderCode +
             '", "lat":"0", "lon":"0" }';
-          console.log(mes);
           this.socket.send(mes);
           clearInterval(this.interval);
         }
@@ -276,19 +269,16 @@ export default {
         name: "test",
         code: this.kinderCode,
       });
-      console.log("방 생성");
 
       var mes =
         '{"type": "Enter", "code": "' +
         this.kinderCode +
         '", "lat":"0", "lon":"0" }';
-      console.log(mes);
       this.socket.send(mes);
     },
 
     deleteRoom() {
       requestPost(`${SERVER.URL}/gps`, { name: "test", code: this.kinderCode });
-      console.log("방 닫음");
     },
 
     geofind() {
@@ -301,8 +291,8 @@ export default {
           this.latitude = pos.coords.latitude;
           this.longitude = pos.coords.longitude;
         },
-        (err) => {
-          console.log(err);
+        () => {
+          return;
         }
       );
     },
@@ -314,7 +304,6 @@ export default {
 				"lon": "${this.longitude}"
 			}`;
       this.socket.send(mes);
-      console.log(mes);
     },
     gps() {
       this.interval = setInterval(() => {

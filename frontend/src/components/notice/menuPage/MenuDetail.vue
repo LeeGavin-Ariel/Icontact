@@ -141,16 +141,7 @@ export default {
       menuDetail: null,
       createMode: true,
       updateMode: false,
-
-      // amSnackFile: this.menuInfo.amSnackImgUrl==null?"":this.menuInfo.amSnackImgUrl,
-      // pmSnackFile: this.menuInfo.pmSnackImgUrl==null?"":this.menuInfo.pmSnackImgUrl,
-      // lunchFile: this.menuInfo.lunchSnackImgUrl==null?"":this.menuInfo.lunchSnackImgUrl,
     };
-  },
-
-  created() {
-    console.log("created");
-    console.log(this.menuInfo);
   },
 
   methods: {
@@ -161,11 +152,9 @@ export default {
       return dateform;
     },
     showUpdateMenuForm() {
-      console.log("오픈업데이트폼");
       this.$emit("showUpdateMenuForm");
     },
     deleteMenu() {
-      console.log("삭제");
       this.$emit("deleteMenu");
     },
     changeMode(create, update, detail) {

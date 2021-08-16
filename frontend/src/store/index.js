@@ -107,8 +107,6 @@ export default new Vuex.Store({
 
 
     async removeUser(context) {
-      console.log('로그아웃테스트')
-      console.log(context.state.user.userId)
       context.commit('REMOVE_USER');
       sessionStorage.clear();
       
@@ -116,7 +114,6 @@ export default new Vuex.Store({
 
     // 비밀번호 변경 - id 값 저장
     setSendUserIdForChangePW: function ({commit}, userid) {
-      console.log(userid)
       commit('SET_SEND_USER_ID_FOR_CHANGE_PW', userid)
       router.push({ name: 'ChangePassword' })
     },

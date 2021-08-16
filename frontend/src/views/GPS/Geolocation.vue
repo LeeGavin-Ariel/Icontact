@@ -29,9 +29,6 @@ export default {
 		this.socket = new WebSocket(`${SERVER.WS}/ws/gps`);
 
 		this.socket.onopen = (e) => {
-			console.log(e);
-			console.log('연결 성공')
-
 			this.socket.send(`{
 				"type": "Enter",
 				"code": "${this.$store.state.user.kinderCode}",
@@ -47,9 +44,7 @@ export default {
 	}
 
 		this.socket.onmessage = ({data}) => {
-			var jsonData = JSON.parse(data);	
-			console.log(jsonData);
-			console.log(jsonData.type);
+			var jsonData = JSON.parse(data);
 			if(jsonData.type === "not running"){				
 				this.$fire({
 					html: `<a href="javascript:void(0);"></a><p style="font-size: 0.95rem; font-family: 'NanumSquareRound';">등하원 버스 운행 시간이 아닙니다.</p>`,
@@ -58,8 +53,7 @@ export default {
 					imageHeight: 185,
 					confirmButtonColor: '#58679A',
 					focusConfirm: false
-				}).then(r => {
-					console.log(r.value);
+				}).then(() => {
 					this.$router.push({ name: 'MainPage' });
 				});				
 			}else if(jsonData.type === "Delete"){
@@ -69,8 +63,7 @@ export default {
 					imageWidth: 225,
 					imageHeight: 185,
 					confirmButtonColor: '#58679A'
-				}).then(r => {
-					console.log(r.value);
+				}).then(() => {
 					this.$router.push({ name: 'MainPage' });
 				});
 			}
@@ -78,8 +71,8 @@ export default {
 			if(jsonData.lat != "" &&jsonData.lat !="0" && jsonData.lat != "undefined" && jsonData.lat != undefined) {
 				if(Math.abs(this.latitude-jsonData.lat)< 0.00005 &&
 					Math.abs(this.longitude-jsonData.lon)< 0.00005){
-					console.log("do not update");
-				}
+						return;
+					}
 				else{
 					this.latitude = jsonData.lat;
 					this.longitude = jsonData.lon;

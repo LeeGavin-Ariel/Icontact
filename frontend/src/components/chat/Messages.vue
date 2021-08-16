@@ -16,9 +16,6 @@
 </template>
 
 <script>
-// TODO:
-// add alert message when all messages is loaded
-// add day of the message if > current day like skype
 
 import Loading from "@/components/chat/Loading.vue";
 import Message from "@/components/chat/Message.vue";
@@ -46,11 +43,6 @@ export default {
     };
   },
 
-  create() {
-    console.log("@@@@@@@@@this.channel");
-    console.log(this.channel);
-  },
-
   computed: {
     ...mapState(["channel", "messages"]),
 
@@ -62,8 +54,6 @@ export default {
   watch: {
     messages: {
       handler: async function (newValue) {
-        console.log("메시지스 와치");
-        console.log(newValue);
 
         var myImg = "";
         var oppoImg = "";
@@ -115,23 +105,11 @@ export default {
         });
 
         this.transferMessage = newValue;
-        console.log("transferMessage");
-        console.log(
-          "this.$refs.messagesList",
-          this.$refs.messagesList.offsetHeight
-        );
-        console.log("this.$el.scrollTop", this.$el.scrollTop);
-        console.log("this.$el.scrollHeight", this.$el.scrollHeight);
-        console.log("oldHeightt", this.oldHeight);
 
         if (newValue) {
           this.$nextTick(() => {
-            console.log("this.$refs.messagesList.offsetHeight");
-            console.log(this.$refs.messagesList.offsetHeight);
             this.loadingIsActive = false;
-
             this.scrollToBottom();
-            // this.$el.scrollTop = this.$el.scrollHeight - this.oldHeight;
           });
         }
         await this.getTeacherState();
@@ -141,7 +119,6 @@ export default {
 
     channel: {
       handler: function (newValue) {
-        console.log("메시지스 : 채널 변경");
         this.init(newValue);
       },
     },
@@ -153,24 +130,14 @@ export default {
 
   methods: {
     async init(channel) {
-      console.log("메시지스 이닛(채널)");
       await sendBird
         .getChannelMessages(channel, 10)
         .then(async (messageList) => {
-          console.log("메시지스 이닛 겟채널 리스트");
-          console.log(messageList);
           await this.$store.commit("SET_MESSAGES", messageList);
           this.scrollToBottom();
         })
-        .catch((error) => {
-          console.error(error);
-        });
 
       await sendBird.onMessageReceived(channel, (receivedChannel, message) => {
-        console.log("메시지를 받았습니다 메시지스");
-        console.log("channel", channel);
-        console.log("receivedChannel", receivedChannel);
-        console.log(channel == receivedChannel);
 
         if (channel == receivedChannel)
           this.$store.dispatch("addMessage", message);
@@ -182,31 +149,25 @@ export default {
     },
 
     scrollToBottom() {
-      console.log("scroll to bottom");
       this.$el.scrollTop = this.$el.scrollHeight + 20;
     },
 
     async handleScroll() {
-      console.log("handle scroll");
 
       // 스크롤이 맨위로 올라갔으면
       if (this.$el.scrollTop === 0) {
-        // var oldHeight = this.$refs.messagesList.offsetHeight;
         this.loadingIsActive = true;
-        // There should only be one single instance per channel view.
         var listQuery = await this.channel.createPreviousMessageListQuery();
         listQuery.limit = 100;
         listQuery.reverse = false;
-        listQuery.includeMetaArray = true; // Retrieve a list of messages along with their metaarrays.
-        listQuery.includeReaction = true; // Retrieve a list of messages along with their reactions.
+        listQuery.includeMetaArray = true;
+        listQuery.includeReaction = true;
 
-        // Retrieving previous messages.
         var preMsgs = await listQuery.load();
 
         this.oldHeight = this.$el.scrollHeight + 20;
         await this.$store.dispatch("loadPrevMessages", preMsgs);
         this.$nextTick(() => {
-          console.log("이전메시지 불러온 뒤");
           this.loadingIsActive = false;
         });
       }
@@ -228,9 +189,6 @@ export default {
             this.stateFlag = true;
           } else this.stateFlag = false;
         })
-        .catch((error) => {
-          console.error(error);
-        });
     },
   },
 };

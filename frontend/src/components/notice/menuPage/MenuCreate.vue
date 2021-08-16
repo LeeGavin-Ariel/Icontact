@@ -172,15 +172,18 @@ export default {
     checkInput() {
       console.log("체크하자");
       console.log(this.amSnackFile);
-      console.log(this.pmSnackFile);
       console.log(this.lunchFile);
+      console.log(this.pmSnackFile);
+      console.log(this.amSnackName);
+      console.log(this.lunchName);
+      console.log(this.pmSnackName);
       if (
         this.amSnackName != "" ||
         this.pmSnackName != "" ||
         this.lunchName != "" ||
-        this.amSnackFile != "" ||
-        this.pmSnackFile != "" ||
-        this.lunchFile != ""
+        this.amSnackFile != null ||
+        this.pmSnackFile != null ||
+        this.lunchFile != null
       ) {
         console.log("입력햇음");
 

@@ -124,8 +124,7 @@
         <button
           class="signupTypeBtn"
           @click="setTeacherInfo({ userid, password, username, phoneNumber })"
-        >
-          <!-- :disabled="
+          :disabled="
             !userid ||
             !password ||
             !passwordConfirm ||
@@ -135,7 +134,8 @@
             error.password !== false ||
             error.passwordConfirm !== false ||
             !isAuth
-          " -->
+          "
+        >
           <img
             src="@/assets/flaticon/teacher.png"
             class="logo"
@@ -291,10 +291,10 @@ export default {
           if (res.status === 200) {
             this.isAuth = true;
             this.$fire({
-            html: `<a href="javascript:void(0);"></a><p style="font-size: 0.95rem; font-family: 'NanumSquareRound';">인증에 성공했습니다.</p>`,
-            focusConfirm: false,
-            confirmButtonColor: "#58679A",
-            type: "success",
+              html: `<a href="javascript:void(0);"></a><p style="font-size: 0.95rem; font-family: 'NanumSquareRound';">인증에 성공했습니다.</p>`,
+              focusConfirm: false,
+              confirmButtonColor: "#58679A",
+              type: "success",
             });
           }
         })

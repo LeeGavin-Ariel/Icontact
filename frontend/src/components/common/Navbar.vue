@@ -54,15 +54,15 @@
           <v-list-item @click="toggleAlarm" v-if="type == 2">
             <v-list-item-title style="text-align: right" v-if="stateCode == 1"
               ><img
-                src="@/assets/flaticon/off.png"
-                style="width: 0.7rem; margin-right: 0.3rem"
-              />자리비움</v-list-item-title
-            >
-            <v-list-item-title style="text-align: right" v-if="stateCode == 2"
-              ><img
                 src="@/assets/flaticon/on.png"
                 style="width: 0.7rem; margin-right: 0.3rem"
               />온라인</v-list-item-title
+            >
+            <v-list-item-title style="text-align: right" v-if="stateCode == 2"
+              ><img
+                src="@/assets/flaticon/off.png"
+                style="width: 0.7rem; margin-right: 0.3rem"
+              />자리비움</v-list-item-title
             >
           </v-list-item>
           <v-list-item @click="logout">
@@ -77,7 +77,7 @@
       <button class="scale" v-if="type == 2 && bus == 1" @click="gpsOff">
         <v-badge dot overlap bottom color="busOn">
           <v-avatar size="40">
-            <img src="@/assets/flaticon/bus-gps.png">
+            <img src="@/assets/flaticon/bus-gps.png" />
           </v-avatar>
         </v-badge>
       </button>
@@ -86,16 +86,19 @@
       <button class="scale" v-if="type == 2 && bus == 0" @click="gpsOn">
         <v-badge overlap bottom dot color="stateOff">
           <v-avatar size="40">
-            <img src="@/assets/flaticon/bus-gps.png">
+            <img src="@/assets/flaticon/bus-gps.png" />
           </v-avatar>
         </v-badge>
       </button>
 
-
       <!-- 학부모 버튼 -->
-      <button class="scale" v-if="type == 1" @click="$router.push({ name: 'gps' })">
+      <button
+        class="scale"
+        v-if="type == 1"
+        @click="$router.push({ name: 'gps' })"
+      >
         <v-avatar size="40">
-          <img src="@/assets/flaticon/bus-gps.png">
+          <img src="@/assets/flaticon/bus-gps.png" />
         </v-avatar>
       </button>
     </nav>

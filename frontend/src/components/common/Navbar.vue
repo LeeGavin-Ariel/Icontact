@@ -74,40 +74,30 @@
       </v-menu>
 
       <!-- 선생님 버튼 -->
-      <v-btn class="scale" v-if="type == 2 && bus == 1" icon @click="gpsOff">
-        <v-badge dot overlap bottom :color="stateOn">
+      <button class="scale" v-if="type == 2 && bus == 1" @click="gpsOff">
+        <v-badge dot overlap bottom color="busOn">
           <v-avatar size="40">
-            <v-img
-              src="https://image.flaticon.com/icons/png/512/2891/2891045.png"
-            ></v-img>
+            <img src="@/assets/flaticon/bus-gps.png">
           </v-avatar>
         </v-badge>
-      </v-btn>
+      </button>
 
       <!-- 버스 미운행 -->
-      <v-btn class="scale" v-if="type == 2 && bus == 0" icon @click="gpsOn">
+      <button class="scale" v-if="type == 2 && bus == 0" @click="gpsOn">
         <v-badge overlap bottom dot color="stateOff">
           <v-avatar size="40">
-            <v-img
-              src="https://image.flaticon.com/icons/png/512/2891/2891045.png"
-            ></v-img>
+            <img src="@/assets/flaticon/bus-gps.png">
           </v-avatar>
         </v-badge>
-      </v-btn>
+      </button>
+
 
       <!-- 학부모 버튼 -->
-      <v-btn
-        class="scale"
-        v-if="type == 1"
-        icon
-        @click="$router.push({ name: 'gps' })"
-      >
+      <button class="scale" v-if="type == 1" @click="$router.push({ name: 'gps' })">
         <v-avatar size="40">
-          <v-img
-            src="https://image.flaticon.com/icons/png/512/234/234270.png"
-          ></v-img>
+          <img src="@/assets/flaticon/bus-gps.png">
         </v-avatar>
-      </v-btn>
+      </button>
     </nav>
   </div>
 </template>

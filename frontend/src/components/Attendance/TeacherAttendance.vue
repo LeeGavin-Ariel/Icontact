@@ -14,13 +14,11 @@
         <div
           id="circle"
           class="d-inline-block me-1"
-          style="margin-bottom: 0.4rem"
         ></div>
         <p class="d-inline my-0 me-2">결석</p>
         <div
           id="circle2"
           class="d-inline-block me-1"
-          style="margin-bottom: 0.4rem"
         ></div>
         <p class="d-inline m-0">출석</p>
       </div>

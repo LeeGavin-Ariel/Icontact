@@ -42,9 +42,9 @@
                 <p>대화를 나눠보세요</p>
               </div>
               <div class="inner" v-else>
-                <p>우리 반 선생님,</p>
-                <p>학부모님과</p>
+                <p>우리 반 선생님, 학부모님과</p>
                 <p>대화를 나눠보세요</p>
+                <p style="font-size:0.8rem; font-weight:900">온라인, 자리비움, 오프라인 상태가<br> 학부모님 채팅창에 나타납니다.</p>
               </div>
             </div>
           </div>

@@ -47,10 +47,10 @@
           </div>
           <div
             class="m-0"
-            style="text-align: right; font-weight: 600; width: 91%"
+            style="text-align: right; font-size:0.9rem; letter-spacing:-1; font-weight: 600; width: 91%"
           >
             {{ album.title }}
-            <p style="font-size: 0.8rem">
+            <p style="font-size: 0.8rem; letter-spacing:-1;">
               {{ album.createDate2 }}
             </p>
           </div>
@@ -110,6 +110,8 @@
                   type="text"
                   id="title"
                   class="formInput me-0"
+                  placeholder="10글자 이내"
+                  maxlength="10"
                   v-model="title"
                 />
               </div>
@@ -118,6 +120,7 @@
                 id="photoupload"
                 multiple
                 filled
+                ref="file-input"
                 prepend-icon="mdi-camera"
                 dense
                 v-model="filename"
@@ -248,6 +251,7 @@ export default {
           });
         });
       this.title = "";
+      this.$refs['file-input'].reset()
       this.fileSelectFlag = 0;
       this.pageNum = 0;
       this.albumList = [];

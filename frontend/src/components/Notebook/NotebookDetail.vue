@@ -259,7 +259,7 @@ export default {
       this.creating = 0;
     },
     onFileSelected(event) {
-      this.notebookfile = event.target.files[0];
+      this.notebookfile = event;
     },
 
     async getNotebookDetail() {

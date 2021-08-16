@@ -1,6 +1,9 @@
 <template>
 	<div id="bg" align="center">
-		<div id="map" class="map"></div>
+		<div style="margin-top:1.3rem; margin-bottom:1rem; font-size:1.2rem; text-weight:900;">운행 시간 동안에 등하원 버스의 현 위치를 확인하실 수 있습니다.</div>
+		<div id="map" class="map">
+		</div>
+		
 	</div>	
 </template>
 
@@ -49,7 +52,7 @@ export default {
 			console.log(jsonData.type);
 			if(jsonData.type === "not running"){				
 				this.$fire({
-					html: `<a href="javascript:void(0);"></a><p style="font-size: 0.95rem; font-family: 'NanumSquareRound';">현재 등하원 버스는 미운행 중입니다.</p>`,
+					html: `<a href="javascript:void(0);"></a><p style="font-size: 0.95rem; font-family: 'NanumSquareRound';">등하원 버스 운행 시간이 아닙니다.</p>`,
 					imageUrl: require('@/assets/flaticon/not_running.png'),
 					imageWidth: 225,
 					imageHeight: 185,
@@ -61,7 +64,7 @@ export default {
 				});				
 			}else if(jsonData.type === "Delete"){
 				this.$fire({
-					html: `<p style="font-size: 0.95rem; font-family: 'NanumSquareRound';">등하원 버스 운행이 종료되었습니다.</p>`,
+					html: `<p style="font-size: 0.95rem; font-family: 'NanumSquareRound';">등하원 버스 운행이 완료되었습니다.</p>`,
 					imageUrl: require('@/assets/flaticon/Delete.png'),
 					imageWidth: 225,
 					imageHeight: 185,
@@ -129,9 +132,9 @@ export default {
 
 <style scoped>
 	#map{
+		margin: 2%, 3%, 3%, 3%;
     width: 80%;
 		height: 80%;
-    margin: 5%;
 		border-radius: 6px;
 		border: solid 10px rgba(256,256,256,0.4)
 	}

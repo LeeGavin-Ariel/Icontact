@@ -16,7 +16,14 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginInterceptor)
-                .addPathPatterns("/user/**");
+                .addPathPatterns("/user/**")
+                .excludePathPatterns("/user/class")
+                .addPathPatterns("/notebook/**")
+                .addPathPatterns("/request/**")
+                .addPathPatterns("/attendance/**")
+                .addPathPatterns("/album/**")
+                .addPathPatterns("/chat/**")
+                .addPathPatterns("/notice/**");
     }
 
     @Override

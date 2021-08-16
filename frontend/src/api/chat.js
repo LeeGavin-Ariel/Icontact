@@ -2,12 +2,12 @@ import  { requestGet } from '@/utils/request.js';
 import SERVER from './drf.js';
 
 export const userApi = {
-  getUserProfileImg: (userId) => {
-    return requestGet(SERVER.URL + SERVER.ROUTES.chat  + `/${userId}`);
+  getUserProfileImg: (userId, headers) => {
+    return requestGet(SERVER.URL + SERVER.ROUTES.chat  + `/${userId}`, headers);
   },
 
-  getUserStatus: (userId) => {
-    return requestGet(SERVER.URL + SERVER.ROUTES.chat  + `/stateCode/${userId}`);
+  getUserStatus: (userId, headers) => {
+    return requestGet(SERVER.URL + SERVER.ROUTES.chat  + `/stateCode/${userId}`, headers);
   },
 }
 

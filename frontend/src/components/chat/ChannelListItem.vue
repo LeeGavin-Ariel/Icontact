@@ -1,32 +1,35 @@
 <template>
   <div @click="openChannel(url)" class="list-group list-group-flush scrollarea">
-    <div class="list-group-item list-group-item-action py-2 lh-tight border-bottom" style="background-color:rgb(256, 256, 256, 0.7);">
-      <div class="d-flex align-items-center" style="height: 9vh; width:100%">
-        
+    <div
+      class="list-group-item list-group-item-action py-2 lh-tight border-bottom"
+      style="background-color: rgb(256, 256, 256, 0.7)"
+    >
+      <div class="d-flex align-items-center" style="height: 9vh; width: 100%">
         <div align="center" class="col-3">
           <div class="mb-2">
             <img
-            v-if="profileImg" class="profile-img" :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' + profileImg"/>
+              v-if="profileImg"
+              class="profile-img"
+              :src="
+                'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/' +
+                profileImg
+              "
+            />
             <img
-            v-else class="profile-img"
-            :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/profileImg/noImg_1628231352109.png'"
+              v-else
+              class="profile-img"
+              :src="'https://ssafy-cmmpjt304.s3.ap-northeast-2.amazonaws.com/profileImg/noImg_1628231352109.png'"
             />
           </div>
-
-          
-
         </div>
         <div class="col-9">
           <div class="chat-list-name mb-1">{{ nickName }}</div>
           <div class="chat-last">{{ trimMsg(getLastMessage()) }}</div>
           <div class="chat-time" align="right">{{ getCreatedAt() }}</div>
         </div>
-        
       </div>
-
     </div>
   </div>
-                      
 </template>
 
 <script>
@@ -78,7 +81,6 @@ export default {
 
   methods: {
     async setData() {
-      
       // await this.$store.commit("SET_CHANNEL", null);
 
       if (this.$store.state.user.userId == this.members[0].userId) {
@@ -92,10 +94,9 @@ export default {
       }
 
       let result = await chatApi.getUserProfileImg(this.opponentId);
-      if(result==""){
+      if (result == "") {
         this.profileImg = "profileImg/noImg_1628231352109.png";
-        
-      }else{
+      } else {
         this.profileImg = result;
       }
     },
@@ -106,14 +107,24 @@ export default {
       return msg;
     },
     async openChannel(url) {
-      console.log('채널을 선택했다');
+      console.log("채널을 선택했다");
       console.log(url);
       await sendBird
         .getChannel(url)
         .then(async (channel) => {
-          console.log('채널받기 성공');
+          console.log("채널받기 성공");
           console.log(channel);
-          channel.myImg = await chatApi.getUserProfileImg(this.$store.state.user.userId);
+
+          let accessToken = sessionStorage.getItem("access-token");
+          let refreshToken = sessionStorage.getItem("refresh-token");
+
+          channel.myImg = await chatApi.getUserProfileImg(
+            this.$store.state.user.userId,
+            {
+              "access-token": accessToken,
+              "refresh-token": refreshToken,
+            }
+          );
           channel.oppoImg = this.profileImg;
           await this.$store.commit("SET_CHANNEL", channel);
           // 채널이 변경되면 computed 작동
@@ -161,19 +172,19 @@ export default {
 };
 </script>
 <style scoped>
-.border-bottom{
+.border-bottom {
   border-bottom: solid 0.5px #a8b1cf;
 }
 .chat-list-name {
   font-size: 1rem;
-  display:block;
+  display: block;
   font-weight: 900;
 }
 .chat-time {
-  font-size:0.8rem;
+  font-size: 0.8rem;
 }
-.chat-last{
-  font-size:1.2rem;
+.chat-last {
+  font-size: 1.2rem;
 }
 .profile-img {
   width: 50%;

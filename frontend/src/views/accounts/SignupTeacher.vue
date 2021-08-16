@@ -97,7 +97,7 @@ export default {
           userName: this.$store.state.sendUserName,
           userTel: this.$store.state.sendPhoneNumber,
           type: this.relationship,
-          classCode: this.classCode[1],
+          classCode: this.classCode,
           kidName: this.kidName,
         });
 
@@ -112,7 +112,7 @@ export default {
           SERVER.URL +
             SERVER.ROUTES.getClassMember +
             "?classCode=" +
-            this.classCode[1]
+            this.classCode
         );
 
         var sendUserId = this.$store.state.sendUserId;

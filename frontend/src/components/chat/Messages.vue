@@ -64,24 +64,36 @@ export default {
         var oppoImg = "";
         var myId = "";
         var oppoId = "";
+
+        let accessToken = sessionStorage.getItem("access-token");
+        let refreshToken = sessionStorage.getItem("refresh-token");
+        let header = {
+          "access-token": accessToken,
+          "refresh-token": refreshToken,
+        };
+
         if (this.channel.members[0].userId == this.$store.state.user.userId) {
           myImg = await chatApi.getUserProfileImg(
-            this.channel.members[0].userId
+            this.channel.members[0].userId,
+            header
           );
           myId = this.channel.members[0].userId;
           oppoImg = await chatApi.getUserProfileImg(
-            this.channel.members[1].userId
+            this.channel.members[1].userId,
+            header
           );
           oppoId = this.channel.members[1].userId;
         } else if (
           this.channel.members[1].userId == this.$store.state.user.userId
         ) {
           myImg = await chatApi.getUserProfileImg(
-            this.channel.members[1].userId
+            this.channel.members[1].userId,
+            header
           );
           myId = this.channel.members[1].userId;
           oppoImg = await chatApi.getUserProfileImg(
-            this.channel.members[0].userId
+            this.channel.members[0].userId,
+            header
           );
           oppoId = this.channel.members[0].userId;
         }
@@ -107,16 +119,14 @@ export default {
         console.log("this.$el.scrollHeight", this.$el.scrollHeight);
         console.log("oldHeightt", this.oldHeight);
 
-        if (
-          newValue
-        ) {
+        if (newValue) {
           this.$nextTick(() => {
             console.log("this.$refs.messagesList.offsetHeight");
             console.log(this.$refs.messagesList.offsetHeight);
             this.loadingIsActive = false;
 
-            this.$el.scrollTop =
-              this.$el.scrollHeight - this.oldHeight;
+            this.scrollToBottom();
+            // this.$el.scrollTop = this.$el.scrollHeight - this.oldHeight;
           });
         }
         await this.getTeacherState();
@@ -132,9 +142,6 @@ export default {
     },
   },
 
-  mounted() {
-    // this.init(this.channel)
-  },
 
   destroyed() {
     this.$el.removeEventListener("scroll", this.handleScroll);
@@ -194,7 +201,6 @@ export default {
           this.loadingIsActive = false;
         });
       }
-
     },
 
     getTeacherState() {

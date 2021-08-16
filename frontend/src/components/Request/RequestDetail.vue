@@ -3,7 +3,7 @@
   <div class="col">
     <!-- 새 글 작성시 -->
     <div class="ml-5 mr-5 mt-5">
-      <button
+      <button 
         class="writeBtn"
         v-if="identity === 1 && updating === 0 && creating === 0"
         @click="createNewRequest"
@@ -11,9 +11,9 @@
         <img src="@/assets/flaticon/write.png" style="width: 3.8rem" />
       </button>
 
-      <v-sheet rounded="lg" v-if="id === 0 && !(creating || updating)">
-        등록된 요청이 없습니다.
-      </v-sheet>
+      <div v-if="id === 0 && !(creating || updating)" style="font-size: 1.2rem; text-align:center;">
+          등록된 요청이 없습니다.
+      </div>
 
       <!-- 투약 요청 상세 -->
       <v-sheet
@@ -784,7 +784,7 @@ export default {
 .writeBtn {
   position: fixed;
   right: 60px;
-  bottom: 50px;
+  bottom: 65px;
   width: 3.8rem;
 }
 .update-delete-btn {

@@ -9,9 +9,10 @@
       >
         <img src="@/assets/flaticon/write.png" style="width: 3.8rem" />
       </button>
-      <v-sheet rounded="lg" v-if="!id && !(creating || updating)">
-        등록된 알림장이 없습니다.
-      </v-sheet>
+
+      <div v-if="!id && !(creating || updating)" style="font-size: 1.2rem; text-align:center;">
+          등록된 알림장이 없습니다.
+      </div>
 
       <!-- 알림장 디테일 -->
       <v-sheet
@@ -497,7 +498,7 @@ export default {
 .writeBtn {
   position: fixed;
   right: 60px;
-  bottom: 50px;
+  bottom: 65px;
   width: 3.8rem;
 }
 .update-delete-btn {

@@ -346,8 +346,8 @@ export default {
 </script>
 
 <style scoped>
-*{
-    font-family: "NanumSquareRound";
+* {
+  font-family: "NanumSquareRound";
 }
 .request-kid-name {
   font-size: 0.8rem;

@@ -26,9 +26,9 @@
         @showUpdateMenuForm="showUpdateMenuForm"
         @deleteMenu="deleteMenu"
       />
-      <v-sheet rounded="lg" v-if="noDataMode">
-        등록된 식단이 없습니다.
-      </v-sheet>
+      <div v-if="noDataMode" style="font-size: 1.2rem; text-align:center;">
+          등록된 식단이 없습니다.
+      </div>
     </div>
   </div>
 </template>
@@ -217,7 +217,7 @@ export default {
 .writeBtn {
   position: fixed;
   right: 60px;
-  bottom: 50px;
+  bottom: 65px;
   width: 3.8rem;
 }
 .notice-detail-tab {

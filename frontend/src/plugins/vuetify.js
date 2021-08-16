@@ -10,6 +10,7 @@ export default new Vuetify({
         mainColor1: '#667ABC',
         stateOn: '#8BC34A',
         stateOff: "#757575",
+        busOn: '#1E88E5',
       },
     },
   },

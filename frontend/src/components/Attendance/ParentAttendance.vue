@@ -6,13 +6,13 @@
     "
   >
     <div
-      class="container d-flex justify-content-center mt-10"
-      style="height: 90%"
+      class="container d-flex justify-content-center"
+      style="height: 90%; margin-top: 5%"
     >
       <template style="border-radius: 10px; background-color: white">
         <v-row class="fill-height">
-          <v-col>
-            <v-sheet height="70" class="d-flex align-items-end">
+          <v-col class="ml-5">
+            <v-sheet height="70" class="d-flex align-items-endv">
               <v-toolbar flat color="white">
                 <div
                   class="d-flex align-items-end"
@@ -61,7 +61,7 @@
 
       <!-- 출석률 -->
       <div
-        class="d-flex flex-column justify-content-end"
+        class="d-flex flex-column justify-content-start mr-5"
         style="
           width: 20%;
           margin-left: 40px;
@@ -110,17 +110,7 @@
             color: rgb(40, 40, 40);
           "
         >
-          출석 일수 : {{ attendCnt }} 일
-        </p>
-        <p
-          style="
-            text-align: right;
-            font-size: 0.95rem;
-            margin-right: 0.5rem;
-            color: rgb(40, 40, 40);
-          "
-        >
-          결석 일수 : {{ notattendCnt }} 일
+          출석 : {{ attendCnt }} 일 / 결석 : {{ notattendCnt }} 일
         </p>
       </div>
     </div>

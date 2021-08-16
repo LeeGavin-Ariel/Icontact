@@ -1,5 +1,5 @@
 <template>
-	<div id="bg">
+	<div id="bg" align="center">
 		<div id="map" class="map"></div>
 	</div>	
 </template>
@@ -129,9 +129,11 @@ export default {
 
 <style scoped>
 	#map{
-    width: auto;
+    width: 80%;
 		height: 80%;
     margin: 5%;
+		border-radius: 6px;
+		border: solid 10px rgba(256,256,256,0.4)
 	}
 
 	#bg {

@@ -91,11 +91,10 @@
       </button>
       
       <!-- 학부모 버튼 -->
-      <button class="scale tooltip" v-if="type == 1" @click="moveToGPS">
+      <button class="scale" v-if="type == 1" @click="moveToGPS">
         <v-avatar size="40">
           <img src="@/assets/flaticon/bus-gps.png">
         </v-avatar>
-        <span class="tooltip-text">툴팁</span>
       </button>
     </nav>
   </div>

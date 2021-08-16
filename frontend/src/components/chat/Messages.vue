@@ -1,5 +1,5 @@
 <template>
-  <div class="messages messagesScroll">
+  <div class="messages messagesScroll" v-if="channel">
     <loading :is-active="loadingIsActive" />
 
     <!-- <h1 v-if="stateFlag">TEST</h1>
@@ -27,7 +27,7 @@ import chatApi from "@/api/chat.js";
 import { mapState, mapGetters, mapActions } from "vuex";
 
 export default {
-  name: "Channel",
+  name: "Messages",
 
   components: {
     Loading,
@@ -44,6 +44,11 @@ export default {
 
       oldHeight: 0,
     };
+  },
+
+  create() {
+    console.log("@@@@@@@@@this.channel");
+    console.log(this.channel);
   },
 
   computed: {

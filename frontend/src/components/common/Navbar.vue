@@ -20,7 +20,6 @@
       <p v-if="type == 1" class="userName">
         {{ className }}반 {{ kidName }} 보호자님
       </p>
-
       <!-- 프로필 사진 : 드롭 다운 -->
       <v-menu left bottom>
         <template v-slot:activator="{ on, attrs }">
@@ -90,10 +89,9 @@
           </v-avatar>
         </v-badge>
       </button>
-
-
+      
       <!-- 학부모 버튼 -->
-      <button class="scale" v-if="type == 1" @click="$router.push({ name: 'gps' })">
+      <button class="scale" v-if="type == 1" @click="moveToGPS">
         <v-avatar size="40">
           <img src="@/assets/flaticon/bus-gps.png">
         </v-avatar>
@@ -212,34 +210,65 @@ export default {
         .push({ name: "MyPage", params: { userId: this.userId } })
         .catch(() => {});
     },
+    moveToGPS() {
+      if (this.$route.path !== "/gps") {
+        this.$router.push({ name: 'gps' })
+      }
+    },
 
     gpsOn() {
-      this.$store.dispatch("setBus", 1);
-      this.bus = this.$store.state.bus;
-
-      this.socket = new WebSocket(`${SERVER.WS}/ws/gps`);
-
-      this.socket.onopen = async (e) => {
-        await this.createRoom();
-        console.log(e);
-        console.log("연결 성공");
-      };
-
-      this.socket.onmessage = ({ data }) => {
-        console.log(data);
-      };
-      this.gps();
+      this.$fire({
+        html: `<a href="javascript:void(0);"></a><p style="font-size: 0.95rem; font-family: 'NanumSquareRound';">등하원 버스 운행을 시작하시겠습니까?</p>`,
+        imageUrl: require('@/assets/flaticon/not_running.png'),
+        imageWidth: 225,
+        imageHeight: 185,
+        showCancelButton: true,
+        confirmButtonText: "예",
+        cancelButtonText: "아니오",
+        confirmButtonColor: "#58679A",
+      }).then(async (r) => {
+        if (r.value) {
+          this.$store.dispatch("setBus", 1);
+          this.bus = this.$store.state.bus;
+    
+          this.socket = new WebSocket(`${SERVER.WS}/ws/gps`);
+    
+          this.socket.onopen = async (e) => {
+            await this.createRoom();
+            console.log(e);
+            console.log("연결 성공");
+          };
+    
+          this.socket.onmessage = ({ data }) => {
+            console.log(data);
+          };
+          this.gps();
+        }
+      })
     },
     gpsOff() {
-      this.$store.dispatch("setBus", 0);
-      this.bus = this.$store.state.bus;
-      var mes =
-        '{"type": "Delete", "code": "' +
-        this.kinderCode +
-        '", "lat":"0", "lon":"0" }';
-      console.log(mes);
-      this.socket.send(mes);
-      clearInterval(this.interval);
+      this.$fire({
+        html: `<a href="javascript:void(0);"></a><p style="font-size: 0.95rem; font-family: 'NanumSquareRound';">등하원 버스 운행을 종료하시겠습니까?</p>`,
+        imageUrl: require('@/assets/flaticon/Delete.png'),
+        imageWidth: 225,
+        imageHeight: 185,
+        showCancelButton: true,
+        confirmButtonText: "예",
+        cancelButtonText: "아니오",
+        confirmButtonColor: "#58679A",
+      }).then(async (r) => {
+        if (r.value) {
+          this.$store.dispatch("setBus", 0);
+          this.bus = this.$store.state.bus;
+          var mes =
+            '{"type": "Delete", "code": "' +
+            this.kinderCode +
+            '", "lat":"0", "lon":"0" }';
+          console.log(mes);
+          this.socket.send(mes);
+          clearInterval(this.interval);
+        }
+      })
     },
 
     async createRoom() {
@@ -348,4 +377,5 @@ export default {
   font-weight: 800;
   font-size: 1rem;
 }
+
 </style>

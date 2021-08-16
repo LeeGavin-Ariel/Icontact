@@ -68,7 +68,7 @@
                       </div>
                     </div>
                     <div class="col-7">
-                      <div class="note-title mb-1">{{ note.title }}</div>
+                      <div class="note-title mb-1">{{ trimTitle(note.title) }}</div>
                       <div class="note-time mt-1" align="right">
                         {{ dateform(note.createDate) }}
                       </div>
@@ -222,6 +222,12 @@ export default {
   },
 
   methods: {
+    trimTitle(title) {
+      if (title.length > 9) {
+        title = title.substr(0, 9) + "...";
+      }
+      return title;
+    },
     dateform(content) {
       var dateform = "";
       dateform =

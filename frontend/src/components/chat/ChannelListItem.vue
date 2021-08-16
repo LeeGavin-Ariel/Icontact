@@ -93,7 +93,14 @@ export default {
         this.opponentId = this.members[0].userId;
       }
 
-      let result = await chatApi.getUserProfileImg(this.opponentId);
+      let accessToken = sessionStorage.getItem("access-token");
+      let refreshToken = sessionStorage.getItem("refresh-token");
+      let header = {
+        "access-token": accessToken,
+        "refresh-token": refreshToken,
+      };
+
+      let result = await chatApi.getUserProfileImg(this.opponentId, header);
       if (result == "") {
         this.profileImg = "profileImg/noImg_1628231352109.png";
       } else {

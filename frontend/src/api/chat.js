@@ -1,7 +1,7 @@
 import  { requestGet } from '@/utils/request.js';
 import SERVER from './drf.js';
 
-export const userApi = {
+export const chatApi = {
   getUserProfileImg: (userId, headers) => {
     return requestGet(SERVER.URL + SERVER.ROUTES.chat  + `/${userId}`, headers);
   },
@@ -11,4 +11,4 @@ export const userApi = {
   },
 }
 
-export default userApi;
+export default chatApi;

@@ -124,7 +124,8 @@
         <button
           class="signupTypeBtn"
           @click="setTeacherInfo({ userid, password, username, phoneNumber })"
-          :disabled="
+        >
+          <!-- :disabled="
             !userid ||
             !password ||
             !passwordConfirm ||
@@ -134,8 +135,7 @@
             error.password !== false ||
             error.passwordConfirm !== false ||
             !isAuth
-          "
-        >
+          " -->
           <img
             src="@/assets/flaticon/teacher.png"
             class="logo"

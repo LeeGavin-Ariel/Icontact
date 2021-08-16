@@ -15,7 +15,7 @@ public class NoticeController {
     @Autowired
     NoticeService noticeService;
     // 공지글 등록
-    @PostMapping("notice")
+    @PostMapping("/notice")
     public ResponseEntity noticeInsert(@RequestBody NoticeDto noticeDto) {
         int result = 0;
         int noticeType = noticeDto.getNoticeType();
@@ -36,7 +36,7 @@ public class NoticeController {
     }
 
     // 공지글 수정
-    @PutMapping("notice")
+    @PutMapping("/notice")
     public ResponseEntity noticeUpdate(@RequestBody NoticeDto noticeDto) {
         int result = 0;
         int noticeType = noticeDto.getNoticeType();

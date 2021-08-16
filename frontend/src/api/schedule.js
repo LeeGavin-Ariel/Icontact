@@ -8,7 +8,7 @@ export const scheduleApi = {
   },
 
   getSchedule: (data, headers) => {
-    return requestGet(SERVER.URL + SERVER.ROUTES.schedule + `?noticeType=${data.scheduleType}` + `&userId=${data.userId}` + `&pageNum=${data.pageNum}`, data, headers);
+    return requestGet(SERVER.URL + SERVER.ROUTES.schedule + `?noticeType=${data.scheduleType}` + `&userId=${data.userId}` + `&pageNum=${data.pageNum}`, headers);
   },
 
 

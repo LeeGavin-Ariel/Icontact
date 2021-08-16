@@ -11,7 +11,6 @@
 <script>
 import Sidebar from "@/components/common/Sidebar.vue";
 import ChatMain from "@/components/chat/ChatMain.vue";
-import sendBird from "@/services/SendBird.js";
 import { mapState } from "vuex";
 
 
@@ -29,11 +28,6 @@ export default {
 
   methods: {},
 
-  created() {
-    window.onbeforeunload = function () {
-      sendBird.exitChannel("vuejs");
-    };
-  },
 };
 </script>
 

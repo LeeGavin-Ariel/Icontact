@@ -8,7 +8,7 @@ export const noticeApi = {
   },
 
   getNotice: (data, headers) => {
-    return requestGet(SERVER.URL + SERVER.ROUTES.notice + `?noticeType=${data.noticeType}` + `&userId=${data.userId}` + `&pageNum=${data.pageNum}`, data, headers);
+    return requestGet(SERVER.URL + SERVER.ROUTES.notice + `?noticeType=${data.noticeType}` + `&userId=${data.userId}` + `&pageNum=${data.pageNum}`, headers);
   },
 
   getNoticeDetail: (data, headers) => {

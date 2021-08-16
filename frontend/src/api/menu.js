@@ -8,7 +8,7 @@ export const menuApi = {
   },
 
   getMenu: (data, headers) => {
-    return requestGet(SERVER.URL + SERVER.ROUTES.menu + `?noticeType=${data.menuType}` + `&userId=${data.userId}` + `&pageNum=${data.pageNum}`, data, headers);
+    return requestGet(SERVER.URL + SERVER.ROUTES.menu + `?noticeType=${data.menuType}` + `&userId=${data.userId}` + `&pageNum=${data.pageNum}`, headers);
   },
 
   getMenuDetail: (data, headers) => {    

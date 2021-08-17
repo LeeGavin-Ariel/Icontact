@@ -1,4 +1,4 @@
-<h1 align="center">Welcome to Icontact 👦🏻👧🏻</h1>
+<h1 align="center">Welcome to Icontact 👦👧</h1>
 <p>
   <a href="document url" target="_blank">
     <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" />
@@ -7,6 +7,7 @@
     <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
   </a>
 </p>
+
 
 ![image](https://user-images.githubusercontent.com/77473524/129682578-79a3e9c9-6494-48c0-b639-60dc1c936108.png)
 > 유치원 선생님과 학부모 간에 서로 배려하면서 불편함을 최소화하여 소통할 수 있는 SNS 서비스
@@ -30,7 +31,6 @@
 
 ## Tech Stack
 ### Frontend
-<img style="display: inline;" alt="HTML5" src ="https://img.shields.io/badge/html5-#E34F26.svg?&style=for-the-badge&logo=HTML5&logoColor=white"/><img style="display: inline;" alt="CSS3" src ="https://img.shields.io/badge/CSS3-#1572B6.svg?&style=for-the-badge&logo=css3&logoColor=white"/><img style="display: inline;" alt="javascript" src ="https://img.shields.io/badge/JavaScript-#F7DF1E.svg?&style=for-the-badge&logo=javascript&logoColor=white"/><img style="display: inline;" alt="npm" src ="https://img.shields.io/badge/npm-#CB3837.svg?&style=for-the-badge&logo=npm&logoColor=white"/><img style="display: inline;" alt="vue.js" src ="https://img.shields.io/badge/vue-#4FC08D.svg?&style=for-the-badge&logo=vue.js&logoColor=white"/><img style="display: inline;" alt="vuetify" src ="https://img.shields.io/badge/vuetify-#1867C0.svg?&style=for-the-badge&logo=vuetify&logoColor=white"/><img style="display: inline;" alt="bootstrap" src ="https://img.shields.io/badge/bootstrap-#7952B3.svg?&style=for-the-badge&logo=bootstrap&logoColor=white"/>
 - HTML5, CSS3, Javascript
 - npm
 - vue.js
@@ -39,8 +39,6 @@
 - geolocation
 - 등등.. 
 ### Backend
-<img style="display: inline;" alt="springboot" src ="https://img.shields.io/badge/spring boot-#6DB33F.svg?&style=for-the-badge&logo=springboot&logoColor=white"/><img style="display: inline;" alt="gradle" src ="https://img.shields.io/badge/gradle-#02303A.svg?&style=for-the-badge&logo=gradle&logoColor=white"/><img style="display: inline;" alt="java" src ="https://img.shields.io/badge/java-#007396.svg?&style=for-the-badge&logo=java&logoColor=white"/><img style="display: inline;" alt="jwt" src ="https://img.shields.io/badge/jwt-#000000.svg?&style=for-the-badge&logo=JSON Web Tokens&logoColor=white"/><img style="display: inline;" alt="websocket" src ="https://img.shields.io/badge/websocket-#010101.svg?&style=for-the-badge&logo=socket.io&logoColor=white"/><img style="display: inline;" alt="twilio" src ="https://img.shields.io/badge/twilio-#F22F46.svg?&style=for-the-badge&logo=twilio&logoColor=white"/><img style="display: inline;" alt="mysql" src ="https://img.shields.io/badge/mysql-#4479A1.svg?&style=for-the-badge&logo=mysql&logoColor=white"/>
-
 - WAS spring boot
 - Gradle
 - Java 8
@@ -49,7 +47,6 @@
 - Twilio
 - MySQL, mybatis, JPA
 ### Deploy
-<img style="display: inline;" alt="aws" src ="https://img.shields.io/badge/aws-#232F3E.svg?&style=for-the-badge&logo=amazon aws&logoColor=white"/><img style="display: inline;" alt="s3" src ="https://img.shields.io/badge/s3-#569A31.svg?&style=for-the-badge&logo=amazon s3&logoColor=white"/><img style="display: inline;" alt="nginx" src ="https://img.shields.io/badge/nginx-#009639.svg?&style=for-the-badge&logo=nginx&logoColor=white"/><img style="display: inline;" alt="letsencrypt" src ="https://img.shields.io/badge/letsencrypt-#003A70.svg?&style=for-the-badge&logo=letsencrypt&logoColor=white"/>
 - aws EC2
 - aws S3
 - Nginx

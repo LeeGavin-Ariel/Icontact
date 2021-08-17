@@ -1,4 +1,4 @@
-<h1 align="center">Welcome to Icontact 👦👧</h1>
+<h1 align="center">Welcome to Icontact 👦🏻👧🏻</h1>
 <p>
   <a href="document url" target="_blank">
     <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" />
@@ -7,6 +7,7 @@
     <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
   </a>
 </p>
+
 
 
 ![image](https://user-images.githubusercontent.com/77473524/129682578-79a3e9c9-6494-48c0-b639-60dc1c936108.png)
@@ -40,7 +41,6 @@
 - vuetify, vuex
 - sendbird
 - geolocation
-- 등등.. 
 ### Backend
 
 <img style="display: inline;" alt="springboot" src ="https://img.shields.io/badge/spring boot-%236DB33F.svg?&style=for-the-badge&logo=springboot&logoColor=white"/><img style="display: inline;" alt="gradle" src ="https://img.shields.io/badge/gradle-%2302303A.svg?&style=for-the-badge&logo=gradle&logoColor=white"/><img style="display: inline;" alt="java" src ="https://img.shields.io/badge/java-%23007396.svg?&style=for-the-badge&logo=java&logoColor=white"/><img style="display: inline;" alt="jwt" src ="https://img.shields.io/badge/jwt-%23000000.svg?&style=for-the-badge&logo=JSON Web Tokens&logoColor=white"/><img style="display: inline;" alt="websocket" src ="https://img.shields.io/badge/websocket-%23010101.svg?&style=for-the-badge&logo=socket.io&logoColor=white"/><img style="display: inline;" alt="twilio" src ="https://img.shields.io/badge/twilio-%23F22F46.svg?&style=for-the-badge&logo=twilio&logoColor=white"/><img style="display: inline;" alt="mysql" src ="https://img.shields.io/badge/mysql-%234479A1.svg?&style=for-the-badge&logo=mysql&logoColor=white"/>

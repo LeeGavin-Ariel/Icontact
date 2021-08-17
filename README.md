@@ -31,6 +31,9 @@
 
 ## Tech Stack
 ### Frontend
+
+<img style="display: inline;" alt="HTML5" src ="https://img.shields.io/badge/html5-%23E34F26.svg?&style=for-the-badge&logo=HTML5&logoColor=white"/><img style="display: inline;" alt="CSS3" src ="https://img.shields.io/badge/CSS3-%231572B6.svg?&style=for-the-badge&logo=css3&logoColor=white"/><img style="display: inline;" alt="javascript" src ="https://img.shields.io/badge/JavaScript-%23F7DF1E.svg?&style=for-the-badge&logo=javascript&logoColor=white"/><img style="display: inline;" alt="npm" src ="https://img.shields.io/badge/npm-%23CB3837.svg?&style=for-the-badge&logo=npm&logoColor=white"/><img style="display: inline;" alt="vue.js" src ="https://img.shields.io/badge/vue-%234FC08D.svg?&style=for-the-badge&logo=vue.js&logoColor=white"/><img style="display: inline;" alt="vuetify" src ="https://img.shields.io/badge/vuetify-%231867C0.svg?&style=for-the-badge&logo=vuetify&logoColor=white"/><img style="display: inline;" alt="bootstrap" src ="https://img.shields.io/badge/bootstrap-%237952B3.svg?&style=for-the-badge&logo=bootstrap&logoColor=white"/>
+
 - HTML5, CSS3, Javascript
 - npm
 - vue.js
@@ -39,6 +42,9 @@
 - geolocation
 - 등등.. 
 ### Backend
+
+<img style="display: inline;" alt="springboot" src ="https://img.shields.io/badge/spring boot-%236DB33F.svg?&style=for-the-badge&logo=springboot&logoColor=white"/><img style="display: inline;" alt="gradle" src ="https://img.shields.io/badge/gradle-%2302303A.svg?&style=for-the-badge&logo=gradle&logoColor=white"/><img style="display: inline;" alt="java" src ="https://img.shields.io/badge/java-%23007396.svg?&style=for-the-badge&logo=java&logoColor=white"/><img style="display: inline;" alt="jwt" src ="https://img.shields.io/badge/jwt-%23000000.svg?&style=for-the-badge&logo=JSON Web Tokens&logoColor=white"/><img style="display: inline;" alt="websocket" src ="https://img.shields.io/badge/websocket-%23010101.svg?&style=for-the-badge&logo=socket.io&logoColor=white"/><img style="display: inline;" alt="twilio" src ="https://img.shields.io/badge/twilio-%23F22F46.svg?&style=for-the-badge&logo=twilio&logoColor=white"/><img style="display: inline;" alt="mysql" src ="https://img.shields.io/badge/mysql-%234479A1.svg?&style=for-the-badge&logo=mysql&logoColor=white"/>
+
 - WAS spring boot
 - Gradle
 - Java 8
@@ -47,6 +53,9 @@
 - Twilio
 - MySQL, mybatis, JPA
 ### Deploy
+
+<img style="display: inline;" alt="aws" src ="https://img.shields.io/badge/aws-%23232F3E.svg?&style=for-the-badge&logo=amazon aws&logoColor=white"/><img style="display: inline;" alt="s3" src ="https://img.shields.io/badge/s3-%23569A31.svg?&style=for-the-badge&logo=amazon s3&logoColor=white"/><img style="display: inline;" alt="nginx" src ="https://img.shields.io/badge/nginx-%23009639.svg?&style=for-the-badge&logo=nginx&logoColor=white"/><img style="display: inline;" alt="letsencrypt" src ="https://img.shields.io/badge/letsencrypt-%23003A70.svg?&style=for-the-badge&logo=letsencrypt&logoColor=white"/>
+
 - aws EC2
 - aws S3
 - Nginx

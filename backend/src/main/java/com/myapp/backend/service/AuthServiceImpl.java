@@ -17,8 +17,12 @@ public class AuthServiceImpl implements AuthService{
 
     @Value("${ACCOUNT_SID}")
     private String ACCOUNT_SID;
+
     @Value("${AUTH_TOKEN}")
     private String AUTH_TOKEN;
+
+    @Value("${PHONE_NUMBER}")
+    private String PHONE_NUMBER;
 
     private HashMap<String, String> authMap=new HashMap<>();
 
@@ -39,7 +43,7 @@ public class AuthServiceImpl implements AuthService{
             //받을 번호 / 보낼 번호(고정-작성자 이현건의 twilio 발급 가상번호) / 메세지
             //유료임! 주석을 함부로 해제하지 마시오!
                     Message msg = Message.creator(new PhoneNumber("+82"+autoDto.phoneNum.substring(1)),
-                            new PhoneNumber("+14695302245"),
+                            new PhoneNumber(PHONE_NUMBER),
                             body)
                             .create();
 

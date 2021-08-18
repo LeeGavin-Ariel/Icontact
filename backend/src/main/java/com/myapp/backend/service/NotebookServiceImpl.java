@@ -59,8 +59,7 @@ public class NotebookServiceImpl implements NotebookService{
 
         try {
 
-            Page<Notebook> pages =null;
-            List<Notebook> notebooks =null;
+            Page<Notebook> pages = null;
 
             //type==1이면 부모입장, 수신자 고정/작성자 변경
             //type==2면 선생입장, 작성자 고정/수신자 변경

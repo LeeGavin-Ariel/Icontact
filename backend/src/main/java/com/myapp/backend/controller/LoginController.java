@@ -37,7 +37,6 @@ public class LoginController {
     public ResponseEntity<LoginResultDto> login(@RequestBody LoginDto loginDto, HttpServletResponse response) {
         User user = loginRepository.findByUserIdAndPassword(loginDto.getUserId(), loginDto.getPassword());
         if(user != null){
-            int userType = user.getType(); // 회원 유형
             int userAccept = user.getAccept(); // 승인상태
 
             LoginResultDto loginResultDto = new LoginResultDto();
@@ -59,7 +58,6 @@ public class LoginController {
                 }
             } else { // 미승인, 승인거절
                 loginResultDto.setAccept(userAccept);
-                System.out.println(loginResultDto);
                 return new ResponseEntity<>(loginResultDto, HttpStatus.OK);
             }
 

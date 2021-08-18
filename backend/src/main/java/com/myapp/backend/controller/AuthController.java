@@ -16,7 +16,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
-    //핸드폰 인증 관련 컨트롤러
 
     @Autowired
     AuthService authService;

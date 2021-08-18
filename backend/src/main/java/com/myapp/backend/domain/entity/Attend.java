@@ -1,6 +1,5 @@
 package com.myapp.backend.domain.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.myapp.backend.domain.entity.key.AttendKey;
 import lombok.AllArgsConstructor;
 import lombok.Data;

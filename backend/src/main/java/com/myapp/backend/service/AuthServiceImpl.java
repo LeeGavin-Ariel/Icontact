@@ -2,12 +2,10 @@ package com.myapp.backend.service;
 
 import com.myapp.backend.domain.dto.join.AuthDto;
 import com.twilio.Twilio;
-import nonapi.io.github.classgraph.json.JSONUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
-import java.util.Random;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
 
@@ -29,7 +27,6 @@ public class AuthServiceImpl implements AuthService{
     @Override
     public boolean sendSms(AuthDto autoDto) {
         //랜덤코드생성
-        Random random = new Random();
         int num = ((int)(Math.random()*100000))%10000;
         if(num<1000)num+=1000;
         String code = Integer.toString(num);
@@ -42,7 +39,7 @@ public class AuthServiceImpl implements AuthService{
         try{
             //받을 번호 / 보낼 번호(고정-작성자 이현건의 twilio 발급 가상번호) / 메세지
             //유료임! 주석을 함부로 해제하지 마시오!
-                    Message msg = Message.creator(new PhoneNumber("+82"+autoDto.phoneNum.substring(1)),
+                    Message.creator(new PhoneNumber("+82"+autoDto.phoneNum.substring(1)),
                             new PhoneNumber(PHONE_NUMBER),
                             body)
                             .create();
@@ -69,10 +66,8 @@ public class AuthServiceImpl implements AuthService{
 
         try {
             if (code.equals(authMap.get( phoneNum ))) {
-                System.out.println("auth!");
                 return true;
             } else {
-                System.out.println("not auth!");
                 return false;
             }
         }catch (Exception e){

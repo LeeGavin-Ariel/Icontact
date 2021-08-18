@@ -22,7 +22,6 @@ public class RequestController {
         int result = 0;
 
         if (requestDto.getRequestType() == 1) { // 투약
-            System.out.println(requestDto.getRequestType());
             result = requestService.dosageInsert(requestDto);
         } else { // 귀가
             result = requestService.returnhomeInsert(requestDto);

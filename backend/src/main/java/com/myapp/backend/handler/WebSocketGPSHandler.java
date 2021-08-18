@@ -25,8 +25,6 @@ public class WebSocketGPSHandler extends TextWebSocketHandler {
 
         String payload = msg.getPayload();
         log.info("payload {}", payload);
-//        TextMessage text = new TextMessage("Welcome!");
-//        session.sendMessage(text);
         GPSMessage gpsMessage = objectMapper.readValue(payload, GPSMessage.class);
 
         GPSRoom room = gpsService.findRoomById(gpsMessage.getCode());

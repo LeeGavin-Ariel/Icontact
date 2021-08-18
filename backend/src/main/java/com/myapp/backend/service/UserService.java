@@ -7,13 +7,8 @@ import com.myapp.backend.repository.KinderRepository;
 import com.myapp.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
 @Service
@@ -81,7 +76,6 @@ public class UserService {
     public int updateProfileImg(String photoKey, String userId) throws IOException {
        User user = userRepository.findByUserId(userId);
 
-        System.out.println(photoKey + " " + userId);
        if(user != null && photoKey != null && !photoKey.equals("")){
            user.setProfileImg(photoKey);
            userRepository.save(user);

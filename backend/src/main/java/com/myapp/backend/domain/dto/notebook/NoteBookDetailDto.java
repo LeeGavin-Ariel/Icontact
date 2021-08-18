@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.util.Date;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,5 +21,4 @@ public class NoteBookDetailDto {
     String targetName;
     String kidName;
     String noteImgUrl;
-    //img 처리 방법 고민2
 }

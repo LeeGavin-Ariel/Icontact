@@ -4,7 +4,6 @@ import com.myapp.backend.domain.entity.Attend;
 import com.myapp.backend.domain.entity.key.AttendKey;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 

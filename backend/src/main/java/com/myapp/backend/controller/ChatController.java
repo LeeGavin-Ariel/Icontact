@@ -1,19 +1,10 @@
 package com.myapp.backend.controller;
 
-import com.myapp.backend.domain.dto.Result;
-import com.myapp.backend.domain.dto.join.JoinDto;
-import com.myapp.backend.domain.dto.mypage.ChangePasswordDto;
-import com.myapp.backend.domain.dto.mypage.MyPageResultDto;
-import com.myapp.backend.domain.entity.User;
-import com.myapp.backend.service.JoinService;
 import com.myapp.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
-import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -42,9 +33,7 @@ public class ChatController {
 
     @GetMapping("/stateCode/{userId}")
     public ResponseEntity<Integer> retrieveUserStateCode(@PathVariable String userId) {
-        System.out.println("상태코드 확인");
         int stateCode = userService.retrieveUser(userId).getStateCode();
-        System.out.println(stateCode);
         return new ResponseEntity<Integer>(stateCode, HttpStatus.OK);
     }
 }

@@ -1,7 +1,5 @@
 package com.myapp.backend.domain.dto.request;
 
-import com.myapp.backend.domain.entity.Dosage;
-import com.myapp.backend.domain.entity.Returnhome;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

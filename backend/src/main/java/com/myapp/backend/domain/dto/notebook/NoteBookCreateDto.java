@@ -16,6 +16,5 @@ public class NoteBookCreateDto {
     String content;
     String writerId;
     String targetId;
-    //img 처리 방법 고민
     String img;
 }

@@ -60,7 +60,6 @@ public class NoticeController {
     @DeleteMapping("/notice")
     public ResponseEntity noticeDelete(@RequestParam(required = true) final int noticeType,
                                        @RequestParam(required = true) final int id) {
-        System.out.println("id:" + id);
         int result = 0;
 
         if (noticeType == 1) { // 일반 공지

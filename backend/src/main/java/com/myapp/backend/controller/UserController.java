@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
@@ -77,11 +76,6 @@ public class UserController {
     @GetMapping("/class")
     public ResponseEntity<List<User>> retrieveAllClassUser(@RequestParam(value = "classCode", required = true) String classCode) {
         List<User> userlist = userService.retrieveAllClassUser(classCode);
-
-        for (User u : userlist) {
-            System.out.println(u.toString());
-
-        }
 
         if (userlist != null) {
             return new ResponseEntity<List<User>>(userlist, HttpStatus.OK);

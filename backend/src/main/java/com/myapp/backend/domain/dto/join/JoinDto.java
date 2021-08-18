@@ -19,8 +19,6 @@ public class JoinDto {
 
     private String classCode;
 
-    //teacher
-
     //parents
     private String kidName;
 

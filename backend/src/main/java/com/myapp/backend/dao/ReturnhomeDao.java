@@ -1,6 +1,5 @@
 package com.myapp.backend.dao;
 
-import com.myapp.backend.domain.dto.request.DosageResultDto;
 import com.myapp.backend.domain.dto.request.RequestParamDto;
 import com.myapp.backend.domain.dto.request.ReturnhomeResultDto;
 import org.apache.ibatis.annotations.Mapper;

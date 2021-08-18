@@ -25,7 +25,7 @@ public class GPSRoom {
         if(gpsMessage.getType().equals("Enter") && !sessions.contains(session)){
             sessions.add(session);
         }
-        //선생님 : 2초마다?
+        //선생님 : 1초마다
         if(gpsMessage.getType().equals("Update")){
             sendMessage(gpsMessage, gpsService);
         }

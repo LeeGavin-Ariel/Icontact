@@ -51,7 +51,7 @@ public class JwtService {
         try {
             JwtParser jwtParser = Jwts.parser();
             jwtParser.setSigningKey(this.generateSecretKeyBytes());
-            Jws<Claims> jws = jwtParser.parseClaimsJws(token);
+            jwtParser.parseClaimsJws(token);
             return true;
         } catch (JwtException e) {
             return false;
@@ -68,7 +68,6 @@ public class JwtService {
             String docodedString = new String(decodeBytes, StandardCharsets.UTF_8);
 
             JwtPayloadDto jwtPayloadDto = new Gson().fromJson(docodedString, JwtPayloadDto.class);
-            System.out.println("Decoded User ID : " + jwtPayloadDto.getUserId());
 
             return jwtPayloadDto.getUserId();
         } catch (Exception e) {

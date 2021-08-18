@@ -1,6 +1,5 @@
 package com.myapp.backend.domain.dto.mypage;
 
-import com.myapp.backend.domain.entity.Kinder;
 import com.myapp.backend.domain.entity.KinderClass;
 import com.myapp.backend.domain.entity.User;
 import lombok.AllArgsConstructor;
@@ -10,7 +9,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-//마이페이지 정보 반환용 DTO
 public class MyPageResultDto {
     private String userId;
     private String userName;

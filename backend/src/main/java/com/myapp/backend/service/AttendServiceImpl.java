@@ -5,7 +5,6 @@ import com.myapp.backend.domain.entity.Attend;
 import com.myapp.backend.domain.entity.User;
 import com.myapp.backend.repository.AttendRepository;
 import com.myapp.backend.repository.UserRepository;
-import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

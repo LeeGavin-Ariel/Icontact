@@ -47,7 +47,6 @@ public class RequestServiceImpl implements RequestService{
         dosage.setDosageTime(requestDto.getDosageTime());
         dosage.setStorage(requestDto.getStorage());
         dosage.setSpecialNote(requestDto.getSpecialNote());
-        System.out.println(dosage.getUserId());
         if(dosageRepository.save(dosage) != null){
             return SUCCESS;
         }

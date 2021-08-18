@@ -24,7 +24,6 @@ public class LoginInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        System.out.println("Request URI : " + request.getRequestURI());
 
         if (request.getMethod().equals("POST")) return true;
         if (request.getMethod().equals("OPTIONS")) return true;
@@ -33,18 +32,14 @@ public class LoginInterceptor implements HandlerInterceptor {
         String refreshToken = request.getHeader(REFRESH_TOKEN_HEADER);
 
         if (refreshToken != null) {
-            System.out.println("Token Refresh");
             if (jwtService.validate(refreshToken)){
                 String userId = jwtService.decodeUserId(accessToken);
-                System.out.println("User ID : " + userId);
 
                 String refreshTokenInDB = loginService.getRefreshToken(userId);
                 if(refreshTokenInDB != null && refreshTokenInDB.equals(refreshToken)){
                     String newAccessToken = jwtService.createToken(accessExpTime, "userId", userId, "user");
-                    System.out.println("New Access Token : " + newAccessToken);
 
                     response.setHeader("jwt-access-token", newAccessToken);
-                    System.out.println("Refresh Token is refreshed!");
                     return true;
                 } else {
                     throw new IllegalArgumentException("Refresh Token Mismatch Error");
@@ -55,7 +50,6 @@ public class LoginInterceptor implements HandlerInterceptor {
         } else {
             if (accessToken != null && accessToken.length() > 0) {
                 if (jwtService.validate(accessToken)) {
-                    System.out.println("Access Token is validated!");
                     return true;
                 } else {
                     throw new IllegalArgumentException("Access Token Validation Error");

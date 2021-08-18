@@ -12,6 +12,7 @@ server.port=[your_port]
 #SMS
 ACCOUNT_SID=[your_twilio_ACCOUNT_SID]
 AUTH_TOKEN=[your_twilio_AUTH_TOKEN]
+PHONE_NUMBER=[your_twilio_PHONE_NUMBER]
 
 #database
 spring.jpa.hibernate.naming.implicit-strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy

@@ -26,6 +26,12 @@ let headers = {
      'Api-Token':'[your_sendbird_api-token]',
 }
 ```
+`/public/index.html`에 kakao map CDN을 적용한다.
+
+```
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=[your_app_key]"></script>
+```
+
 gps 기능의 정상적인 실행을 위해서는 적합한 https를 적용해야 한다.
 
 ## Install

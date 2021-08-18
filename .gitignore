@@ -1,30 +1,17 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 .gradle
 .gradle/*
-build/
 !gradle/wrapper/gradle-wrapper.jar
 !/src/main//build/
 !/src/test//build/
 *.lock
-=======
-=======
->>>>>>> 7d9acd6d19de5ff401d4a1f9a90e178c6c527783
+
 HELP.md
 .gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-<<<<<<< HEAD
->>>>>>> ed61bac40c76f87f869f59b93fc103a0639f1859
 
-=======
->>>>>>> feature/admin
-=======
-
->>>>>>> 7d9acd6d19de5ff401d4a1f9a90e178c6c527783
 ### application.properties ###
 application.properties
 application-dev.properties
@@ -33,19 +20,13 @@ application-production.properties
 ### log files ###
 log
 logback.xml
-<<<<<<< HEAD
-<<<<<<< HEAD
 
-<<<<<<< HEAD
 backend/.gradle/*
 backend/.gradle
 backend/.idea/*
 backend/.idea
 backend/.gradle/7.1.1/*
-=======
-=======
 
->>>>>>> 7d9acd6d19de5ff401d4a1f9a90e178c6c527783
 ### IntelliJ IDEA ###
 .idea
 *.iws
@@ -54,19 +35,6 @@ backend/.gradle/7.1.1/*
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 7d9acd6d19de5ff401d4a1f9a90e178c6c527783
-
-
-=======
->>>>>>> feature/admin
-
->>>>>>> ed61bac40c76f87f869f59b93fc103a0639f1859
-# Created by https://www.toptal.com/developers/gitignore/api/macos,windows,intellij,vue,vuejs,netbeans
-# Edit at https://www.toptal.com/developers/gitignore?templates=macos,windows,intellij,vue,vuejs,netbeans
 
 ### Intellij ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
@@ -209,7 +177,6 @@ Temporary Items
 **/nbproject/Package-*.bash
 build/
 nbbuild/
-dist/
 nbdist/
 .nb-gradle/
 
@@ -257,14 +224,12 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-<<<<<<< HEAD
 # End of https://www.toptal.com/developers/gitignore/api/macos,windows,intellij,vue,vuejs,netbeans
 backend/.gradle/7.1.1/executionHistory/executionHistory.lock
 backend/.gradle/7.1.1/fileHashes/fileHashes.lock
 backend/.gradle/buildOutputCleanup/buildOutputCleanup.lock
 backend/.gradle/7.1.1/fileHashes/fileHashes.bin
 backend/.gradle/7.1.1/executionHistory/executionHistory.bin
-=======
 HELP.md
 .gradle
 build/
@@ -273,6 +238,5 @@ build/
 !/src/test//build/
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,windows,intellij,vue,vuejs,netbeans
->>>>>>> feature/admin
 backend/nootbook/*
 frontend/src/assets/nootbook/*

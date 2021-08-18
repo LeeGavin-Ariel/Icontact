@@ -35,7 +35,7 @@ CREATE TABLE `notice` (
   KEY `notice_ibfk_2_idx` (`classCode`),
   CONSTRAINT `notice_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`),
   CONSTRAINT `notice_ibfk_2` FOREIGN KEY (`classCode`) REFERENCES `kinder_class` (`classCode`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -44,7 +44,7 @@ CREATE TABLE `notice` (
 
 LOCK TABLES `notice` WRITE;
 /*!40000 ALTER TABLE `notice` DISABLE KEYS */;
-INSERT INTO `notice` VALUES (1,'11월 가정통신문','싸피유치원 2020년 11월 가정통신문','2020-11-02 14:09:49','notice/11월 가정통신문_1629122989508.png','100001','sfyteacher1'),(2,'코로나로 인한 유치원 휴원','코로나로 인한 유치원 휴원안내 가정통신문','2020-11-09 14:10:45','notice/코로나 어린이집 휴원_1629123045153.jpeg','100001','sfyteacher1'),(3,'12월 가정통신문','싸피유치원 2020년 12월 가정통신문','2020-12-01 14:11:44','notice/12월 가정통신문_1629123104713.png','100001','sfyteacher1'),(4,'크리스마스 안내문','행복한 크리스마스 보내세요~','2020-12-18 14:13:26','notice/크리스마스_1629123206421.png','100001','sfyteacher1'),(5,'부모님 참여 수업 안내','싸피유치원 2021년 3월 부모님 참여 수업 안내문','2021-03-29 14:14:19','notice/부모참여수업_1629123259721.png','100001','sfyteacher1'),(6,'학부모 만족도 설문','싸피유치원 2021년 상반기 학부모 만족도 설문','2021-05-17 14:15:22','notice/부모 만족도 설문지_1629123322643.png','100001','sfyteacher1'),(7,'안전교육 캠페인 안내','싸피유치원 안전교육 캠페인 안내문','2021-05-19 14:16:20','notice/안전교육_1629123380041.png','100001','sfyteacher1'),(8,'온가족 여름캠핑 안내문','부모님과 함께 떠나는 온가족 여름캠핑 안내','2021-07-08 14:17:28','notice/캠핑장_1629123448746.png','100001','sfyteacher1'),(9,'물놀이  행사 안내문','싸피유치원 연령별 원내 물놀이 안내문','2021-07-15 14:18:21','notice/물놀이_1629123501911.png','100001','sfyteacher1'),(10,'2021년 8월 17일 공지사항','1. 소풍준비\n2. 알림장 준비\n\n^^','2021-08-17 01:35:15','notice/비료_1629164122490.png','100001','sfyteacher1');
+INSERT INTO `notice` VALUES (1,'11월 가정통신문','싸피유치원 2020년 11월 가정통신문','2020-11-02 14:09:49','notice/11월 가정통신문_1629122989508.png','100001','sfyteacher1'),(2,'코로나로 인한 유치원 휴원','코로나로 인한 유치원 휴원안내 가정통신문','2020-11-09 14:10:45','notice/코로나 어린이집 휴원_1629123045153.jpeg','100001','sfyteacher1'),(3,'12월 가정통신문','싸피유치원 2020년 12월 가정통신문','2020-12-01 14:11:44','notice/12월 가정통신문_1629123104713.png','100001','sfyteacher1'),(4,'크리스마스 안내문','행복한 크리스마스 보내세요~','2020-12-18 14:13:26','notice/크리스마스_1629123206421.png','100001','sfyteacher1'),(5,'부모님 참여 수업 안내','싸피유치원 2021년 3월 부모님 참여 수업 안내문','2021-03-29 14:14:19','notice/부모참여수업_1629123259721.png','100001','sfyteacher1'),(6,'학부모 만족도 설문','싸피유치원 2021년 상반기 학부모 만족도 설문','2021-05-17 14:15:22','notice/부모 만족도 설문지_1629123322643.png','100001','sfyteacher1'),(7,'안전교육 캠페인 안내','싸피유치원 안전교육 캠페인 안내문','2021-05-19 14:16:20','notice/안전교육_1629123380041.png','100001','sfyteacher1'),(8,'온가족 여름캠핑 안내문','부모님과 함께 떠나는 온가족 여름캠핑 안내','2021-07-08 14:17:28','notice/캠핑장_1629123448746.png','100001','sfyteacher1'),(9,'물놀이  행사 안내문','싸피유치원 연령별 원내 물놀이 안내문','2021-07-15 14:18:21','notice/물놀이_1629123501911.png','100001','sfyteacher1'),(12,'코로나로 인한 휴원 안내','','2021-08-18 02:08:10','notice/코로나 어린이집 휴원_1629123045153_1629252490093.jpeg','100001','sfyteacher1');
 /*!40000 ALTER TABLE `notice` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -57,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-08-18 10:24:26
+-- Dump completed on 2021-08-18 15:22:35

@@ -35,7 +35,7 @@ CREATE TABLE `returnhome` (
   PRIMARY KEY (`rhId`),
   KEY `returnhome_ibfk_1_idx` (`userId`),
   CONSTRAINT `returnhome_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -44,7 +44,7 @@ CREATE TABLE `returnhome` (
 
 LOCK TABLES `returnhome` WRITE;
 /*!40000 ALTER TABLE `returnhome` DISABLE KEYS */;
-INSERT INTO `returnhome` VALUES (1,'8월 13일','오후 3시','할머니','01084658132','엄마','01055461324','2021-08-16 14:44:57','ssafy222'),(2,'08월 19일','오후 04시 30분','할머니','01012345678','엄마','01098765432','2021-08-16 15:07:23','ssafy000'),(3,'08월 17일','오후 7시 30분','할머니','01012345678','엄마','01098765432','2021-08-16 15:12:24','ssafy111');
+INSERT INTO `returnhome` VALUES (1,'8월 13일','오후 3시','할머니','01084658132','엄마','01055461324','2021-08-16 14:44:57','ssafy222'),(2,'08월 19일','오후 04시 30분','할머니','01012345678','엄마','01098765432','2021-08-16 15:07:23','ssafy000'),(3,'08월 17일','오후 7시 30분','할머니','01012345678','엄마','01098765432','2021-08-16 15:12:24','ssafy111'),(4,'8월 30일','오후 4시','삼촌','01011112222','엄마','01022223333','2021-08-18 02:13:12','ssafy000');
 /*!40000 ALTER TABLE `returnhome` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -57,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-08-18 10:24:25
+-- Dump completed on 2021-08-18 15:22:33

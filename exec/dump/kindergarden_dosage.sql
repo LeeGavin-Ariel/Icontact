@@ -36,7 +36,7 @@ CREATE TABLE `dosage` (
   PRIMARY KEY (`dosageId`),
   KEY `userId_idx` (`userId`),
   CONSTRAINT `dosage_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -45,7 +45,7 @@ CREATE TABLE `dosage` (
 
 LOCK TABLES `dosage` WRITE;
 /*!40000 ALTER TABLE `dosage` DISABLE KEYS */;
-INSERT INTO `dosage` VALUES (1,'기침','물약',10,2,'오전 10시 / 오후 1시','냉장','한 숟가락씩 먹여주세요~','2021-08-16 14:43:18','ssafy000'),(2,'기침','가루약',5,1,'오후 1시','냉장','물에 타서 먹여주세요','2021-08-16 14:43:31','ssafy111'),(4,'감기','물약',1,1,'오전 10시 식후 30분','실온','알레르기 증상이 같이 보임','2021-08-17 06:04:46','ssafy111');
+INSERT INTO `dosage` VALUES (1,'기침','물약',10,2,'오전 10시 / 오후 1시','냉장','한 숟가락씩 먹여주세요~','2021-08-16 14:43:18','ssafy000'),(2,'기침','가루약',5,1,'오후 1시','냉장','물에 타서 먹여주세요','2021-08-16 14:43:31','ssafy111'),(4,'감기','물약',1,1,'오전 10시 식후 30분','실온','알레르기 증상이 같이 보임','2021-08-17 06:04:46','ssafy111'),(7,'독감','가루약',1,1,'점심 식후 30분','실온','물과 함께 먹여주세요','2021-08-18 02:11:32','ssafy000');
 /*!40000 ALTER TABLE `dosage` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -58,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-08-18 10:24:26
+-- Dump completed on 2021-08-18 15:22:34

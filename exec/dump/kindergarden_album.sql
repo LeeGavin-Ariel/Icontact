@@ -35,7 +35,7 @@ CREATE TABLE `album` (
   KEY `album_ibfk_2_idx` (`writerId`),
   CONSTRAINT `album_ibfk_1` FOREIGN KEY (`classCode`) REFERENCES `kinder_class` (`classCode`),
   CONSTRAINT `album_ibfk_2` FOREIGN KEY (`writerId`) REFERENCES `user` (`userId`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -57,4 +57,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-08-18 10:24:27
+-- Dump completed on 2021-08-18 15:22:33

@@ -1,8 +1,10 @@
-<h1 align="center">
-    <img alt="Documentation" src="https://user-images.githubusercontent.com/77473524/129840414-f1888862-c6ae-4011-b8fb-8c774b1c70c1.png" style="display: inline; width: 7%; height: 7%;"/>
+<div style="text-align: center;">
+<h1 align="center" >
+    <img alt="Documentation" src="https://user-images.githubusercontent.com/77473524/129840414-f1888862-c6ae-4011-b8fb-8c774b1c70c1.png" style="display: inline;" width="7%" />
     Welcome to Icontact	
-    <img alt="Documentation" src="https://user-images.githubusercontent.com/77473524/129840650-e6ea5053-1911-4f49-9c57-d1c74a4c1553.png" style="display: inline; width: 8%; height: 8%;"/>
+    <img alt="Documentation" src="https://user-images.githubusercontent.com/77473524/129840650-e6ea5053-1911-4f49-9c57-d1c74a4c1553.png" style="display: inline;" width="8%"/>
 </h1>
+</div>
 <p>
   <a href="document url" target="_blank">
     <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" />
@@ -148,8 +150,8 @@
 
 ## Built With
 ### Frontend
- - **김현욱** - 로그인, 회원가입, 앨범, 알림장, 디자인
- - **류현선** - 출석, 요청사항, 마이페이지
+ - **김현욱** - 로그인, 메인페이지, 앨범, 알림장, 디자인
+ - **류현선** - 회원가입, 출석, 요청사항, 마이페이지
 ### Backend
  - **이가빈** - 로그인, 공지사항, 요청사항, 앨범, 디자인
  - **이현건** - 회원가입, 핸드폰 인증, 알림장, 출석부, 앨범, GPS

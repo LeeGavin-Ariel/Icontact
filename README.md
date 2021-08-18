@@ -1,8 +1,10 @@
-<h1 align="center">
-    <img alt="Documentation" src="https://user-images.githubusercontent.com/77473524/129840414-f1888862-c6ae-4011-b8fb-8c774b1c70c1.png" style="display: inline; width: 7%; height: 7%;"/>
+<div style="text-align: center;">
+<h1 align="center" >
+    <img alt="Documentation" src="https://user-images.githubusercontent.com/77473524/129840414-f1888862-c6ae-4011-b8fb-8c774b1c70c1.png" style="display: inline;" width="30px" height="30px" />
     Welcome to Icontact	
-    <img alt="Documentation" src="https://user-images.githubusercontent.com/77473524/129840650-e6ea5053-1911-4f49-9c57-d1c74a4c1553.png" style="display: inline; width: 8%; height: 8%;"/>
+    <img alt="Documentation" src="https://user-images.githubusercontent.com/77473524/129840650-e6ea5053-1911-4f49-9c57-d1c74a4c1553.png" style="display: inline;" width="36px" height="30px" />
 </h1>
+</div>
 <p>
   <a href="document url" target="_blank">
     <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" />

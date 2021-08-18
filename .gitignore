@@ -7,7 +7,6 @@
 
 HELP.md
 .gradle
-build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
@@ -175,7 +174,6 @@ Temporary Items
 **/nbproject/private/
 **/nbproject/Makefile-*.mk
 **/nbproject/Package-*.bash
-build/
 nbbuild/
 nbdist/
 .nb-gradle/
@@ -232,7 +230,6 @@ backend/.gradle/7.1.1/fileHashes/fileHashes.bin
 backend/.gradle/7.1.1/executionHistory/executionHistory.bin
 HELP.md
 .gradle
-build/
 !gradle/wrapper/gradle-wrapper.jar
 !/src/main//build/
 !/src/test//build/

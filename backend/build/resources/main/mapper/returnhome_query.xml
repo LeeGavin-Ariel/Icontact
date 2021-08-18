@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.myapp.backend.dao.ReturnhomeDao">
+
+    <select id="teacherReturnhomeList" parameterType="map" resultType="com.myapp.backend.domain.dto.request.ReturnhomeResultDto">
+        SELECT tmp.userId, kidName, profileImg, rhId, rhDate, rhTime, guardian, guardianTel, emergency, emergencyTel, createDate
+        FROM (select userId, kidName, profileImg from user where classCode = (select classCode from user where userId = #{userId})
+                                                 and type = 1) as tmp, returnhome
+        WHERE tmp.userId = returnhome.userId
+        ORDER BY createDate DESC
+            LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+    <select id="totalTeacherReturnhomeList" parameterType="String" resultType="int">
+        SELECT count(*)
+        FROM (select userId, kidName from user where classCode = (select classCode from user where userId = #{userId})
+                                                 and type = 1) as tmp, returnhome
+        WHERE tmp.userId = returnhome.userId
+    </select>
+
+    <select id="parentReturnhomeList" parameterType="map" resultType="com.myapp.backend.domain.dto.request.ReturnhomeResultDto">
+        SELECT returnhome.userId, profileImg, kidName, rhId, rhDate, rhTime, guardian, guardianTel, emergency, emergencyTel, returnhome.createDate
+        FROM user, returnhome
+        WHERE user.userId = returnhome.userId and returnhome.userId = #{userId}
+        ORDER BY returnhome.createDate DESC
+            LIMIT #{limit} OFFSET #{offset}
+    </select>
+
+
+    <select id="totalParentReturnhomeList" parameterType="String" resultType="int">
+        SELECT count(*)
+        FROM returnhome
+        WHERE returnhome.userId = #{userId}
+    </select>
+
+    <select id="returnhomeDetail" parameterType="int" resultType="com.myapp.backend.domain.dto.request.ReturnhomeResultDto">
+        SELECT returnhome.userId, kidName, rhId, rhDate, rhTime, guardian, guardianTel, emergency, emergencyTel, returnhome.createDate
+        FROM user, returnhome
+        WHERE user.userId = returnhome.userId and rhId = #{id}
+    </select>
+</mapper>

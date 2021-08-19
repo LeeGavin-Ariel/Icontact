@@ -1,9 +1,9 @@
 import AWS from "aws-sdk"
 import JSZip from 'jszip'
 
-var albumBucketName = 'ssafy-cmmpjt304';
-var bucketRegion = 'ap-northeast-2';
-var IdentityPoolId = 'ap-northeast-2:e3c6b4be-818c-4db9-8fcb-de19f7c62fa7';
+var albumBucketName = process.env.VUE_APP_BUCKET_NAME;
+var bucketRegion = process.env.VUE_APP_BUCKET_REGION;
+var IdentityPoolId = process.env.VUE_APP_IDENTITY_POOLID;
 
 AWS.config.update({
   region: bucketRegion,

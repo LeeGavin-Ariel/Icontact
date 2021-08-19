@@ -4,16 +4,16 @@ const SendBird = require('sendbird')
 
 //여기에 본인 app_id입력
 const sendBird = new SendBird({
-  appId: '702BDEC1-CAED-42B4-897E-DFBD4B6DA1E9'
+  appId: process.env.VUE_APP_SENDBIRD_APPKEY
 })
 const ChannelHandler = new sendBird.ChannelHandler()
 
 export default {
 
   async addUser(userId, nickName){
-    let url = 'https://api-702BDEC1-CAED-42B4-897E-DFBD4B6DA1E9.sendbird.com/v3/users';
+    let url = process.env.VUE_APP_SENDBIRD_URL;
     let headers = {
-      'Api-Token':'f9cf3243b0c3e22b4c4127db152ed31ab58e58ea',
+      'Api-Token': process.env.VUE_APP_SENDBIRD_API_TOKEN,
     }
     let data = {
       "user_id": userId,

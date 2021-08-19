@@ -159,7 +159,7 @@
                         </tr>
                         <tr class="d-flex">
                           <th class="col-2 mt-2">
-                            투약 용량<span style="font-size: 12px">1회</span>
+                            투약 용량<!-- <span style="font-size: 12px">1회</span> -->
                           </th>
                           <td class="col-10">
                             <input
@@ -171,7 +171,7 @@
                         </tr>
                         <tr class="d-flex">
                           <th class="col-2 mt-2">
-                            투약 횟수<span style="font-size: 12px">1일</span>
+                            투약 횟수<!-- <span style="font-size: 12px">1일</span> -->
                           </th>
                           <td class="col-10">
                             <input

@@ -3,22 +3,58 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "vue-cli-service serve --port 3000",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "await": "^0.2.6",
+    "aws-sdk": "^2.963.0",
+    "axios": "^0.21.1",
+    "bootstrap-select": "^1.13.18",
+    "bulma": "^0.9.3",
     "core-js": "^3.6.5",
-    "vue": "^2.6.11"
+    "file-saver": "^2.0.5",
+    "form-data": "^4.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "jszip": "^3.7.1",
+    "moment": "^2.29.1",
+    "password-validator": "^5.1.1",
+    "readme-md-generator": "^1.0.0",
+    "s3-zip": "^3.2.0",
+    "sendbird": "^3.0.153",
+    "striptags": "^3.2.0",
+    "swiper": "^5.3.7",
+    "uuid": "^8.3.2",
+    "vue": "^2.6.11",
+    "vue-awesome": "^3.0.0",
+    "vue-awesome-swiper": "^4.1.1",
+    "vue-geolocation-api": "^0.1.21",
+    "vue-icon": "^2.2.0",
+    "vue-infinite-loading": "^2.4.5",
+    "vue-resource": "^1.5.1",
+    "vue-router": "^3.5.2",
+    "vue-scroll": "^2.1.13",
+    "vue-simple-alert": "^1.1.1",
+    "vuesax": "^4.0.1-alpha.25",
+    "vuetify": "^2.4.0",
+    "vuex": "^3.4.0",
+    "vuex-persistedstate": "^4.0.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-plugin-router": "~4.5.0",
+    "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
-    "vue-template-compiler": "^2.6.11"
+    "sass": "~1.32.0",
+    "sass-loader": "^10.0.0",
+    "vue-cli-plugin-vuetify": "~2.4.1",
+    "vue-template-compiler": "^2.6.11",
+    "vuetify-loader": "^1.7.0"
   },
   "eslintConfig": {
     "root": true,
@@ -32,7 +68,12 @@
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "rules": {}
+    "rules": {
+      "no-unused-vars": "off"
+    },
+    "globals": {
+      "kakao": false
+    }
   },
   "browserslist": [
     "> 1%",
